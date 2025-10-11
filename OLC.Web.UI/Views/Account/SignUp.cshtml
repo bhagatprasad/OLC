@@ -1,0 +1,68 @@
+﻿@{
+
+    ViewData["Title"] = "Request Money-Request your payment on anytime, anywhere in the world.";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Content
+============================================= -->
+<div id="content">
+    <div class="login-signup-custom-page mx-auto my-5">
+        <h3 class="font-weight-400 text-center">Sign Up</h3>
+        <p class="lead text-center">Your Sign Up information is safe with us.</p>
+        <div class="bg-light shadow-md rounded p-4 mx-2">
+            <form id="signupForm" asp-action="SignUp" asp-controller="Account" method="post">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <div class="form-row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="fullName">First Name</label>
+                            <input type="text" id="Firstname" class="form-control" placeholder="Enter First Name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="Lastname">Last Name</label>
+                            <input type="text" id="Lastname" class="form-control" placeholder="Enter First Name" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="Email">Email Address</label>
+                            <input type="text" id="Email" class="form-control" placeholder="Enter First Name" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="emailAddress">Phone Number</label>
+                            <input type="text" id="Phone" class="form-control" placeholder="Enter First Name" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="Password">Password</label>
+                            <input type="password" id="Password" class="form-control" placeholder="Enter your password" />
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="ConfirmPassword">Confirm Password</label>
+                            <input type="password" id="ConfirmPassword" class="form-control" placeholder="Enter your password" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <button class="btn btn-primary btn-block my-4" type="submit">Sign Up</button>
+            </form>
+            <p class="text-3 text-muted text-center mb-0">Already have an account? <a class="btn-link" href="@Url.Action("Login", "Account", null)">Log In</a></p>
+        </div>
+    </div>
+</div>
+<!-- Content end -->

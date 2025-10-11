@@ -7,10 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Constants\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Factory\" />
-    <Folder Include="Repository\" />
+    <Compile Remove="Constants\**" />
+    <Compile Remove="Factory\**" />
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Repository\**" />
+    <Content Remove="Constants\**" />
+    <Content Remove="Factory\**" />
+    <Content Remove="Interfaces\**" />
+    <Content Remove="Repository\**" />
+    <EmbeddedResource Remove="Constants\**" />
+    <EmbeddedResource Remove="Factory\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="Constants\**" />
+    <None Remove="Factory\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Repository\**" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,220 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Slideshow
+           ============================================= -->
+<div class="owl-carousel owl-theme single-slideshow" data-autoplay="true" data-loop="true" data-autoheight="true" data-nav="true" data-items="1">
+    <div class="item">
+        <section class="hero-wrap section shadow-md">
+            <div class="hero-mask opacity-7 bg-dark"></div>
+            <div class="hero-bg" style="background-image:url('@Url.Content("~/images/bg/image-1.jpg")');"></div>
+
+            <div class="hero-content py-2 py-lg-5">
+                <div class="container text-center">
+                    <h2 class="text-16 text-white">Send & Receive Money</h2>
+                    <p class="text-5 text-white mb-4">
+                        Quickly and easily send, receive and request money online with Betalen.<br class="d-none d-lg-block">
+                    </p>
+                    <a href="@Url.Action("SignUp", "Account", null)" class="btn btn-primary m-2">Open a Free Account</a> <a class="btn btn-outline-light video-btn m-2" href="@Url.Action("SignUp", "Account", null)"><span class="text-2 mr-3"><i class="fas fa-play"></i></span>See How it Works</a>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="item">
+        <section class="hero-wrap section shadow-md">
+            <div class="hero-bg" style="background-image:url('@Url.Content("~/images/bg/image-3.jpg")');"></div>
+            <div class="hero-content py-2 py-lg-4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-8 col-xl-7 text-center text-lg-left">
+                            <h2 class="text-13 text-white">Trusted by more than 50,000 users india.</h2>
+                            <p class="text-5 text-white mb-4">multiple payment options supported.</p>
+                            <a href="@Url.Action("SignUp", "Account", null)" class="btn btn-primary mr-3">Get started for free</a> <a class="btn btn-link text-light video-btn" href="@Url.Action("SignUp", "Account", null)"><span class="mr-2"><i class="fas fa-play-circle"></i></span>Watch Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
+<!-- Slideshow end -->
+<!-- Why choose
+============================================= -->
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="text-9 text-center">Process of Payments Works</h2>
+        <div class="row">
+            <div class="col-sm-6 col-lg-3 mb-5 mb-lg-0">
+                <div class="featured-box">
+                    <div class="featured-box-icon text-primary"> <i class="fas fa-hand-pointer"></i> </div>
+                    <h3>Send an Payment Request</h3>
+                    <p class="text-3">Create an invoice then add a bank account from Betalen Dashboard then send the invoice to a recipient</p>
+                    <a href="#" class="btn-link text-3 d-none">Learn more<i class="fas fa-chevron-right text-1 ml-2"></i></a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-5 mb-lg-0">
+                <div class="featured-box">
+                    <div class="featured-box-icon text-primary"> <i class="fas fa-share"></i> </div>
+                    <h3>Payer pays for the Invoice</h3>
+                    <p class="text-3">We sends the Invoice via Email. Payer registers on Our site & pays with platform charges, as per selection of settlement time.</p>
+                    <a href="#" class="btn-link text-3 d-none">Learn more<i class="fas fa-chevron-right text-1 ml-2"></i></a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-5 mb-sm-0">
+                <div class="featured-box">
+                    <div class="featured-box-icon text-primary"> <i class="fas fa-dollar-sign"></i> </div>
+                    <h3>You receive the Payment</h3>
+                    <p class="text-3">Receive your payment to your bank account linked with Betalen within the settlement timeline selected by the Payer. Done!</p>
+                    <a href="#" class="btn-link text-3 d-none">Learn more<i class="fas fa-chevron-right text-1 ml-2"></i></a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="featured-box">
+                    <div class="featured-box-icon text-primary"> <i class="fas fa-lock"></i> </div>
+                    <h3>100% secure</h3>
+                    <p class="text-3">Your data more secure with our privacy policy,never share any personal info.</p>
+                    <a href="#" class="btn-link text-3 d-none">Learn more<i class="fas fa-chevron-right text-1 ml-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Why choose end -->
+<!-- Payment Solutions
+============================================= -->
+<section class="section">
+    <div class="container overflow-hidden">
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 d-flex">
+                <div class="my-auto pb-5 pb-lg-0">
+                    <h2 class="text-9">Settlement Process</h2>
+                    <p class="text-4 text-justify">
+                        The Payer (CardHolder) enters their card or payment details on the Betelen’s Checkout form with the order to pay for the services as listed on Betalen.
+                        After successful authentication via OTP/ 3D secure, the money is debited from the Payers (CardHolders) Card or the payment source and a confirmation is sent to the cardholder from the Bank whose card or payment sources has been used to pay. betalen too send’s a Payment confirmation.
+                    </p>
+                    @*<a href="#" class="btn-link text-4">Find more solution<i class="fas fa-chevron-right text-2 ml-2"></i></a>*@
+                </div>
+            </div>
+            @*<div class="col-lg-7 col-xl-6">
+                <div class="row banner style-2 justify-content-center">
+                    <div class="col-12 col-sm-6 mb-4 text-center">
+                        <div class="item rounded shadow d-inline-block">
+                            <a href="#">
+                                <div class="caption rounded-bottom">
+                                    <h2 class="text-5 font-weight-400 mb-0">Freelancer</h2>
+                                </div>
+                                <div class="banner-mask"></div>
+                                <img class="img-fluid" src="~/images/anyone-freelancer.jpg" alt="banner">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 mb-4 text-center">
+                        <div class="item rounded shadow d-inline-block">
+                            <a href="#">
+                                <div class="caption rounded-bottom">
+                                    <h2 class="text-5 font-weight-400 mb-0">Online Shopping</h2>
+                                </div>
+                                <div class="banner-mask"></div>
+                                <img class="img-fluid" src="~/images/anyone-online-shopping.jpg" alt="banner">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 mb-4 mb-sm-0 text-center">
+                        <div class="item rounded shadow d-inline-block">
+                            <a href="#">
+                                <div class="caption rounded-bottom">
+                                    <h2 class="text-5 font-weight-400 mb-0">Online Sellers</h2>
+                                </div>
+                                <div class="banner-mask"></div>
+                                <img class="img-fluid" src="~/images/anyone-online-sellers.jpg" alt="banner">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 text-center">
+                        <div class="item rounded shadow d-inline-block">
+                            <a href="#">
+                                <div class="caption rounded-bottom">
+                                    <h2 class="text-5 font-weight-400 mb-0">Affiliate Marketing</h2>
+                                </div>
+                                <div class="banner-mask"></div>
+                                <img class="img-fluid" src="~/images/anyone-affiliate-marketing.jpg" alt="banner">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</section>
+<!-- Payment Solutions end -->
+<!-- What can you do
+============================================= -->
+<section class="section bg-light">
+    <div class="container">
+        <h2 class="text-9 text-center">What can you do with Betalen?</h2>
+        <p class="text-4 text-center mb-5">Money Transfer and Online Payments,Make Utility Payments , Collect Customer Payments, Send GST Invoices, Make Business Payments .</p>
+        <div class="row">
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <a href="@Url.Action("SignUp", "Account", null)">
+                    <div class="featured-box style-5 rounded">
+                        <div class="featured-box-icon text-primary"> <i class="fas fa-share-square"></i> </div>
+                        <h3>Send Money</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <a href="@Url.Action("SignUp", "Account", null)">
+                    <div class="featured-box style-5 rounded">
+                        <div class="featured-box-icon text-primary"> <i class="fas fa-check-square"></i> </div>
+                        <h3>Receive Money</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <a href="@Url.Action("SignUp", "Account", null)">
+                    <div class="featured-box style-5 rounded">
+                        <div class="featured-box-icon text-primary"> <i class="fas fa-user-friends"></i> </div>
+                        <h3>Pay a Friend</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-4">
+                <a href="@Url.Action("SignUp", "Account", null)">
+                    <div class="featured-box style-5 rounded">
+                        <div class="featured-box-icon text-primary"> <i class="fas fa-shopping-bag"></i> </div>
+                        <h3>Online Shopping</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="text-center mt-4 d-none"><a href="#" class="btn-link text-4">See more can you do<i class="fas fa-chevron-right text-2 ml-2"></i></a></div>
+    </div>
+</section>
+<!-- What can you do end -->
+<!-- How work
+============================================= -->
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card bg-dark-3 shadow-sm border-0">
+                    <img class="card-img opacity-8" src="~/images/how-work.jpg" alt="banner">
+                    <div class="card-img-overlay p-0"> <a class="d-flex h-100 video-btn" href="#" data-src="https://www.youtube.com/embed/7e90gBu4pas" data-toggle="modal" data-target="#videoModal"> <span class="btn-video-play bg-white shadow-md rounded-circle m-auto"><i class="fas fa-play"></i></span> </a> </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="ml-4">
+                    <h2 class="text-9">How does it work?</h2>
+                    <p class="text-4">Create an account at Betalen then enter recipient information & the amount to be paid. Make the payment. Upload your KYC I.e. Pan & Address proof. You can provide KYC docs, before or after making the transaction</p>
+                    <ul class="list-unstyled text-3 line-height-5">
+                        <li><i class="fas fa-check mr-2"></i>Sign Up Account</li>
+                        <li><i class="fas fa-check mr-2"></i>Receive & Send Payments from worldwide</li>
+                        <li><i class="fas fa-check mr-2"></i>Your funds will be transferred to your bank account</li>
+                    </ul>
+                    <a href="@Url.Action("SignUp", "Account", null)" class="btn btn-outline-primary shadow-none mt-2">Open a Free Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- How work end -->

@@ -3,47 +3,150 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - OLC.Web.UI</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/OLC.Web.UI.styles.css" asp-append-version="true" />
+    <link rel="canonical" href="https://betalen.in/">
+    <meta name="title" content="Money Transfer and Online Payments,Make Utility Payments, Collect Customer Payments, Send GST Invoices,
+            Make Business Payments | Betalen.in">
+    <meta name="description" content="Money Transfer and Online Payments,Pay with Credit Card anytime, anywhere & anyone">
+    <meta name="keywords" content="Money Transfer and Online Payments,Pay with credit card, Pay rent with credit card, Indias number 1 rent payment website, pay small office home office merchant, credit card payment, kampey.com, kampey, online rent payment, India pay rent, India leading rent payment website, credit card to bank transfer, Betalen.in, credit card offers, visa credit card, best credit cards, visa, apply for credit card, pay rent online, credit card rent, best credit card solution, balance transfer, visa mastercard, best credit card rewards, mastercard, credit card, India, New Delhi, Kolkata, Mumbai, Bangalore, Hyderabad, Pune, Chennai, Jaipur, Gurgaon, Pay housing society maintenance with credit card, Pay interior designer with credit card">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="vary" content="*">
+    <meta name="robots" content="index,follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Money Transfer and Online Payments,Make Utility Payments, Collect Customer Payments, Send GST Invoices,
+            Make Business Payments | Betalen.in">
+    <meta property="og:description" content="Pay with Credit Card anytime, anywhere & anyone">
+    <meta property="og:url" content="https://betalen.in/">
+    <meta property="og:site_name" content="Betalen">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description" content="Pay with Credit Card anytime, anywhere & anyone">
+    <meta name="twitter:title" content="Money Transfer and Online Payments,Make Utility Payments, Collect Customer Payments, Send GST Invoices, Make Business Payments | Betalen.in">
+    <title>Money Transfer and Online Payments,Make Utility Payments , Collect Customer Payments, Send GST Invoices, Make Business Payments | Betalen.in</title>
+    <!-- Web Fonts
+    ============================================= -->
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i' type='text/css'>
+
+    <!-- Stylesheet
+    ============================================= -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/bootstrap/css/bootstrap.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/font-awesome/css/all.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/owl.carousel/assets/owl.carousel.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/stylesheet.css")" />
+    <link rel="icon" href="@Url.Content("/favicon.ico")" />
+    <meta name="google-site-verification" content="FitzGggKmZe67Gk8Wqkb_TIDche2ZocBgksrxxsyWWw" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-222783232-1">
+        </script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-222783232-1');
+        </script>*@
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div data-loader="dual-ring"></div>
+    </div>
+    <!-- Preloader End -->
+    <!-- Document Wrapper
+    ============================================= -->
+    <div id="main-wrapper">
+
+        <!-- Header
+        ============================================= -->
+        <header id="header">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OLC.Web.UI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="header-row">
+                    <div class="header-column justify-content-start">
+                        <!-- Logo
+                        ============================= -->
+                        <div class="logo"> <a class="d-flex" href="@Url.Action("Index","Home",null)" title="Betalen"><img src="~/images/logo.png" alt="Betalen" /></a> </div>
+                        <!-- Logo end -->
+                        <!-- Collapse Button
+                        ============================== -->
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header-nav"> <span></span> <span></span> <span></span> </button><!-- Collapse Button end -->
+                        <!-- Primary Navigation
+                        ============================== -->
+                        <partial name="~/Views/Shared/_MenuPartial.cshtml" />
+                        <!-- Primary Navigation end -->
+                    </div>
+
+                    <div class="header-column justify-content-end">
+                        <!-- Login & Signup Link
+                        ============================== -->
+                        <nav class="login-signup navbar navbar-expand">
+                            <ul class="navbar-nav">
+                                <li class="d-none"><a href="@Url.Action("ExternalLogin","Account",null)">Log In Google</a> </li>
+                                <li><a  href="@Url.Action("Login","Account",null)">Login</a> </li>
+                                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-primary d-none d-sm-block" href="@Url.Action("SignUp","Account",null)">Sign Up</a></li>
+                            </ul>
+                        </nav>
+                        <!-- Login & Signup Link end -->
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+        </header>
+        <!-- Header End -->
+        <!-- Content
+        ============================================= -->
+        <div id="content">
             @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - OLC.Web.UI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+        <!-- Content end -->
+        <!-- Footer
+        ============================================= -->
+        <partial name="~/Views/Shared/_FooterPartial.cshtml" />
+        <!-- Footer end -->
+
+    </div>
+    <!-- Document Wrapper end -->
+    <!-- Back to Top
+    ============================================= -->
+    <a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i class="fa fa-chevron-up"></i></a>
+
+    <!-- Video Modal
+    ============================================= -->
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content bg-transparent border-0">
+                <button type="button" class="close text-white opacity-10 ml-auto mr-n3 font-weight-400" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div class="modal-body p-0">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" id="video" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Video Modal end -->
+    <!-- Script -->
+    <script src="@Url.Content("~/js/jquery/jquery.min.js")" asp-append-version="true" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/bootstrap/js/bootstrap.bundle.min.js")" asp-append-version="true" type="text/javascript"></script>
+    @*<script src="~/vendor/bootstrap/js/bootstrap.js"></script>*@
+    <script src="@Url.Content("~/js/owl.carousel/owl.carousel.min.js")" asp-append-version="true" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/theme.js")" asp-append-version="true" type="text/javascript"></script>
+    @*<script src="~/js/theme.js"></script>*@
+    <script src="https://kit.fontawesome.com/07c0b40a92.js" crossorigin="anonymous"></script>
+
+    <script>
+        $(window).on('load', function () {
+            $("#preloader").hide();
+        });
+
+        $(document).ajaxStart(function () {
+            $("#preloader").show();
+        });
+
+        $(document).ajaxComplete(function () {
+            $("#preloader").hide();
+        });
+    </script>
 </body>
+
 </html>
