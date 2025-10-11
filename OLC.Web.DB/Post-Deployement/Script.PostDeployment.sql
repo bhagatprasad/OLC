@@ -9,3 +9,6 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+
+-- Include seed data for Specialization
+:r .\SeedRole.sql
