@@ -1,21 +1,19 @@
 ﻿CREATE PROCEDURE [dbo].[uspUpdateRoles]
-	(@id bigint,
-	@name varchar(50),
-	@code varchar(50),
-	@createdBy bigint,
-	@createdOn datetimeoffset,
-	@modifiedBy bigint,
-	@modifiedOn datetimeoffset,
-	@isActive bit)
+(
+		@id				bigint,
+		@name			varchar(50),
+		@code			varchar(50),
+		@modifiedBy		bigint,
+		@isActive		bit
+)
+
 AS
 	BEGIN
 update dbo.[role] set 
            name      = @name,
 		   code      = @code,
-		   CreatedBy = @createdBy,
-		   CreatedOn = @createdOn,
 		   ModifiedBy = @modifiedBy,
-		   ModifiedOn = @modifiedOn,
+		   ModifiedOn = GETDATE(),
 		   IsActive = @isActive
 	Where Id=@id
 
