@@ -65,6 +65,10 @@
     <Folder Include="Pre-Compare" />
     <Folder Include="Pre-Deployement" />
     <Folder Include="Post-Deployement" />
+    <Folder Include="Programmability\Stored Procedures\Role" />
+    <Folder Include="Programmability\Stored Procedures\Cities" />
+    <Folder Include="Programmability\Stored Procedures\States" />
+    <Folder Include="Programmability\Stored Procedures\Countries" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -77,6 +81,26 @@
     <Build Include="Tables\Country.sql" />
     <Build Include="Tables\City.sql" />
     <Build Include="Tables\State.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspGetRoles.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCities.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspGetStates.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspGetCountries.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspGetRolesById.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspInsertRoles.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspUpdateRoles.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspDeleteRoles.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspInsertStates.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspGetStatesById.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspUpdateStates.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspDeleteStates.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspGetCountriesById.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspInsertCountries.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspUpdateCountries.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspDeleteCountries.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCitiesById.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspInsertCities.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspUpdateCities.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspDeleteCities.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
