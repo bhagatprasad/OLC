@@ -56,5 +56,30 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Programmability" />
+    <Folder Include="Programmability\Stored Procedures" />
+    <Folder Include="Programmability\Functions" />
+    <Folder Include="Programmability\Database Triggers" />
+    <Folder Include="Programmability\Types" />
+    <Folder Include="Pre-Compare" />
+    <Folder Include="Pre-Deployement" />
+    <Folder Include="Post-Deployement" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Role.sql" />
+    <Build Include="Programmability\Stored Procedures\uspGetUser.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Programmability\Functions\fnGetUsers.sql" />
+    <None Include="Programmability\Database Triggers\tgGetUser.sql" />
+    <None Include="Programmability\Types\tpGetUsers.sql" />
+    <None Include="Pre-Compare\Pre-Compare.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Pre-Deployement\Script.PreDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Post-Deployement\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>
