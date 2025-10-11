@@ -69,6 +69,14 @@
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
     <Build Include="Programmability\Stored Procedures\uspGetUser.sql" />
+    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\TransactionType.sql" />
+    <Build Include="Tables\UserCreditCard.sql" />
+    <Build Include="Tables\UserBankAccount.sql" />
+    <Build Include="Tables\UserBillingAddress.sql" />
+    <Build Include="Tables\Country.sql" />
+    <Build Include="Tables\City.sql" />
+    <Build Include="Tables\State.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
