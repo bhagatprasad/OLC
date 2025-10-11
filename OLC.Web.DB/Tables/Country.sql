@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Role]
+﻿CREATE TABLE [dbo].[Country]
 (
 	[Id]                            bigint                 NOT NULL    PRIMARY KEY   identity(1,1),
 	[Name]                          varchar(max)           NULL,
