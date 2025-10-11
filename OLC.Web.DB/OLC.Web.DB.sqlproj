@@ -113,5 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\Script.PostDeployment.sql" />
+    <None Include="Post-Deployement\SeedRole.sql" />
   </ItemGroup>
 </Project>
