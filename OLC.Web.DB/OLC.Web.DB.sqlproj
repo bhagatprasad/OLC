@@ -69,6 +69,7 @@
     <Folder Include="Programmability\Stored Procedures\Cities" />
     <Folder Include="Programmability\Stored Procedures\States" />
     <Folder Include="Programmability\Stored Procedures\Countries" />
+    <Folder Include="Programmability\Stored Procedures\User" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -101,6 +102,7 @@
     <Build Include="Programmability\Stored Procedures\Cities\uspInsertCities.sql" />
     <Build Include="Programmability\Stored Procedures\Cities\uspUpdateCities.sql" />
     <Build Include="Programmability\Stored Procedures\Cities\uspDeleteCities.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspRegisterUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
