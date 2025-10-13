@@ -1,5 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using OLC.Web.API.Manager;
 
 namespace OLC.Web.API
 {
@@ -18,6 +19,7 @@ namespace OLC.Web.API
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
 
+            services.AddScoped<IAccountManager, AccountManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 
