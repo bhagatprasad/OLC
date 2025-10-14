@@ -10,17 +10,15 @@
         <p class="lead text-center">Your login information is safe with us.</p>
         <div class="bg-light shadow-md rounded p-4 mx-2">
 
-            <form id="loginForm" method="post" asp-action="Login" asp-controller="Account">
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary()
+            <form id="formAuthentication">
                 <div class="form-group">
-                    <label for="emailAddress">Phone / Email</label>
-                    <input type="text" id="Username" class="form-control" placeholder="Enter your Email /Phone" />
+                    <label for="username">Phone / Email</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter your Email /Phone" required />
                 </div>
                 <div class="form-group">
-                    <label for="loginPassword">Password</label>
+                    <label for="password">Password</label>
                     <div class="input-group">
-                        <input type="password" id="Password" class="form-control" placeholder="Enter your password" />
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
                         <div class="input-group-prepend">
                             <div class="input-group-text"><i class="fa fa-eye-slash" id="eye"></i></div>
                         </div>
@@ -36,7 +34,7 @@
                     <div class="col-sm text-right"><a class="btn-link" href="@Url.Action("ForgotPassword", "Account", null)">Forgot Password ?</a></div>
                 </div>
 
-                <button class="btn btn-primary btn-block my-4" type="submit">Sign In</button>
+                <button class="btn btn-primary btn-block my-4" type="submit" id="btnSubmit">Sign In</button>
             </form>
             <div class="mb-2">
                 <a href="@Url.Action("ExternalLogin", "Account", null)" class="btn btn-block btn-google auth-form-btn">
@@ -57,10 +55,14 @@
     }
 </style>
 <!-- Content end -->
-<script src="@Url.Content("~/js/jquery/jquery.min.js")" asp-append-version="true" type="text/javascript"></script>
-<script src="@Url.Content("~/js/Application/PasswordSettingsController.js")" asp-append-version="true" type="text/javascript"></script>
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/LoginController.js"></script>
+<script src="~/js/Application/PasswordSettingsController.js"></script>
 <script type="text/javascript">
     $(function () {
+        var login= new LoginController();
+        login.init();
+
         var ctrl = new PasswordSettingsController();
         ctrl.init();
     });
