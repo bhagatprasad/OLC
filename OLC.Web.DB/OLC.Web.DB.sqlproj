@@ -70,6 +70,7 @@
     <Folder Include="Programmability\Stored Procedures\States" />
     <Folder Include="Programmability\Stored Procedures\Countries" />
     <Folder Include="Programmability\Stored Procedures\User" />
+    <Folder Include="Programmability\Stored Procedures\PaymentReason" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -105,6 +106,8 @@
     <Build Include="Programmability\Stored Procedures\User\uspRegisterUser.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspGetUserByUserName.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspResetPassword.sql" />
+    <Build Include="Tables\PaymentReason.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentReason\uspGetPaymentReasons.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
@@ -118,5 +121,6 @@
   <ItemGroup>
     <PostDeploy Include="Post-Deployement\Script.PostDeployment.sql" />
     <None Include="Post-Deployement\SeedRole.sql" />
+    <None Include="Post-Deployement\SeedPaymentReason.sql" />
   </ItemGroup>
 </Project>
