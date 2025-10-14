@@ -1,4 +1,6 @@
-﻿using OLC.Web.API.Helpers;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using OLC.Web.API.Helpers;
 using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
@@ -213,6 +215,34 @@ namespace OLC.Web.API.Manager
                 }
             }
             return user;
+        }
+
+        public async Task<bool> ForgotPasswordAsync(UserServices userServices)
+        {
+          
+
+            var hashSalt = HashSalt.GenerateSaltedHash(userServices.Newpassword);
+
+
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                connection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[olc_db_usr].[uspUpdatePassword]", connection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@username", userServices.userName);
+
+                sqlCommand.Parameters.AddWithValue("@passwordhash", hashSalt.Hash);
+
+                sqlCommand.Parameters.AddWithValue("@passwordsalt", hashSalt.Salt);
+
+                sqlCommand.ExecuteNonQuery();
+
+
+                return true;
+          
         }
     }
 }

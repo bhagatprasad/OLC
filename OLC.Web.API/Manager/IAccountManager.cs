@@ -7,5 +7,8 @@ namespace OLC.Web.API.Manager
         Task<bool> RegisterUserAsync(UserRegistration userRegistration);
         Task<AuthResponse> AuthenticateUserAsync(UserAuthentication userAuthentication);
         Task<ApplicationUser> GenarateUserClaimsAsync(AuthResponse authResponse);
+
+        Task<bool> ForgotPasswordAsync(UserServices userServices);
+
     }
 }
