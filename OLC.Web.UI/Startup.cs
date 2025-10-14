@@ -65,6 +65,13 @@ namespace OLC.Web.UI
                 options.AccessDeniedPath = "/Error/NotAccessable";
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Administrator", policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("User", policy => policy.RequireRole("User"));
+                options.AddPolicy("Executive", policy => policy.RequireRole("Executive"));
+            });
+
             services.AddNotyf(config =>
             {
                 config.DurationInSeconds = 10;
