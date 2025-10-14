@@ -135,7 +135,7 @@
     <script src="~/js/Application/StorageService.js"></script>
     @*<script src="~/js/theme.js"></script>*@
     <script src="https://kit.fontawesome.com/07c0b40a92.js" crossorigin="anonymous"></script>
-
+    @await Component.InvokeAsync("Notyf")
     <script>
         $(window).on('load', function () {
             $("#preloader").hide();
