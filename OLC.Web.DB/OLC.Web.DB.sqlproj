@@ -104,6 +104,7 @@
     <Build Include="Programmability\Stored Procedures\Cities\uspDeleteCities.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspRegisterUser.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspGetUserByUserName.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspResetPassword.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
