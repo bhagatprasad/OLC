@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using OLC.Web.API.Helpers;
+﻿using OLC.Web.API.Helpers;
 using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
@@ -217,32 +215,39 @@ namespace OLC.Web.API.Manager
             return user;
         }
         // comment
-        public async Task<bool> ForgotPasswordAsync(UserServices userServices)
+        public async Task<long> ForgotPasswordAsync(ForgotPassword forgotPassword)
         {
-          
+            var user = await GetUserDetailsByUserName(forgotPassword.username);
 
-            var hashSalt = HashSalt.GenerateSaltedHash(userServices.Newpassword);
+            if (user != null)
+                return user.Id;
 
+            return 0;
+        }
 
-                SqlConnection connection = new SqlConnection(connectionString);
+        public async Task<bool> ResetPasswordAsync(ResetPassword resetPassword)
+        {
+            if (resetPassword != null)
+            {
+                if (resetPassword.UserId.HasValue && !string.IsNullOrEmpty(resetPassword.Password))
+                {
+                    var hashSalt = HashSalt.GenerateSaltedHash(resetPassword.Password);
 
-                connection.Open();
+                    SqlConnection connection = new SqlConnection(connectionString);
+                    connection.Open();
+                    SqlCommand sqlCommand = new SqlCommand("[dbo].[uspResetPassword]", connection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@userId", resetPassword.UserId);
+                    sqlCommand.Parameters.AddWithValue("@passwordHash", hashSalt.Hash);
+                    sqlCommand.Parameters.AddWithValue("@passwordSalt", hashSalt.Salt);
+                    sqlCommand.ExecuteNonQuery();
+                    connection.Close();
 
-                SqlCommand sqlCommand = new SqlCommand("[olc_db_usr].[uspUpdatePassword]", connection);
-
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-
-                sqlCommand.Parameters.AddWithValue("@username", userServices.userName);
-
-                sqlCommand.Parameters.AddWithValue("@passwordhash", hashSalt.Hash);
-
-                sqlCommand.Parameters.AddWithValue("@passwordsalt", hashSalt.Salt);
-
-                sqlCommand.ExecuteNonQuery();
-
-
-                return true;
-          
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
     }
 }

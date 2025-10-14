@@ -70,19 +70,34 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("ForgotPasswordAsync")]
-        public async Task<IActionResult> ForgotPasswordAsync(UserServices userServices)
+        public async Task<IActionResult> ForgotPasswordAsync(ForgotPassword forgotPassword)
         {
             try
             {
-                var response = await _accountManager.ForgotPasswordAsync(userServices);
+                var response = await _accountManager.ForgotPasswordAsync(forgotPassword);
 
                 return Ok(response);
             } 
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
 
-               
+            }
+        }
+
+        [HttpPost]
+        [Route("ResetPasswordAsync")]
+        public async Task<IActionResult> ResetPasswordAsync(ResetPassword resetPassword)
+        {
+            try
+            {
+                var response = await _accountManager.ResetPasswordAsync(resetPassword);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
 
             }
         }
