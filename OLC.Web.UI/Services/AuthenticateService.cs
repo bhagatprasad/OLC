@@ -14,6 +14,11 @@ namespace OLC.Web.UI.Services
             return await _repositoryFactory.SendAsync<UserAuthentication, AuthResponse>(HttpMethod.Post, "Account/AuthenticateUserAsync", authentication);
         }
 
+        public async Task<long> ForgotPasswordAsync(ForgotPassword userServices)
+        {
+            return await _repositoryFactory.SendAsync<ForgotPassword, long>(HttpMethod.Post, "Account/ForgotPasswordAsync", userServices);
+        }
+
         public async Task<ApplicationUser> GenarateUserClaimsAsync(AuthResponse auth)
         {
             return await _repositoryFactory.SendAsync<AuthResponse, ApplicationUser>(HttpMethod.Post, "Account/GenarateUserClaimsAsync", auth);
@@ -22,6 +27,11 @@ namespace OLC.Web.UI.Services
         public async Task<bool> RegisterUserAsync(UserRegistration userRegistration)
         {
             return await _repositoryFactory.SendAsync<UserRegistration, bool>(HttpMethod.Post, "Account/RegisterUserAsync", userRegistration);
+        }
+
+        public async Task<bool> ResetPasswordAsync(ResetPassword resetPassword)
+        {
+            return await _repositoryFactory.SendAsync<ResetPassword, bool>(HttpMethod.Post, "Account/ResetPasswordAsync", resetPassword);
         }
     }
 }

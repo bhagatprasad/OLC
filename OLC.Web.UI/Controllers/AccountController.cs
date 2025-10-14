@@ -89,7 +89,7 @@ namespace OLC.Web.UI.Controllers
                     _notyfService.Error("Something went wrong");
                 }
 
-                return Json(new { appUser = default(object)});
+                return Json(new { appUser = default(object) });
             }
             catch (Exception ex)
             {
@@ -107,6 +107,47 @@ namespace OLC.Web.UI.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             Response.Cookies.Delete("allowCookies");
             return RedirectToAction("Login", "Account", null);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPassword forgotPassword)
+        {
+            try
+            {
+                var responce = await _authenticateService.ForgotPasswordAsync(forgotPassword);
+                return Json(new { data = responce });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> ResetPassword(long userId)
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPassword resetPassword)
+        {
+            try
+            {
+                var responce = await _authenticateService.ResetPasswordAsync(resetPassword);
+                if (responce)
+                    _notyfService.Success("Successfully reseted password, please login");
+                    return Json(new { data = responce });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
         }
     }
 }
