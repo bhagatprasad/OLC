@@ -1,0 +1,306 @@
+﻿@{
+
+    ViewData["Title"] = "Request Money-Request your payment on anytime, anywhere in the world.";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="container-fluid">
+    <!-- Page Header with Button -->
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                    <div>
+                        <h1 class="h3 fw-bold text-primary">Make new payment</h1>
+                        <p class="text-muted mb-0">Request your payment on anytime, anywhere in the world.</p>
+                    </div>
+                    <div>
+                        <a class="btn btn-primary" href="@Url.Action("Index", "UserBoard", null)">
+                            <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="card" style="width:100% !important;">
+                <div class="form">
+                    <div class="left-side">
+                        <div class="left-heading">
+                            <h3>Payment Wizard</h3>
+                        </div>
+                        <div class="steps-content">
+                            <h3>Step <span class="step-number">1</span></h3>
+                            <p class="step-number-content active">Select your payment method to proceed with the transaction.</p>
+                            <p class="step-number-content d-none">Choose the bank account where you want to transfer funds.</p>
+                            <p class="step-number-content d-none">Provide your billing address for transaction verification.</p>
+                            <p class="step-number-content d-none">Review all payment details before confirming the transaction.</p>
+                        </div>
+                        <ul class="progress-bar">
+                            <li class="active">Payment Method</li>
+                            <li>Bank Account</li>
+                            <li>Billing Address</li>
+                            <li>Confirmation</li>
+                        </ul>
+                    </div>
+                    <div class="right-side">
+                        <!-- Step 1: Payment Method -->
+                        <div class="main active">
+                            <small><i class="fa fa-credit-card"></i></small>
+                            <div class="text">
+                                <h2>Select Payment Method</h2>
+                                <p>Choose how you would like to pay for this transaction.</p>
+                            </div>
+
+                            <div class="payment-option selected" data-payment="card">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fab fa-cc-visa payment-icon"></i>
+                                    <div>
+                                        <h5 class="mb-0">Credit/Debit Card</h5>
+                                        <small class="text-muted">Pay with your Visa, MasterCard, or American Express</small>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <input type="text" required placeholder=" " id="card_number">
+                                            <span>Card Number</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <input type="text" required placeholder=" " id="card_name">
+                                            <span>Cardholder Name</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <input type="text" required placeholder=" " id="expiry_date">
+                                            <span>Expiry Date (MM/YY)</span>
+                                        </div>
+                                        <div class="input-div">
+                                            <input type="text" required placeholder=" " id="cvv">
+                                            <span>CVV</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="payment-option" data-payment="paypal">
+                                <div class="d-flex align-items-center">
+                                    <i class="fab fa-paypal payment-icon"></i>
+                                    <div>
+                                        <h5 class="mb-0">PayPal</h5>
+                                        <small class="text-muted">Pay with your PayPal account</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="payment-option" data-payment="wallet">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-mobile-alt payment-icon"></i>
+                                    <div>
+                                        <h5 class="mb-0">Digital Wallet</h5>
+                                        <small class="text-muted">Pay with Apple Pay, Google Pay, or Samsung Pay</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="buttons">
+                                <button class="next_button">Next Step</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Bank Account -->
+                        <div class="main">
+                            <small><i class="fa fa-university"></i></small>
+                            <div class="text">
+                                <h2>Select Bank Account</h2>
+                                <p>Choose the account where you want to transfer funds.</p>
+                            </div>
+
+                            <div class="payment-option selected" data-account="checking">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-university payment-icon"></i>
+                                    <div>
+                                        <h5 class="mb-0">Chase Bank - Checking</h5>
+                                        <small class="text-muted">Account ending in 4512</small>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <p class="mb-0">Available Balance: <strong>$12,458.75</strong></p>
+                                </div>
+                            </div>
+
+                            <div class="payment-option" data-account="savings">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-piggy-bank payment-icon"></i>
+                                    <div>
+                                        <h5 class="mb-0">Bank of America - Savings</h5>
+                                        <small class="text-muted">Account ending in 7845</small>
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <p class="mb-0">Available Balance: <strong>$8,245.30</strong></p>
+                                </div>
+                            </div>
+
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <input type="number" required placeholder=" " id="transfer_amount">
+                                    <span>Transfer Amount ($)</span>
+                                </div>
+                            </div>
+
+                            <div class="buttons button_space">
+                                <button class="back_button">Back</button>
+                                <button class="next_button">Next Step</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Billing Address -->
+                        <div class="main">
+                            <small><i class="fa fa-home"></i></small>
+                            <div class="text">
+                                <h2>Billing Address</h2>
+                                <p>Enter your billing address for verification purposes.</p>
+                            </div>
+
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <input type="text" required placeholder=" " id="address_line1">
+                                    <span>Address Line 1</span>
+                                </div>
+                            </div>
+
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <input type="text" placeholder=" " id="address_line2">
+                                    <span>Address Line 2 (Optional)</span>
+                                </div>
+                            </div>
+
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <input type="text" required placeholder=" " id="city">
+                                    <span>City</span>
+                                </div>
+                                <div class="input-div">
+                                    <input type="text" required placeholder=" " id="state">
+                                    <span>State/Province</span>
+                                </div>
+                            </div>
+
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <input type="text" required placeholder=" " id="zip_code">
+                                    <span>ZIP/Postal Code</span>
+                                </div>
+                                <div class="input-div">
+                                    <select id="country">
+                                        <option>Select Country</option>
+                                        <option>United States</option>
+                                        <option>Canada</option>
+                                        <option>United Kingdom</option>
+                                        <option>Australia</option>
+                                        <option>Germany</option>
+                                        <option>France</option>
+                                        <option>Japan</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="buttons button_space">
+                                <button class="back_button">Back</button>
+                                <button class="next_button">Next Step</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Confirmation -->
+                        <div class="main">
+                            <small><i class="fa fa-check-circle"></i></small>
+                            <div class="text">
+                                <h2>Confirm Payment</h2>
+                                <p>Review all details before completing your payment.</p>
+                            </div>
+
+                            <div class="summary-item">
+                                <h5>Payment Method</h5>
+                                <div class="d-flex align-items-center">
+                                    <i class="fab fa-cc-visa payment-icon"></i>
+                                    <div>
+                                        <p class="mb-0 fw-bold">Visa ending in 4512</p>
+                                        <p class="mb-0 text-muted">John Smith • Exp: 05/25</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="summary-item">
+                                <h5>Bank Account</h5>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-university payment-icon"></i>
+                                    <div>
+                                        <p class="mb-0 fw-bold">Chase Bank - Checking</p>
+                                        <p class="mb-0 text-muted">Account ending in 4512</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="summary-item">
+                                <h5>Billing Address</h5>
+                                <div>
+                                    <p class="mb-0 fw-bold">John Smith</p>
+                                    <p class="mb-0 text-muted">123 Main Street, Apt 4B</p>
+                                    <p class="mb-0 text-muted">New York, NY 10001, United States</p>
+                                </div>
+                            </div>
+
+                            <div class="summary-item">
+                                <h5>Payment Details</h5>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Transfer Amount:</span>
+                                    <span class="fw-bold">$500.00</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Processing Fee:</span>
+                                    <span>$2.50</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Total Amount:</span>
+                                    <span class="fw-bold text-primary">$502.50</span>
+                                </div>
+                            </div>
+
+                            <div class="buttons button_space">
+                                <button class="back_button">Back</button>
+                                <button class="submit_button">Confirm Payment</button>
+                            </div>
+                        </div>
+
+                        <!-- Success Step -->
+                        <div class="main">
+                            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                            </svg>
+
+                            <div class="text congrats">
+                                <h2>Payment Successful!</h2>
+                                <p>Your payment of <strong>$502.50</strong> has been processed successfully. A confirmation email has been sent to your registered email address. Transaction ID: <strong>#TX-7845</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content end -->
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/MakeNewPaymentController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new MakeNewPaymentController();
+        ctrl.init();
+    });
+</script>
