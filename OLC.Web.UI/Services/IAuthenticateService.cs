@@ -7,5 +7,7 @@ namespace OLC.Web.UI.Services
         Task<bool> RegisterUserAsync(UserRegistration userRegistration);
         Task<AuthResponse> AuthenticateUserAsync(UserAuthentication authentication);
         Task<ApplicationUser> GenarateUserClaimsAsync(AuthResponse auth);
+        Task<long> ForgotPasswordAsync(ForgotPassword userServices);
+        Task<bool> ResetPasswordAsync(ResetPassword resetPassword);
     }
 }
