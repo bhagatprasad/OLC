@@ -19,8 +19,8 @@ namespace OLC.Web.UI.Helper
 
             var accessToken = _httpContextAccessor.HttpContext.Session.GetString("AccessToken");
 
-            if (!string.IsNullOrEmpty(accessToken))
-                request.Headers.Add("Authorization", accessToken);
+            //if (!string.IsNullOrEmpty(accessToken))
+            //    request.Headers.Add("Authorization", accessToken);
 
 
             return await base.SendAsync(request, cancellationToken);

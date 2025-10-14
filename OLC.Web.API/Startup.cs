@@ -23,6 +23,17 @@ namespace OLC.Web.API
 
             services.AddMvc().AddXmlSerializerFormatters();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                        .WithOrigins("http://localhost:5227") // Specific allowed origin
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials() // If you need credentials/cookies
+                );
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -49,9 +60,11 @@ namespace OLC.Web.API
         {
             app.UseRouting();
 
-            //app.UseAuthentication();
+            app.UseCors("CorsPolicy");
 
-            //app.UseAuthorization();
+            app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

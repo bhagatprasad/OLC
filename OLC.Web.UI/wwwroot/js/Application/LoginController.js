@@ -32,41 +32,31 @@
 
         function handleAuthenticationSuccess(response) {
             console.info(response);
-            if (response.status) {
-                var _appUserInfo = storageService.get('ApplicationUser');
-                if (_appUserInfo) {
-                    storageService.remove('ApplicationUser');
-                }
-
-                var applicationUser = response.appUser;
-
-                storageService.set('ApplicationUser', applicationUser);
-
-                var appUserInfo = storageService.get('ApplicationUser');
-
-
-                if (appUserInfo) {
-                    if (appUserInfo.RoleName === "Doctor") {
-                        window.location.href = "/DoctorDashboard/ManageDoctorAppointments";
-                    } else if (appUserInfo.RoleName === "Executive") {
-                        window.location.href = "/ExecutiveDashboard/Index";
-                    }
-                    else if (appUserInfo.RoleName === "Pharmacist") {
-                        window.location.href = "/PharmacistDashBoard/Index";
-                    }
-                    else if (appUserInfo.RoleName === "Lab technicians") {
-                        window.location.href = "/LabTechnicianDashBoard/Index";
-                    } else if (appUserInfo.RoleName === "Receptionist") {
-                        window.location.href = "/DoctorAppointment/Index";
-                    } else {
-
-                        window.location.href = "/Home/Index";
-                    }
-                }
-                updateEnvironmentAndVersion();
-
-                $(".se-pre-con").hide();
+            var _appUserInfo = storageService.get('ApplicationUser');
+            if (_appUserInfo) {
+                storageService.remove('ApplicationUser');
             }
+
+            var applicationUser = response.appUser;
+
+            storageService.set('ApplicationUser', applicationUser);
+
+            var appUserInfo = storageService.get('ApplicationUser');
+
+
+            if (appUserInfo) {
+                if (appUserInfo.RoleId === "1") {
+                    window.location.href = "/AdminBaord/Index";
+                } else if (appUserInfo.RoleId === "3") {
+                    window.location.href = "/ExecutiveBoard/Index";
+                }
+                else {
+                    window.location.href = "/UserBoard/Index";
+                }
+            }
+            updateEnvironmentAndVersion();
+
+            $(".se-pre-con").hide();
         }
 
         function handleAuthenticationError(xhr, status, error) {

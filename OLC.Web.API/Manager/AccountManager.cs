@@ -95,6 +95,7 @@ namespace OLC.Web.API.Manager
                 applicationUser.FirstName = user.FirstName;
                 applicationUser.LastName = user.LastName;
                 applicationUser.Email = user.Email;
+                applicationUser.Phone=user.Phone;
                 applicationUser.RoleId = user.RoleId;
                 applicationUser.IsBlocked = user.IsBlocked;
                 applicationUser.IsActive = user.IsActive;
