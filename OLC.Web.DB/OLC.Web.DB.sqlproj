@@ -71,6 +71,7 @@
     <Folder Include="Programmability\Stored Procedures\Countries" />
     <Folder Include="Programmability\Stored Procedures\User" />
     <Folder Include="Programmability\Stored Procedures\PaymentReason" />
+    <Folder Include="Programmability\Stored Procedures\UserBillingAddress" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -108,6 +109,7 @@
     <Build Include="Programmability\Stored Procedures\User\uspResetPassword.sql" />
     <Build Include="Tables\PaymentReason.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentReason\uspGetPaymentReasons.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspSaveUserBillingAddress.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
