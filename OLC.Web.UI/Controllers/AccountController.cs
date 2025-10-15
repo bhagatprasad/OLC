@@ -52,6 +52,32 @@ namespace OLC.Web.UI.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp([FromBody] UserRegistration userRegistration)
+        {
+            try
+            {
+                if (userRegistration != null)
+                    userRegistration.RoleId = 2;
+
+                var responce = await _authenticateService.RegisterUserAsync(userRegistration);
+
+                if (responce)
+                    _notyfService.Success("User registration successfull");
+                else
+                    _notyfService.Warning("User registration unsuccessfull");
+
+                return Json(new { data = responce });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+
+
         [HttpPost]
         public async Task<JsonResult> Login([FromBody] UserAuthentication authentication)
         {
@@ -141,7 +167,7 @@ namespace OLC.Web.UI.Controllers
                 var responce = await _authenticateService.ResetPasswordAsync(resetPassword);
                 if (responce)
                     _notyfService.Success("Successfully reseted password, please login");
-                    return Json(new { data = responce });
+                return Json(new { data = responce });
             }
             catch (Exception ex)
             {

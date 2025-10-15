@@ -12,57 +12,106 @@
         <h3 class="font-weight-400 text-center">Sign Up</h3>
         <p class="lead text-center">Your Sign Up information is safe with us.</p>
         <div class="bg-light shadow-md rounded p-4 mx-2">
-            <form id="signupForm" asp-action="SignUp" asp-controller="Account" method="post">
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary()
-                <div class="form-row">
-                    <div class="col-lg-6">
+            <form id="formSignUp">
+                <div class="form-row mb-4">
+                    <div class="col-lg-6 mb-3">
                         <div class="form-group">
-                            <label for="fullName">First Name</label>
-                            <input type="text" id="Firstname" class="form-control" placeholder="Enter First Name" />
+                            <label for="Firstname" class="form-label">First Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" id="Firstname" class="form-control" placeholder="Enter First Name" required />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 mb-3">
                         <div class="form-group">
-                            <label for="Lastname">Last Name</label>
-                            <input type="text" id="Lastname" class="form-control" placeholder="Enter First Name" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="Email">Email Address</label>
-                            <input type="text" id="Email" class="form-control" placeholder="Enter First Name" />
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="emailAddress">Phone Number</label>
-                            <input type="text" id="Phone" class="form-control" placeholder="Enter First Name" />
+                            <label for="Lastname" class="form-label">Last Name</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" id="Lastname" class="form-control" placeholder="Enter Last Name" required />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-lg-6">
+                <div class="form-row mb-4">
+                    <div class="col-lg-6 mb-3">
                         <div class="form-group">
-                            <label for="Password">Password</label>
-                            <input type="password" id="Password" class="form-control" placeholder="Enter your password" />
+                            <label for="Email" class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                </div>
+                                <input type="email" id="Email" class="form-control" placeholder="Enter Email Address" required />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 mb-3">
                         <div class="form-group">
-                            <label for="ConfirmPassword">Confirm Password</label>
-                            <input type="password" id="ConfirmPassword" class="form-control" placeholder="Enter your password" />
+                            <label for="Phone" class="form-label">Phone Number</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                </div>
+                                <input type="tel" id="Phone" class="form-control" placeholder="Enter Phone Number" required />
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
-                <button class="btn btn-primary btn-block my-4" type="submit">Sign Up</button>
+                <div class="form-row mb-4">
+                    <div class="col-lg-6 mb-3">
+                        <div class="form-group">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                </div>
+                                <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
+                                <div class="input-group-append">
+                                    <span class="input-group-text toggle-password"><i class="fa fa-eye-slash"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                </div>
+                                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required />
+                                <div class="input-group-append">
+                                    <span class="input-group-text toggle-password"><i class="fa fa-eye-slash"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-block my-4" id="btnSubmit" type="submit">Submit</button>
             </form>
             <p class="text-3 text-muted text-center mb-0">Already have an account? <a class="btn-link" href="@Url.Action("Login", "Account", null)">Log In</a></p>
         </div>
     </div>
 </div>
+<style>
+    form i {
+        cursor: pointer;
+    }
+
+    .yellow-color {
+        color: yellow;
+    }
+</style>
 <!-- Content end -->
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/SignUpController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl= new SignUpController();
+        ctrl.init();
+    });
+</script>
