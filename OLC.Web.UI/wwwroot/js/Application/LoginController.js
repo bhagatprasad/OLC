@@ -45,13 +45,15 @@
 
 
             if (appUserInfo) {
-                if (appUserInfo.RoleId === "1") {
+                if (appUserInfo.RoleId === 1) {
                     window.location.href = "/AdminBaord/Index";
-                } else if (appUserInfo.RoleId === "3") {
-                    window.location.href = "/ExecutiveBoard/Index";
-                }
-                else {
+                } else if (appUserInfo.RoleId === 2) {
                     window.location.href = "/UserBoard/Index";
+                }
+                else if (appUserInfo.RoleId === 3) {
+                    window.location.href = "/ExecutiveBoard/Index";
+                } else {
+                    window.location.href = "/NotFound/Error";
                 }
             }
             updateEnvironmentAndVersion();
