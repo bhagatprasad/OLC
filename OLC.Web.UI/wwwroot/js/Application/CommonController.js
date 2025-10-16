@@ -91,6 +91,8 @@ const API_URLS = {
     RegistrationUserAsync: "/Account/SignUp",
     ForgotPasswordAsync: "/Account/ForgotPassword",
     ResetPasswordAsync: "/Account/ResetPassword",
+    ExternalCallaBackResponseAsync: "/Account/ExternalCallaBackResponse",
+    LoginOrRegisterExternalUserAsync: "/Account/LoginOrRegisterExternalUser",
     InsertTenantAsync: '/Tenant/InsertTenant',
     FetchTenantDetailsAsync: '/Tenant/GetTenantDetails',
     FetchTenantsAsync: '/Tenant/fetchTenants',

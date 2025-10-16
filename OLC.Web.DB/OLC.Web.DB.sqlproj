@@ -117,6 +117,7 @@
     <Build Include="Programmability\Stored Procedures\UserCreditCards\uspUpdateUserCreditCard.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspChangePassword.sql" />
     <Build Include="Programmability\Stored Procedures\UserCreditCards\uspGetUserCreditCardByCardId.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspRegisterExternalUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
