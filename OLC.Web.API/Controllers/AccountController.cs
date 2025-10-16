@@ -77,7 +77,7 @@ namespace OLC.Web.API.Controllers
                 var response = await _accountManager.ForgotPasswordAsync(forgotPassword);
 
                 return Ok(response);
-            } 
+            }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -101,18 +101,9 @@ namespace OLC.Web.API.Controllers
 
             }
         }
-        [HttpPost]
-        [Route("LoginOrRegisterExternalUserAsync")]
-        public async Task<IActionResult> LoginOrRegisterExternalUserAsync(ExternalUserInfo externalUserInfo)
-        {
-            try
-            {
-                var response = await _accountManager.LoginOrRegisterExternalUserAsync(externalUserInfo);
-
 
         [HttpPost]
         [Route("ChangePasswordAsync")]
-
         public async Task<IActionResult> ChangePasswordAsync(ChangePassword changePassword)
         {
             try
@@ -127,6 +118,22 @@ namespace OLC.Web.API.Controllers
 
             }
 
+        }
+
+        [HttpPost]
+        [Route("LoginOrRegisterExternalUserAsync")]
+        public async Task<IActionResult> LoginOrRegisterExternalUserAsync(ExternalUserInfo externalUserInfo)
+        {
+            try
+            {
+                var response = await _accountManager.LoginOrRegisterExternalUserAsync(externalUserInfo);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            }
         }
     }
 }
