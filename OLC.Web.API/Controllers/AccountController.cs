@@ -109,6 +109,16 @@ namespace OLC.Web.API.Controllers
             {
                 var response = await _accountManager.LoginOrRegisterExternalUserAsync(externalUserInfo);
 
+
+        [HttpPost]
+        [Route("ChangePasswordAsync")]
+
+        public async Task<IActionResult> ChangePasswordAsync(ChangePassword changePassword)
+        {
+            try
+            {
+                var response = await _accountManager.ChangePasswordAsync(changePassword);
+
                 return Ok(response);
             }
             catch (Exception ex)
@@ -116,6 +126,7 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
             }
+
         }
     }
 }

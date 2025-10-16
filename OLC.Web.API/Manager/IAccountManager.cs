@@ -9,6 +9,7 @@ namespace OLC.Web.API.Manager
         Task<ApplicationUser> GenarateUserClaimsAsync(AuthResponse authResponse);
         Task<long> ForgotPasswordAsync(ForgotPassword userServices);
         Task<bool> ResetPasswordAsync(ResetPassword resetPassword);
+        Task<bool> ChangePasswordAsync(ChangePassword changePassword);
         Task<AuthResponse> LoginOrRegisterExternalUserAsync(ExternalUserInfo externalUserInfo);
     }
 }
