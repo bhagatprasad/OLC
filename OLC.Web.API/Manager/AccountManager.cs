@@ -95,7 +95,7 @@ namespace OLC.Web.API.Manager
                 applicationUser.FirstName = user.FirstName;
                 applicationUser.LastName = user.LastName;
                 applicationUser.Email = user.Email;
-                applicationUser.Phone=user.Phone;
+                applicationUser.Phone = user.Phone;
                 applicationUser.RoleId = user.RoleId;
                 applicationUser.IsBlocked = user.IsBlocked;
                 applicationUser.IsActive = user.IsActive;
@@ -114,38 +114,55 @@ namespace OLC.Web.API.Manager
             return applicationUser;
         }
 
-        public async Task<bool> RegisterUserAsync(UserRegistration userRegistration)
+        public async Task<RegistrationResult> RegisterUserAsync(UserRegistration userRegistration)
         {
-            var hashSalt = HashSalt.GenerateSaltedHash(userRegistration.Password);
+            try
+            {
+                var hashSalt = HashSalt.GenerateSaltedHash(userRegistration.Password);
 
-            SqlConnection connection = new SqlConnection(connectionString);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand sqlCommand = new SqlCommand("[dbo].[uspRegisterUser]", connection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
 
-            connection.Open();
+                    // Add input parameters
+                    sqlCommand.Parameters.AddWithValue("@firstName", userRegistration.FirstName ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@lastName", userRegistration.LastName ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@email", userRegistration.Email);
+                    sqlCommand.Parameters.AddWithValue("@phone", userRegistration.Phone ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@passwordHash", hashSalt.Hash);
+                    sqlCommand.Parameters.AddWithValue("@passwordSalt", hashSalt.Salt);
+                    sqlCommand.Parameters.AddWithValue("@roleId", userRegistration.RoleId);
 
-            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspRegisterUser]", connection);
+                    // Add output parameter for return code
+                    var returnParameter = sqlCommand.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
 
-            sqlCommand.CommandType = CommandType.StoredProcedure;
+                    await connection.OpenAsync();
+                    await sqlCommand.ExecuteNonQueryAsync();
 
-            sqlCommand.Parameters.AddWithValue("@firstName", userRegistration.FirstName);
+                    // Get the return value from stored procedure
+                    int returnCode = (int)returnParameter.Value;
 
-            sqlCommand.Parameters.AddWithValue("@lastName", userRegistration.LastName);
-
-            sqlCommand.Parameters.AddWithValue("@email", userRegistration.Email);
-
-            sqlCommand.Parameters.AddWithValue("@phone", userRegistration.Phone);
-
-            sqlCommand.Parameters.AddWithValue("@passwordHash", hashSalt.Hash);
-
-            sqlCommand.Parameters.AddWithValue("@passwordSalt", hashSalt.Salt);
-
-            sqlCommand.Parameters.AddWithValue("@roleId", userRegistration.RoleId);
-
-            sqlCommand.ExecuteNonQuery();
-
-            connection.Close();
-
-            return true;
+                    return new RegistrationResult
+                    {
+                        Success = returnCode == 1,
+                        Message = GetErrorMessage(returnCode),
+                        StatusCode = returnCode
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RegistrationResult
+                {
+                    Success = false,
+                    Message = $"Registration failed: {ex.Message}",
+                    StatusCode = -99
+                };
+            }
         }
+
 
 
         private async Task<User> GetUserDetailsByUserName(string userName)
@@ -249,6 +266,114 @@ namespace OLC.Web.API.Manager
                 return false;
             }
             return false;
+        }
+
+        public async Task<AuthResponse> LoginOrRegisterExternalUserAsync(ExternalUserInfo externalUserInfo)
+        {
+            var authResponse = new AuthResponse();
+
+            try
+            {
+                // Check if user already exists
+                var existingUser = await GetUserDetailsByUserName(externalUserInfo.Email);
+                if (existingUser != null)
+                {
+                    return new AuthResponse
+                    {
+                        Email = existingUser.Email,
+                        StatusMessage = "Login successful",
+                        StatusCode = 1000,
+                        IsActive = true,
+                        ValidUser = true,
+                        ValidPassword = true
+                    };
+                }
+
+                // Register new user
+                using (var connection = new SqlConnection(connectionString))
+                using (var sqlCommand = new SqlCommand("[dbo].[uspRegisterExternalUser]", connection))
+                {
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                    // Add only the parameters that the stored procedure expects
+                    sqlCommand.Parameters.AddWithValue("@firstName", externalUserInfo.Name ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@lastName", externalUserInfo.Surname ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@email", externalUserInfo.Email);
+                    sqlCommand.Parameters.AddWithValue("@roleId", 2);
+
+                    await connection.OpenAsync();
+
+                    // Use ExecuteScalar to get the UserId returned by SELECT SCOPE_IDENTITY()
+                    var result = await sqlCommand.ExecuteScalarAsync();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        long newUserId = Convert.ToInt64(result);
+
+                        // Get the newly created user
+                        var newUser = await GetUserDetailsByUserName(externalUserInfo.Email);
+
+                        return new AuthResponse
+                        {
+                            Email = externalUserInfo.Email,
+                            StatusMessage = "Registration successful",
+                            StatusCode = 1000,
+                            IsActive = true,
+                            ValidUser = true,
+                            ValidPassword = true,
+                        };
+                    }
+                    else
+                    {
+                        return new AuthResponse
+                        {
+                            Email = string.Empty,
+                            StatusMessage = "Registration failed",
+                            StatusCode = 1001,
+                            IsActive = false,
+                            ValidUser = false,
+                            ValidPassword = false
+                        };
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Handle SQL-specific exceptions
+                return new AuthResponse
+                {
+                    Email = string.Empty,
+                    StatusMessage = $"Database error: {sqlEx.Message}",
+                    StatusCode = 1002,
+                    IsActive = false,
+                    ValidUser = false,
+                    ValidPassword = false
+                };
+            }
+            catch (Exception ex)
+            {
+                return new AuthResponse
+                {
+                    Email = string.Empty,
+                    StatusMessage = $"Authentication failed: {ex.Message}",
+                    StatusCode = 1002,
+                    IsActive = false,
+                    ValidUser = false,
+                    ValidPassword = false
+                };
+            }
+        }
+
+        private string GetErrorMessage(int returnCode)
+        {
+            return returnCode switch
+            {
+                1 => "User registered successfully",
+                -1 => "Email already exists",
+                -2 => "Phone number already exists",
+                -3 => "Both email and phone already exist",
+                _ => "Registration failed"
+            };
         }
     }
 }

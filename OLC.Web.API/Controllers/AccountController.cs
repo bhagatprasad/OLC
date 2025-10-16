@@ -101,6 +101,21 @@ namespace OLC.Web.API.Controllers
 
             }
         }
+        [HttpPost]
+        [Route("LoginOrRegisterExternalUserAsync")]
+        public async Task<IActionResult> LoginOrRegisterExternalUserAsync(ExternalUserInfo externalUserInfo)
+        {
+            try
+            {
+                var response = await _accountManager.LoginOrRegisterExternalUserAsync(externalUserInfo);
 
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            }
+        }
     }
 }

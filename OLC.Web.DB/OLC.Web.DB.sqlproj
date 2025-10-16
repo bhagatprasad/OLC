@@ -110,6 +110,7 @@
     <Build Include="Tables\PaymentReason.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentReason\uspGetPaymentReasons.sql" />
     <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspSaveUserBillingAddress.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspRegisterExternalUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
