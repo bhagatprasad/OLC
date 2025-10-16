@@ -3,8 +3,8 @@
 	[Id]				bigint							NOT NULL PRIMARY KEY identity(1,1),
 	[FirstName]         varchar(250)                    NULL,
 	[LastName]          varchar(250)                    NULL,
-	[Email]             varchar(250)                    NULL,
-	[Phone]             varchar(14)                     NULL,
+	[Email]             varchar(250)                    NULL UNIQUE,
+	[Phone]             varchar(14)                     NULL UNIQUE,
 	[PasswordHash]      nvarchar(max)                   NULL,
 	[PasswordSalt]      nvarchar(max)                   NULL,
 	[RoleId]            bigint                          NULL,
@@ -18,4 +18,4 @@
 	[ModifiedBy]		Bigint							NULL,
 	[ModifiedOn]		datetimeoffset					NULL,
 	[IsActive]			bit								NULL,
-)
+);
