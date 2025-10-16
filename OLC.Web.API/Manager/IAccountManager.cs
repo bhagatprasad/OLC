@@ -11,5 +11,11 @@ namespace OLC.Web.API.Manager
         Task<bool> ResetPasswordAsync(ResetPassword resetPassword);
 
         Task<bool> ChangePasswordAsync(ChangePassword changePassword);
+
+        Task<UserCreditCardDetails> GetUserCreditCardsAsync(GetUserCreditCards getUserCreditCards);
+
+        Task<bool> InsertUserCreditCardAsync(UserCreditCardDetails insertUserCreditCard);
+
+        Task<UserCreditCardDetails> GetUserCreditCardByCardIdAsync(GetUserCreditCardByCardId getUserCreditCardByCardId);
     }
 }

@@ -121,5 +121,59 @@ namespace OLC.Web.API.Controllers
             }
 
         }
+
+        [HttpPost]
+        [Route("GetUserCreditCardsAsync/{userId}")]
+
+        public async Task<IActionResult> GetUserCreditCardsAsync(long userId)
+        {
+            try
+            {
+                var response = await _accountManager.GetUserCreditCardsAsync(userId);
+                    return Ok(response);
+
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+           
+        }
+
+        [HttpPost]
+        [Route("InsertUserCreditCardAsync")]
+
+        public async Task<IActionResult> InsertUserCreditCardAsync(UserCreditCardDetails insertUserCreditCard)
+        {
+            try
+            {
+                var response = await _accountManager.InsertUserCreditCardAsync(insertUserCreditCard);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
+
+        [HttpPost]
+        [Route("GetUserCreditCardByCardIdAsync")]
+
+        public async Task<IActionResult> GetUserCreditCardByCardIdAsync(GetUserCreditCardByCardId getUserCreditCardByCardId)
+        {
+            try
+            {
+                var response = await _accountManager.GetUserCreditCardByCardIdAsync(getUserCreditCardByCardId);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
     }
 }

@@ -1,5 +1,7 @@
-﻿using OLC.Web.API.Helpers;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using OLC.Web.API.Helpers;
 using OLC.Web.API.Models;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -283,5 +285,198 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
+
+        public async Task<UserCreditCardDetails> GetUserCreditCardsAsync (GetUserCreditCards getUserCreditCards)
+         {
+            
+            UserCreditCardDetails userCreditCardDetails = null;
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetUserCreditCards]", connection);
+
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+            sqlCommand.Parameters.AddWithValue("@userId", getUserCreditCards.UserId);
+       
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                
+            DataTable dt =new DataTable();
+
+            sqlDataAdapter.Fill(dt);
+
+            connection.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+
+                    userCreditCardDetails = new UserCreditCardDetails();
+
+                    userCreditCardDetails.Id = Convert.ToInt32(item["Id"]);
+
+                    userCreditCardDetails.UserId = Convert.ToInt64(item["UserId"]);
+
+                     userCreditCardDetails.CardHolderName = item["CardHolderName"] != DBNull.Value ? item["CardHolderName"].ToString() : null;
+
+                    userCreditCardDetails.EncryptedCardNumber = item["EncryptedCardNumber"] != DBNull.Value ? item["EncryptedCardNumber"].ToString() : null;
+
+                    userCreditCardDetails.MaskedCardNumber = item["MaskedCardNumber"] != DBNull.Value ? item["MaskedCardNumber"].ToString() : null;
+
+                    userCreditCardDetails.LastFourDigits = item["LastFourDigits"] != DBNull.Value ? item["LastFourDigits"].ToString() : null;
+
+                    userCreditCardDetails.ExpiryMonth = item["ExpiryMonth"] != DBNull.Value ? Convert.ToInt32(item["ExpiryMonth"]) : null;
+
+                    userCreditCardDetails.ExpiryYear = item["ExpiryYear"] != DBNull.Value ? Convert.ToInt32(item["ExpiryYear"]) : null;
+
+                    userCreditCardDetails.EncryptedCVV = item["EncryptedCVV"] != DBNull.Value ? item["EncryptedCVV"].ToString(): null;
+
+                    userCreditCardDetails.CardType = item["CardType"] != DBNull.Value ? item["CardType"].ToString() : null;
+
+                    userCreditCardDetails.IssuingBank = item["IssuingBank"] != DBNull.Value ? item["IssuingBank"].ToString() : null;
+
+                    userCreditCardDetails.BillingAddress = item["BillingAddress"] != DBNull.Value ? item["BillingAddress"].ToString() : null;
+
+                    //userCreditCardDetails.IsDefault = item["IsDeafault"] != DBNull.Value ? (bool?) item["IsDefault"] : null;
+
+                    userCreditCardDetails.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+
+                    userCreditCardDetails.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+
+                    userCreditCardDetails.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+
+                    userCreditCardDetails.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+
+                    userCreditCardDetails.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+
+                }
+                
+            }
+
+            return userCreditCardDetails;
+        }
+
+        public async Task<bool> InsertUserCreditCardAsync (UserCreditCardDetails insertUserCreditCard)
+
+        {
+            if(insertUserCreditCard != null)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertUserCreditCards]", sqlConnection);
+
+                sqlCommand.CommandType= CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@userId", insertUserCreditCard.UserId);
+
+                sqlCommand.Parameters.AddWithValue("@cardHolderName", insertUserCreditCard.CardHolderName);
+
+                sqlCommand.Parameters.AddWithValue("@encryptedCardNumber", insertUserCreditCard.EncryptedCardNumber);
+
+                sqlCommand.Parameters.AddWithValue("@maskedCardNumber", insertUserCreditCard.MaskedCardNumber);
+
+                sqlCommand.Parameters.AddWithValue("@lastFourDigits", insertUserCreditCard.LastFourDigits);
+
+                sqlCommand.Parameters.AddWithValue("@expiryMonth", insertUserCreditCard.ExpiryMonth);
+
+                sqlCommand.Parameters.AddWithValue("@expiryYear", insertUserCreditCard.ExpiryYear);
+
+                sqlCommand.Parameters.AddWithValue("@encryptedCVV", insertUserCreditCard.EncryptedCVV);
+
+                sqlCommand.Parameters.AddWithValue("@cardType", insertUserCreditCard.CardType);
+
+                sqlCommand.Parameters.AddWithValue("@issuingBank", insertUserCreditCard.IssuingBank);
+
+                sqlCommand.Parameters.AddWithValue("@billingAddress", insertUserCreditCard.BillingAddress);
+
+                sqlCommand.Parameters.AddWithValue("@createdBy", insertUserCreditCard.CreatedBy);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+        
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<UserCreditCardDetails> GetUserCreditCardByCardIdAsync(GetUserCreditCardByCardId getUserCreditCardByCardId)
+        {
+
+            UserCreditCardDetails userCreditCardDetails = null;
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetUserCreditCardByCardId]", connection);
+
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+            sqlCommand.Parameters.AddWithValue("@id", getUserCreditCardByCardId.Id);
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+            DataTable dt = new DataTable();
+
+            sqlDataAdapter.Fill(dt);
+
+            connection.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+
+                    userCreditCardDetails = new UserCreditCardDetails();
+
+                    userCreditCardDetails.Id = Convert.ToInt32(item["Id"]);
+
+                    userCreditCardDetails.UserId = Convert.ToInt64(item["UserId"]);
+
+                    userCreditCardDetails.CardHolderName = item["CardHolderName"] != DBNull.Value ? item["CardHolderName"].ToString() : null;
+
+                    userCreditCardDetails.EncryptedCardNumber = item["EncryptedCardNumber"] != DBNull.Value ? item["EncryptedCardNumber"].ToString() : null;
+
+                    userCreditCardDetails.MaskedCardNumber = item["MaskedCardNumber"] != DBNull.Value ? item["MaskedCardNumber"].ToString() : null;
+
+                    userCreditCardDetails.LastFourDigits = item["LastFourDigits"] != DBNull.Value ? item["LastFourDigits"].ToString() : null;
+
+                    userCreditCardDetails.ExpiryMonth = item["ExpiryMonth"] != DBNull.Value ? Convert.ToInt32(item["ExpiryMonth"]) : null;
+
+                    userCreditCardDetails.ExpiryYear = item["ExpiryYear"] != DBNull.Value ? Convert.ToInt32(item["ExpiryYear"]) : null;
+
+                    userCreditCardDetails.EncryptedCVV = item["EncryptedCVV"] != DBNull.Value ? item["EncryptedCVV"].ToString() : null;
+
+                    userCreditCardDetails.CardType = item["CardType"] != DBNull.Value ? item["CardType"].ToString() : null;
+
+                    userCreditCardDetails.IssuingBank = item["IssuingBank"] != DBNull.Value ? item["IssuingBank"].ToString() : null;
+
+                    userCreditCardDetails.BillingAddress = item["BillingAddress"] != DBNull.Value ? item["BillingAddress"].ToString() : null;
+
+                    //userCreditCardDetails.IsDefault = item["IsDeafault"] != DBNull.Value ? (bool?) item["IsDefault"] : null;
+
+                    userCreditCardDetails.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+
+                    userCreditCardDetails.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+
+                    userCreditCardDetails.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+
+                    userCreditCardDetails.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+
+                    userCreditCardDetails.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+
+                }
+
+            }
+
+            return userCreditCardDetails;
+        }
     }
+    
 }
