@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/OLC.Web.UI/appsettings.json
+/OLC.Web.API/appsettings.json
+/OLC.Web.UI/appsettings.json
