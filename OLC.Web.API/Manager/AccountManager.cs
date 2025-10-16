@@ -250,5 +250,38 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
+
+        public async Task<bool> ChangePasswordAsync(ChangePassword changePassword)
+        {
+            if (changePassword != null)
+            {
+                if (changePassword.UserId.HasValue && !string.IsNullOrEmpty(changePassword.Password))
+                {
+                    var hashSalt = HashSalt.GenerateSaltedHash(changePassword.Password);
+
+                    SqlConnection connection = new SqlConnection(connectionString);
+
+                    connection.Open();
+
+                    SqlCommand sqlCommand = new SqlCommand("[dbo].[uspChangePassword]", connection);
+
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                    sqlCommand.Parameters.AddWithValue("@userId", changePassword.UserId);
+
+                    sqlCommand.Parameters.AddWithValue("@passwordHash", hashSalt.Hash);
+
+                    sqlCommand.Parameters.AddWithValue("@passwordSalt", hashSalt.Salt);
+
+                    sqlCommand.ExecuteNonQuery();
+
+                    connection.Close();
+
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
     }
 }
