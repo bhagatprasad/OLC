@@ -2,49 +2,37 @@
 
 (
 
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	[Id]									BIGINT					NOT NULL PRIMARY KEY IDENTITY(1,1),
 
-	[UserId] BIGINT NOT NULL,
+	[UserId]							    BIGINT					NOT NULL,
 
-	[CardHolderName] NVARCHAR(100) NOT NULL,
+	[CardHolderName]						NVARCHAR(MAX)			    NULL,
 
-	[EncryptedCardNumber] VARBINARY(MAX) NOT NULL,
+	[EncryptedCardNumber]					NVARCHAR(MAX)               NULL,
 
-	[MaskedCardNumber] VARCHAR(19) NOT NULL, -- Format: XXXX-XXXX-XXXX-1234
+	[MaskedCardNumber]						NVARCHAR(MAX)				NULL, -- Format: XXXX-XXXX-XXXX-1234
 
-	[LastFourDigits] CHAR(4) NOT NULL,
+	[LastFourDigits]						NVARCHAR(MAX)				NULL,
 
-	[ExpiryMonth] TINYINT NOT NULL,
+	[ExpiryMonth]							VARCHAR(25)					NULL,
 
-	[ExpiryYear] SMALLINT NOT NULL,
+	[ExpiryYear]							VARCHAR(25)					NULL,
 
-	[EncryptedCVV] VARBINARY(MAX) NOT NULL,
+	[EncryptedCVV]							VARCHAR(25)					NULL,
 
-	[CardType] NVARCHAR(50) NULL, -- Visa, MasterCard, American Express, Discover
+	[CardType]								VARCHAR(25)					NULL,
 
-	[IssuingBank] NVARCHAR(100) NULL,
+	[IssuingBank]							VARCHAR(100)			    NULL,
 
-	[BillingAddress] NVARCHAR(255) NULL,
-
-	[IsDefault] BIT NOT NULL DEFAULT 0,
-
-	[IsActive] BIT NOT NULL DEFAULT 1,
-
-	[CreatedBy] BIGINT NULL,
-
-	[CreatedOn] DATETIMEOFFSET NULL DEFAULT SYSDATETIMEOFFSET(),
-
-	[ModifiedBy] BIGINT NULL,
-
-	[ModifiedOn] DATETIMEOFFSET NULL DEFAULT SYSDATETIMEOFFSET(),
-
-	CONSTRAINT [FK_UserCreditCard_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User]([Id]),
-
-	CONSTRAINT [CHK_UserCreditCard_ExpiryMonth] CHECK ([ExpiryMonth] BETWEEN 1 AND 12),
-
-	CONSTRAINT [CHK_UserCreditCard_ExpiryYear] CHECK ([ExpiryYear] >= YEAR(GETDATE())),
-
+	[IsDefault]								BIT							NULL,
 	
-)
- 
+	[CreatedBy]								BIGINT						NULL,
 
+	[CreatedOn]								DATETIMEOFFSET				NULL DEFAULT SYSDATETIMEOFFSET(),
+
+	[ModifiedBy]							BIGINT						NULL,
+
+	[ModifiedOn]							DATETIMEOFFSET				NULL DEFAULT SYSDATETIMEOFFSET(),
+
+	[IsActive]								BIT							NULL
+)

@@ -1,12 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[uspDeleteUserCreditCard]
-
-@id BIGINT
+(
+	@creditcardId     bigint
+)
 AS
 BEGIN 
-
-	DELETE FROM [dbo].[UserCreditCard]
-	WHERE Id =@id
-
+	DELETE FROM [dbo].[UserCreditCard] WHERE Id = @creditcardId
 END
 
 	    

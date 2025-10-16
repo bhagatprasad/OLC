@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetUserCreditCards]
-	(
-	@userId        bigint
-	)
+(
+	 @userId        bigint
+)
 AS
   BEGIN
 	  SELECT 
@@ -16,17 +16,13 @@ AS
 			,EncryptedCVV
 			,CardType
 			,IssuingBank
-			,BillingAddress
 			,IsDefault
-			,IsActive
 			,CreatedBy
 			,CreatedOn
 			,ModifiedBy
 			,ModifiedOn
+			,IsActive
+	  FROM 	[dbo].[UserCreditCard]
 
-
-	  FROM 
-	[dbo].[UserCreditCard]
-
-	WHERE UserId =@userId
+	  WHERE UserId =@userId
 END
