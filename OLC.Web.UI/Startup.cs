@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Newtonsoft.Json.Serialization;
 using OLC.Web.UI.Helper;
 using OLC.Web.UI.Services;
@@ -54,16 +55,50 @@ namespace OLC.Web.UI
                 options.Cookie.IsEssential = true;
             });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            services.AddAuthentication(options =>
             {
-                options.Cookie.Name = "allowCookies";
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-                options.Cookie.SameSite = SameSiteMode.Strict;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.SlidingExpiration = false;
-                options.AccessDeniedPath = "/Error/NotAccessable";
-            });
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            })
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = "allowCookies";
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.IsEssential = true;
+                    options.Cookie.SameSite = SameSiteMode.Lax;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                    options.SlidingExpiration = false;
+                    options.AccessDeniedPath = "/Error/NotAccessable";
+                    options.LoginPath = "/Account/Login";
+                    options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                })
+                .AddGoogle(options =>
+                {
+                    // Remove SignInScheme - let it use default
+                    options.ClientId = configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+                    options.SaveTokens = true;
+
+                    // Add these for better debugging
+                    options.Events = new Microsoft.AspNetCore.Authentication.OAuth.OAuthEvents()
+                    {
+                        OnCreatingTicket = context =>
+                        {
+                            return Task.CompletedTask;
+                        },
+                        OnTicketReceived = context =>
+                        {
+                            return Task.CompletedTask;
+                        },
+                        OnRemoteFailure = context =>
+                        {
+
+                            context.Response.Redirect("/Account/Login");
+                            context.HandleResponse();
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
 
             services.AddAuthorization(options =>
             {

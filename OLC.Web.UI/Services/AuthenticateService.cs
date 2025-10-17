@@ -24,9 +24,14 @@ namespace OLC.Web.UI.Services
             return await _repositoryFactory.SendAsync<AuthResponse, ApplicationUser>(HttpMethod.Post, "Account/GenarateUserClaimsAsync", auth);
         }
 
-        public async Task<bool> RegisterUserAsync(UserRegistration userRegistration)
+        public async Task<AuthResponse> LoginOrRegisterExternalUserAsync(ExternalUserInfo externalUserInfo)
         {
-            return await _repositoryFactory.SendAsync<UserRegistration, bool>(HttpMethod.Post, "Account/RegisterUserAsync", userRegistration);
+            return await _repositoryFactory.SendAsync<ExternalUserInfo, AuthResponse>(HttpMethod.Post, "Account/LoginOrRegisterExternalUserAsync", externalUserInfo);
+        }
+
+        public async Task<RegistrationResult> RegisterUserAsync(UserRegistration userRegistration)
+        {
+            return await _repositoryFactory.SendAsync<UserRegistration, RegistrationResult>(HttpMethod.Post, "Account/RegisterUserAsync", userRegistration);
         }
 
         public async Task<bool> ResetPasswordAsync(ResetPassword resetPassword)

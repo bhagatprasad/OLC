@@ -26,6 +26,7 @@ BEGIN
 	,ModifiedBy
 	,ModifiedOn
 	,IsActive
+	,IsExternalUser
 	FROM [dbo].[User]
 
 	WHERE UPPER(EMAIL) = UPPER(@userName) or Phone = @userName

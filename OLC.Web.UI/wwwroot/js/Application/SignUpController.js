@@ -35,11 +35,8 @@
 
         function handleUserRegistrationSuccess(response) {
             console.info(response);
-
-            if (response.data)
-                window.location.href = "/Account/Login";
-
             $(".se-pre-con").hide();
+            window.location.href = "/Account/Login";
         }
 
         function handleUserRegistrationError(xhr, status, error) {
