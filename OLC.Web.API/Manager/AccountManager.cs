@@ -54,26 +54,51 @@ namespace OLC.Web.API.Manager
                 {
                     if (!string.IsNullOrEmpty(userAuthentication.password))
                     {
-                        bool isValidPassword = HashSalt.VerifyPassword(userAuthentication.password, user.PasswordHash, user.PasswordSalt);
-
-                        if (isValidPassword)
+                        if (!string.IsNullOrEmpty(user.PasswordHash) && !string.IsNullOrEmpty(user.PasswordSalt))
                         {
-                            authResponse.Email = user.Email;
-                            authResponse.StatusMessage = "Active user";
-                            authResponse.StatusCode = 1000;
-                            authResponse.IsActive = true;
-                            authResponse.ValidUser = true;
-                            authResponse.ValidPassword = true;
+                            bool isValidPassword = HashSalt.VerifyPassword(userAuthentication.password, user.PasswordHash, user.PasswordSalt);
+
+                            if (isValidPassword)
+                            {
+                                authResponse.Email = user.Email;
+                                authResponse.StatusMessage = "Active user";
+                                authResponse.StatusCode = 1000;
+                                authResponse.IsActive = true;
+                                authResponse.ValidUser = true;
+                                authResponse.ValidPassword = true;
+                            }
+                            else
+                            {
+                                authResponse.Email = string.Empty;
+                                authResponse.StatusMessage = "Incorrect password";
+                                authResponse.StatusCode = 1000;
+                                authResponse.IsActive = true;
+                                authResponse.ValidUser = true;
+                                authResponse.ValidPassword = false;
+                            }
                         }
                         else
                         {
-                            authResponse.Email = string.Empty;
-                            authResponse.StatusMessage = "Incorrect password";
-                            authResponse.StatusCode = 1000;
-                            authResponse.IsActive = true;
-                            authResponse.ValidUser = true;
-                            authResponse.ValidPassword = false;
+                            if (user.IsExternalUser.Value == true)
+                            {
+                                authResponse.Email = string.Empty;
+                                authResponse.StatusMessage = "This email is registered with Google authentication. Please use the 'Sign in with Google' option to access your account.";
+                                authResponse.StatusCode = 1000;
+                                authResponse.IsActive = true;
+                                authResponse.ValidUser = true;
+                                authResponse.ValidPassword = true;
+                            }
+                            else
+                            {
+                                authResponse.Email = string.Empty;
+                                authResponse.StatusMessage = "Password not configured for this account. Please reset your password using the 'Forgot Password' option.";
+                                authResponse.StatusCode = 1000;
+                                authResponse.IsActive = true;
+                                authResponse.ValidUser = true;
+                                authResponse.ValidPassword = true;
+                            }
                         }
+
                     }
                 }
             }
@@ -228,6 +253,8 @@ namespace OLC.Web.API.Manager
                     user.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
 
                     user.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+
+                    user.IsExternalUser = item["IsExternalUser"] != DBNull.Value ? (bool?)item["IsExternalUser"] : null;
                 }
             }
             return user;
@@ -318,7 +345,7 @@ namespace OLC.Web.API.Manager
                         StatusCode = 1000,
                         IsActive = true,
                         ValidUser = true,
-                        ValidPassword = true
+                        ValidPassword = true,
                     };
                 }
 
@@ -328,24 +355,34 @@ namespace OLC.Web.API.Manager
                 {
                     sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                    // Add only the parameters that the stored procedure expects
+                    // Add input parameters
                     sqlCommand.Parameters.AddWithValue("@firstName", externalUserInfo.Name ?? (object)DBNull.Value);
                     sqlCommand.Parameters.AddWithValue("@lastName", externalUserInfo.Surname ?? (object)DBNull.Value);
                     sqlCommand.Parameters.AddWithValue("@email", externalUserInfo.Email);
                     sqlCommand.Parameters.AddWithValue("@roleId", 2);
 
-                    await connection.OpenAsync();
-
-                    // Use ExecuteScalar to get the UserId returned by SELECT SCOPE_IDENTITY()
-                    var result = await sqlCommand.ExecuteScalarAsync();
-
-                    if (result != null && result != DBNull.Value)
+                    // Add OUTPUT parameters
+                    var userIdParam = new SqlParameter("@userId", SqlDbType.BigInt)
                     {
-                        long newUserId = Convert.ToInt64(result);
+                        Direction = ParameterDirection.Output
+                    };
+                    sqlCommand.Parameters.Add(userIdParam);
 
-                        // Get the newly created user
-                        var newUser = await GetUserDetailsByUserName(externalUserInfo.Email);
+                    var statusCodeParam = new SqlParameter("@statusCode", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    sqlCommand.Parameters.Add(statusCodeParam);
 
+                    await connection.OpenAsync();
+                    await sqlCommand.ExecuteNonQueryAsync();
+
+                    // Get output parameter values
+                    int statusCode = statusCodeParam.Value != DBNull.Value ? (int)statusCodeParam.Value : -99;
+                    long userId = userIdParam.Value != DBNull.Value ? (long)userIdParam.Value : 0;
+
+                    if (statusCode == 1) // Success
+                    {
                         return new AuthResponse
                         {
                             Email = externalUserInfo.Email,
@@ -353,19 +390,26 @@ namespace OLC.Web.API.Manager
                             StatusCode = 1000,
                             IsActive = true,
                             ValidUser = true,
-                            ValidPassword = true,
+                            ValidPassword = true
                         };
                     }
-                    else
+                    else // Failure
                     {
+                        string errorMessage = statusCode switch
+                        {
+                            -1 => "Email already exists",
+                            -99 => "Database error occurred",
+                            _ => "Registration failed"
+                        };
+
                         return new AuthResponse
                         {
                             Email = string.Empty,
-                            StatusMessage = "Registration failed",
+                            StatusMessage = errorMessage,
                             StatusCode = 1001,
                             IsActive = false,
                             ValidUser = false,
-                            ValidPassword = false
+                            ValidPassword = false,
                         };
                     }
                 }
@@ -380,7 +424,7 @@ namespace OLC.Web.API.Manager
                     StatusCode = 1002,
                     IsActive = false,
                     ValidUser = false,
-                    ValidPassword = false
+                    ValidPassword = false,
                 };
             }
             catch (Exception ex)
@@ -392,7 +436,7 @@ namespace OLC.Web.API.Manager
                     StatusCode = 1002,
                     IsActive = false,
                     ValidUser = false,
-                    ValidPassword = false
+                    ValidPassword = false,
                 };
             }
         }

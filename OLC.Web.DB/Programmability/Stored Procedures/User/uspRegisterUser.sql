@@ -51,7 +51,8 @@ BEGIN
             [CreatedOn],
             [ModifiedBy],
             [ModifiedOn],
-            [IsActive]
+            [IsActive],
+            [IsExternalUser]
         )
         VALUES
         (
@@ -67,7 +68,8 @@ BEGIN
             GETDATE(),
             -1,     -- ModifiedBy (system user)
             GETDATE(),
-            1       -- IsActive
+            1,       -- IsActive
+            0
         );
 
         COMMIT TRANSACTION;
