@@ -88,8 +88,11 @@ const Id = "00000000-0000-0000-0000-000000000000";
 
 const API_URLS = {
     AuthenticateAsync: "/Account/Login",
+    RegistrationUserAsync: "/Account/SignUp",
     ForgotPasswordAsync: "/Account/ForgotPassword",
     ResetPasswordAsync: "/Account/ResetPassword",
+    ExternalCallaBackResponseAsync: "/Account/ExternalCallaBackResponse",
+    LoginOrRegisterExternalUserAsync: "/Account/LoginOrRegisterExternalUser",
     InsertTenantAsync: '/Tenant/InsertTenant',
     FetchTenantDetailsAsync: '/Tenant/GetTenantDetails',
     FetchTenantsAsync: '/Tenant/fetchTenants',

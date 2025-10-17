@@ -1,36 +1,25 @@
-﻿function LoginController() {
+﻿function ExternalLoginController() {
     var self = this;
+    self.userClaimes = {};
     self.init = function () {
-        var form = $('#formAuthentication');
-        var signUpButton = $('#btnSubmit');
-        form.on('input', 'input, select, textarea', checkFormValidity);
-        checkFormValidity();
-        function checkFormValidity() {
-            if (form[0].checkValidity()) {
-                signUpButton.prop('disabled', false);
-            } else {
-                signUpButton.prop('disabled', true);
-            }
-        }
-        $(document).on("click", "#btnSubmit", function (e) {
-            e.preventDefault();
-            $(".se-pre-con").show();
-
-            var userAuthetnication = {
-                username: $("#username").val(),
-                password: $("#password").val()
-            };
-
+        $(".se-pre-con").show();
+        makeAjaxRequest({
+            url: API_URLS.ExternalCallaBackResponseAsync,
+            type: 'GET',
+            successCallback: handleAuthenticationSuccess,
+            errorCallback: handleAuthenticationError
+        });
+        function handleAuthenticationSuccess(response) {
+            console.info(response);
             makeAjaxRequest({
-                url: API_URLS.AuthenticateAsync,
-                data: userAuthetnication,
+                url: API_URLS.LoginOrRegisterExternalUserAsync,
                 type: 'POST',
-                successCallback: handleAuthenticationSuccess,
+                data: JSON.parse(response.data),
+                successCallback: handleExternalAuthenticationSuccess,
                 errorCallback: handleAuthenticationError
             });
-        });
-
-        function handleAuthenticationSuccess(response) {
+        }
+        function handleExternalAuthenticationSuccess(response) {
             console.info(response);
             var _appUserInfo = storageService.get('ApplicationUser');
             if (_appUserInfo) {
@@ -43,6 +32,7 @@
 
             var appUserInfo = storageService.get('ApplicationUser');
 
+            updateEnvironmentAndVersion();
 
             if (appUserInfo) {
                 if (appUserInfo.RoleId === 1) {
@@ -56,11 +46,8 @@
                     window.location.href = "/NotFound/Error";
                 }
             }
-            updateEnvironmentAndVersion();
-
             $(".se-pre-con").hide();
         }
-
         function handleAuthenticationError(xhr, status, error) {
             console.error("Error in upserting data to server: " + error);
             $(".se-pre-con").hide();
@@ -78,5 +65,5 @@
             }
             storageService.set('Version', '1.0.0.0');
         }
-    };
+    }
 }

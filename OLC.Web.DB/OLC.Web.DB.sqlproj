@@ -71,6 +71,8 @@
     <Folder Include="Programmability\Stored Procedures\Countries" />
     <Folder Include="Programmability\Stored Procedures\User" />
     <Folder Include="Programmability\Stored Procedures\PaymentReason" />
+    <Folder Include="Programmability\Stored Procedures\UserBillingAddress" />
+    <Folder Include="Programmability\Stored Procedures\UserCreditCards" />
     <Folder Include="Programmability\Stored Procedures\UserBankAccount" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +111,14 @@
     <Build Include="Programmability\Stored Procedures\User\uspResetPassword.sql" />
     <Build Include="Tables\PaymentReason.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentReason\uspGetPaymentReasons.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspSaveUserBillingAddress.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspGetUserCreditCards.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspInsertUserCreditCards.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspDeleteUserCreditCard.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspUpdateUserCreditCard.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspChangePassword.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspGetUserCreditCardByCardId.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspRegisterExternalUser.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspInsertUserBankAccount.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGeAlltUserBankAccountsByUserId.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspUpdateUserBankAccount.sql" />

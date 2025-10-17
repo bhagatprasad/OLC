@@ -12,7 +12,6 @@ namespace OLC.Web.UI.Helper
             var claims = new List<Claim>
           {
              new Claim("Id", user.Id.ToString()),
-             new Claim("Phone", user.Phone),
              new Claim("Email", user.Email),
              new Claim("FirstName", user.FirstName),
              new Claim("LastName", user.LastName),
