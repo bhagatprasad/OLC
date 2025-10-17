@@ -2,6 +2,7 @@
     var self = this;
     self.userClaimes = {};
     self.init = function () {
+        $(".se-pre-con").show();
         makeAjaxRequest({
             url: API_URLS.ExternalCallaBackResponseAsync,
             type: 'GET',

@@ -8,7 +8,6 @@ AS
  BEGIN    
     
  UPDATE  [dbo].[User]    Set 
- 
    PasswordHash               =@passwordHash    
   ,PasswordSalt               =@passwordSalt    
   ,LastPasswordChangedOn      =GETDATE()    
