@@ -76,13 +76,13 @@ namespace OLC.Web.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("DeleteUserCreditAsync")]
-        public async Task<IActionResult> DeleteUserCreditAsync(DeleteUserCreditCard deleteUserCreditCard)
+        [HttpDelete]
+        [Route("DeleteUserCreditAsync/{creditcardId}")]
+        public async Task<IActionResult> DeleteUserCreditAsync(long creditcardId)
         {
             try
             {
-                var response = await _creditCardManager.DeleteUserCreditAsync(deleteUserCreditCard);
+                var response = await _creditCardManager.DeleteUserCreditAsync(creditcardId);
                 return Ok(response);
 
             }

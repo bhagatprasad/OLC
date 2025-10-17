@@ -81,7 +81,7 @@ namespace OLC.Web.API.Manager
 
             return userCreditCard;
         }
-        
+
 
         public async Task<List<UserCreditCard>> GetUserCreditCardsAsync(long userId)
         {
@@ -201,7 +201,7 @@ namespace OLC.Web.API.Manager
         public async Task<bool> UpdateUserCreditCardAsync(UpdateUserCreditCard updateUserCreditCard)
         {
 
-            if(updateUserCreditCard  != null);
+            if (updateUserCreditCard != null) ;
             {
                 SqlConnection connection = new SqlConnection(connectionString);
 
@@ -242,10 +242,10 @@ namespace OLC.Web.API.Manager
 
         }
 
-      
-        public async Task<bool> DeleteUserCreditAsync(DeleteUserCreditCard deleteUserCreditCard)
+
+        public async Task<bool> DeleteUserCreditAsync(long creditCardId)
         {
-            if (deleteUserCreditCard != null) ;
+            if (creditCardId != 0) ;
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -255,7 +255,7 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@creditCardId",deleteUserCreditCard.Id);
+                sqlCommand.Parameters.AddWithValue("@creditCardId", creditCardId);
 
                 sqlCommand.ExecuteNonQuery();
 
