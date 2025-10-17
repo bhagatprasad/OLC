@@ -1,6 +1,7 @@
 ﻿using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection.Metadata.Ecma335;
 
 namespace OLC.Web.API.Manager
 {
@@ -80,6 +81,7 @@ namespace OLC.Web.API.Manager
 
             return userCreditCard;
         }
+
 
         public async Task<List<UserCreditCard>> GetUserCreditCardsAsync(long userId)
         {
@@ -194,6 +196,74 @@ namespace OLC.Web.API.Manager
                 return true;
             }
             return false;
+        }
+
+        public async Task<bool> UpdateUserCreditCardAsync(UpdateUserCreditCard updateUserCreditCard)
+        {
+
+            if (updateUserCreditCard != null) ;
+            {
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                connection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateUserCreditCard]", connection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@id", updateUserCreditCard.Id);
+
+                sqlCommand.Parameters.AddWithValue("@userId", updateUserCreditCard.UserId);
+
+                sqlCommand.Parameters.AddWithValue("@cardHolderName", updateUserCreditCard.CardHolderName);
+
+                sqlCommand.Parameters.AddWithValue("@encryptedCardNumber", updateUserCreditCard.EncryptedCardNumber);
+
+                sqlCommand.Parameters.AddWithValue("@maskedCardNumber", updateUserCreditCard.MaskedCardNumber);
+
+                sqlCommand.Parameters.AddWithValue("@lastFourDigits", updateUserCreditCard.LastFourDigits);
+
+                sqlCommand.Parameters.AddWithValue("@expiryMonth", updateUserCreditCard.ExpiryMonth);
+
+                sqlCommand.Parameters.AddWithValue("@expiryYear", updateUserCreditCard.ExpiryYear);
+
+                sqlCommand.Parameters.AddWithValue("@encryptedCVV", updateUserCreditCard.EncryptedCVV);
+
+                sqlCommand.Parameters.AddWithValue("@cardType", updateUserCreditCard.CardType);
+
+                sqlCommand.Parameters.AddWithValue("@issuingBank", updateUserCreditCard.IssuingBank);
+
+                sqlCommand.ExecuteNonQuery();
+
+                connection.Close();
+
+                return true;
+            }
+
+        }
+
+
+        public async Task<bool> DeleteUserCreditAsync(long creditCardId)
+        {
+            if (creditCardId != 0) ;
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspDeleteUserCreditCard]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@creditCardId", creditCardId);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+
+            }
         }
     }
 }
