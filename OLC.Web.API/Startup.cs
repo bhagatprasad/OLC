@@ -22,6 +22,7 @@ namespace OLC.Web.API
             services.AddScoped<IAccountManager, AccountManager>();
             services.AddScoped<IPaymentReasonManager, PaymentReasonManager>();
             services.AddScoped<ICreditCardManager, CreditCardManager>();
+            services.AddScoped<ITransactionTypeManager, TransactionTypeManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 
@@ -54,7 +55,6 @@ namespace OLC.Web.API
                         Name = "contact@bdprasad.in",
                         Url = new Uri("https://bdprasad.in")
                     }
-
                 });
             });
         }
@@ -71,7 +71,6 @@ namespace OLC.Web.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
             });
 
             app.UseStaticFiles();
@@ -82,7 +81,6 @@ namespace OLC.Web.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "OLC.Web.API");
             });
-
         }
     }
 }

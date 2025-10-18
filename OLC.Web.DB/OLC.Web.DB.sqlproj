@@ -73,6 +73,7 @@
     <Folder Include="Programmability\Stored Procedures\PaymentReason" />
     <Folder Include="Programmability\Stored Procedures\UserBillingAddress" />
     <Folder Include="Programmability\Stored Procedures\UserCreditCards" />
+    <Folder Include="Programmability\Stored Procedures\TransactionType" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -118,6 +119,11 @@
     <Build Include="Programmability\Stored Procedures\User\uspChangePassword.sql" />
     <Build Include="Programmability\Stored Procedures\UserCreditCards\uspGetUserCreditCardByCardId.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspRegisterExternalUser.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionType\uspGetTransactionTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionType\uspInsertTransactionTypess.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionType\uspUpdateTransactionTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionType\uspDeleteTransactionTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionType\uspGetTransactionTypesById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
