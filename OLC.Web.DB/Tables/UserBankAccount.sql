@@ -15,15 +15,12 @@
 	[IsPrimary] BIT NOT NULL DEFAULT 0,
 	[IsActive] BIT NOT NULL DEFAULT 1,
 	[VerifiedOn] DATETIMEOFFSET NULL,
-	[VerificationStatus] NVARCHAR(20) NULL DEFAULT 'Pending', -- Pending, Verified, Failed
+	[VerificationStatus] NVARCHAR(20) NULL,
 	[VerificationAttempts] INT NULL DEFAULT 0,
 	[LastVerificationAttempt] DATETIMEOFFSET NULL,
 	[CreatedBy] BIGINT NULL,
 	[CreatedOn] DATETIMEOFFSET NULL DEFAULT SYSDATETIMEOFFSET(),
 	[ModifiedBy] BIGINT NULL,
-	[ModifiedOn] DATETIMEOFFSET NULL DEFAULT SYSDATETIMEOFFSET(),
-	CONSTRAINT [FK_UserBankAccount_User] FOREIGN KEY ([UserId]) REFERENCES [dbo].[User]([Id]),
-	CONSTRAINT [CHK_UserBankAccount_AccountType] CHECK ([AccountType] IN ('Savings', 'Checking', 'Current', 'Salary', 'Fixed Deposit', 'Recurring Deposit')),
-	CONSTRAINT [CHK_UserBankAccount_VerificationStatus] CHECK ([VerificationStatus] IN ('Pending', 'Verified', 'Failed', 'Expired')),
-	CONSTRAINT [UK_UserBankAccount_UserId_AccountNumber] UNIQUE ([UserId], [LastFourDigits]) -- Prevent duplicate accounts
+	[ModifiedOn] DATETIMEOFFSET NULL DEFAULT SYSDATETIMEOFFSET()
+	
 )
