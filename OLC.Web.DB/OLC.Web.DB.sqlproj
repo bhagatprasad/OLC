@@ -142,6 +142,7 @@
     <Build Include="Programmability\Stored Procedures\AccountTypes\uspUpdateAccountType.sql" />
     <Build Include="Programmability\Stored Procedures\AccountTypes\uspGetAccountTypeById.sql" />
     <Build Include="Programmability\Stored Procedures\AccountTypes\uspGetAccountTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspGetUserAccounts.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

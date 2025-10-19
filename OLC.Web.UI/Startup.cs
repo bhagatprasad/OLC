@@ -48,6 +48,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<IAuthenticateService, AuthenticateService>();
 
+            services.AddScoped<IUserService, UserService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
