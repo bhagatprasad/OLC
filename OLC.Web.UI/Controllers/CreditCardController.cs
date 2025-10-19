@@ -2,16 +2,18 @@
 
 namespace OLC.Web.UI.Controllers
 {
-    public class HelpController : Controller
+    public class CreditCardController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult UserHelp()
+        public IActionResult UserCreditCards()
         {
             return View();
         }
+
+
     }
 }
