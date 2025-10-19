@@ -74,6 +74,7 @@
     <Folder Include="Programmability\Stored Procedures\UserBillingAddress" />
     <Folder Include="Programmability\Stored Procedures\UserCreditCards" />
     <Folder Include="Programmability\Stored Procedures\UserBankAccount" />
+    <Folder Include="Programmability\Stored Procedures\Status" />
     <Folder Include="Programmability\Stored Procedures\AccountTypes" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +132,10 @@
     <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspGetByUserIdUserBellingAddress.sql" />
     <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspGetByUserBellingAddress.sql" />
     <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspDeleteUserBellingAddress.sql" />
+    <Build Include="Tables\Status.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\uspGetStatuses.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\uspGetStatusById.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\uspInsertStatus.sql" />
     <Build Include="Tables\AccountType.sql" />
     <Build Include="Programmability\Stored Procedures\AccountTypes\uspInsertAccountType.sql" />
     <Build Include="Programmability\Stored Procedures\AccountTypes\uspDeleteAccountType.sql" />
