@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[uspGetTransactionTypesById]
-(
+﻿CREATE PROCEDURE [dbo].[uspGetTransactionTypeById]
+ (
  @id  bigint
  )
 
@@ -25,3 +25,4 @@
      WHERE Id=@id
 
      END
+

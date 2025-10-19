@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[uspGetTransactionTypes]
+﻿CREATE PROCEDURE [dbo].[uspGetAllTransactionTypes]
 	WITH RECOMPILE
 
     AS BEGIN
@@ -17,3 +17,4 @@
 	   FROM [dbo].[TransactionType]
 
   END
+

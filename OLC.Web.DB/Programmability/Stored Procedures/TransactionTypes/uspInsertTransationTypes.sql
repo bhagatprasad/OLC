@@ -1,13 +1,13 @@
-﻿CREATE PROCEDURE [dbo].[uspInsertTransactionTypess]
- (
-   @id          bigint  null,
+﻿CREATE PROCEDURE [dbo].[uspInsertTransationTypes]
+	 (
+   @id          bigint       null,
    @name        varchar(50)  null,
    @code        varchar(50)  null,
-   @createdby   bigint  null,
+   @createdby   bigint       null,
    @createdOn   datetimeoffset  null,
-   @modifiedBy  bigint  null,
+   @modifiedBy  bigint          null,
    @modifiedOn  datetimeoffset  null,
-   @isActive    bit null
+   @isActive    bit             null
 )
 WITH RECOMPILE
  AS 
@@ -31,3 +31,4 @@ WITH RECOMPILE
                                         @isActive )
 
       END
+

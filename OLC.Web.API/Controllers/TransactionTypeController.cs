@@ -32,12 +32,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("insertTransactionTypeAsync")]
-        public async Task<IActionResult> insertTransactionTypeAsync(TransactionType transactionType)
+        [Route("InsertTransactionTypeAsync")]
+        public async Task<IActionResult> InsertTransactionTypeAsync(TransactionType transactionType)
         {
             try
             {
-                var response = await _transactionTypeManager.insertTransactionTypeAsync(transactionType);
+                var response = await _transactionTypeManager.InsertTransactionTypeAsync(transactionType);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -62,12 +62,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("deleteTransactionTypeAsync/{id}")]
-        public async Task <IActionResult> deleteTransactionTypeAsync(long id)
+        [Route("DeleteTransactionTypeAsync/{id}")]
+        public async Task <IActionResult> DeleteTransactionTypeAsync(long id)
         {
             try
             {
-                var response = await _transactionTypeManager.deleteTransactionTypeAsync(id);
+                var response = await _transactionTypeManager.DeleteTransactionTypeAsync(id);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -77,15 +77,15 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpPut]
-        [Route("updateTransactionTypeAsync")]
-        public async Task<IActionResult> updateTransactionTypeAsync([FromBody] TransactionType transactionType)
+        [Route("UpdateTransactionTypeAsync")]
+        public async Task<IActionResult> UpdateTransactionTypeAsync([FromBody] TransactionType transactionType)
         {
             try
             {
                 if (transactionType == null)
                     return BadRequest("Invalid transaction type data.");
 
-                var response = await _transactionTypeManager.updateTransactionTypeAsync(transactionType);
+                var response = await _transactionTypeManager.UpdateTransactionTypeAsync(transactionType);
 
                 return Ok(response);
             }

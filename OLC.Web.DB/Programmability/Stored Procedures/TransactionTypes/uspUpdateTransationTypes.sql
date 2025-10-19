@@ -1,5 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[uspUpdateTransactionTypes]
-(    
+﻿CREATE PROCEDURE [dbo].[uspUpdateTransationTypes]
+	(    
     @id        bigint,
     @name      varchar(50),
     @code      varchar(50),
@@ -22,8 +22,7 @@ update dbo.[TransactionType] set
 
                             Where Id=@id
 
-                            EXEC dbo.[uspUpdateTransactionTypes]
-
 END
 
                             
+
