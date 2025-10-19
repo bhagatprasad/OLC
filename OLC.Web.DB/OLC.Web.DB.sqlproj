@@ -120,7 +120,7 @@
     <Build Include="Programmability\Stored Procedures\UserCreditCards\uspGetUserCreditCardByCardId.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspRegisterExternalUser.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspInsertUserBankAccount.sql" />
-    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGeAlltUserBankAccountsByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGetUserBankAccountByUserId.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspUpdateUserBankAccount.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspDeleteUserBankAccount.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGetUserBankAccountById.sql" />
