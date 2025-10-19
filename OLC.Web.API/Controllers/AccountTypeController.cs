@@ -2,25 +2,26 @@
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
 
+
 namespace OLC.Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CreditCardController : ControllerBase
+    public class AccountTypeController : ControllerBase
     {
-        private readonly ICreditCardManager _creditCardManager;
-        public CreditCardController(ICreditCardManager creditCardManager)
+        private readonly IAccountTypeManager _accountTypeManager;
+        public AccountTypeController(IAccountTypeManager accountTypeManager)
         {
-            _creditCardManager = creditCardManager;
+            _accountTypeManager = accountTypeManager;
         }
 
         [HttpGet]
-        [Route("GetUserCreditCardsAsync/{userId}")]
-        public async Task<IActionResult> GetUserCreditCardsAsync(long userId)
+        [Route("GetUserAccountTypeByIdAsync/{AccountTypeId}")]
+        public async Task<IActionResult> GetUserAccountTypeByIdAsyn (long AccountTypeId)
         {
             try
             {
-                var response = await _creditCardManager.GetUserCreditCardsAsync(userId);
+                var response = await _accountTypeManager.GetAccountTypeByIdAsync (AccountTypeId);
                 return Ok(response);
 
             }
@@ -29,28 +30,14 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        [HttpGet]
-        [Route("GetUserCreditCardByCardIdAsync/{creditCardId}")]
-        public async Task<IActionResult> GetUserCreditCardByCardIdAsync(long creditCardId)
-        {
-            try
-            {
-                var response = await _creditCardManager.GetUserCreditCardByCardIdAsync(creditCardId);
-                return Ok(response);
 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-        [HttpPost]
-        [Route("SaveUserCreditCardAsync")]
-        public async Task<IActionResult> SaveUserCreditCardAsync(UserCreditCard userCreditCard)
+        [HttpGet]
+        [Route("GetUserAccountTypeAsync/{createdBy}")]
+        public async Task<IActionResult> GetUserAccountTypeAsyn(long createdBy)
         {
             try
             {
-                var response = await _creditCardManager.InsertUserCreditCardAsync(userCreditCard);
+                var response = await _accountTypeManager.GetAccountTypeAsync(createdBy);
                 return Ok(response);
 
             }
@@ -61,12 +48,28 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("UpdateUserCreditCardAsync")]
-        public async Task<IActionResult> UpdateUserCreditCardAsync(UpdateUserCreditCard updateUserCreditCard)
+        [Route("InsertUserAccountTypeAsync")]
+        public async Task<IActionResult> InsertAccountTypeAsync(AccountType accountType)
         {
             try
             {
-                var response = await _creditCardManager.UpdateUserCreditCardAsync(updateUserCreditCard);
+                var response = await _accountTypeManager.InsertUserAccountTypeAsync(accountType);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateUserAccountTypeAsync")]
+        public async Task<IActionResult> UpdateUserAccountTypeAsync(UpdateAccountType updateAccountType)
+        {
+            try
+            {
+                var response = await _accountTypeManager.UpdateUserAccountTypeAsync(updateAccountType);
                 return Ok(response);
 
             }
@@ -77,12 +80,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteUserCreditAsync/{creditcardId}")]
-        public async Task<IActionResult> DeleteUserCreditAsync(long creditcardId)
+        [Route("DeleteUserAccoutntTypeAsync/{accountTypeId}")]
+        public async Task<IActionResult> DeleteUserAccoutntTypeAsync(long accountTypeId)
         {
             try
             {
-                var response = await _creditCardManager.DeleteUserCreditAsync(creditcardId);
+                var response = await _accountTypeManager.DeleteUserAccoutntTypeAsync(accountTypeId);
                 return Ok(response);
 
             }
@@ -91,5 +94,6 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
     }
 }

@@ -2,14 +2,13 @@
 
 namespace OLC.Web.UI.Controllers
 {
-    public class HelpController : Controller
+    public class BillingAddressController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult UserHelp()
+        public IActionResult UserBillingAddress()
         {
             return View();
         }
