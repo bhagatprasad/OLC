@@ -21,6 +21,11 @@ namespace OLC.Web.UI.Controllers
         {
             return View();
         }
+        [Authorize(Roles = ("Administrator,Executive"))]
+        public IActionResult ManageUser(long userId, bool isReadOnly)
+        {
+            return View();
+        }
 
         [HttpGet]
         [Authorize(Roles = ("Administrator"))]
