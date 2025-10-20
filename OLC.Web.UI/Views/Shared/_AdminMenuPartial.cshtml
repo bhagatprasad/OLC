@@ -17,9 +17,47 @@
                     <li class="active"><a href="@Url.Action("Index", "AdminBaord", null)">Dashboard</a></li>
                     <li><a href="@Url.Action("AdminTransactions", "Transaction", null)">Transactions</a></li>
                     <li><a href="@Url.Action("Index", "User", null)">Users</a></li>
-                    <li><a href="@Url.Action("UserCreditCards", "CreditCard", null)">Cards</a></li>
-                    <li><a href="@Url.Action("UserBankAccounts", "BankAccount", null)">Bank Acoount</a></li>
-                    <li><a href="@Url.Action("UserBillingAddress", "BillingAddress", null)">Billing Address</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#">Core Libraries</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Pyaments</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="index.html">Account Types</a></li>
+                                    <li><a class="dropdown-item" href="feature-header-dark.html">Card Types</a></li>
+                                    <li><a class="dropdown-item" href="feature-header-primary.html">Address Types</a></li>
+                                    <li><a class="dropdown-item" href="index-2.html">Transaction Types</a></li>
+                                    <li><a class="dropdown-item" href="index-2.html">Banks</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Location</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="index.html">Country</a></li>
+                                    <li><a class="dropdown-item" href="feature-navigation-dropdown-dark.html">State</a></li>
+                                    <li><a class="dropdown-item" href="feature-navigation-dropdown-primary.html">City</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Access</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="send-money.html">Role</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Others</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="feature-page-header-left-alignment.html">Payment Reasons</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-center-alignment.html">Center Alignment</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-light.html">Light Version</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-dark.html">Dark Version</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-primary.html">Primary Version</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-custom-background.html">Custom Background</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-custom-background-with-transparent-header.html">Custom Background 2</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                     <li><a href="@Url.Action("UserHelp", "Help", null)">Help</a></li>
                 </ul>
             </div>
