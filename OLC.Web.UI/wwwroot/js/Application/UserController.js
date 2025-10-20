@@ -4,8 +4,16 @@
 
     self.usersList = [];
 
+    self.currentUser = {};
+
     self.init = function () {
-        
+
+
+        var appUserInfo = storageService.get('ApplicationUser');
+        if (appUserInfo) {
+            self.currentUser = appUserInfo;
+        }
+
         makeAjaxRequest({
             url: API_URLS.GetUserAccountsAsync,
             type: 'GET',
@@ -115,7 +123,7 @@
 
                 const row = `
             <tr class="user-account-item" data-user='${user}' data-user-id='${user.Id}' data-is-admin='${isAdmin}'>
-                <td>#${user.Id}</td>
+                <td><a style="cursor:pointer;color:blue;" class="view-user" data-user-id="${user.Id}">#${user.Id}</a></td>
                 <td>${fullName}</td>
                 <td>${user.Email}</td>
                 <td>${user.Phone || 'N/A'}</td>
@@ -134,6 +142,17 @@
         }
 
         // Action functions
+
+        $(document).on("click", ".view-user", function () {
+            var currentUserId = $(this).data("user-id");
+            console.log("current user is .." + currentUserId);
+
+            // Replace "YourController" with your actual controller name (without "Controller")
+
+            var isAdmin = self.currentUser.RoleId == 1 ? true : false;
+
+            window.location.href = '/User/ManageUser?userId=' + currentUserId + '&isReadOnly=' + isAdmin + '';
+        });
         function viewUserDetails(userId) {
             console.log('View user details:', userId);
             // Implement view user details functionality
