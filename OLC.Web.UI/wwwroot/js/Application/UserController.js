@@ -1,10 +1,11 @@
 ﻿function UserController() {
-
+    $(".se-pre-con").show();
     var self = this;
 
     self.usersList = [];
 
     self.init = function () {
+        
         makeAjaxRequest({
             url: API_URLS.GetUserAccountsAsync,
             type: 'GET',
@@ -97,17 +98,17 @@
                 // Generate action buttons based on role
                 const actionButtons = isAdmin
                     ? `
-                <button class="btn btn-sm btn-outline-primary view-user" data-user-id="${user.Id}" data-user='${user}'>
+                <button class="btn btn-sm btn-outline-primary view-user" data-user-id="${user.Id}" data-user='${user}' title="view user profile">
                     <i class="fas fa-eye"></i>
                 </button>`
                     : `
-                <button class="btn btn-sm btn-outline-primary view-user" data-user-id="${user.Id}" data-user='${user}'>
+                <button class="btn btn-sm btn-outline-primary view-user" data-user-id="${user.Id}" data-user='${user}' title="view user profile">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-warning edit-user" data-user-id="${user.Id}" data-user='${user}'>
+                <button class="btn btn-sm btn-outline-warning edit-user" data-user-id="${user.Id}" data-user='${user}' title="edit user">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger delete-user" data-user-id="${user.Id}" data-user='${user}'>
+                <button class="btn btn-sm btn-outline-danger delete-user" data-user-id="${user.Id}" data-user='${user}' title="delete user">
                     <i class="fas fa-trash"></i>
                 </button>
             `;
