@@ -77,6 +77,7 @@
     <Folder Include="Programmability\Stored Procedures\Status" />
     <Folder Include="Programmability\Stored Procedures\AccountTypes" />
     <Folder Include="Programmability\Stored Procedures\CardTypes" />
+    <Folder Include="Programmability\Stored Procedures\TransactionTypes" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -150,6 +151,11 @@
     <Build Include="Programmability\Stored Procedures\CardTypes\uspDeleteCardType.sql" />
     <Build Include="Programmability\Stored Procedures\CardTypes\uspGetCardTypeById.sql" />
     <Build Include="Programmability\Stored Procedures\CardTypes\uspGetCardTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspGetAllTransactionTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspGetTransactionTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspInsertTransationTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspUpdateTransationTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspDeleteTransationTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
