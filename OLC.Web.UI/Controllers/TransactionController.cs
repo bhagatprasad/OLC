@@ -20,5 +20,11 @@ namespace OLC.Web.UI.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult AdminTransactions()
+        {
+            return View();
+        }
     }
 }

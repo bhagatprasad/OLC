@@ -25,6 +25,8 @@ namespace OLC.Web.API
             services.AddScoped<ITransactionTypeManager, TransactionTypeManager>();
             services.AddScoped<IStatusManager, StatusManager>();
             services.AddScoped<IAccountTypeManager, AccountTypeManager>();
+            services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<ICardTypeManager, CardTypeManager>();    
 
             services.AddMvc().AddXmlSerializerFormatters();
 
