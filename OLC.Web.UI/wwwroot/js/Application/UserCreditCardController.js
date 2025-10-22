@@ -37,7 +37,6 @@
             console.log("Iam getting from add button click");
         });
 
-
         $(document).on("click", "#closeSidebar", function () {
             $('#AddEditUserCreditCardForm')[0].reset();
             $('#sidebar').removeClass('show');
