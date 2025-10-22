@@ -1,10 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[uspInsertAccountType]
 (		
-			@name					 NVARCHAR(250)
-			,@code					 NVARCHAR(250)
-			,@createdBy               bigint
-		
-
+	@name					 NVARCHAR(250)
+   ,@code					 NVARCHAR(250)
+   ,@createdBy               bigint
 )
 AS
 BEGIN 
@@ -17,9 +15,7 @@ BEGIN
 			,CreatedOn
 			,ModifiedOn
 			,IsActive
-	   )
-	   
-  VALUES
+	   ) VALUES
        (	   
 		    @name
 		   ,@code

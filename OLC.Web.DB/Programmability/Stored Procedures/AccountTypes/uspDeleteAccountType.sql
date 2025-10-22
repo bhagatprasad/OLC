@@ -1,10 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[uspDeleteAccountType]
 (
-    	@id     bigint
+    	@accountTypeId     bigint
 )
 AS
+
 BEGIN 
-	    DELETE FROM [dbo].[AccountType] WHERE Id = @id
+
+	    DELETE FROM [dbo].[AccountType] 
+		WHERE 
+		Id = @accountTypeId
 END
 
 	

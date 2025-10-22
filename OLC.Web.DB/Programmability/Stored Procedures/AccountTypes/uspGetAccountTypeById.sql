@@ -1,11 +1,20 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetAccountTypeById]
 (
-       @id       bigint
+       @accountTypeId     bigint
 )
 AS
 BEGIN
-       SELECT * FROM [dbo].[AccountType] 
-  WHERE  
-       Id          =@id
+       SELECT 
+		   [Id]
+		  ,[Name]
+		  ,[Code]
+		  ,[CreatedBy]
+		  ,[CreatedOn]
+		  ,[ModifiedOn]
+		  ,[ModifiedOn]
+		 ,[IsActive]
+	  FROM [dbo].[AccountType] 
+     WHERE  
+			Id  = @accountTypeId
 
 END
