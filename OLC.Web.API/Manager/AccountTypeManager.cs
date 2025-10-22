@@ -107,7 +107,7 @@ namespace OLC.Web.API.Manager
 
             return getAccountTypes;
         }
-        public async Task<bool> InsertUserAccountTypeAsync(AccountType accountType)
+        public async Task<bool> InsertAccountTypeAsync(AccountType accountType)
         {
             if (accountType != null)
             {
@@ -135,7 +135,7 @@ namespace OLC.Web.API.Manager
 
             return false;
         }
-        public async Task<bool> UpdateUserAccountTypeAsync(AccountType accountType)
+        public async Task<bool> UpdateAccountTypeAsync(AccountType accountType)
         {
 
             if (accountType != null)
@@ -154,7 +154,9 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.Parameters.AddWithValue("@code", accountType.Code);
 
-                sqlCommand.Parameters.AddWithValue("@createdBy", accountType.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", accountType.ModifiedBy);
+
+                sqlCommand.Parameters.AddWithValue("@isActive", accountType.IsActive);
 
                 sqlCommand.ExecuteNonQuery();
 
@@ -164,7 +166,7 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
-        public async Task<bool> DeleteUserAccoutntTypeAsync(long accountTypeId)
+        public async Task<bool> DeleteAccoutntTypeAsync(long accountTypeId)
         {
             if (accountTypeId != 0)
             {

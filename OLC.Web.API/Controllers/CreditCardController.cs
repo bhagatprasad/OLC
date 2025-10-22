@@ -62,11 +62,11 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("UpdateUserCreditCardAsync")]
-        public async Task<IActionResult> UpdateUserCreditCardAsync(UpdateUserCreditCard updateUserCreditCard)
+        public async Task<IActionResult> UpdateUserCreditCardAsync(UserCreditCard userCreditCard)
         {
             try
             {
-                var response = await _creditCardManager.UpdateUserCreditCardAsync(updateUserCreditCard);
+                var response = await _creditCardManager.UpdateUserCreditCardAsync(userCreditCard);
                 return Ok(response);
 
             }

@@ -8,6 +8,7 @@
         public long? CreatedBy { get; set; }
         public DateTimeOffset? CreatedOn { get; set; }
         public DateTimeOffset? ModifiedOn { get; set; }
+        public long? ModifiedBy { get; set; }
         public bool? IsActive { get; set; }
 
     }

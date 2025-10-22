@@ -12,7 +12,8 @@ BEGIN
 		  ,[CreatedOn]
 		  ,[ModifiedOn]
 		  ,[ModifiedOn]
-		 ,[IsActive]
+		  ,[ModifiedBy]
+		  ,[IsActive]
 	  FROM [dbo].[AccountType] 
      WHERE  
 			Id  = @accountTypeId

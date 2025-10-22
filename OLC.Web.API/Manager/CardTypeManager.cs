@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualBasic;
-using OLC.Web.API.Models;
+﻿using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace OLC.Web.API.Manager
 {
-    public class CardTypeManager:ICardTypeManager
+    public class CardTypeManager : ICardTypeManager
     {
         private readonly string connectionString;
         public CardTypeManager(IConfiguration configuration)
@@ -13,7 +12,7 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<CardType> GetUserCardTypeByIdAsync(long Id)
+        public async Task<CardType> GetCardTypeByIdAsync(long Id)
         {
             CardType getCardTypeById = null;
 
@@ -62,7 +61,7 @@ namespace OLC.Web.API.Manager
 
             return getCardTypeById;
         }
-        public async Task<List<CardType>> GetUserCardTypeAsync(long createdBy)
+        public async Task<List<CardType>> GetCardTypeAsync()
         {
             List<CardType> getCardTypes = new List<CardType>();
 
@@ -75,8 +74,6 @@ namespace OLC.Web.API.Manager
             SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetCardTypes]", connection);
 
             sqlCommand.CommandType = CommandType.StoredProcedure;
-
-            sqlCommand.Parameters.AddWithValue("@createdBy", createdBy);
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
@@ -112,7 +109,7 @@ namespace OLC.Web.API.Manager
             }
             return getCardTypes;
         }
-        public async Task<bool> InsertUserCardTypeAsync(CardType cardType)
+        public async Task<bool> InsertCardTypeAsync(CardType cardType)
         {
             if (cardType != null)
             {
@@ -139,9 +136,9 @@ namespace OLC.Web.API.Manager
             return false;
         }
 
-        public async Task<bool> UpdateUserCardTypeAsync(UpdateCardType updateCardType)
+        public async Task<bool> UpdateCardTypeAsync(CardType cardType)
         {
-            if (updateCardType != null)
+            if (cardType != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -151,13 +148,15 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@id", updateCardType.Id);
+                sqlCommand.Parameters.AddWithValue("@id", cardType.Id);
 
-                sqlCommand.Parameters.AddWithValue("@name", updateCardType.Name);
+                sqlCommand.Parameters.AddWithValue("@name", cardType.Name);
 
-                sqlCommand.Parameters.AddWithValue("@code", updateCardType.Code);
+                sqlCommand.Parameters.AddWithValue("@code", cardType.Code);
 
-                sqlCommand.Parameters.AddWithValue("@createdBy", updateCardType.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", cardType.ModifiedBy);
+
+                sqlCommand.Parameters.AddWithValue("@isActive", cardType.IsActive);
 
                 sqlCommand.ExecuteNonQuery();
 
@@ -167,9 +166,9 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
-        public async Task<bool> DeleteUserCardTypeAsync(long Id)
+        public async Task<bool> DeleteCardTypeAsync(long Id)
         {
-           if(Id != null)
+            if (Id != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -188,6 +187,6 @@ namespace OLC.Web.API.Manager
                 return true;
             }
             return false;
-        } 
-    }  
+        }
+    }
 }

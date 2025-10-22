@@ -9,6 +9,7 @@ BEGIN
 		  ,[CreatedOn]
 		  ,[ModifiedOn]
 		  ,[ModifiedOn]
+		  ,[ModifiedBy]
 		 ,[IsActive]
 	  FROM [dbo].[AccountType] 
 END

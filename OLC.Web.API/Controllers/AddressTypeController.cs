@@ -16,12 +16,12 @@ namespace OLC.Web.API.Controllers
         }
         
         [HttpGet]
-        [Route("GetUserAddressTypeByIdAsync/{addressTypeId}")]
-        public async Task<IActionResult> GetUserAddressTypeByIdAsync(long addressTypeId)
+        [Route("GetAddressTypeByIdAsync/{addressTypeId}")]
+        public async Task<IActionResult> GetAddressTypeByIdAsync(long addressTypeId)
         {
             try
             {
-                var response = await _addressTypeManager.GetUserAdressTypeByIdAsync(addressTypeId);
+                var response = await _addressTypeManager.GetAdressTypeByIdAsync(addressTypeId);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -31,12 +31,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserAddressAsync")]
-        public async Task<IActionResult> GetUserAddressIdAsync()
+        [Route("GetAddressAsync")]
+        public async Task<IActionResult> GetAddressIdAsync()
         {
             try
             {
-                var response = await _addressTypeManager.GetUserAddressTypeAsync();
+                var response = await _addressTypeManager.GetAddressTypeAsync();
                 return Ok(response);
             }
             catch (Exception ex)
@@ -46,12 +46,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("InsertUserAddressAsync")]
-        public async Task<IActionResult> InsertUserAddressAsync(AddressType addressType)
+        [Route("InsertAddressAsync")]
+        public async Task<IActionResult> InsertAddressAsync(AddressType addressType)
         {
             try
             {
-                var response = await _addressTypeManager.InsertUserAddressTypeAsync(addressType);
+                var response = await _addressTypeManager.InsertAddressTypeAsync(addressType);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -61,12 +61,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("UpdateUserAddressAsync")]
-        public async Task<IActionResult> UpdateUserAddressAsync(UpdateAddressType updateAddressType)
+        [Route("UpdateAddressAsync")]
+        public async Task<IActionResult> UpdateAddressAsync(AddressType addressType)
         {
             try
             {
-                var response = await _addressTypeManager.UpdateUserAddressTypeAsync(updateAddressType);
+                var response = await _addressTypeManager.UpdateAddressTypeAsync(addressType);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -76,12 +76,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteUserAddressAsync/{Id}")]
-        public async Task<IActionResult> DeleteUserAddressAsync(long Id)
+        [Route("DeleteAddressAsync/{Id}")]
+        public async Task<IActionResult> DeleteAddressAsync(long Id)
         {
             try
             {
-                var response = await _addressTypeManager.DeleteUserAddressTypeAsync(Id);
+                var response = await _addressTypeManager.DeleteAddressTypeAsync(Id);
                 return Ok(response);
             }
             catch (Exception ex)

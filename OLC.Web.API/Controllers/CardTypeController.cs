@@ -16,12 +16,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserCardTypeByIdAsync/{Id}")]
-        public async Task<IActionResult> GetUserCardTypeByIdAsync(long  Id)
+        [Route("GetCardTypeByIdAsync/{Id}")]
+        public async Task<IActionResult> GetCardTypeByIdAsync(long  Id)
         {
             try
             {
-                var response = await _cardTypeManager.GetUserCardTypeByIdAsync(Id);
+                var response = await _cardTypeManager.GetCardTypeByIdAsync(Id);
                 return Ok(response);
             }
             catch(Exception ex)
@@ -31,12 +31,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserCardTypeAsync/{createdBy}")]
-        public async Task<IActionResult> GetUserCardTypeAsync(long createdBy)
+        [Route("GetCardTypeAsync")]
+        public async Task<IActionResult> GetCardTypeAsync()
         {
             try
             {
-                var response = await _cardTypeManager.GetUserCardTypeAsync(createdBy);
+                var response = await _cardTypeManager.GetCardTypeAsync();
                 return Ok(response);
             }
             catch (Exception ex)
@@ -46,12 +46,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("InsertUserCardTypeAsync")]
-        public async Task<IActionResult> InsertUserCardTypeAsync(CardType cardType)
+        [Route("InsertCardTypeAsync")]
+        public async Task<IActionResult> InsertCardTypeAsync(CardType cardType)
         {
             try
             {
-                var response = await _cardTypeManager.InsertUserCardTypeAsync(cardType);
+                var response = await _cardTypeManager.InsertCardTypeAsync(cardType);
                 return Ok(response);
 
             }
@@ -61,12 +61,12 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpPost]
-        [Route("UpdateUserCardType")]
-        public async Task<IActionResult> UpdateUserCardTypeAsync(UpdateCardType updateCardType)
+        [Route("UpdateCardType")]
+        public async Task<IActionResult> UpdateCardTypeAsync(CardType cardType)
         {
             try
             {
-                var response = await _cardTypeManager.UpdateUserCardTypeAsync(updateCardType);
+                var response = await _cardTypeManager.UpdateCardTypeAsync(cardType);
                 return Ok(response);
             }
             catch(Exception ex)
@@ -75,12 +75,12 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpDelete]
-        [Route("DaleteUserCardTypeAsync/{Id}")]
-        public async Task<IActionResult> DeleteUserCardTypeAsync(long Id)
+        [Route("DaleteCardTypeAsync/{Id}")]
+        public async Task<IActionResult> DeleteCardTypeAsync(long Id)
         {
             try
             {
-                var response = await _cardTypeManager.DeleteUserCardTypeAsync(Id);
+                var response = await _cardTypeManager.DeleteCardTypeAsync(Id);
                 return Ok(response);
             }
             catch(Exception ex)

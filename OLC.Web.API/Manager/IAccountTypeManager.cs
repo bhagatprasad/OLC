@@ -6,9 +6,9 @@ namespace OLC.Web.API.Manager
     {
         Task<AccountType> GetAccountTypeByIdAsync(long accountTypeId);
         Task<List<AccountType>> GetAccountTypeAsync();
-        Task<bool> InsertUserAccountTypeAsync(AccountType accountType);
-        Task<bool> UpdateUserAccountTypeAsync(AccountType accountType);
-        Task<bool> DeleteUserAccoutntTypeAsync(long accountTypeId);
+        Task<bool> InsertAccountTypeAsync(AccountType accountType);
+        Task<bool> UpdateAccountTypeAsync(AccountType accountType);
+        Task<bool> DeleteAccoutntTypeAsync(long accountTypeId);
 
     }
 }

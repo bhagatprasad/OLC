@@ -1,9 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[uspUpdateAddressType]
 (
-	 @id			bigint
-	,@name			NVARCHAR(255)
-	,@code			NVARCHAR(255)
-	,@createdBy		bigint
+	 @id				bigint
+	,@name				NVARCHAR(255)
+	,@code				NVARCHAR(255)
+	,@ModifiedBy		bigint
+	,@isActive			bit
 )
 AS
 BEGIN
@@ -11,8 +12,9 @@ BEGIN
 		SET
 		 Name			=@name
 		,Code			=@code
-		,ModifiedBy		=@createdBy
+		,ModifiedBy		=@ModifiedBy
 		,ModifiedOn		=GETDATE()
+		,IsActive		=@isActive
 	WHERE 
 		Id				=@id
 END

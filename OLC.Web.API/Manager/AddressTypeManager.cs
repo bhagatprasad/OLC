@@ -15,7 +15,7 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<AddressType> GetUserAdressTypeByIdAsync(long addressTypeId)
+        public async Task<AddressType> GetAdressTypeByIdAsync(long addressTypeId)
         {
             AddressType getAddressTypeById = null;
 
@@ -62,7 +62,7 @@ namespace OLC.Web.API.Manager
             return getAddressTypeById;
         }
 
-        public async Task<List<AddressType>> GetUserAddressTypeAsync()
+        public async Task<List<AddressType>> GetAddressTypeAsync()
         {
             List<AddressType> getAddressTypes = new List<AddressType>();
 
@@ -111,7 +111,7 @@ namespace OLC.Web.API.Manager
 
             return getAddressTypes;
         }
-        public async Task<bool> InsertUserAddressTypeAsync(AddressType addressType)
+        public async Task<bool> InsertAddressTypeAsync(AddressType addressType)
         {
             if (addressType != null)
             {
@@ -140,9 +140,9 @@ namespace OLC.Web.API.Manager
             return false;
         }
 
-        public async Task<bool> UpdateUserAddressTypeAsync(UpdateAddressType updateAddressType)
+        public async Task<bool> UpdateAddressTypeAsync(AddressType addressType)
         {
-            if (updateAddressType != null)
+            if (addressType != null)
             {
 
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -153,13 +153,15 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@id", updateAddressType.Id);
+                sqlCommand.Parameters.AddWithValue("@id", addressType.Id);
 
-                sqlCommand.Parameters.AddWithValue("@name", updateAddressType.Name);
+                sqlCommand.Parameters.AddWithValue("@name", addressType.Name);
 
-                sqlCommand.Parameters.AddWithValue("@code", updateAddressType.Code);
+                sqlCommand.Parameters.AddWithValue("@code", addressType.Code);
 
-                sqlCommand.Parameters.AddWithValue("@createdBy", updateAddressType.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", addressType.ModifiedBy);
+
+                sqlCommand.Parameters.AddWithValue("@isActive", addressType.IsActive);
 
                 sqlCommand.ExecuteNonQuery();
 
@@ -170,7 +172,7 @@ namespace OLC.Web.API.Manager
 
             return false;
         }
-        public async Task<bool> DeleteUserAddressTypeAsync(long Id)
+        public async Task<bool> DeleteAddressTypeAsync(long Id)
         {
             if (Id != null)
             {

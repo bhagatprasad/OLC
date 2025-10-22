@@ -14,6 +14,7 @@ BEGIN
 			,CreatedBy
 			,CreatedOn
 			,ModifiedOn
+			,ModifiedBy
 			,IsActive
 	   ) VALUES
        (	   
@@ -22,6 +23,7 @@ BEGIN
 		   ,@createdBy
 		   ,GETDATE()
 		   ,GETDATE()
+		   ,@createdBy
 		   ,1
        )
 END

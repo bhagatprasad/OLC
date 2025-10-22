@@ -198,10 +198,10 @@ namespace OLC.Web.API.Manager
             return false;
         }
 
-        public async Task<bool> UpdateUserCreditCardAsync(UpdateUserCreditCard updateUserCreditCard)
+        public async Task<bool> UpdateUserCreditCardAsync(UserCreditCard userCreditCard)
         {
 
-            if (updateUserCreditCard != null) ;
+            if (userCreditCard != null) ;
             {
                 SqlConnection connection = new SqlConnection(connectionString);
 
@@ -211,27 +211,27 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@id", updateUserCreditCard.Id);
+                sqlCommand.Parameters.AddWithValue("@id", userCreditCard.Id);
 
-                sqlCommand.Parameters.AddWithValue("@userId", updateUserCreditCard.UserId);
+                sqlCommand.Parameters.AddWithValue("@userId", userCreditCard.UserId);
 
-                sqlCommand.Parameters.AddWithValue("@cardHolderName", updateUserCreditCard.CardHolderName);
+                sqlCommand.Parameters.AddWithValue("@cardHolderName", userCreditCard.CardHolderName);
 
-                sqlCommand.Parameters.AddWithValue("@encryptedCardNumber", updateUserCreditCard.EncryptedCardNumber);
+                sqlCommand.Parameters.AddWithValue("@encryptedCardNumber", userCreditCard.EncryptedCardNumber);
 
-                sqlCommand.Parameters.AddWithValue("@maskedCardNumber", updateUserCreditCard.MaskedCardNumber);
+                sqlCommand.Parameters.AddWithValue("@maskedCardNumber", userCreditCard.MaskedCardNumber);
 
-                sqlCommand.Parameters.AddWithValue("@lastFourDigits", updateUserCreditCard.LastFourDigits);
+                sqlCommand.Parameters.AddWithValue("@lastFourDigits", userCreditCard.LastFourDigits);
 
-                sqlCommand.Parameters.AddWithValue("@expiryMonth", updateUserCreditCard.ExpiryMonth);
+                sqlCommand.Parameters.AddWithValue("@expiryMonth", userCreditCard.ExpiryMonth);
 
-                sqlCommand.Parameters.AddWithValue("@expiryYear", updateUserCreditCard.ExpiryYear);
+                sqlCommand.Parameters.AddWithValue("@expiryYear", userCreditCard.ExpiryYear);
 
-                sqlCommand.Parameters.AddWithValue("@encryptedCVV", updateUserCreditCard.EncryptedCVV);
+                sqlCommand.Parameters.AddWithValue("@encryptedCVV", userCreditCard.EncryptedCVV);
 
-                sqlCommand.Parameters.AddWithValue("@cardType", updateUserCreditCard.CardType);
+                sqlCommand.Parameters.AddWithValue("@cardType", userCreditCard.CardType);
 
-                sqlCommand.Parameters.AddWithValue("@issuingBank", updateUserCreditCard.IssuingBank);
+                sqlCommand.Parameters.AddWithValue("@issuingBank", userCreditCard.IssuingBank);
 
                 sqlCommand.ExecuteNonQuery();
 
