@@ -11,7 +11,7 @@ BEGIN
 		SET
 		 Name			=@name
 		,Code			=@code
-		,CreatedBy		=@createdBy
+		,ModifiedBy		=@createdBy
 		,ModifiedOn		=GETDATE()
 	WHERE 
 		Id				=@id

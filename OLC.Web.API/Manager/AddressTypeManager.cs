@@ -15,7 +15,7 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<GetAddressType> GetUserAdressTypeByIdAsync(long Id)
+        public async Task<GetAddressType> GetUserAdressTypeByIdAsync(long addressTypeId)
         {
             GetAddressType getAddressTypeById = null;
 
@@ -27,7 +27,7 @@ namespace OLC.Web.API.Manager
 
             sqlCommand.CommandType = CommandType.StoredProcedure;
 
-            sqlCommand.Parameters.AddWithValue("@id", Id);
+            sqlCommand.Parameters.AddWithValue("@addressTypeId", addressTypeId);
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
@@ -62,7 +62,7 @@ namespace OLC.Web.API.Manager
             return getAddressTypeById;
         }
 
-        public async Task<List<GetAddressType>> GetUserAddressTypeAsync(long CreatedBy)
+        public async Task<List<GetAddressType>> GetUserAddressTypeAsync()
         {
             List<GetAddressType> getAddressTypes = new List<GetAddressType>();
 
@@ -72,11 +72,9 @@ namespace OLC.Web.API.Manager
 
             connection.Open();
 
-            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAddressType]", connection);
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAddressTypes]", connection);
 
             sqlCommand.CommandType = CommandType.StoredProcedure;
-
-            sqlCommand.Parameters.AddWithValue("@createdBy", CreatedBy);
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 

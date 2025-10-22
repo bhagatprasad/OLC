@@ -1,10 +1,20 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetAddressType]
-(
-		@createdBy		bigint
-)
+
+WITH RECOMPILE
+
 AS
+
 BEGIN
-		SELECT * FROM [dbo].[AddressType]
-	WHERE
-		CreatedBy		=@createdBy
+
+  SELECT
+		   [Id]
+		  ,[Name]
+		  ,[Code]
+		  ,[CreatedBy]
+		  ,[CreatedOn]
+		  ,[ModifiedBy]
+		  ,[ModifiedOn]
+		  ,[IsActive]
+  FROM [dbo].[AddressType]
+
 END
