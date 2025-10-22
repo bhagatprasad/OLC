@@ -1,12 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetAccountTypes]
-(
-		@createdBy      bigint
-)
 AS
 BEGIN
-
-		SELECT * FROM [dbo].[AccountType]
-
-WHERE 
-		CreatedBy					=@createdBy
+		SELECT 
+		   [Id]
+		  ,[Name]
+		  ,[Code]
+		  ,[CreatedBy]
+		  ,[CreatedOn]
+		  ,[ModifiedOn]
+		  ,[ModifiedOn]
+		 ,[IsActive]
+	  FROM [dbo].[AccountType] 
 END

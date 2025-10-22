@@ -6,5 +6,6 @@
     [CreatedBy]             BIGINT              NULL,
     [CreatedOn]             DATETIMEOFFSET      NULL DEFAULT GETDATE(),
     [ModifiedOn]            DATETIMEOFFSET      NULL DEFAULT GETDATE(),
+    [ModifiedBy]            BIGINT              NULL,
     [IsActive]              BIT                 NULL DEFAULT 1
 );

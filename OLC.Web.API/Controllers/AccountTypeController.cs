@@ -16,12 +16,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserAccountTypeByIdAsync/{AccountTypeId}")]
-        public async Task<IActionResult> GetUserAccountTypeByIdAsyn (long AccountTypeId)
+        [Route("GetUserAccountTypeByIdAsync/{accountTypeId}")]
+        public async Task<IActionResult> GetUserAccountTypeByIdAsyn(long accountTypeId)
         {
             try
             {
-                var response = await _accountTypeManager.GetAccountTypeByIdAsync (AccountTypeId);
+                var response = await _accountTypeManager.GetAccountTypeByIdAsync(accountTypeId);
                 return Ok(response);
 
             }
@@ -32,12 +32,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserAccountTypeAsync/{createdBy}")]
-        public async Task<IActionResult> GetUserAccountTypeAsyn(long createdBy)
+        [Route("GetAccountTypeAsync")]
+        public async Task<IActionResult> GetUserAccountTypeAsyn()
         {
             try
             {
-                var response = await _accountTypeManager.GetAccountTypeAsync(createdBy);
+                var response = await _accountTypeManager.GetAccountTypeAsync();
                 return Ok(response);
 
             }
@@ -65,11 +65,11 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("UpdateUserAccountTypeAsync")]
-        public async Task<IActionResult> UpdateUserAccountTypeAsync(UpdateAccountType updateAccountType)
+        public async Task<IActionResult> UpdateUserAccountTypeAsync(AccountType accountType)
         {
             try
             {
-                var response = await _accountTypeManager.UpdateUserAccountTypeAsync(updateAccountType);
+                var response = await _accountTypeManager.UpdateUserAccountTypeAsync(accountType);
                 return Ok(response);
 
             }
