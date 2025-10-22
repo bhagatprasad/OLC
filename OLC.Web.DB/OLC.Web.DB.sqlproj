@@ -78,6 +78,7 @@
     <Folder Include="Programmability\Stored Procedures\AccountTypes" />
     <Folder Include="Programmability\Stored Procedures\CardTypes" />
     <Folder Include="Programmability\Stored Procedures\TransactionTypes" />
+    <Folder Include="Programmability\Stored Procedures\AddressType" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -156,6 +157,12 @@
     <Build Include="Programmability\Stored Procedures\TransactionTypes\uspInsertTransationTypes.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionTypes\uspUpdateTransationTypes.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionTypes\uspDeleteTransationTypes.sql" />
+    <Build Include="Tables\AddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspInsertAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspUpdateAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspDeleteAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressType.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

@@ -3,6 +3,7 @@
 			@name				 NVARCHAR(255),
 			@code				 NVARCHAR(255),
 			@createdBy			 bigint
+			
 )
 As
 BEGIN
