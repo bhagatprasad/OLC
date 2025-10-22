@@ -177,5 +177,11 @@
     <PostDeploy Include="Post-Deployement\Script.PostDeployment.sql" />
     <None Include="Post-Deployement\SeedRole.sql" />
     <None Include="Post-Deployement\SeedPaymentReason.sql" />
+    <None Include="Post-Deployement\SeedAccountType.sql" />
+    <None Include="Post-Deployement\SeedAddressType.sql" />
+    <None Include="Post-Deployement\SeedCardType.sql" />
+    <None Include="Post-Deployement\SeedStatus.sql" />
+    <None Include="Post-Deployement\SeedTransactionType.sql" />
+    <None Include="Post-Deployement\SeedCountry.sql" />
   </ItemGroup>
 </Project>
