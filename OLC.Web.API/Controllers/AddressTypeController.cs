@@ -16,12 +16,12 @@ namespace OLC.Web.API.Controllers
         }
         
         [HttpGet]
-        [Route("GetUserAddressTypeByIdAsync/{Id}")]
-        public async Task<IActionResult> GetUserAddressTypeByIdAsync(long Id)
+        [Route("GetUserAddressTypeByIdAsync/{addressTypeId}")]
+        public async Task<IActionResult> GetUserAddressTypeByIdAsync(long addressTypeId)
         {
             try
             {
-                var response = await _addressTypeManager.GetUserAdressTypeByIdAsync(Id);
+                var response = await _addressTypeManager.GetUserAdressTypeByIdAsync(addressTypeId);
                 return Ok(response);
             }
             catch (Exception ex)
@@ -31,12 +31,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserAddressIdAsync/{CreatedBy}")]
-        public async Task<IActionResult> GetUserAddressIdAsync(long CreatedBy)
+        [Route("GetUserAddressAsync")]
+        public async Task<IActionResult> GetUserAddressIdAsync()
         {
             try
             {
-                var response = await _addressTypeManager.GetUserAddressTypeAsync(CreatedBy);
+                var response = await _addressTypeManager.GetUserAddressTypeAsync();
                 return Ok(response);
             }
             catch (Exception ex)
