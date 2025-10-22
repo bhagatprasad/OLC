@@ -1,11 +1,11 @@
 ﻿CREATE TABLE [dbo].[Country]
 (
-	[Id]                            bigint                 NOT NULL    PRIMARY KEY   identity(1,1),
-	[Name]                          varchar(max)           NULL,
-	[Code]                          varchar(max)           NULL,
-	[CreatedBy]                     bigint                 NULL,
-	[CreatedOn]                     datetimeoffset         NULL,
-	[ModifiedBy]                    bigint                 NULL,
-	[ModifiedOn]                    datetimeoffset         NULL,
-	[IsActive]                      bit                    NULL
+	[Id]                    BIGINT              NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [Name]                  NVARCHAR(255)       NULL,
+    [Code]                  NVARCHAR(255)       NULL,
+    [CreatedBy]             BIGINT              NULL,
+    [CreatedOn]             DATETIMEOFFSET      NULL DEFAULT GETDATE(),
+    [ModifiedBy]            BIGINT              NULL,
+    [ModifiedOn]            DATETIMEOFFSET      NULL DEFAULT GETDATE(),
+    [IsActive]              BIT                 NULL DEFAULT 1
 )

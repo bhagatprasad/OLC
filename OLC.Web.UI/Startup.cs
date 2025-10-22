@@ -50,6 +50,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<IUserService, UserService>();
 
+            services.AddScoped<ICreditCardService, CreditCardService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
