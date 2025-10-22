@@ -12,9 +12,9 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<GetAccountType> GetAccountTypeByIdAsync(long Id)
+        public async Task<AccountType> GetAccountTypeByIdAsync(long Id)
         {
-            GetAccountType getAccountTypeById = null;
+            AccountType getAccountTypeById = null;
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -39,7 +39,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getAccountTypeById = new GetAccountType();
+                    getAccountTypeById = new AccountType();
 
                     getAccountTypeById.Id = Convert.ToInt64(item["Id"]);
 
@@ -56,15 +56,13 @@ namespace OLC.Web.API.Manager
                     getAccountTypeById.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
                 }
             }
-
             return getAccountTypeById;
         }
-
-        public async Task<List<GetAccountType>> GetAccountTypeAsync(long createdBy)
+        public async Task<List<AccountType>> GetAccountTypeAsync(long createdBy)
         {
-            List<GetAccountType> getAccountTypes = new List<GetAccountType>();
+            List<AccountType> getAccountTypes = new List<AccountType>();
 
-            GetAccountType getAccountType = null;
+            AccountType getAccountType = null;
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -89,7 +87,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getAccountType = new GetAccountType();
+                    getAccountType = new AccountType();
 
                     getAccountType.Id = Convert.ToInt64(item["Id"]);
 
@@ -111,7 +109,6 @@ namespace OLC.Web.API.Manager
 
             return getAccountTypes;
         }
-
         public async Task<bool> InsertUserAccountTypeAsync(AccountType accountType)
         {
             if (accountType != null)
@@ -192,6 +189,5 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
-       
     }
 }

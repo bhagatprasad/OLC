@@ -15,9 +15,9 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<GetAddressType> GetUserAdressTypeByIdAsync(long addressTypeId)
+        public async Task<AddressType> GetUserAdressTypeByIdAsync(long addressTypeId)
         {
-            GetAddressType getAddressTypeById = null;
+            AddressType getAddressTypeById = null;
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -42,7 +42,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getAddressTypeById = new GetAddressType();
+                    getAddressTypeById = new AddressType();
 
                     getAddressTypeById.Id = Convert.ToInt64(item["Id"]);
 
@@ -62,11 +62,11 @@ namespace OLC.Web.API.Manager
             return getAddressTypeById;
         }
 
-        public async Task<List<GetAddressType>> GetUserAddressTypeAsync()
+        public async Task<List<AddressType>> GetUserAddressTypeAsync()
         {
-            List<GetAddressType> getAddressTypes = new List<GetAddressType>();
+            List<AddressType> getAddressTypes = new List<AddressType>();
 
-            GetAddressType getAddressType = null;
+            AddressType getAddressType = null;
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -89,7 +89,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getAddressType = new GetAddressType();
+                    getAddressType = new AddressType();
 
                     getAddressType.Id = Convert.ToInt64(item["Id"]);
 
@@ -110,10 +110,7 @@ namespace OLC.Web.API.Manager
             }
 
             return getAddressTypes;
-
-
         }
-
         public async Task<bool> InsertUserAddressTypeAsync(AddressType addressType)
         {
             if (addressType != null)

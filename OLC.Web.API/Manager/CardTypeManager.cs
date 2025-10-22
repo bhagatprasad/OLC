@@ -13,9 +13,9 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<GetCardType> GetUserCardTypeByIdAsync(long Id)
+        public async Task<CardType> GetUserCardTypeByIdAsync(long Id)
         {
-            GetCardType getCardTypeById = null;
+            CardType getCardTypeById = null;
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -40,7 +40,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getCardTypeById = new GetCardType();
+                    getCardTypeById = new CardType();
 
                     getCardTypeById.Id = Convert.ToInt64(item["Id"]);
 
@@ -61,14 +61,12 @@ namespace OLC.Web.API.Manager
             }
 
             return getCardTypeById;
-
         }
-
-        public async Task<List<GetCardType>> GetUserCardTypeAsync(long createdBy)
+        public async Task<List<CardType>> GetUserCardTypeAsync(long createdBy)
         {
-            List<GetCardType> getCardTypes = new List<GetCardType>();
+            List<CardType> getCardTypes = new List<CardType>();
 
-            GetCardType getCardType = null;
+            CardType getCardType = null;
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -93,7 +91,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getCardType = new GetCardType();
+                    getCardType = new CardType();
 
                     getCardType.Id = Convert.ToInt64(item["Id"]);
 
@@ -110,11 +108,10 @@ namespace OLC.Web.API.Manager
                     getCardType.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
 
                     getCardTypes.Add(getCardType);
-                }               
+                }
             }
             return getCardTypes;
         }
-      
         public async Task<bool> InsertUserCardTypeAsync(CardType cardType)
         {
             if (cardType != null)
@@ -191,6 +188,6 @@ namespace OLC.Web.API.Manager
                 return true;
             }
             return false;
-        }
+        } 
     }  
 }
