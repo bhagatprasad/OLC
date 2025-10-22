@@ -107,25 +107,25 @@
     self.AddCreditCard = function (e) {
         e.preventDefault();
         $.ajax({
-                url: "/Cards/CreateCard",
-                type: "POST",
-                data: $('#addCard').serialize(),
-                dataType: 'json',
-                beforeSend: function () {
-                    $("#preloader").show();
-                },
-                complete: function () {
-                    $("#preloader").hide();
-                },
-                success: function (responce) {
-                    $("#add-new-card-details").modal('hide');
-                    $('.modal-backdrop').remove();
-                    self.loadCardActivity();
-                    self.loadCards();
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            }); // ajax call closing
-        }
+            url: "/Cards/CreateCard",
+            type: "POST",
+            data: $('#addCard').serialize(),
+            dataType: 'json',
+            beforeSend: function () {
+                $("#preloader").show();
+            },
+            complete: function () {
+                $("#preloader").hide();
+            },
+            success: function (responce) {
+                $("#add-new-card-details").modal('hide');
+                $('.modal-backdrop').remove();
+                self.loadCardActivity();
+                self.loadCards();
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        }); // ajax call closing
+    }
 }
