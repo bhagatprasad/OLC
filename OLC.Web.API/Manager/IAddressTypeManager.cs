@@ -4,10 +4,10 @@ namespace OLC.Web.API.Manager
 {
     public interface IAddressTypeManager
     {
-        Task<AddressType> GetUserAdressTypeByIdAsync(long addressTypeId);
-        Task<List<AddressType>> GetUserAddressTypeAsync();
-        Task<bool> InsertUserAddressTypeAsync(AddressType addressType);
-        Task<bool> UpdateUserAddressTypeAsync(AddressType addressType);
-        Task<bool> DeleteUserAddressTypeAsync(long Id);
+        Task<AddressType> GetAdressTypeByIdAsync(long addressTypeId);
+        Task<List<AddressType>> GetAddressTypeAsync();
+        Task<bool> InsertAddressTypeAsync(AddressType addressType);
+        Task<bool> UpdateAddressTypeAsync(AddressType addressType);
+        Task<bool> DeleteAddressTypeAsync(long Id);
     }
 }

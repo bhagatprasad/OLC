@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualBasic;
-using OLC.Web.API.Models;
+﻿using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
 
 namespace OLC.Web.API.Manager
 {
-    public class CardTypeManager:ICardTypeManager
+    public class CardTypeManager : ICardTypeManager
     {
         private readonly string connectionString;
         public CardTypeManager(IConfiguration configuration)
@@ -13,7 +12,7 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<CardType> GetUserCardTypeByIdAsync(long Id)
+        public async Task<CardType> GetCardTypeByIdAsync(long Id)
         {
             CardType getCardTypeById = null;
 
@@ -62,7 +61,7 @@ namespace OLC.Web.API.Manager
 
             return getCardTypeById;
         }
-        public async Task<List<CardType>> GetUserCardTypeAsync()
+        public async Task<List<CardType>> GetCardTypeAsync()
         {
             List<CardType> getCardTypes = new List<CardType>();
 
@@ -110,7 +109,7 @@ namespace OLC.Web.API.Manager
             }
             return getCardTypes;
         }
-        public async Task<bool> InsertUserCardTypeAsync(CardType cardType)
+        public async Task<bool> InsertCardTypeAsync(CardType cardType)
         {
             if (cardType != null)
             {
@@ -137,7 +136,7 @@ namespace OLC.Web.API.Manager
             return false;
         }
 
-        public async Task<bool> UpdateUserCardTypeAsync(CardType cardType)
+        public async Task<bool> UpdateCardTypeAsync(CardType cardType)
         {
             if (cardType != null)
             {
@@ -167,9 +166,9 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
-        public async Task<bool> DeleteUserCardTypeAsync(long Id)
+        public async Task<bool> DeleteCardTypeAsync(long Id)
         {
-           if(Id != null)
+            if (Id != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -188,6 +187,6 @@ namespace OLC.Web.API.Manager
                 return true;
             }
             return false;
-        } 
-    }  
+        }
+    }
 }
