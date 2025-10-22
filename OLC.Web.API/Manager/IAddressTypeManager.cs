@@ -7,7 +7,7 @@ namespace OLC.Web.API.Manager
         Task<AddressType> GetUserAdressTypeByIdAsync(long addressTypeId);
         Task<List<AddressType>> GetUserAddressTypeAsync();
         Task<bool> InsertUserAddressTypeAsync(AddressType addressType);
-        Task<bool> UpdateUserAddressTypeAsync(UpdateAddressType updateAddressType);
+        Task<bool> UpdateUserAddressTypeAsync(AddressType addressType);
         Task<bool> DeleteUserAddressTypeAsync(long Id);
     }
 }

@@ -1,12 +1,19 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetCardTypes]
-(
-		@createdBy      bigint
-)
+WITH RECOMPILE
+
 AS
+
 BEGIN
 
-		SELECT * FROM [dbo].[CardType]
+  SELECT
+		   [Id]
+		  ,[Name]
+		  ,[Code]
+		  ,[CreatedBy]
+		  ,[CreatedOn]
+		  ,[ModifiedBy]
+		  ,[ModifiedOn]
+		  ,[IsActive]
+  FROM [dbo].[AddressType]
 
-WHERE 
-		CreatedBy					=@createdBy
 END

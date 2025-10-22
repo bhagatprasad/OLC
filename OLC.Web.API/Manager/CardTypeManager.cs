@@ -62,7 +62,7 @@ namespace OLC.Web.API.Manager
 
             return getCardTypeById;
         }
-        public async Task<List<CardType>> GetUserCardTypeAsync(long createdBy)
+        public async Task<List<CardType>> GetUserCardTypeAsync()
         {
             List<CardType> getCardTypes = new List<CardType>();
 
@@ -75,8 +75,6 @@ namespace OLC.Web.API.Manager
             SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetCardTypes]", connection);
 
             sqlCommand.CommandType = CommandType.StoredProcedure;
-
-            sqlCommand.Parameters.AddWithValue("@createdBy", createdBy);
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
@@ -139,9 +137,9 @@ namespace OLC.Web.API.Manager
             return false;
         }
 
-        public async Task<bool> UpdateUserCardTypeAsync(UpdateCardType updateCardType)
+        public async Task<bool> UpdateUserCardTypeAsync(CardType cardType)
         {
-            if (updateCardType != null)
+            if (cardType != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -151,13 +149,15 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@id", updateCardType.Id);
+                sqlCommand.Parameters.AddWithValue("@id", cardType.Id);
 
-                sqlCommand.Parameters.AddWithValue("@name", updateCardType.Name);
+                sqlCommand.Parameters.AddWithValue("@name", cardType.Name);
 
-                sqlCommand.Parameters.AddWithValue("@code", updateCardType.Code);
+                sqlCommand.Parameters.AddWithValue("@code", cardType.Code);
 
-                sqlCommand.Parameters.AddWithValue("@createdBy", updateCardType.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", cardType.ModifiedBy);
+
+                sqlCommand.Parameters.AddWithValue("@isActive", cardType.IsActive);
 
                 sqlCommand.ExecuteNonQuery();
 

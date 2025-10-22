@@ -62,11 +62,11 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("UpdateUserAddressAsync")]
-        public async Task<IActionResult> UpdateUserAddressAsync(UpdateAddressType updateAddressType)
+        public async Task<IActionResult> UpdateUserAddressAsync(AddressType addressType)
         {
             try
             {
-                var response = await _addressTypeManager.UpdateUserAddressTypeAsync(updateAddressType);
+                var response = await _addressTypeManager.UpdateUserAddressTypeAsync(addressType);
                 return Ok(response);
             }
             catch (Exception ex)

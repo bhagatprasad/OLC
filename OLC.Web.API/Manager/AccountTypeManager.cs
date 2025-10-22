@@ -154,7 +154,9 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.Parameters.AddWithValue("@code", accountType.Code);
 
-                sqlCommand.Parameters.AddWithValue("@createdBy", accountType.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", accountType.ModifiedBy);
+
+                sqlCommand.Parameters.AddWithValue("@isActive", accountType.IsActive);
 
                 sqlCommand.ExecuteNonQuery();
 

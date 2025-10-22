@@ -31,12 +31,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetUserCardTypeAsync/{createdBy}")]
-        public async Task<IActionResult> GetUserCardTypeAsync(long createdBy)
+        [Route("GetUserCardTypeAsync")]
+        public async Task<IActionResult> GetUserCardTypeAsync()
         {
             try
             {
-                var response = await _cardTypeManager.GetUserCardTypeAsync(createdBy);
+                var response = await _cardTypeManager.GetUserCardTypeAsync();
                 return Ok(response);
             }
             catch (Exception ex)
@@ -62,11 +62,11 @@ namespace OLC.Web.API.Controllers
         }
         [HttpPost]
         [Route("UpdateUserCardType")]
-        public async Task<IActionResult> UpdateUserCardTypeAsync(UpdateCardType updateCardType)
+        public async Task<IActionResult> UpdateUserCardTypeAsync(CardType cardType)
         {
             try
             {
-                var response = await _cardTypeManager.UpdateUserCardTypeAsync(updateCardType);
+                var response = await _cardTypeManager.UpdateUserCardTypeAsync(cardType);
                 return Ok(response);
             }
             catch(Exception ex)
