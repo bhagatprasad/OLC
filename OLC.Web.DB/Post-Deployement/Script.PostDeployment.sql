@@ -33,3 +33,9 @@ Post-Deployment Script Template
 
 -- Include seed data for SeedCountry
 :r .\SeedCountry.sql
+
+-- Include seed data for SeedStates
+:r .\SeedStates.sql
+
+-- Include seed data for SeedCities
+:r .\SeedCities.sql

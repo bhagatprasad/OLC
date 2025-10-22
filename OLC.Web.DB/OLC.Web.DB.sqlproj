@@ -183,5 +183,7 @@
     <None Include="Post-Deployement\SeedStatus.sql" />
     <None Include="Post-Deployement\SeedTransactionType.sql" />
     <None Include="Post-Deployement\SeedCountry.sql" />
+    <None Include="Post-Deployement\SeedStates.sql" />
+    <None Include="Post-Deployement\SeedCities.sql" />
   </ItemGroup>
 </Project>
