@@ -1,40 +1,32 @@
 ﻿CREATE PROCEDURE [dbo].[uspInsertCountries]
 (
-         
-		 @name varchar(50) null,
-         @code varchar(50) null,
-         @createdOn datetimeoffset null,
-         @createdBy bigint null,
-         @modifiedOn datetimeoffset null,
-		 @modifiedBy bigint null,
-		 @isActive bit null
+	@name                   varchar(255) null,
+    @code                   varchar(255) null,   
+    @createdBy              bigint null
+	
  )
-
  WITH RECOMPILE
-
  AS 
-
  BEGIN
-
-     INSERT INTO [dbo].[Country] (
-                                        
-                                        Name,
-                                        Code,
-                                        CreatedOn,
-                                        CreatedBy,
-                                        ModifiedOn,
-                                        ModifiedBy,
-                                        IsActive
-                                      )  VALUES
-                                      (
+     INSERT INTO [dbo].[Country] 
+ (                                       
+         Name,
+         Code,
+         CreatedBy,
+         CreatedOn,
+         ModifiedBy,
+         ModifiedOn,
+         IsActive
+ )  
+  VALUES
+ (                                     
                                       
-                                      @name,
-                                      @code,
-                                      @createdOn,
-                                      @createdBy,
-                                      @modifiedOn,
-                                      @modifiedBy,
-                                      @isActive)
-
-
+          @name
+         ,@code
+         ,@createdBy
+         ,GETDATE()
+         ,@createdBy
+         ,GETDATE()
+         ,1
+)
 END
