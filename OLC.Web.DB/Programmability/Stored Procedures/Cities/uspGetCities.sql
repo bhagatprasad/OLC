@@ -2,21 +2,19 @@
 	
 WITH RECOMPILE
 
-AS
-
-BEGIN
-
-  SELECT
-	   [Id]
-	  ,[CountryId]
-	  ,[StateId]
-	  ,[Name]
-	  ,[Code]
-	  ,[CreatedBy]
-	  ,[CreatedOn]
-	  ,[ModifiedBy]
-	  ,[ModifiedOn]
-	  ,[IsActive]
-  FROM [dbo].[City]
-
-END
+  AS 
+   BEGIN
+	    SELECT
+				 [Id]
+				,[CountryId]
+				,[StateId]
+				,[Name]
+				,[Code]
+				,[CreatedBy]
+				,[CreatedOn]
+				,[ModifiedBy]
+				,[ModifiedOn]
+				,[IsActive]
+		FROM
+		         [dbo].[City]
+		END
