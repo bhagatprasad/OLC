@@ -26,6 +26,8 @@ namespace OLC.Web.API
             services.AddScoped<IStatusManager, StatusManager>();
             services.AddScoped<IAccountTypeManager, AccountTypeManager>();
             services.AddScoped<IUserManager, UserManager>();
+            services.AddScoped<ICardTypeManager, CardTypeManager>();  
+            services.AddScoped<IAddressTypeManager, AddressTypeManager>();
             services.AddScoped<ICardTypeManager, CardTypeManager>();    
             services.AddScoped<IBankManager, BankManager>();    
 

@@ -12,3 +12,30 @@ Post-Deployment Script Template
 
 -- Include seed data for Specialization
 :r .\SeedRole.sql
+
+-- Include seed data for SeedAccountType
+:r .\SeedAccountType.sql
+
+-- Include seed data for SeedAddressType
+:r .\SeedAddressType.sql
+
+-- Include seed data for SeedPaymentReason
+:r .\SeedPaymentReason.sql
+
+-- Include seed data for SeedCardType
+:r .\SeedCardType.sql
+
+-- Include seed data for SeedStatus
+:r .\SeedStatus.sql
+
+-- Include seed data for SeedTransactionType
+:r .\SeedTransactionType.sql
+
+-- Include seed data for SeedCountry
+:r .\SeedCountry.sql
+
+-- Include seed data for SeedStates
+:r .\SeedStates.sql
+
+-- Include seed data for SeedCities
+:r .\SeedCities.sql

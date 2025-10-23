@@ -4,10 +4,10 @@ namespace OLC.Web.API.Manager
 {
     public interface ICardTypeManager
     {
-        Task<List<GetCardType>> GetUserCardTypeAsync(long createdBy);
-        Task<GetCardType> GetUserCardTypeByIdAsync(long Id);
-        Task <bool> InsertUserCardTypeAsync(CardType cardType);
-        Task<bool> UpdateUserCardTypeAsync(UpdateCardType updateCardType);
-        Task<bool> DeleteUserCardTypeAsync(long Id);
+        Task<List<CardType>> GetCardTypeAsync();
+        Task<CardType> GetCardTypeByIdAsync(long Id);
+        Task <bool> InsertCardTypeAsync(CardType cardType);
+        Task<bool> UpdateCardTypeAsync(CardType cardType);
+        Task<bool> DeleteCardTypeAsync(long Id);
     }
 }

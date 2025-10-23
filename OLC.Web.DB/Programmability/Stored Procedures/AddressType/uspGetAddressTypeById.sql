@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[uspGetCardTypes]
+﻿CREATE PROCEDURE [dbo].[uspGetAddressTypeById]
+(
+		@addressTypeId		bigint
+)
 WITH RECOMPILE
 
 AS
@@ -15,5 +18,6 @@ BEGIN
 		  ,[ModifiedOn]
 		  ,[IsActive]
   FROM [dbo].[AddressType]
-
+  WHERE 
+		   Id  = @addressTypeId
 END

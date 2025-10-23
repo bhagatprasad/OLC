@@ -4,11 +4,11 @@ namespace OLC.Web.API.Manager
 {
     public interface IAccountTypeManager
     {
-        Task<GetAccountType> GetAccountTypeByIdAsync(long Id);
-        Task<List<GetAccountType>> GetAccountTypeAsync(long createdBy);
-        Task<bool> InsertUserAccountTypeAsync(AccountType accountType);
-        Task<bool> UpdateUserAccountTypeAsync(UpdateAccountType updateAccountType);
-        Task<bool> DeleteUserAccoutntTypeAsync(long accountTypeId);
+        Task<AccountType> GetAccountTypeByIdAsync(long accountTypeId);
+        Task<List<AccountType>> GetAccountTypeAsync();
+        Task<bool> InsertAccountTypeAsync(AccountType accountType);
+        Task<bool> UpdateAccountTypeAsync(AccountType accountType);
+        Task<bool> DeleteAccoutntTypeAsync(long accountTypeId);
 
     }
 }

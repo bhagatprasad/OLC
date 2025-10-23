@@ -6,53 +6,38 @@ namespace OLC.Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CreditCardController : ControllerBase
+    public class AddressTypeController : ControllerBase
     {
-        private readonly ICreditCardManager _creditCardManager;
-        public CreditCardController(ICreditCardManager creditCardManager)
-        {
-            _creditCardManager = creditCardManager;
-        }
+        private readonly IAddressTypeManager _addressTypeManager;
 
+        public AddressTypeController(IAddressTypeManager addressTypeManager)
+        {
+            _addressTypeManager = addressTypeManager;
+        }
+        
         [HttpGet]
-        [Route("GetUserCreditCardsAsync/{userId}")]
-        public async Task<IActionResult> GetUserCreditCardsAsync(long userId)
+        [Route("GetAddressTypeByIdAsync/{addressTypeId}")]
+        public async Task<IActionResult> GetAddressTypeByIdAsync(long addressTypeId)
         {
             try
             {
-                var response = await _creditCardManager.GetUserCreditCardsAsync(userId);
+                var response = await _addressTypeManager.GetAdressTypeByIdAsync(addressTypeId);
                 return Ok(response);
-
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
         [HttpGet]
-        [Route("GetUserCreditCardByCardIdAsync/{creditCardId}")]
-        public async Task<IActionResult> GetUserCreditCardByCardIdAsync(long creditCardId)
+        [Route("GetAddressAsync")]
+        public async Task<IActionResult> GetAddressIdAsync()
         {
             try
             {
-                var response = await _creditCardManager.GetUserCreditCardByCardIdAsync(creditCardId);
+                var response = await _addressTypeManager.GetAddressTypeAsync();
                 return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-        [HttpPost]
-        [Route("SaveUserCreditCardAsync")]
-        public async Task<IActionResult> SaveUserCreditCardAsync(UserCreditCard userCreditCard)
-        {
-            try
-            {
-                var response = await _creditCardManager.InsertUserCreditCardAsync(userCreditCard);
-                return Ok(response);
-
             }
             catch (Exception ex)
             {
@@ -61,14 +46,28 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("UpdateUserCreditCardAsync")]
-        public async Task<IActionResult> UpdateUserCreditCardAsync(UserCreditCard userCreditCard)
+        [Route("InsertAddressAsync")]
+        public async Task<IActionResult> InsertAddressAsync(AddressType addressType)
         {
             try
             {
-                var response = await _creditCardManager.UpdateUserCreditCardAsync(userCreditCard);
+                var response = await _addressTypeManager.InsertAddressTypeAsync(addressType);
                 return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
+        [HttpPost]
+        [Route("UpdateAddressAsync")]
+        public async Task<IActionResult> UpdateAddressAsync(AddressType addressType)
+        {
+            try
+            {
+                var response = await _addressTypeManager.UpdateAddressTypeAsync(addressType);
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -77,14 +76,13 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteUserCreditAsync/{creditcardId}")]
-        public async Task<IActionResult> DeleteUserCreditAsync(long creditcardId)
+        [Route("DeleteAddressAsync/{Id}")]
+        public async Task<IActionResult> DeleteAddressAsync(long Id)
         {
             try
             {
-                var response = await _creditCardManager.DeleteUserCreditAsync(creditcardId);
+                var response = await _addressTypeManager.DeleteAddressTypeAsync(Id);
                 return Ok(response);
-
             }
             catch (Exception ex)
             {

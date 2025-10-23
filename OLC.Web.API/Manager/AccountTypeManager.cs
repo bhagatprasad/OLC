@@ -12,9 +12,9 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<GetAccountType> GetAccountTypeByIdAsync(long Id)
+        public async Task<AccountType> GetAccountTypeByIdAsync(long accountTypeId)
         {
-            GetAccountType getAccountTypeById = null;
+            AccountType getAccountTypeById = null;
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -24,7 +24,7 @@ namespace OLC.Web.API.Manager
 
             sqlCommand.CommandType = CommandType.StoredProcedure;
 
-            sqlCommand.Parameters.AddWithValue("@id", Id);
+            sqlCommand.Parameters.AddWithValue("@accountTypeId", accountTypeId);
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
@@ -39,7 +39,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getAccountTypeById = new GetAccountType();
+                    getAccountTypeById = new AccountType();
 
                     getAccountTypeById.Id = Convert.ToInt64(item["Id"]);
 
@@ -56,15 +56,13 @@ namespace OLC.Web.API.Manager
                     getAccountTypeById.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
                 }
             }
-
             return getAccountTypeById;
         }
-
-        public async Task<List<GetAccountType>> GetAccountTypeAsync(long createdBy)
+        public async Task<List<AccountType>> GetAccountTypeAsync()
         {
-            List<GetAccountType> getAccountTypes = new List<GetAccountType>();
+            List<AccountType> getAccountTypes = new List<AccountType>();
 
-            GetAccountType getAccountType = null;
+            AccountType getAccountType = null;
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -73,8 +71,6 @@ namespace OLC.Web.API.Manager
             SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAccountTypes]", connection);
 
             sqlCommand.CommandType = CommandType.StoredProcedure;
-
-            sqlCommand.Parameters.AddWithValue("@createdBy", createdBy);
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
@@ -89,7 +85,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getAccountType = new GetAccountType();
+                    getAccountType = new AccountType();
 
                     getAccountType.Id = Convert.ToInt64(item["Id"]);
 
@@ -111,8 +107,7 @@ namespace OLC.Web.API.Manager
 
             return getAccountTypes;
         }
-
-        public async Task<bool> InsertUserAccountTypeAsync(AccountType accountType)
+        public async Task<bool> InsertAccountTypeAsync(AccountType accountType)
         {
             if (accountType != null)
             {
@@ -140,10 +135,10 @@ namespace OLC.Web.API.Manager
 
             return false;
         }
-        public async Task<bool> UpdateUserAccountTypeAsync(UpdateAccountType updateAccountType)
+        public async Task<bool> UpdateAccountTypeAsync(AccountType accountType)
         {
 
-            if (updateAccountType != null)
+            if (accountType != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -153,13 +148,15 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@id", updateAccountType.Id);
+                sqlCommand.Parameters.AddWithValue("@id", accountType.Id);
 
-                sqlCommand.Parameters.AddWithValue("@name", updateAccountType.Name);
+                sqlCommand.Parameters.AddWithValue("@name", accountType.Name);
 
-                sqlCommand.Parameters.AddWithValue("@code", updateAccountType.Code);
+                sqlCommand.Parameters.AddWithValue("@code", accountType.Code);
 
-                sqlCommand.Parameters.AddWithValue("@createdBy", updateAccountType.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", accountType.ModifiedBy);
+
+                sqlCommand.Parameters.AddWithValue("@isActive", accountType.IsActive);
 
                 sqlCommand.ExecuteNonQuery();
 
@@ -169,7 +166,7 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
-        public async Task<bool> DeleteUserAccoutntTypeAsync(long accountTypeId)
+        public async Task<bool> DeleteAccoutntTypeAsync(long accountTypeId)
         {
             if (accountTypeId != 0)
             {
@@ -182,7 +179,7 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@id", accountTypeId);
+                sqlCommand.Parameters.AddWithValue("@accountTypeId", accountTypeId);
 
                 sqlCommand.ExecuteNonQuery();
 
@@ -192,6 +189,5 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
-       
     }
 }

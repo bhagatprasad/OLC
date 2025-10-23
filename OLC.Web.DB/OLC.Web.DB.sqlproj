@@ -78,6 +78,7 @@
     <Folder Include="Programmability\Stored Procedures\AccountTypes" />
     <Folder Include="Programmability\Stored Procedures\CardTypes" />
     <Folder Include="Programmability\Stored Procedures\TransactionTypes" />
+    <Folder Include="Programmability\Stored Procedures\AddressType" />
     <Folder Include="Programmability\Stored Procedures\Bank" />
   </ItemGroup>
   <ItemGroup>
@@ -157,12 +158,12 @@
     <Build Include="Programmability\Stored Procedures\TransactionTypes\uspInsertTransationTypes.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionTypes\uspUpdateTransationTypes.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionTypes\uspDeleteTransationTypes.sql" />
-    <Build Include="Tables\Bank_1.sql" />
-    <Build Include="Programmability\Stored Procedures\Bank\uspInsertBank.sql" />
-    <Build Include="Programmability\Stored Procedures\Bank\uspUpdateBank.sql" />
-    <Build Include="Programmability\Stored Procedures\Bank\uspDeleteBank.sql" />
-    <Build Include="Programmability\Stored Procedures\Bank\uspGetBankById.sql" />
-    <Build Include="Programmability\Stored Procedures\Bank\uspGetBank.sql" />
+    <Build Include="Tables\AddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspInsertAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspUpdateAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspDeleteAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressType.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
@@ -177,5 +178,13 @@
     <PostDeploy Include="Post-Deployement\Script.PostDeployment.sql" />
     <None Include="Post-Deployement\SeedRole.sql" />
     <None Include="Post-Deployement\SeedPaymentReason.sql" />
+    <None Include="Post-Deployement\SeedAccountType.sql" />
+    <None Include="Post-Deployement\SeedAddressType.sql" />
+    <None Include="Post-Deployement\SeedCardType.sql" />
+    <None Include="Post-Deployement\SeedStatus.sql" />
+    <None Include="Post-Deployement\SeedTransactionType.sql" />
+    <None Include="Post-Deployement\SeedCountry.sql" />
+    <None Include="Post-Deployement\SeedStates.sql" />
+    <None Include="Post-Deployement\SeedCities.sql" />
   </ItemGroup>
 </Project>

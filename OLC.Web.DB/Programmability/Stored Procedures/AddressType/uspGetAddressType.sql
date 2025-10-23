@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[uspGetCardTypes]
+﻿CREATE PROCEDURE [dbo].[uspGetAddressType]
+
 WITH RECOMPILE
 
 AS

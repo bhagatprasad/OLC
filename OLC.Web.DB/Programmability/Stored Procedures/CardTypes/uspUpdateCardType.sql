@@ -3,7 +3,8 @@
 			 @id				bigint
 			,@name				NVARCHAR(255)
 			,@code				NVARCHAR(255)
-			,@createdBy			bigint
+			,@modifiedBy		bigint
+			,@isActive			bit
 )
 AS
 BEGIN
@@ -12,8 +13,9 @@ BEGIN
 	 SET
 		 Name				=@name
 		,Code				=@code
-		,CreatedBy			=@createdBy
+		,ModifiedBy			=@modifiedBy
 		,ModifiedOn			=GETDATE()
+		,IsActive			=@isActive
 	 WHERE
 		 Id					=@id
 
