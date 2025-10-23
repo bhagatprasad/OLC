@@ -1,0 +1,54 @@
+﻿<!-- Page Header with Button -->
+<div class="card">
+    <div class="card-hear">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                <div>
+                    <h1 class="h3 fw-bold text-primary" id="typeName"></h1>
+                    <p class="text-muted mb-0">Request your payment on anytime, anywhere in the world.</p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" id="addTypeBtn">
+                        <i class="fas fa-plus me-2"></i> Add Account type
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- Recent Transactions -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card border">
+                    <div class="card-header bg-white py-3 border-bottom">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-history me-2" id="typeTitle"></i>
+                        </h5>
+                    </div>
+
+                    <!-- Table for Large Screens -->
+                    <div class="card-body p-0 d-none d-lg-block">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Code</th>
+                                        <th scope="col">CreatedOn</th>
+                                        <th scope="col">ModifiedOn</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="gridBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_AddEditTypePartial.cshtml" />
