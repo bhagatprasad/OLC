@@ -31,8 +31,8 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetAddressAsync")]
-        public async Task<IActionResult> GetAddressIdAsync()
+        [Route("GetAddressTypeAsync")]
+        public async Task<IActionResult> GetAddressTypeAsync()
         {
             try
             {

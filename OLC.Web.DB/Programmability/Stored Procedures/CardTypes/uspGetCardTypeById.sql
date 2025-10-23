@@ -4,7 +4,16 @@
 )
 AS
 BEGIN
-		SELECT * FROM [dbo].[CardType]
+		 SELECT
+		   [Id]
+		  ,[Name]
+		  ,[Code]
+		  ,[CreatedBy]
+		  ,[CreatedOn]
+		  ,[ModifiedBy]
+		  ,[ModifiedOn]
+		  ,[IsActive]
+  FROM [dbo].[CardType]
 	WHERE 
 		Id			=@id
 END

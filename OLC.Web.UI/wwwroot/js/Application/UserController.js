@@ -1,5 +1,7 @@
 ﻿function UserController() {
+
     $(".se-pre-con").show();
+
     var self = this;
 
     self.usersList = [];
@@ -8,8 +10,8 @@
 
     self.init = function () {
 
-
         var appUserInfo = storageService.get('ApplicationUser');
+
         if (appUserInfo) {
             self.currentUser = appUserInfo;
         }
@@ -21,6 +23,7 @@
             errorCallback: handleUserAccountsError
         });
         function handleUserAccountsSuccess(response) {
+
             console.info(response);
 
             self.usersList = response && response.data ? response.data : [];

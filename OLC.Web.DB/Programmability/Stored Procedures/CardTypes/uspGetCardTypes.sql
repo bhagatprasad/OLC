@@ -5,7 +5,7 @@ AS
 
 BEGIN
 
-  SELECT
+    SELECT
 		   [Id]
 		  ,[Name]
 		  ,[Code]
@@ -14,6 +14,6 @@ BEGIN
 		  ,[ModifiedBy]
 		  ,[ModifiedOn]
 		  ,[IsActive]
-  FROM [dbo].[AddressType]
+  FROM [dbo].[CardType]
 
 END

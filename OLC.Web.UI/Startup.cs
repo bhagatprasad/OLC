@@ -52,6 +52,18 @@ namespace OLC.Web.UI
 
             services.AddScoped<ICreditCardService, CreditCardService>();
 
+            services.AddScoped<IAccountTypeService, AccountTypeService>();
+
+            services.AddScoped<IAddressTypeService, AddressTypeService>();
+
+            services.AddScoped<IBankService, BankService>();
+
+            services.AddScoped<ICardTypeService, CardTypeService>();
+
+            services.AddScoped<IStatusService, StatusService>();
+
+            services.AddScoped<ITransactionTypeService, TransactionTypeService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
