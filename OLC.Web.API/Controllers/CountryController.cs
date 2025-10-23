@@ -15,8 +15,8 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetCountryByCountryIdAsync/{countryId}")]
-        public async Task<IActionResult> GetCountryByCountryIdAsync(long countryId)
+        [Route("GetCountryByIdAsync/{countryId}")]
+        public async Task<IActionResult> GetCountryByIdAsync(long countryId)
         {
             try
             {
@@ -30,8 +30,8 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpGet]
-        [Route("GetAllCountriesAsync")]
-        public async Task<IActionResult> GetAccountTypeAsyn()
+        [Route("GetCountriesListAsyn")]
+        public async Task<IActionResult> GetCountriesListAsyn()
         {
             try
             {
