@@ -96,6 +96,8 @@ namespace OLC.Web.API.Manager
 
                     getStateByCountry.Id = Convert.ToInt64(item["Id"]);
 
+                    getStateByCountry.CountryId = item["CountryId"] != DBNull.Value ? Convert.ToInt64(item["CountryId"]) : null;
+
                     getStateByCountry.Name = item["Name"].ToString();
 
                     getStateByCountry.Code = item["Code"] != DBNull.Value ? item["Code"].ToString() : null;
@@ -103,6 +105,8 @@ namespace OLC.Web.API.Manager
                     getStateByCountry.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
 
                     getStateByCountry.CreatedOn = item["createdOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+
+                    getStateByCountry.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
 
                     getStateByCountry.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
 
@@ -146,6 +150,8 @@ namespace OLC.Web.API.Manager
 
                     getState.Id = Convert.ToInt64(item["Id"]);
 
+                    getState.CountryId = item["CountryId"] != DBNull.Value ? Convert.ToInt64(item["CountryId"]) : null;
+
                     getState.Name = item["Name"].ToString();
 
                     getState.Code = item["Code"] != DBNull.Value ? item["Code"].ToString() : null;
@@ -153,6 +159,8 @@ namespace OLC.Web.API.Manager
                     getState.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
 
                     getState.CreatedOn = item["createdOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+
+                    getState.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
 
                     getState.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
 
