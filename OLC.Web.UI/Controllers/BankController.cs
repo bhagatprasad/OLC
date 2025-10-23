@@ -8,20 +8,19 @@ namespace OLC.Web.UI.Controllers
 {
     [Authorize]
     [Authorize(Roles = ("Administrator,Executive,User"))]
-    public class CardTypeController : Controller
+    public class BankController : Controller
     {
-        private readonly ICardTypeService _cardTypeService;
+        private readonly IBankService _bankService;
         private readonly INotyfService _notyfService;
 
-        public CardTypeController(ICardTypeService cardTypeService,
+        public BankController(IBankService bankService,
             INotyfService notyfService)
         {
-            _cardTypeService = cardTypeService;
+            _bankService = bankService;
             _notyfService = notyfService;
         }
 
         [HttpGet]
-        [Authorize(Roles = ("Administrator,Executive"))]
         public IActionResult Index()
         {
             return View();
@@ -29,11 +28,11 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive,User"))]
-        public async Task<IActionResult> GetCardTypes()
+        public async Task<IActionResult> GetBanks()
         {
             try
             {
-                var response = await _cardTypeService.GetCardTypeAsync();
+                var response = await _bankService.GetBanksListAsync();
                 return Json(new { data = response });
             }
             catch (Exception ex)
@@ -45,16 +44,16 @@ namespace OLC.Web.UI.Controllers
 
         [HttpPost]
         [Authorize(Roles = ("Administrator"))]
-        public async Task<IActionResult> InsertOrUpdateCardType([FromBody] CardType cardType)
+        public async Task<IActionResult> InsertOrUpdateBank([FromBody] Bank bank)
         {
             try
             {
                 bool isSucess = false;
 
-                if (cardType.Id > 0)
-                    isSucess = await _cardTypeService.InsertCardTypeAsync(cardType);
+                if (bank.Id > 0)
+                    isSucess = await _bankService.UpdateBankAsync(bank);
                 else
-                    isSucess = await _cardTypeService.UpdateCardTypeAsync(cardType);
+                    isSucess = await _bankService.InsertBankAsync(bank);
 
                 _notyfService.Success("Save operation successful");
 
@@ -67,5 +66,4 @@ namespace OLC.Web.UI.Controllers
             }
         }
     }
-
 }

@@ -1,10 +1,9 @@
-﻿function AccountTypeController() {
-
+﻿function BankController() {
     var self = this;
-    self.pageTitle = "Account types";
+    self.pageTitle = "Banks";
     self.formTitle = "";
-    self.gridTitle = "All account types";
-    self.accountTypes = [];
+    self.gridTitle = "All Banks";
+    self.banks = [];
     self.init = function () {
 
         var form = $('#AddEditTypeForm');
@@ -35,7 +34,7 @@
 
         $(document).on("click", "#addTypeBtn", function () {
             $('#sidebar').addClass('show');
-            self.formTitle = "Add account type";
+            self.formTitle = "Add Address type";
             $("#formTitle").text(self.formTitle);
             $('body').append('<div class="modal-backdrop fade show"></div>');
             console.log("Iam getting from add button click");
@@ -58,7 +57,7 @@
 
         function getTypes() {
             makeAjaxRequest({
-                url: API_URLS.GetAccountTypeAsync,
+                url: API_URLS.GetBanksAsync,
                 type: 'GET',
                 successCallback: handleSuccess,
                 errorCallback: handleError
@@ -69,7 +68,7 @@
 
             console.info(response);
 
-            self.accountTypes = response && response.data ? response.data : [];
+            self.addressTypes = response && response.data ? response.data : [];
 
             self.LoadTypesGrid();
 
@@ -92,33 +91,33 @@
             const tbody = $('#gridBody');
             tbody.empty(); // Clear existing rows
 
-            if (self.accountTypes.length === 0) {
+            if (self.addressTypes.length === 0) {
                 tbody.append(`<tr>
                     <td colspan="8" class="text-center text-muted">No accounts types found</td>
                     </tr>`);
                 return;
             }
-            self.accountTypes.forEach(function (accountType) {
-                const statusBadge = getStatusBadge(accountType.IsActive);
-                const createdOn = formatDate(accountType.CreatedOn);
-                const modifiedOn = formatDate(accountType.ModifiedOn);
+            self.addressTypes.forEach(function (item) {
+                const statusBadge = getStatusBadge(item.IsActive);
+                const createdOn = formatDate(item.CreatedOn);
+                const modifiedOn = formatDate(item.ModifiedOn);
                 // Generate action buttons based on role
                 const actionButtons = `
-                <button class="btn btn-sm btn-outline-primary view-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="view accountType">
+                <button class="btn btn-sm btn-outline-primary view-type" data-id="${item.Id}" data-type='${item}' title="view type">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-warning edit-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="edit accountType">
+                <button class="btn btn-sm btn-outline-warning edit-type" data-id="${item.Id}" data-type='${item}' title="edit type">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger delete-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="delete accountType">
+                <button class="btn btn-sm btn-outline-danger delete-type" data-id="${item.Id}" data-type='${item}' title="delete type">
                     <i class="fas fa-trash"></i>
                 </button>
             `;
                 const row = `
-            <tr class="user-account-item" data-accounttype='${accountType}' data-id='${accountType.Id}'>
-                <td><a style="cursor:pointer;color:blue;" class="view-accounttype" data-user-id="${accountType.Id}">#${accountType.Id}</a></td>
-                <td>${accountType.Name}</td>
-                <td>${accountType.Code}</td>
+            <tr class="user-account-item" data-type='${item}' data-id='${item.Id}'>
+                <td><a style="cursor:pointer;color:blue;" class="view-type" data-id="${item.Id}">#${item.Id}</a></td>
+                <td>${item.Name}</td>
+                <td>${item.Code}</td>
                 <td>${createdOn || 'N/A'}</td>
                 <td>${modifiedOn || 'N/A'}</td>
                 <td>${statusBadge}</td>
