@@ -39,3 +39,6 @@ Post-Deployment Script Template
 
 -- Include seed data for SeedCities
 :r .\SeedCities.sql
+
+-- Include seed data for SeedBanks
+:r .\SeedBanks.sql

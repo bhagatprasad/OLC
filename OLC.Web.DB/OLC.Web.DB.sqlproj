@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
-    <Build Include="Programmability\Stored Procedures\uspGetUser.sql" />
     <Build Include="Tables\User.sql" />
     <Build Include="Tables\TransactionType.sql" />
     <Build Include="Tables\UserCreditCard.sql" />
@@ -166,7 +165,7 @@
     <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressType.sql" />
     <Build Include="Tables\Bank.sql" />
     <Build Include="Programmability\Stored Procedures\Bank\uspDeleteBank.sql" />
-    <Build Include="Programmability\Stored Procedures\Bank\uspGetBank.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspGetBanks.sql" />
     <Build Include="Programmability\Stored Procedures\Bank\uspGetBankById.sql" />
     <Build Include="Programmability\Stored Procedures\Bank\uspInsertBank.sql" />
     <Build Include="Programmability\Stored Procedures\Bank\uspUpdateBank.sql" />
@@ -192,5 +191,6 @@
     <None Include="Post-Deployement\SeedCountry.sql" />
     <None Include="Post-Deployement\SeedStates.sql" />
     <None Include="Post-Deployement\SeedCities.sql" />
+    <None Include="Post-Deployement\SeedBanks.sql" />
   </ItemGroup>
 </Project>

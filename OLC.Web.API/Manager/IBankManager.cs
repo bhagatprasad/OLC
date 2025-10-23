@@ -6,9 +6,9 @@ namespace OLC.Web.API.Manager
     {
         Task<bool>InsertBankAsync(Bank bank);
         Task<bool> UpdateBankAsync(Bank bank);
-        Task<bool> DeleteBankAsync(long Id);
-        Task<Bank> GetBankByIdAsync(long id);
-        Task<List<Bank>> GetBankAsync();
+        Task<bool> DeleteBankAsync(long bankId);
+        Task<Bank> GetBankByIdAsync(long bankId);
+        Task<List<Bank>> GetBanksListAsync();
 
     }
 }

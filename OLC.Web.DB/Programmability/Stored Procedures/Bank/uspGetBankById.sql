@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetBankById]
 (
-       @id BIGINT 
+  @bankId      bigint 
 )
 AS 
  BEGIN
@@ -13,5 +13,8 @@ AS
           [ModifiedBy],
           [ModifiedOn],
           [IsActive]
-     FROM [dbo].[Bank] WHERE Id=@id
-END
+     FROM 
+          [dbo].[Bank] 
+     WHERE 
+          Id = @bankId
+    END

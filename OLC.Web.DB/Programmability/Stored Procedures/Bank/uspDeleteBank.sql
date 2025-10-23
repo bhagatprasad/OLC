@@ -1,13 +1,13 @@
 ﻿CREATE PROCEDURE [dbo].[uspDeleteBank]
 (
-          @id               BIGINT  
+  @bankId      bigint
 )
 
 AS 
 
  BEGIN
     
-    DELETE  FROM [dbo].[Bank] WHERE Id=@id
+    DELETE  FROM [dbo].[Bank] WHERE Id = @bankId
  
 END
        

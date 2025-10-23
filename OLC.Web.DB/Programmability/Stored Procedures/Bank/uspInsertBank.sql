@@ -1,8 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[uspInsertBank]
 (
-	   @name                NVARCHAR(255)
-	  ,@code                NVARCHAR(255)
-	  ,@createdBy           BIGINT 
+	 @name                nvarchar(255)
+	,@code                nvarchar(255)
+	,@createdBy           bigint 
 )
 	
 AS

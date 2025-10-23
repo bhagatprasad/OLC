@@ -16,12 +16,12 @@ namespace OLC.Web.API.Controllers
             _bankManager = bankManager;
         }
         [HttpGet]
-        [Route("GetBankAsync")]
-        public async Task<IActionResult> GetBankAsync()
+        [Route("GetBanksListAsync")]
+        public async Task<IActionResult> GetBanksListAsync()
         {
             try
             {
-                var responce = await _bankManager.GetBankAsync();
+                var responce = await _bankManager.GetBanksListAsync();
                 return Ok(responce);
             }
             catch (Exception ex)
@@ -31,12 +31,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetBankByIdAsync/{id}")]
-        public async Task<IActionResult> GetBankByIdAsync(long id)
+        [Route("GetBankByIdAsync/{bankId}")]
+        public async Task<IActionResult> GetBankByIdAsync(long bankId)
         {
             try
             {
-                var responce = await _bankManager.GetBankByIdAsync(id);
+                var responce = await _bankManager.GetBankByIdAsync(bankId);
                 return Ok(responce);
             }
             catch (Exception ex)
@@ -77,12 +77,12 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteBankAsync/{Id}")]
-        public async Task<IActionResult> DeleteBankAsync(long Id)
+        [Route("DeleteBankAsync/{bankId}")]
+        public async Task<IActionResult> DeleteBankAsync(long bankId)
         {
             try
             {
-                var responce = await _bankManager.DeleteBankAsync(Id);
+                var responce = await _bankManager.DeleteBankAsync(bankId);
                 return Ok(responce);
             }
             catch (Exception ex)

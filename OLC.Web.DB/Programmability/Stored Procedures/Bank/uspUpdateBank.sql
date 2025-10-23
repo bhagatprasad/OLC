@@ -1,18 +1,20 @@
 ﻿CREATE PROCEDURE [dbo].[uspUpdateBank]
 (
-           @id               BIGINT        
-          ,@name             NVARCHAR(255)
-          ,@code             NVARCHAR(255)
-          ,@isActive         BIT
+    @id               bigint        
+   ,@name             nvarchar(255)
+   ,@code             nvarchar(255)
+   ,@isActive         bit
+   ,@modifiedBy       bigint
 )
 AS 
  BEGIN
-  UPDATE [dbo].[Bank]
-          SET
-             Name = @name,
-             Code = @code,
-             
-             ModifiedOn = GETDATE(),
-             IsActive = @isActive
-       WHERE ID = @id
+  UPDATE    [dbo].[Bank]
+        SET
+             Name       =       @name,
+             Code       =       @code,
+             IsActive   =       @isActive,
+             ModifiedOn =       GETDATE(),
+             ModifiedBy =       @modifiedBy
+       WHERE 
+             ID         =       @id
 END

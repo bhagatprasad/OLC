@@ -19,6 +19,7 @@ namespace OLC.Web.API.Manager
             if (bank != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
+
                 sqlConnection.Open();
 
                 SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateBank]", sqlConnection);
@@ -27,6 +28,7 @@ namespace OLC.Web.API.Manager
                 sqlCommand.Parameters.AddWithValue("@name", bank.Name);
                 sqlCommand.Parameters.AddWithValue("@code", bank.Code);
                 sqlCommand.Parameters.AddWithValue("@isActive", bank.IsActive);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", bank.ModifiedBy); 
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
                 return true;
@@ -35,22 +37,22 @@ namespace OLC.Web.API.Manager
         }
 
 
-        public async Task<bool> DeleteBankAsync(long Id)
+        public async Task<bool> DeleteBankAsync(long bankId)
         {
-            if (Id != null)
+            if (bankId > 0)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
 
                 SqlCommand sqlCommand = new SqlCommand("[dbo].[uspDeleteBank]", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@id", Id);
+                sqlCommand.Parameters.AddWithValue("@bankId", bankId);
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
                 return true;
             }
             return false;
-        }        
+        }
         public async Task<bool> InsertBankAsync(Bank bank)
         {
             if (bank != null)
@@ -62,7 +64,7 @@ namespace OLC.Web.API.Manager
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Parameters.AddWithValue("@name", bank.Name);
                 sqlCommand.Parameters.AddWithValue("@code", bank.Code);
-                sqlCommand.Parameters.AddWithValue("@CreatedBy", bank.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@createdBy", bank.CreatedBy);
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
                 return true;
@@ -70,25 +72,32 @@ namespace OLC.Web.API.Manager
             return false;
         }
 
-        public async Task<Bank> GetBankByIdAsync(long id)
+        public async Task<Bank> GetBankByIdAsync(long bankId)
         {
             Bank bank = null;
+
             SqlConnection sqlConnection = new SqlConnection(connectionString);
+
             sqlConnection.Open();
 
             SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetBankById]", sqlConnection);
+
             sqlCommand.CommandType = CommandType.StoredProcedure;
-            sqlCommand.Parameters.AddWithValue("@id", id);
+
+            sqlCommand.Parameters.AddWithValue("@bankId", bankId);
+
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-           
+
+
             DataTable dt = new DataTable();
-           
+
             sqlDataAdapter.Fill(dt);
+
             sqlConnection.Close();
 
-            if(dt.Rows.Count > 0)
+            if (dt.Rows.Count > 0)
             {
-               foreach(DataRow dr in dt.Rows)
+                foreach (DataRow dr in dt.Rows)
                 {
                     bank = new Bank();
                     bank.Id = Convert.ToInt64(dr["Id"]);
@@ -105,21 +114,26 @@ namespace OLC.Web.API.Manager
             return bank;
         }
 
-        public async Task<List<Bank>> GetBankAsync()
+        public async Task<List<Bank>> GetBanksListAsync()
         {
             List<Bank> banks = new List<Bank>();
-           
+
             Bank bank = null;
+
             SqlConnection sqlConnection = new SqlConnection(connectionString);
+
             sqlConnection.Open();
 
-            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetBank]", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetBanks]", sqlConnection);
+
             sqlCommand.CommandType = CommandType.StoredProcedure;
-            
-            SqlDataAdapter da = new SqlDataAdapter(sqlCommand);            
+
+            SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
             DataTable dt = new DataTable();
 
             da.Fill(dt);
+
             sqlConnection.Close();
 
             if (dt.Rows.Count > 0)
@@ -137,9 +151,9 @@ namespace OLC.Web.API.Manager
                     bank.IsActive = dr["IsActive"] != DBNull.Value ? (bool)dr["IsActive"] : null;
 
                     banks.Add(bank);
-                }               
+                }
             }
             return banks;
         }
-    }   
+    }
 }
