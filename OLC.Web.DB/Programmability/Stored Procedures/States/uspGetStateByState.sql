@@ -1,6 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[uspGetStatesById]
+﻿CREATE PROCEDURE [dbo].[uspGetStatesByState]
 (
-@stateId bigint
+@stateId		bigint
 )
 
 	WITH RECOMPILE
@@ -20,6 +20,6 @@ BEGIN
 	  ,[IsActive]
   FROM [dbo].[State]
 
- WHERE Id=@stateId
+ WHERE Id		=@stateId
 
 END
