@@ -1,10 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetCountries]
 	WITH RECOMPILE
-
 AS
-
 BEGIN
-
   SELECT
 	   [Id]
 	  ,[Name]

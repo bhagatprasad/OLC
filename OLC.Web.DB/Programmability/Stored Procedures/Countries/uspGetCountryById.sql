@@ -1,10 +1,8 @@
-﻿CREATE PROCEDURE [dbo].[uspGetCountriesById]
-	(
-	@countryId bigint
-	)
-
+﻿CREATE PROCEDURE [dbo].[uspGetCountryById]
+(
+	@countryId		 bigint
+)
 	WITH RECOMPILE
-
 	AS
 
 	BEGIN
@@ -18,7 +16,6 @@
 	  ,[ModifiedOn]
 	  ,[IsActive]
   FROM [dbo].[Country]
-
-   WHERE Id=@countryId
-
+   WHERE
+		Id			=@countryId
 END
