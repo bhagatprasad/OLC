@@ -99,10 +99,7 @@
     <Build Include="Programmability\Stored Procedures\Role\uspInsertRoles.sql" />
     <Build Include="Programmability\Stored Procedures\Role\uspUpdateRoles.sql" />
     <Build Include="Programmability\Stored Procedures\Role\uspDeleteRoles.sql" />
-    <Build Include="Programmability\Stored Procedures\States\uspInsertStates.sql" />
-    <Build Include="Programmability\Stored Procedures\States\uspGetStatesById.sql" />
-    <Build Include="Programmability\Stored Procedures\States\uspUpdateStates.sql" />
-    <Build Include="Programmability\Stored Procedures\States\uspDeleteStates.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspGetStateByState.sql" />
     <Build Include="Programmability\Stored Procedures\Countries\uspGetCountryById.sql" />
     <Build Include="Programmability\Stored Procedures\Countries\uspInsertCountries.sql" />
     <Build Include="Programmability\Stored Procedures\Countries\uspUpdateCountries.sql" />
@@ -169,6 +166,7 @@
     <Build Include="Programmability\Stored Procedures\Bank\uspGetBankById.sql" />
     <Build Include="Programmability\Stored Procedures\Bank\uspInsertBank.sql" />
     <Build Include="Programmability\Stored Procedures\Bank\uspUpdateBank.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspGetSatesByCountry.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
