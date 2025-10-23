@@ -92,7 +92,6 @@
     <Build Include="Tables\City.sql" />
     <Build Include="Tables\State.sql" />
     <Build Include="Programmability\Stored Procedures\Role\uspGetRoles.sql" />
-    <Build Include="Programmability\Stored Procedures\Cities\uspGetCities.sql" />
     <Build Include="Programmability\Stored Procedures\States\uspGetStates.sql" />
     <Build Include="Programmability\Stored Procedures\Countries\uspGetCountries.sql" />
     <Build Include="Programmability\Stored Procedures\Role\uspGetRolesById.sql" />
@@ -107,10 +106,6 @@
     <Build Include="Programmability\Stored Procedures\Countries\uspInsertCountries.sql" />
     <Build Include="Programmability\Stored Procedures\Countries\uspUpdateCountries.sql" />
     <Build Include="Programmability\Stored Procedures\Countries\uspDeleteCountry.sql" />
-    <Build Include="Programmability\Stored Procedures\Cities\uspGetCitiesById.sql" />
-    <Build Include="Programmability\Stored Procedures\Cities\uspInsertCities.sql" />
-    <Build Include="Programmability\Stored Procedures\Cities\uspUpdateCities.sql" />
-    <Build Include="Programmability\Stored Procedures\Cities\uspDeleteCities.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspRegisterUser.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspGetUserByUserName.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspResetPassword.sql" />
@@ -169,6 +164,10 @@
     <Build Include="Programmability\Stored Procedures\Bank\uspGetBankById.sql" />
     <Build Include="Programmability\Stored Procedures\Bank\uspInsertBank.sql" />
     <Build Include="Programmability\Stored Procedures\Bank\uspUpdateBank.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCitiesByCountry.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCitiesByState.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCityById.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCities.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

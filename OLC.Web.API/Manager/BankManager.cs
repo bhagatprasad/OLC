@@ -149,7 +149,7 @@ namespace OLC.Web.API.Manager
                     bank.ModifiedBy = dr["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(dr["ModifiedBy"]) : null;
                     bank.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)dr["ModifiedOn"] : null;
                     bank.IsActive = dr["IsActive"] != DBNull.Value ? (bool)dr["IsActive"] : null;
-
+                        
                     banks.Add(bank);
                 }
             }
