@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
-using System.Security.Cryptography.X509Certificates;
 
 namespace OLC.Web.API.Controllers
 {

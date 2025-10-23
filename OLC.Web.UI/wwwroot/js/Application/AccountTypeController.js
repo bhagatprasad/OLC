@@ -1,0 +1,134 @@
+﻿function AccountTypeController() {
+
+    var self = this;
+    self.pageTitle = "Account types";
+    self.formTitle = "";
+    self.gridTitle = "All account types";
+    self.accountTypes = [];
+    self.init = function () {
+
+        var form = $('#AddEditTypeForm');
+
+        var signUpButton = $('#btnSubmit');
+
+        form.on('input', 'input, select, textarea', checkFormValidity);
+
+        checkFormValidity();
+
+        function checkFormValidity() {
+            if (form[0].checkValidity()) {
+                signUpButton.prop('disabled', false);
+            } else {
+                signUpButton.prop('disabled', true);
+            }
+        }
+
+
+        getTypes();
+
+        //setup page title 
+        $("#pageTitle").text(self.pageTitle);
+
+        //setup grid title
+        $("#gridTitle").text(self.gridTitle);
+
+
+        $(document).on("click", "#addTypeBtn", function () {
+            $('#sidebar').addClass('show');
+            self.formTitle = "Add account type";
+            $("#formTitle").text(self.formTitle);
+            $('body').append('<div class="modal-backdrop fade show"></div>');
+            console.log("Iam getting from add button click");
+        });
+
+        $(document).on("click", "#closeSidebar", function () {
+            $('#AddEditTypeForm')[0].reset();
+            $('#sidebar').removeClass('show');
+            $('.modal-backdrop').remove();
+        });
+
+
+        $('#AddEditTypeForm').on('submit', function (e) {
+            e.preventDefault();
+            console.log();
+            $('#AddEditTypeForm')[0].reset();
+            $('#sidebar').removeClass('show');
+            $('.modal-backdrop').remove();
+        });
+
+        function getTypes() {
+            makeAjaxRequest({
+                url: API_URLS.GetAccountTypeAsync,
+                type: 'GET',
+                successCallback: handleSuccess,
+                errorCallback: handleError
+            });
+
+        }
+        function handleSuccess(response) {
+
+            console.info(response);
+
+            self.accountTypes = response && response.data ? response.data : [];
+
+            self.LoadTypesGrid();
+
+            $(".se-pre-con").hide();
+        }
+
+        function handleError(xhr, status, error) {
+            console.error('Error loading account type data:', error);
+            $('#gridBody').html(`
+                <tr>
+                    <td colspan="8" class="text-center text-danger">
+                        Error loading account type data. Please try again.
+                    </td>
+                </tr>
+            `);
+            $(".se-pre-con").hide();
+        }
+
+        self.LoadTypesGrid = function () {
+            const tbody = $('#gridBody');
+            tbody.empty(); // Clear existing rows
+
+            if (self.accountTypes.length === 0) {
+                tbody.append(`<tr>
+                    <td colspan="8" class="text-center text-muted">No accounts types found</td>
+                    </tr>`);
+                return;
+            }
+            self.accountTypes.forEach(function (accountType) {
+                const statusBadge = getStatusBadge(accountType.IsActive);
+                const createdOn = formatDate(accountType.CreatedOn);
+                const modifiedOn = formatDate(accountType.ModifiedOn);
+                // Generate action buttons based on role
+                const actionButtons = `
+                <button class="btn btn-sm btn-outline-primary view-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="view accountType">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-warning edit-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="edit accountType">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger delete-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="delete accountType">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+                const row = `
+            <tr class="user-account-item" data-accounttype='${accountType}' data-id='${accountType.Id}'>
+                <td><a style="cursor:pointer;color:blue;" class="view-accounttype" data-user-id="${accountType.Id}">#${accountType.Id}</a></td>
+                <td>${accountType.Name}</td>
+                <td>${accountType.Code}</td>
+                <td>${createdOn || 'N/A'}</td>
+                <td>${modifiedOn || 'N/A'}</td>
+                <td>${statusBadge}</td>
+                <td>
+                    ${actionButtons}
+                </td>
+            </tr>
+        `;
+                tbody.append(row);
+            });
+        }
+    }
+}

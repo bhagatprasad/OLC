@@ -183,12 +183,16 @@ const API_URLS = {
     GetSurveyResponsesAsync: '/SurveyResponse/FetchSurveyResponses',
     InsertOrUpdateSurveyResponseAsync: '/SurveyResponse/InsertOrUpdateSurveyResponse',
     GenarateTenantDealerDetailsAggriment: '/Tenant/GenarateTenantDealerDetailsAggriment',
-
     FetchPaymentMethodAsync: '/PaymentMethod/FetchPaymentMethod',
     InsertOrUpdatePaymentMethod: '/PaymentMethod/InsertOrUpdatePaymentMethod',
     InsertOrUpdateBillingAccount: '/BillingAccount/InsertOrUpdateBillingAccount',
     FetchBillingAccount: '/BillingAccount/FetchBillingAccount',
-
+    GetAccountTypeAsync: '/AccountType/GetAccountTypes',
+    GetAddressTypesAsync: '/AddressType/GetAddressTypes',
+    GetBanksAsync: '/Bank/GetBanks',
+    GetCardTypesAsync: '/CardType/GetCardTypes',
+    GetStatusesAsync: '/Status/GetStatuses',
+    GetTransactionTypesAsync: '/TransactionType/GetTransactionTypes'
 
 };
 function addCommonProperties(data) {
@@ -559,6 +563,22 @@ function generateDealerCode() {
     const dateTimeCode = `${tenantCode}${month}${day}${year}${hours}${minutes}${seconds}${milliseconds}`;
 
     return dateTimeCode;
+}
+function getStatusBadge(isActive) {
+    if (isActive) {
+        return '<span class="badge bg-success status-badge">Active</span>';
+    } else {
+        return '<span class="badge bg-warning status-badge">Inactive</span>';
+    }
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
 }
 function showLoader() {
     $('#overlay').attr('style', 'display:grid');

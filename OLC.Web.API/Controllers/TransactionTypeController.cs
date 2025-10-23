@@ -78,7 +78,7 @@ namespace OLC.Web.API.Controllers
 
         [HttpPut]
         [Route("UpdateTransactionTypeAsync")]
-        public async Task<IActionResult> UpdateTransactionTypeAsync([FromBody] TransactionType transactionType)
+        public async Task<IActionResult> UpdateTransactionTypeAsync(TransactionType transactionType)
         {
             try
             {

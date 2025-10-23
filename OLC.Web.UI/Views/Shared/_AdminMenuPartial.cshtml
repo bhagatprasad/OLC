@@ -23,11 +23,12 @@
                             <li class="dropdown">
                                 <a class="dropdown-item dropdown-toggle" href="#">Pyaments</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="index.html">Account Types</a></li>
-                                    <li><a class="dropdown-item" href="feature-header-dark.html">Card Types</a></li>
-                                    <li><a class="dropdown-item" href="feature-header-primary.html">Address Types</a></li>
-                                    <li><a class="dropdown-item" href="index-2.html">Transaction Types</a></li>
-                                    <li><a class="dropdown-item" href="index-2.html">Banks</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "AccountType", null)">Account Types</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Bank", null)">Banks</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "CardType", null)">Card Types</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "AddressType", null)">Address Types</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Status", null)">Status</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "TransactionType", null)">Transaction Types</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -69,8 +70,8 @@
         ============================== -->
         <nav class="login-signup navbar navbar-expand">
             <ul class="navbar-nav">
-                <li><a href="@Url.Action("Profile","User",null)">Settings</a> </li>
-                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-outline-primary shadow-none d-none d-sm-block" href="@Url.Action("Logout","Account",null)">Sign out</a></li>
+                <li><a href="@Url.Action("Profile", "User", null)">Settings</a> </li>
+                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-outline-primary shadow-none d-none d-sm-block" href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
             </ul>
         </nav>
         <!-- Login & Signup Link end -->
