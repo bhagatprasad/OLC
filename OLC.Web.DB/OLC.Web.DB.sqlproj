@@ -164,6 +164,12 @@
     <Build Include="Programmability\Stored Procedures\AddressType\uspDeleteAddressType.sql" />
     <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressTypeById.sql" />
     <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressType.sql" />
+    <Build Include="Tables\Bank.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspDeleteBank.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspGetBank.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspGetBankById.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspInsertBank.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspUpdateBank.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
