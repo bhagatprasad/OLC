@@ -4,7 +4,7 @@
 )
 AS
 BEGIN 
-	DELETE FROM [dbo].[UserCreditCard] WHERE Id = @creditcardId
+	UPDATE  [dbo].[UserCreditCard] SET IsActive=0  WHERE Id = @creditcardId
 END
 
 	    

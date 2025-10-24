@@ -10,6 +10,13 @@ namespace OLC.Web.UI.Services
             _repositoryFactory = repositoryFactory;
         }
 
+        public async Task<bool> DeleteUserCreditAsync(long creditcardId)
+        {
+            var url = Path.Combine("CreditCard/DeleteUserCreditAsync", creditcardId.ToString());
+
+            return await _repositoryFactory.SendAsync<bool>(HttpMethod.Delete, url);
+        }
+
         public Task<UserCreditCard> GetUserCreditCardByCardIdAsync(long creditCardId)
         {
             throw new NotImplementedException();

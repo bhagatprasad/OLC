@@ -17,7 +17,7 @@ namespace OLC.Web.UI.Controllers
             _creditCardService = creditCardService;
             _notyfService = notyfService;
         }
-       
+
         [HttpGet]
         [Authorize(Roles = ("User"))]
         public IActionResult UserCreditCards()
@@ -41,6 +41,36 @@ namespace OLC.Web.UI.Controllers
             }
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUserCredit(long creditCardId)
+        {
+            try
+            {
+                bool isSaved = false;
+
+                if (creditCardId > 0)
+                {
+
+                    isSaved = await _creditCardService.DeleteUserCreditAsync(creditCardId);
+
+                    if (isSaved)
+                        _notyfService.Success("Successfully saved user credit card");
+                    else
+                        _notyfService.Warning("Unable to delete credit card");
+
+                    return Json(isSaved);
+                }
+
+                _notyfService.Error("Unable to save user credit card");
+
+                return Json(isSaved);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
         [HttpPost]
         [Authorize(Roles = ("User"))]
         public async Task<IActionResult> SaveUserCreditCard([FromBody] UserCreditCard userCreditCard)
