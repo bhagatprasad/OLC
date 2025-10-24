@@ -1,27 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OLC.Web.UI.Models;
 using OLC.Web.UI.Services;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace OLC.Web.UI.Controllers
 {
+    [Authorize(Roles = ("Administrator,Executive,User"))]
     public class CountryController : Controller
     {
         private readonly ICountryService _countryService;
-        public CountryController(ICountryService countryService)
+        private readonly INotyfService _notyfService;
+        public CountryController(ICountryService countryService,
+            INotyfService notyfService)
         {
             _countryService = countryService;
         }
-
+        [HttpGet]
+        [Authorize(Roles = ("Administrator,Executive"))]
         public async Task<IActionResult> Index()
         {
-            var response = await _countryService.GetAllCountriesAsync();
-            return View(response);
+            return View();
 
         }
 
         [HttpDelete]
+        [Authorize(Roles = ("Administrator"))]
         public async Task<IActionResult> DeleteCounry(long countryid)
         {
             try
@@ -41,7 +45,7 @@ namespace OLC.Web.UI.Controllers
             try
             {
                 var response = await _countryService.GetAllCountriesAsync();
-                return Ok(response);
+                return Json(new { data = response });
 
             }
             catch (Exception ex)
@@ -55,7 +59,7 @@ namespace OLC.Web.UI.Controllers
             try
             {
                 var response = await _countryService.GetCountryByCountryIdAsync(countryid);
-                return Ok(response);
+                return Json(response);
             }
             catch (Exception ex)
             {
@@ -64,29 +68,33 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertCountry (Country country)
+        [Authorize(Roles = ("Administrator"))]
+        public async Task<IActionResult> SaveCountry([FromBody] Country country)
         {
             try
             {
-                var response = await _countryService.InsertCountryAsync(country);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
+                bool isSaved = false;
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateCountry(Country country)
-        {
-            try
-            {
-                var response = await _countryService.InsertCountryAsync(country);
-                return Ok(response);
+                if (country != null)
+                {
+                    if (country.Id > 0)
+                        isSaved = await _countryService.UpdateCountryAsync(country);
+                    else
+                        isSaved = await _countryService.InsertCountryAsync(country);
+
+                    _notyfService.Success("Country save successful");
+
+                    return Json(isSaved);
+                }
+
+                _notyfService.Warning("Country save unsuccessful");
+
+                return Json(isSaved);
             }
             catch (Exception ex)
             {
+                _notyfService.Error(ex.Message);
+
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

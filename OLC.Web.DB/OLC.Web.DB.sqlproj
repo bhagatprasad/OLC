@@ -167,9 +167,9 @@
     <Build Include="Programmability\Stored Procedures\Cities\uspGetCitiesByState.sql" />
     <Build Include="Programmability\Stored Procedures\Cities\uspGetCityById.sql" />
     <Build Include="Programmability\Stored Procedures\Cities\uspGetCities.sql" />
-    <Build Include="Tables\TransactionFee_1.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionFee\uspGetTransactionFeeById.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionFee\uspGetAllTransactionFeesDetails.sql" />
+    <Build Include="Tables\TransactionFee.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
