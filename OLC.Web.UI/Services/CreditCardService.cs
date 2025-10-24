@@ -9,11 +9,27 @@ namespace OLC.Web.UI.Services
         {
             _repositoryFactory = repositoryFactory;
         }
+
+        public Task<UserCreditCard> GetUserCreditCardByCardIdAsync(long creditCardId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<UserCreditCard>> GetUserCreditCardsAsync(long userId)
         {
             var url = Path.Combine("CreditCard/GetUserCreditCardsAsync", userId.ToString());
 
             return await _repositoryFactory.SendAsync<List<UserCreditCard>>(HttpMethod.Get, url);
+        }
+
+        public async Task<bool> InsertUserCreditCardAsync(UserCreditCard userCreditCard)
+        {
+            return await _repositoryFactory.SendAsync<UserCreditCard,bool>(HttpMethod.Post, "CreditCard/SaveUserCreditCardAsync", userCreditCard);
+        }
+
+        public async Task<bool> UpdateUserCreditCardAsync(UserCreditCard userCreditCard)
+        {
+            return await _repositoryFactory.SendAsync<UserCreditCard, bool>(HttpMethod.Post, "CreditCard/UpdateUserCreditCardAsync", userCreditCard);
         }
     }
 }

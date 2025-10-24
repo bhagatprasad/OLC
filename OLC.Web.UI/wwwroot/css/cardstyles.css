@@ -395,3 +395,28 @@ body {
         gap: 0;
     }
 }
+
+
+.credit-card .form-control::placeholder {
+    color: rgba(255,255,255,0.7);
+}
+
+.credit-card .form-select {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    border-radius: 5px;
+}
+
+    .credit-card .form-select option {
+        background: #667eea;
+        color: white;
+    }
+
+.chip-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: gold;
+}
