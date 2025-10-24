@@ -1,0 +1,131 @@
+﻿    <!-- Modal -->
+<div class="modal fade" id="viewCreditCard" tabindex="-1" aria-labelledby="creditCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="creditCardModalLabel">Credit Card Information</h5>
+                <button type="button" class="btn-close btn-view-card-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding:0">
+                <div class="credit-card">
+                    <i class="fas fa-microchip chip-icon"></i>
+                    <form id="creditCardForm">
+                        <div class="mb-3">
+                            <label for="ViewCardNumber" class="form-label"><i class="fas fa-credit-card"></i> Card Number</label>
+                            <input type="text" class="form-control" id="ViewCardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ViewCardHolderName" class="form-label"><i class="fas fa-user"></i> Card Holder Name</label>
+                            <input type="text" class="form-control" id="ViewCardHolderName" placeholder="John Doe">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ViewExpirymonth" class="form-label"><i class="fas fa-calendar-alt"></i> Expiry Month</label>
+                                    <select class="form-select" id="ViewExpirymonth">
+                                        <option value="01">January</option>
+                                        <option value="02">February</option>
+                                        <option value="03">March</option>
+                                        <option value="04">April</option>
+                                        <option value="05">May</option>
+                                        <option value="06">June</option>
+                                        <option value="07">July</option>
+                                        <option value="08">August</option>
+                                        <option value="09">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ViewExpiryYear" class="form-label"><i class="fas fa-calendar-alt"></i> Expiry Year</label>
+                                    <select class="form-select" id="ViewExpiryYear">
+                                        <option value="2025">2025</option>
+                                        <option value="2026">2026</option>
+                                        <option value="2027">2027</option>
+                                        <option value="2028">2028</option>
+                                        <option value="2029">2029</option>
+                                        <option value="2030">2030</option>
+                                        <option value="2031">2031</option>
+                                        <option value="2032">2032</option>
+                                        <option value="2033">2033</option>
+                                        <option value="2034">2034</option>
+                                        <option value="2035">2035</option>
+                                        <option value="2036">2036</option>
+                                        <option value="2037">2037</option>
+                                        <option value="2038">2038</option>
+                                        <option value="2039">2039</option>
+                                        <option value="2040">2040</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ViewCVV" class="form-label"><i class="fas fa-lock"></i> CVV</label>
+                            <input type="text" class="form-control" id="ViewCVV" placeholder="123" maxlength="4">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .credit-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        padding: 20px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .credit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat center;
+            background-size: cover;
+            opacity: 0.1;
+        }
+
+        .credit-card .form-control {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 5px;
+        }
+
+            .credit-card .form-control::placeholder {
+                color: rgba(255,255,255,0.7);
+            }
+
+        .credit-card .form-select {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 5px;
+        }
+
+            .credit-card .form-select option {
+                background: #667eea;
+                color: white;
+            }
+
+    .chip-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        color: gold;
+    }
+</style>
+
+

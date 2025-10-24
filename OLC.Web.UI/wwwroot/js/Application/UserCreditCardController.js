@@ -3,11 +3,17 @@
     var self = this;
 
     self.ApplicationUser = {};
+
     self.UserCreditCards = [];
+
     self.Banks = [];
+
     self.CardTypes = [];
+
     self.CurrentSelectedCreditCard = null;
+
     self.currentSelectedCreditCard = {};
+
     self.init = function () {
 
         var appUserInfo = storageService.get('ApplicationUser');
@@ -70,14 +76,15 @@
                 }
             });
         };
+        //activiate-card
 
-
-        function getStatusBadge(isActive) {
-            if (isActive) {
+        function getStatusBadge(card) {
+            if (card.IsActive) {
                 return '<span class="badge bg-success status-badge">Active</span>';
             } else {
-                return '<span class="badge bg-warning status-badge">Inactive</span>';
+                return `<span data-card-id="${card.Id}" class="badge bg-warning status-badge activiate-card">In Active</span>`;
             }
+
         }
         function loadUserCreditCards() {
             const tbody = $('#userCreditCardsBody');
@@ -86,7 +93,7 @@
             if (self.UserCreditCards.length > 0) {
                 self.UserCreditCards.forEach(function (card) {
 
-                    const statusBadge = getStatusBadge(card.IsActive);
+                    const statusBadge = getStatusBadge(card);
 
                     const actionButtons = `
                 <button class="btn btn-sm btn-outline-primary view-card" data-card-id="${card.Id}" data-card='${card}' title="view card">
@@ -119,7 +126,11 @@
             }
 
         }
+        $(document).on("click", ".activiate-card", function () {
+            var cardId = $(this).data("card-id");
 
+            console.log(cardId);
+        });
         $(document).on("click", "#addCreditCardBtn", function () {
             $('#sidebar').addClass('show');
             $('body').append('<div class="modal-backdrop fade show"></div>');
@@ -133,10 +144,6 @@
         });
 
 
-        //$(document).on("click", "#addCreditCardBtn", function () {
-        //    var creditCardUrl = "/CreditCard/GetUserCreditCards?UserId=" + self.currentSelectedCreditCard.UserId;
-        //    window.location.href = creditCardUrl;
-        //});
         $(document).on("click", ".edit-card", function () {
             var cardId = $(this).data("card-id");
             var selectedCreditCard = self.UserCreditCards.filter(x => x.Id == cardId)[0];
@@ -173,6 +180,78 @@
             $('body').append('<div class="modal-backdrop fade show"></div>');
 
             console.log("Iam getting from add button click");
+        });
+
+
+        $(document).on("click", ".btn-view-card-close", function () {
+            self.CurrentSelectedCreditCard = null;
+            $("#viewCreditCard").modal("hide");
+            $("#deleteCreditCard").modal("hide");
+        });
+
+        $(document).on("click", ".delete-card", function () {
+            console.log("deleting...");
+
+            var cardId = $(this).data("card-id");
+
+            var selectedCreditCard = self.UserCreditCards.filter(x => x.Id == cardId)[0];
+
+            console.log("current selected user credit card is .." + JSON.stringify(selectedCreditCard));
+
+            self.CurrentSelectedCreditCard = selectedCreditCard;
+
+            $("#DeleteCardHolderName").val(self.CurrentSelectedCreditCard.CardHolderName);
+            $("#DeleteCardNumber").val(self.CurrentSelectedCreditCard.EncryptedCardNumber);
+            $("#DeleteExpirymonth").val(self.CurrentSelectedCreditCard.ExpiryMonth);
+            $("#DeleteExpiryYear").val(self.CurrentSelectedCreditCard.ExpiryYear);
+            $("#DeleteCVV").val(self.CurrentSelectedCreditCard.EncryptedCVV);
+
+            $("#deleteCreditCard").modal("show");
+        });
+
+        $(document).on("click", "#deleteCreditCardBtn", function () {
+            console.log("delete yes clicked");
+            $.ajax({
+                type: "DELETE",
+                url: "/CreditCard/DeleteUserCredit",
+                data: { creditCardId: self.CurrentSelectedCreditCard.Id },
+                cache: false,
+                success: function (response) {
+
+                    console.log(response);
+
+                    self.CurrentSelectedCreditCard = null;
+
+                    $("#deleteCreditCard").modal("hide");
+
+                    GetUserCreditCards();
+
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        });
+
+        $(document).on("click", ".view-card", function () {
+
+            console.log("Hoooooo");
+
+            var cardId = $(this).data("card-id");
+
+            var selectedCreditCard = self.UserCreditCards.filter(x => x.Id == cardId)[0];
+
+            console.log("current selected user credit card is .." + JSON.stringify(selectedCreditCard));
+
+            self.CurrentSelectedCreditCard = selectedCreditCard;
+
+            $("#ViewCardHolderName").val(self.CurrentSelectedCreditCard.CardHolderName);
+            $("#ViewCardNumber").val(self.CurrentSelectedCreditCard.EncryptedCardNumber);
+            $("#ViewExpirymonth").val(self.CurrentSelectedCreditCard.ExpiryMonth);
+            $("#ViewExpiryYear").val(self.CurrentSelectedCreditCard.ExpiryYear);
+            $("#ViewCVV").val(self.CurrentSelectedCreditCard.EncryptedCVV);
+            $("#viewCreditCard").modal("show");
+
         });
 
         $('#AddEditUserCreditCardForm').on('submit', function (e) {
