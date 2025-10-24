@@ -33,6 +33,7 @@ namespace OLC.Web.API
             services.AddScoped<ICountryManager, CountryManager>();
             services.AddScoped<IStateManager, StateManager>();
             services.AddScoped<ICityManager, CityManager>();
+            services.AddScoped<ITransactionFeeManager,TransactionFeeManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 

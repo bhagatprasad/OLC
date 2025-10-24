@@ -192,7 +192,8 @@ const API_URLS = {
     GetBanksAsync: '/Bank/GetBanks',
     GetCardTypesAsync: '/CardType/GetCardTypes',
     GetStatusesAsync: '/Status/GetStatuses',
-    GetTransactionTypesAsync: '/TransactionType/GetTransactionTypes'
+    GetTransactionTypesAsync: '/TransactionType/GetTransactionTypes',
+    GetCountriesListAsync: '/Country/GetCountriesList'
 
 };
 function addCommonProperties(data) {
