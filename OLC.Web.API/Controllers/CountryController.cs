@@ -30,8 +30,8 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpGet]
-        [Route("GetCountriesListAsyn")]
-        public async Task<IActionResult> GetCountriesListAsyn()
+        [Route("GetCountriesListAsync")]
+        public async Task<IActionResult> GetCountriesListAsync()
         {
             try
             {
