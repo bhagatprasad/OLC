@@ -7,6 +7,7 @@
     self.Banks = [];
     self.CardTypes = [];
     self.CurrentSelectedCreditCard = null;
+    self.currentSelectedCreditCard = {};
     self.init = function () {
 
         var appUserInfo = storageService.get('ApplicationUser');
@@ -70,6 +71,7 @@
             });
         };
 
+
         function getStatusBadge(isActive) {
             if (isActive) {
                 return '<span class="badge bg-success status-badge">Active</span>';
@@ -130,6 +132,11 @@
             $('.modal-backdrop').remove();
         });
 
+
+        //$(document).on("click", "#addCreditCardBtn", function () {
+        //    var creditCardUrl = "/CreditCard/GetUserCreditCards?UserId=" + self.currentSelectedCreditCard.UserId;
+        //    window.location.href = creditCardUrl;
+        //});
         $(document).on("click", ".edit-card", function () {
             var cardId = $(this).data("card-id");
             var selectedCreditCard = self.UserCreditCards.filter(x => x.Id == cardId)[0];
