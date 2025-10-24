@@ -10,9 +10,10 @@ namespace OLC.Web.UI.Services
         {
             _repositoryFactory = repositoryFactory;
         }
-        public Task<bool> DeleteCountryAsync(long countryId)
+        public async Task<bool> DeleteCountryAsync(long countryId)
         {
-            throw new NotImplementedException();
+            var url = Path.Combine("Country/DeleteCounryAsync", countryId.ToString());
+            return await _repositoryFactory.SendAsync<bool>(HttpMethod.Delete, url);
         }
 
         public async Task<List<Country>> GetAllCountriesAsync()
@@ -21,19 +22,20 @@ namespace OLC.Web.UI.Services
 
         }
 
-        public Task<Country> GetCountryByCountryIdAsync(long countryId)
+        public async Task<Country> GetCountryByCountryIdAsync(long countryId)
         {
-            throw new NotImplementedException();
+            var url = Path.Combine("Country/GetCountryByIdAsync", countryId.ToString());
+            return await _repositoryFactory.SendAsync<Country>(HttpMethod.Get, url);
         }
 
-        public Task<bool> InsertCountryAsync(Country country)
+        public async Task<bool> InsertCountryAsync(Country country)
         {
-            throw new NotImplementedException();
+            return await _repositoryFactory.SendAsync<Country, bool>(HttpMethod.Post, "Country/InsertCountryAsync", country);
         }
 
-        public Task<bool> UpdateCountryAsync(Country country)
+        public async Task<bool> UpdateCountryAsync(Country country)
         {
-            throw new NotImplementedException();
+            return await _repositoryFactory.SendAsync<Country, bool>(HttpMethod.Post, "Country/UpdateCountryAsync", country);
         }
     }
 }
