@@ -1,9 +1,12 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OLC.Web.UI.Models;
 using OLC.Web.UI.Services;
 
 namespace OLC.Web.UI.Controllers
 {
+    [Authorize]
     public class CreditCardController : Controller
     {
         private readonly ICreditCardService _creditCardService;
@@ -12,18 +15,18 @@ namespace OLC.Web.UI.Controllers
             INotyfService notyfService)
         {
             _creditCardService = creditCardService;
-            _notyfService= notyfService;
+            _notyfService = notyfService;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+       
+        [HttpGet]
+        [Authorize(Roles = ("User"))]
         public IActionResult UserCreditCards()
         {
             return View();
         }
+
         [HttpGet]
+        [Authorize(Roles = ("Administrator,Executive,User"))]
         public async Task<IActionResult> GetUserCreditCards(long userId)
         {
             try
@@ -35,6 +38,37 @@ namespace OLC.Web.UI.Controllers
             {
                 _notyfService.Error(ex.Message);
                 throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ("User"))]
+        public async Task<IActionResult> SaveUserCreditCard([FromBody] UserCreditCard userCreditCard)
+        {
+            try
+            {
+                bool isSaved = false;
+
+                if (userCreditCard != null)
+                {
+                    if (userCreditCard.Id > 0)
+                        isSaved = await _creditCardService.UpdateUserCreditCardAsync(userCreditCard);
+                    else
+                        isSaved = await _creditCardService.InsertUserCreditCardAsync(userCreditCard);
+
+                    _notyfService.Success("Successfully saved user credit card");
+
+                    return Json(isSaved);
+                }
+
+                _notyfService.Error("Unable to save user credit card");
+
+                return Json(isSaved);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 

@@ -1,8 +1,12 @@
 ﻿function UserCreditCardController() {
+
     var self = this;
 
     self.ApplicationUser = {};
     self.UserCreditCards = [];
+    self.Banks = [];
+    self.CardTypes = [];
+    self.CurrentSelectedCreditCard = null;
     self.init = function () {
 
         var appUserInfo = storageService.get('ApplicationUser');
@@ -15,7 +19,8 @@
         }
 
         GetUserCreditCards();
-
+        GetBanks();
+        GetCardTypes();
         function GetUserCreditCards() {
             $.ajax({
                 type: "GET",
@@ -33,6 +38,38 @@
                 }
             });
         };
+        function GetCardTypes() {
+            $.ajax({
+                type: "GET",
+                url: "/CardType/GetCardTypes",
+                cache: false,
+                success: function (response) {
+                    console.log(response)
+                    self.CardTypes = response && response.data ? response.data : [];
+                    genarateDropdown("CardType", self.CardTypes, "Id", "Name");
+
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+        };
+
+        function GetBanks() {
+            $.ajax({
+                type: "GET",
+                url: "/Bank/GetBanks",
+                cache: false,
+                success: function (response) {
+                    console.log(response)
+                    self.Banks = response && response.data ? response.data : [];
+                    genarateDropdown("IssuingBank", self.Banks, "Id", "Name");
+
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+        };
+
         function getStatusBadge(isActive) {
             if (isActive) {
                 return '<span class="badge bg-success status-badge">Active</span>';
@@ -49,7 +86,7 @@
 
                     const statusBadge = getStatusBadge(card.IsActive);
 
-                    const actionButtons =`
+                    const actionButtons = `
                 <button class="btn btn-sm btn-outline-primary view-card" data-card-id="${card.Id}" data-card='${card}' title="view card">
                     <i class="fas fa-eye"></i>
                 </button>
@@ -93,15 +130,102 @@
             $('.modal-backdrop').remove();
         });
 
+        $(document).on("click", ".edit-card", function () {
+            var cardId = $(this).data("card-id");
+            var selectedCreditCard = self.UserCreditCards.filter(x => x.Id == cardId)[0];
+
+            console.log("current selected user credit card is .." + JSON.stringify(selectedCreditCard));
+
+            self.CurrentSelectedCreditCard = selectedCreditCard;
+
+            var cardType = null;
+
+            var bank = null;
+
+
+            if (self.CurrentSelectedCreditCard.CardType)
+                cardType = self.CardTypes.filter(x => x.Name == self.CurrentSelectedCreditCard.CardType)[0];
+
+            if (self.CurrentSelectedCreditCard.IssuingBank)
+                bank = self.Banks.filter(x => x.Name == self.CurrentSelectedCreditCard.IssuingBank)[0];
+
+
+            $("#Cardholdername").val(self.CurrentSelectedCreditCard.CardHolderName);
+            $("#Cardnumber").val(self.CurrentSelectedCreditCard.EncryptedCardNumber);
+            $("#Expirymonth").val(self.CurrentSelectedCreditCard.ExpiryMonth);
+            $("#ExpiryYear").val(self.CurrentSelectedCreditCard.ExpiryYear);
+
+            if (cardType)
+                $("#CardType").val(cardType.Id);
+
+            if (bank)
+                $("#IssuingBank").val(bank.Id);
+
+            $("#CVV").val(self.CurrentSelectedCreditCard.EncryptedCVV);
+            $('#sidebar').addClass('show');
+            $('body').append('<div class="modal-backdrop fade show"></div>');
+
+            console.log("Iam getting from add button click");
+        });
+
         $('#AddEditUserCreditCardForm').on('submit', function (e) {
             e.preventDefault();
             showLoader();
-            console.log(userRegistration);
-            GetUserCreditCards();
 
-            $('#AddEditUserCreditCardForm')[0].reset();
-            $('#sidebar').removeClass('show');
-            $('.modal-backdrop').remove();
+            var cardHolderName = $("#Cardholdername").val();
+            var cardnumber = $("#Cardnumber").val();
+            var expirymonth = $("#Expirymonth").val();
+            var expiryYear = $("#ExpiryYear").val();
+            var cardType = $("#CardType option:selected").text();
+            var issuingBank = $("#IssuingBank option:selected").text();
+            var cvv = $("#CVV").val();
+
+            console.log(cardHolderName);
+
+
+            var userCard = {
+                Id: self.CurrentSelectedCreditCard ? self.CurrentSelectedCreditCard.Id : 0,
+                UserId: self.ApplicationUser.Id,
+                CardHolderName: cardHolderName,
+                EncryptedCardNumber: cardnumber,
+                MaskedCardNumber: cardnumber,
+                LastFourDigits: cardnumber,
+                ExpiryMonth: expirymonth,
+                ExpiryYear: expiryYear,
+                EncryptedCVV: cvv,
+                CardType: cardType,
+                IssuingBank: issuingBank,
+                IsDefault: false,
+                CreatedBy: self.ApplicationUser.Id,
+                CreatedOn: new Date(),
+                ModifiedBy: self.ApplicationUser.Id,
+                ModifiedOn: new Date(),
+                IsActive: true
+            };
+
+            console.log("userCard...." + JSON.stringify(userCard));
+
+            $.ajax({
+                type: "POST",
+                url: "/CreditCard/SaveUserCreditCard",
+                cache: false,
+                data: JSON.stringify(userCard),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response)
+                    self.CurrentSelectedCreditCard = null;
+                    $('#AddEditUserCreditCardForm')[0].reset();
+                    $('#sidebar').removeClass('show');
+                    $('.modal-backdrop').remove();
+                    GetUserCreditCards();
+
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+
+
         });
     }
 }
