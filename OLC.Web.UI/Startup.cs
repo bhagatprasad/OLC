@@ -72,6 +72,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<IBankAccountService, BankAccountService>();
 
+            services.AddScoped<ICityService, CityService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

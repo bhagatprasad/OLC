@@ -39,7 +39,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive)"))]
-        public async Task<IActionResult> GetCountryByCountry(long countryId)
+        public async Task<IActionResult> GetStatesByCountry(long countryId)
         {
             try
             {
