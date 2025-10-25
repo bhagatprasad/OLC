@@ -70,6 +70,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<IBillingAddressService, BillingAddressService>();
 
+            services.AddScoped<ICityService, CityService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

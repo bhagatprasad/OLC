@@ -21,7 +21,6 @@ namespace OLC.Web.UI.Controllers
         public async Task<IActionResult> Index()
         {
             return View();
-
         }
 
         [HttpDelete]
