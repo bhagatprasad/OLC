@@ -66,6 +66,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<ICountryService, CountryService>();
 
+            services.AddScoped<IStateService, StateService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
