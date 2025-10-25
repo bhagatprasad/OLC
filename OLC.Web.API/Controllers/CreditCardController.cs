@@ -75,7 +75,21 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpPut]
+        [Route("ActivateUserCreditCardAsync/{creditcardId}")]
+        public async Task<IActionResult> ActivateUserCreditCardAsync(long creditcardId)
+        {
+            try
+            {
+                var response = await _creditCardManager.ActivateUserCreditCardAsync(creditcardId);
+                return Ok(response);
 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
         [HttpDelete]
         [Route("DeleteUserCreditAsync/{creditcardId}")]
         public async Task<IActionResult> DeleteUserCreditAsync(long creditcardId)
@@ -91,5 +105,6 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        
     }
 }

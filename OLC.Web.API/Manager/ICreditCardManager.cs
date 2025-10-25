@@ -9,5 +9,6 @@ namespace OLC.Web.API.Manager
         Task<UserCreditCard> GetUserCreditCardByCardIdAsync(long creditCardId);
         Task<bool> UpdateUserCreditCardAsync(UserCreditCard userCreditCard);
         Task<bool> DeleteUserCreditAsync(long creditcardId);
+        Task<bool> ActivateUserCreditCardAsync(long creditcardId);
     }
 }
