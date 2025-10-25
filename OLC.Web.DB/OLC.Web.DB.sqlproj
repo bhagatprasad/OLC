@@ -170,6 +170,10 @@
     <Build Include="Programmability\Stored Procedures\TransactionFee\uspGetTransactionFeeById.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionFee\uspGetAllTransactionFeesDetails.sql" />
     <Build Include="Tables\TransactionFee.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspActivateUserCreditCard.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionFee\uspInsertTransactionFee.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionFee\uspUpdateTransactionFee.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionFee\uspDeleteTransactionFee.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

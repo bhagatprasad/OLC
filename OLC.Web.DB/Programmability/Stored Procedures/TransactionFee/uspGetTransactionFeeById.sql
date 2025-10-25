@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetTransactionFeeById]
 (
-      @feeId    bigint	
+      @transactionFeeId    bigint	
 )
 AS 
  BEGIN
@@ -17,5 +17,5 @@ AS
      FROM 
           [dbo].[TransactionFee] 
      WHERE 
-          Id = @feeId
+          Id = @transactionFeeId
     END

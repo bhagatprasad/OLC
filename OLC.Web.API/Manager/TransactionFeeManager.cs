@@ -13,7 +13,28 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<TransactionFee> GetTransactionFeeByIdAsync(long feeId)
+        public async Task<bool> DeleteTransactionFeeAsync(long transactionFeeId)
+        {
+
+            if (transactionFeeId != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspDeleteTransactionFee]", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@transactionFeeId", transactionFeeId);
+
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<TransactionFee> GetTransactionFeeByIdAsync(long transactionFeeId)
         {
             TransactionFee transactionFee = null;
             SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -22,7 +43,7 @@ namespace OLC.Web.API.Manager
             SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetTransactionFeeById]", sqlConnection);
             sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
 
-            sqlCommand.Parameters.AddWithValue("@feeId", feeId);
+            sqlCommand.Parameters.AddWithValue("@transactionFeeId", transactionFeeId);
             SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
 
             DataTable dt = new DataTable();
@@ -90,6 +111,56 @@ namespace OLC.Web.API.Manager
 
             }
             return transactionFees;
+        }
+
+        public async Task<bool> InsertTransactionFeeAsync(TransactionFee transactionFee)
+        {
+
+            if (transactionFee != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertTransactionFee]", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@name", transactionFee.Name);
+                sqlCommand.Parameters.AddWithValue("@code", transactionFee.Code);
+                sqlCommand.Parameters.AddWithValue("@price", transactionFee.Price);
+                sqlCommand.Parameters.AddWithValue("@createdBy", transactionFee.CreatedBy);
+
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateTransactionFeeAsync(TransactionFee transactionFee)
+        {
+            if (transactionFee != null)
+            {
+                  
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateTransactionFee]", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@transactionFeeId", transactionFee.Id);
+                sqlCommand.Parameters.AddWithValue("@name", transactionFee.Name);
+                sqlCommand.Parameters.AddWithValue("@code", transactionFee.Code);
+                sqlCommand.Parameters.AddWithValue("@price", transactionFee.Price);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", transactionFee.ModifiedBy);
+                sqlCommand.Parameters.AddWithValue("@isActive", transactionFee.IsActive);
+
+
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+            }
+            return false;
         }
     }
 }

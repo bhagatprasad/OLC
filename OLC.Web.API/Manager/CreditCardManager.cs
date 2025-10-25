@@ -265,5 +265,27 @@ namespace OLC.Web.API.Manager
 
             }
         }
+
+        public async Task<bool> ActivateUserCreditCardAsync(long creditcardId)
+        {
+            if (creditcardId != 0) ;
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspActivateUserCreditCard]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@creditCardId", creditcardId);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+        }
     }
 }
