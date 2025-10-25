@@ -1,7 +1,7 @@
 ﻿<form id="AddEditUserBankAccountForm">
     <div class="sidebar" id="sidebar">
         <div class="modal-header">
-            <h5 class="modal-title">Add/Edit User Bank Account</h5>
+            <h5 class="modal-title">Add/Edit Bank Account</h5>
             <button type="button" class="close" id="closeSidebar" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -13,7 +13,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="AccountHolderName">
+                    <input type="text" class="form-control" id="AccountHolderName" maxlength="30" required>
                 </div>
             </div>
             <div class="form-group">
@@ -22,7 +22,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="AccountNumber">
+                    <input type="text" class="form-control" id="AccountNumber" maxlength="16" required>
                 </div>
             </div>
             <div class="form-group">
@@ -31,7 +31,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="LastFourDigits" maxlength="4">
+                    <input type="text" class="form-control" id="LastFourDigits" maxlength="4" required>
                 </div>
             </div>
             <div class="form-group">
@@ -40,7 +40,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-building"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="BranchName">
+                    <input type="text" class="form-control" id="BranchName" maxlength="30">
                 </div>
             </div>
             <div class="form-group">
@@ -49,7 +49,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-route"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="RoutingNumber">
+                    <input type="text" class="form-control" id="RoutingNumber" maxlength="10">
                 </div>
             </div>
             <div class="form-group">
@@ -58,7 +58,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-code"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="IFSCCode">
+                    <input type="text" class="form-control" id="IFSCCode" maxlength="14" required>
                 </div>
             </div>
             <div class="form-group">
@@ -67,7 +67,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-globe"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="SWIFTCode">
+                    <input type="text" class="form-control" id="SWIFTCode" maxlength="14">
                 </div>
             </div>
             <div class="form-group">
@@ -76,7 +76,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-list"></i></span>
                     </div>
-                    <select class="form-control form-select" id="AccountType"></select>
+                    <select class="form-control form-select" id="AccountType" required></select>
                 </div>
             </div>
             <div class="form-group">
@@ -85,7 +85,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-university"></i></span>
                     </div>
-                    <select class="form-control form-select" id="Bank"></select>
+                    <select class="form-control form-select" id="Bank" required></select>
                 </div>
             </div>
             <div class="form-group">

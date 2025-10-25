@@ -58,7 +58,7 @@ namespace OLC.Web.UI.Controllers
             try
             {
                 var response = await _stateService.GetStatesListAsync();
-                return Json(response);
+                return Json(new { data = response });
             }
             catch (Exception ex)
             {
