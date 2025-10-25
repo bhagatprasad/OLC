@@ -178,6 +178,26 @@ namespace OLC.Web.API.Manager
                 }
             }
             return false;
+        }        
+        public async Task<bool> ActivateUserBillingAddressAsync(UserBillingAddress userBillingAddress)
+        {
+            if (userBillingAddress != null)
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+
+                    SqlCommand sqlCommand = new SqlCommand("[dbo].[uspActivateUserBillingAddress]", sqlConnection);
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@billingAddressId", userBillingAddress.Id);
+                    sqlCommand.Parameters.AddWithValue("@modifiedBy", userBillingAddress.ModifiedBy);
+
+                    sqlCommand.ExecuteNonQuery();
+                    sqlConnection.Close();
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
