@@ -240,6 +240,23 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
+
+        public async Task<bool> ActivteUserBankAccountAsync(UserBankAccount userBankAccount)
+        {
+            if (userBankAccount != null)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspActivateUserBankAccount]", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@id", userBankAccount.Id);
+                sqlCommand.Parameters.AddWithValue("@ModifiedBy", userBankAccount.ModifiedBy);
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+            }
+            return false;
+        }
     }
 
 }
