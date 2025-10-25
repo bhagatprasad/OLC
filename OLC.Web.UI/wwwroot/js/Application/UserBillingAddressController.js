@@ -14,9 +14,13 @@
 
     self.CurrentSelectedBillingAddress = null;
 
-    self.currentSelectedBillingAddress = {};
+    var actions = [];
+
+    var dataObjects = [];
 
     self.init = function () {
+
+        $(".se-pre-con").show();
 
         var appUserInfo = storageService.get('ApplicationUser');
 
@@ -26,102 +30,46 @@
 
             self.ApplicationUser = appUserInfo;
         }
+        actions.push("/BillingAddress/GetUserBillingAddresses");
 
-        GetUserBillingAddresses();
-        GetCountries();
-        GetStates();
-        GetCities();
+        actions.push("/Country/GetCountriesList");
 
-        function GetUserBillingAddresses() {
-            $.ajax({
-                type: "GET",
-                url: "/BillingAddress/GetUserBillingAddresses",
-                data: { userId: self.ApplicationUser.Id },
-                cache: false,
-                success: function (response) {
-                    console.log(response)
-                    self.UserBillingAddresses = response && response.data ? response.data : [];
+        actions.push("/State/GetStatesList");
 
-                    loadUserBillingAddresses();
+        actions.push("/City/GetCitiesList");
 
-                }, error: function (error) {
-                    console.log(error);
-                }
-            });
-        };
+        dataObjects.push({ userId: self.ApplicationUser.Id });
 
-        function GetCountries() {
-            $.ajax({
-                type: "GET",
-                url: "/Country/GetCountriesList",
-                cache: false,
-                success: function (response) {
-                    console.log(response)
-                    self.Countries = response && response.data ? response.data : [];
-                    genarateDropdown("Country", self.Countries, "Id", "Name");
+        var requests = actions.map((action, index) => {
+            var ajaxConfig = {
+                url: action,
+                method: 'GET'
+            };
+            if (index === 0) {
+                ajaxConfig.data = dataObjects[0];
+            }
+            return $.ajax(ajaxConfig);
+        });
 
-                }, error: function (error) {
-                    console.log(error);
-                }
-            });
-        };
+        $.when.apply($, requests).done(function () {
+            var responses = arguments;
+            console.log(responses);
 
-        function GetStates() {
-            $.ajax({
-                type: "GET",
-                url: "/State/GetStatesList",
-                cache: false,
-                success: function (response) {
-                    console.log(response)
-                    self.States = response ? response : [];
-                    genarateDropdown("State", self.States, "Id", "Name");
+            self.UserBillingAddresses = responses[0][0] && responses[0][0].data ? responses[0][0].data : [];
+            self.Countries = responses[1][0] && responses[1][0].data ? responses[1][0].data : [];
+            self.States = responses[2][0] && responses[2][0].data ? responses[2][0].data : [];
+            self.Cities = responses[3][0] && responses[3][0].data ? responses[3][0].data : [];
 
-                }, error: function (error) {
-                    console.log(error);
-                }
-            });
-        };
-
-        function GetCities() {
-            var cities = [
-                { Id: 1, CountryId: 1, StateId: 11, Name: "Bangalore", Code: "BLR" },
-                { Id: 2, CountryId: 1, StateId: 11, Name: "Mysore", Code: "MYS" },
-                { Id: 3, CountryId: 1, StateId: 11, Name: "Mangalore", Code: "MNG" },
-                { Id: 4, CountryId: 1, StateId: 14, Name: "Mumbai", Code: "MUM" },
-                { Id: 5, CountryId: 1, StateId: 14, Name: "Pune", Code: "PUN" },
-                { Id: 6, CountryId: 1, StateId: 14, Name: "Nagpur", Code: "NGP" },
-                { Id: 7, CountryId: 1, StateId: 23, Name: "Chennai", Code: "CHE" },
-                { Id: 8, CountryId: 1, StateId: 23, Name: "Coimbatore", Code: "CBE" },
-                { Id: 9, CountryId: 1, StateId: 23, Name: "Madurai", Code: "MDU" },
-                { Id: 10, CountryId: 2, StateId: 41, Name: "Los Angeles", Code: "LAX" },
-                { Id: 11, CountryId: 2, StateId: 41, Name: "San Francisco", Code: "SFO" },
-                { Id: 12, CountryId: 2, StateId: 41, Name: "San Diego", Code: "SAN" },
-                { Id: 13, CountryId: 2, StateId: 68, Name: "New York City", Code: "NYC" },
-                { Id: 14, CountryId: 2, StateId: 68, Name: "Buffalo", Code: "BUF" },
-                { Id: 15, CountryId: 2, StateId: 68, Name: "Albany", Code: "ALB" },
-                { Id: 16, CountryId: 2, StateId: 79, Name: "Houston", Code: "HOU" },
-                { Id: 17, CountryId: 2, StateId: 79, Name: "Dallas", Code: "DAL" },
-                { Id: 18, CountryId: 2, StateId: 79, Name: "Austin", Code: "AUS" },
-                { Id: 19, CountryId: 3, StateId: 94, Name: "Edinburgh", Code: "EDI" }
-            ];
-
-            self.Cities = cities;
-
+            loadUserBillingAddresses();
+            genarateDropdown("Country", self.Countries, "Id", "Name");
+            genarateDropdown("State", self.States, "Id", "Name");
             genarateDropdown("City", self.Cities, "Id", "Name");
 
-            //$.ajax({
-            //    type: "GET",
-            //    url: "/City/GetCities",
-            //    cache: false,
-            //    success: function (response) {
-            //        console.log(response)
-
-
-            //    }, error: function (error) {
-            //        console.log(error);
-            //    }
-            //});
-        };
+            $(".se-pre-con").hide();
+        }).fail(function () {
+            console.log('One or more requests failed.');
+            hideLoader();
+        });
 
         function getStatusBadge(address) {
             if (address.IsActive) {
@@ -130,46 +78,80 @@
                 return `<span data-address-id="${address.Id}" class="badge bg-warning status-badge activiate-address">In Active</span>`;
             }
         }
-
         function loadUserBillingAddresses() {
             const tbody = $('#userBillingAddressesBody');
-            tbody.empty(); // Clear existing rows
+            const cardsContainer = $('#mobileBillingAddressesCards');
+            tbody.empty(); // Clear existing desktop table rows
+            cardsContainer.empty(); // Clear existing mobile cards
 
             if (self.UserBillingAddresses.length > 0) {
-                self.UserBillingAddresses.forEach(function (address) {
-
+                self.UserBillingAddresses.forEach(function (address, index) {
                     const statusBadge = getStatusBadge(address);
+                    var country = null;
+                    var state = null;
+                    var city = null;
+
+                    if (address.CountryId)
+                        country = self.Countries.filter(x => x.Id == address.CountryId)[0];
+
+                    if (address.StateId)
+                        state = self.States.filter(x => x.Id == address.StateId)[0];
+
+                    if (address.CityId)
+                        city = self.Cities.filter(x => x.Id == address.CityId)[0];
 
                     const actionButtons = `
-                <button class="btn btn-sm btn-outline-primary view-address" data-address-id="${address.Id}" data-address='${JSON.stringify(address)}' title="view address">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-warning edit-address" data-address-id="${address.Id}" data-address='${JSON.stringify(address)}' title="edit address">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger delete-address" data-address-id="${address.Id}" data-address='${JSON.stringify(address)}' title="delete address">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
+                                            <button class="btn btn-sm btn-outline-primary view-address me-1" data-address-id="${address.Id}" data-address='${JSON.stringify(address).replace(/'/g, "&apos;")}' title="view address">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-warning edit-address me-1" data-address-id="${address.Id}" data-address='${JSON.stringify(address).replace(/'/g, "&apos;")}' title="edit address">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger delete-address" data-address-id="${address.Id}" data-address='${JSON.stringify(address).replace(/'/g, "&apos;")}' title="delete address">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                         `;
 
+                    // Desktop table row
                     const row = `<tr class="transaction-item">
-                <td>#${address.Id}</td>
-                <td>${address.AddessLineOne || 'N/A'}</td>
-                <td>${address.Location || 'N/A'}</td>
-                <td>${address.CityName || 'N/A'}</td>
-                <td>${address.StateName || 'N/A'}</td>
-                <td>${address.CountryName || 'N/A'}</td>
-                <td>${address.PinCode || 'N/A'}</td>
-                <td>${statusBadge}</td>
-                <td>
-                   ${actionButtons}
-                </td>
-            </tr>`;
-
+                                <td>#${address.Id}</td>
+                                <td>${address.AddressLineOne || 'N/A'}</td>
+                                <td>${address.Location || 'N/A'}</td>
+                                <td>${city.Name || 'N/A'}</td>
+                                <td>${state.Name || 'N/A'}</td>
+                                <td>${country.Name || 'N/A'}</td>
+                                <td>${address.PinCode || 'N/A'}</td>
+                                <td>${statusBadge}</td>
+                                <td>
+                                   ${actionButtons}
+                                </td>
+                                 </tr>`;
                     tbody.append(row);
+
+                    // Mobile card
+                    const cardHtml = `
+                                    <div class="card mb-3 pt-2">
+                                        <div class="card-header">
+                                            <strong>${address.AddressLineOne || 'N/A'} (${city.Name || 'N/A'})</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text mb-1"><strong>ID:</strong> #${address.Id}</p>
+                                            <p class="card-text mb-1"><strong>Location:</strong> ${address.Location || 'N/A'}</p>
+                                            <p class="card-text mb-1"><strong>State:</strong> ${state.Name || 'N/A'}</p>
+                                            <p class="card-text mb-1"><strong>Country:</strong> ${country.Name || 'N/A'}</p>
+                                            <p class="card-text mb-1"><strong>Pin Code:</strong> ${address.PinCode || 'N/A'}</p>
+                                            <p class="card-text mb-1"><strong>Status:</strong> ${statusBadge}</p>
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-between">
+                                            ${actionButtons}
+                                        </div>
+                                    </div>
+                                `;
+                    cardsContainer.append(cardHtml);
                 });
             }
         }
+
 
         $(document).on("click", ".activiate-address", function () {
             var addressId = $(this).data("address-id");
@@ -358,5 +340,49 @@
             });
 
         });
+
+        // Event handler for Country dropdown change
+        $('#Country').change(function () {
+            var countryId = $(this).val();
+
+            // Reload states based on selected country ID
+            var filteredStates = self.States.filter(function (state) {
+                return state.CountryId == countryId;
+            });
+            genarateDropdown("State", filteredStates, "Id", "Name");
+
+            // Clear and reload cities based on selected country ID (before state selection)
+            var filteredCities = self.Cities.filter(function (city) {
+                return city.CountryId == countryId;
+            });
+            genarateDropdown("City", filteredCities, "Id", "Name");
+        });
+
+        // Event handler for State dropdown change
+        $('#State').change(function () {
+            var stateId = $(this).val();
+
+            // Reload cities based on selected state ID (state-level cities)
+            var filteredCities = self.Cities.filter(function (city) {
+                return city.StateId == stateId;
+            });
+            genarateDropdown("City", filteredCities, "Id", "Name");
+        });
+
+        function GetUserBillingAddresses() {
+            $.ajax({
+                type: "GET",
+                url: "/BillingAddress/GetUserBillingAddresses",
+                data: { userId: self.ApplicationUser.Id },
+                cache: false,
+                success: function (response) {
+                    console.log(response)
+                    self.UserBillingAddresses = response && response.data ? response.data : [];
+                    loadUserBillingAddresses();
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+        };
     }
 }

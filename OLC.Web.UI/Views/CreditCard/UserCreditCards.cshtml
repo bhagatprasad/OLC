@@ -9,8 +9,7 @@
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
                     <div>
-                        <h1 class="h3 fw-bold text-primary">User Credit Cards</h1>
-                        <p class="text-muted mb-0">Request your payment on anytime, anywhere in the world.</p>
+                        <h1 class="h3 fw-bold text-primary">Credit Cards</h1>
                     </div>
                     <div>
                         <button type="button" class="btn btn-primary" id="addCreditCardBtn">
@@ -29,8 +28,9 @@
                                 <i class="fas fa-history me-2"></i>All credit cards
                             </h5>
                         </div>
-                        <div class="card-body p-0 d-none d-lg-block">
-                            <div class="table-responsive">
+                        <div class="card-body p-0">
+                            <!-- Desktop Table View (hidden on mobile) -->
+                            <div class="table-responsive d-none d-lg-block">
                                 <table class="table table-hover mb-0">
                                     <thead class="table-light">
                                         <tr>
@@ -45,10 +45,17 @@
                                         </tr>
                                     </thead>
                                     <tbody id="userCreditCardsBody">
+                                        <!-- Table rows populated here -->
                                     </tbody>
                                 </table>
                             </div>
+
+                            <!-- Mobile Card View (hidden on desktop) -->
+                            <div class="d-lg-none" id="mobileCreditCardsCards">
+                                <!-- Bootstrap cards will be populated here dynamically -->
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
