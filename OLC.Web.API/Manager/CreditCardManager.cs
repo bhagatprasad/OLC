@@ -266,9 +266,9 @@ namespace OLC.Web.API.Manager
             }
         }
 
-        public async Task<bool> ActivateUserCreditCardAsync(long creditcardId)
+        public async Task<bool> ActivateUserCreditCardAsync(UserCreditCard userCreditCard)
         {
-            if (creditcardId != 0) ;
+            if (userCreditCard != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -278,7 +278,8 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@creditCardId", creditcardId);
+                sqlCommand.Parameters.AddWithValue("@creditCardId", userCreditCard.Id);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", userCreditCard.ModifiedBy);
 
                 sqlCommand.ExecuteNonQuery();
 
@@ -286,6 +287,7 @@ namespace OLC.Web.API.Manager
 
                 return true;
             }
+            return false;
         }
     }
 }

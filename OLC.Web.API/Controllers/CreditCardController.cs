@@ -75,13 +75,13 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        [HttpPut]
-        [Route("ActivateUserCreditCardAsync/{creditcardId}")]
-        public async Task<IActionResult> ActivateUserCreditCardAsync(long creditcardId)
+        [HttpPost]
+        [Route("ActivateUserCreditCardAsync")]
+        public async Task<IActionResult> ActivateUserCreditCardAsync(UserCreditCard userCreditCard)
         {
             try
             {
-                var response = await _creditCardManager.ActivateUserCreditCardAsync(creditcardId);
+                var response = await _creditCardManager.ActivateUserCreditCardAsync(userCreditCard);
                 return Ok(response);
 
             }
