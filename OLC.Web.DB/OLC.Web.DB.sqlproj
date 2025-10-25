@@ -123,7 +123,7 @@
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspDeleteUserBankAccount.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGetUserBankAccountById.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGetAllUserBankAccounts.sql" />
-    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspUpdateUserBellingAddress.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspUpdateUserBillingAddress.sql" />
     <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspGetAllUserBellingAddress.sql" />
     <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspGetByUserIdUserBellingAddress.sql" />
     <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspGetByUserBellingAddress.sql" />
