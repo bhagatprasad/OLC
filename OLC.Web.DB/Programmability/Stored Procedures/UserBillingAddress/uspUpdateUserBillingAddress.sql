@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[uspUpdateUserBellingAddress]
+﻿CREATE PROCEDURE [dbo].[uspUpdateUserBillingAddress]
  (
 	 @id					bigint,
 	 @userId				bigint,
@@ -9,10 +9,8 @@
 	 @countryId				bigint,
 	 @stateId				bigint,
 	 @cityId				bigint,
-	 @pinCode				varchar(max),
-	 @modifiedBy            bigint,
-	 @modifiedOn            datetimeoffset,
-	 @isActive              bit)
+	 @pinCode				varchar(max)
+ )
 
  AS
 
@@ -29,9 +27,8 @@
 			,StateId           = @stateId
 			,CityId            = @cityId
 			,PinCode           = @pinCode
-		    ,ModifiedBy		   = @modifiedBy
-		    ,ModifiedOn		   = @modifiedOn
-		    ,IsActive		   = @isActive
+		    ,ModifiedBy		   = @userId
+		    ,ModifiedOn		   = GetDate()
 		 Where Id = @id
   END
 

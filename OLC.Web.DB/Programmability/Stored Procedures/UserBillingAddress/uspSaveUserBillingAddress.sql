@@ -3,13 +3,12 @@
 	@userId							bigint,
 	@addessLineOne					varchar(max),
 	@addessLineTwo					varchar(max),
-	@addessLineThree				varchar(max),
+	@addessLineThress				varchar(max),
 	@location                       varchar(max),
 	@countryId						bigint,
 	@stateId						bigint,
 	@cityId							bigint,
-	@pinCode						varchar(max),
-	@createdBy						bigint
+	@pinCode						varchar(max)
 )
 AS
  BEGIN
@@ -32,15 +31,15 @@ AS
 			(@userId
 			,@addessLineOne
 			,@addessLineTwo
-			,@addessLineThree
+			,@addessLineThress
 			,@location
 			,@countryId
 			,@stateId
 			,@cityId
 			,@pinCode
-			,@createdBy
+			,@userId
 			,GETDATE()
-			,@createdBy
+			,@userId
 			,GETDATE()
 			,1)
 END
