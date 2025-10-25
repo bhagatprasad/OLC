@@ -5,11 +5,11 @@ namespace OLC.Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserBankAccountController : ControllerBase
+    public class BankAccountController : ControllerBase
     {
         private readonly IUserBankAccountManager _userBankAccountManager;
 
-        public UserBankAccountController(IUserBankAccountManager userBankAccountManager)
+        public BankAccountController(IUserBankAccountManager userBankAccountManager)
         {
             _userBankAccountManager = userBankAccountManager;
         }
