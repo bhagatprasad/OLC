@@ -68,6 +68,12 @@ namespace OLC.Web.UI
 
             services.AddScoped<IStateService, StateService>();
 
+            services.AddScoped<IBillingAddressService, BillingAddressService>();
+
+            services.AddScoped<IBankAccountService, BankAccountService>();
+
+            services.AddScoped<ICityService, CityService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);

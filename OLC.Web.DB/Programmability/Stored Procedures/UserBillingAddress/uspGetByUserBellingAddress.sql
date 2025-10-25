@@ -1,7 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[uspGetByUserBellingAddress]
-	(
-	  @UserBellingAddressId  bigint
-	)
+﻿CREATE PROCEDURE [dbo].[uspGetUserBillingAddress]
+(
+	  @billingAddressId  bigint
+)
 	WITH RECOMPILE
 
 	AS 
@@ -9,7 +9,7 @@
 	BEGIN
 
 	SELECT
-	    Id
+	     Id
 		,UserId
         ,AddessLineOne
 	    ,AddessLineTwo
@@ -27,6 +27,6 @@
 
 	FROM [dbo].[UserBillingAddress]
 
-    WHERE Id=@UserBellingAddressId
+    WHERE Id = @billingAddressId
 
-    END
+END

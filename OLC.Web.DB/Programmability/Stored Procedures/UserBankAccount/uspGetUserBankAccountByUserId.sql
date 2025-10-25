@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[uspGetAllUserBankAccountsByUserId]
+﻿CREATE PROCEDURE [dbo].[uspGetAllUserBankAccountByUserId]
 (
    @UserId BIGINT
   

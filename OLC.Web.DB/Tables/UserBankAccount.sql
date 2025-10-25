@@ -5,10 +5,10 @@
 	[AccountHolderName] NVARCHAR(150) NOT NULL,
 	[BankName] NVARCHAR(100) NOT NULL,
 	[BranchName] NVARCHAR(100) NULL,
-	[AccountNumber] VARBINARY(MAX) NOT NULL, -- Encrypted storage
+	[AccountNumber] NVARCHAR(MAX) NOT NULL, -- Encrypted storage
 	[LastFourDigits] CHAR(4) NOT NULL, -- For display purposes
 	[AccountType] NVARCHAR(50) NOT NULL, -- Savings, Checking, Current, etc.
-	[RoutingNumber] VARBINARY(MAX) NULL, -- Encrypted (for US banks)
+	[RoutingNumber] NVARCHAR(MAX) NULL, -- Encrypted (for US banks)
 	[IFSCCode] NVARCHAR(20) NULL, -- For Indian banks
 	[SWIFTCode] NVARCHAR(20) NULL, -- For international transfers
 	[Currency] NVARCHAR(10) NULL DEFAULT 'USD',

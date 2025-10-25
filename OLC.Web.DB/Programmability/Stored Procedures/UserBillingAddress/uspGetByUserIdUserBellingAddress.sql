@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[uspGetByUserIdUserBellingAddress]
+﻿CREATE PROCEDURE [dbo].[uspUserBillingAddress]
 (
  @userId  bigint
 )
@@ -11,6 +11,7 @@ BEGIN
 SELECT
 
       [Id]
+     ,UserId
      ,AddessLineOne
 	 ,AddessLineTwo
 	 ,AddessLineThress
@@ -27,6 +28,6 @@ SELECT
      
     FROM [dbo].[UserBillingAddress]
 
-    WHERE Id=@userId
+    WHERE UserId = @userId
 
     END

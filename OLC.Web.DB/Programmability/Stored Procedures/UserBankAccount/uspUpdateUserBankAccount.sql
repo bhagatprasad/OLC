@@ -5,10 +5,10 @@
     @AccountHolderName NVARCHAR(150),
     @BankName NVARCHAR(100),
     @BranchName NVARCHAR(100) = NULL,
-    @AccountNumber VARBINARY(MAX),
+    @AccountNumber NVARCHAR(MAX) = NULL,
     @LastFourDigits CHAR(4),
     @AccountType NVARCHAR(50),
-    @RoutingNumber VARBINARY(MAX) = NULL,
+    @RoutingNumber NVARCHAR(MAX) = NULL,
     @IFSCCode NVARCHAR(20) = NULL,
     @SWIFTCode NVARCHAR(20) = NULL,
     @Currency NVARCHAR(10) = 'USD',
@@ -18,34 +18,32 @@
     @VerificationStatus NVARCHAR(20) = NULL,
     @VerificationAttempts INT = NULL,
     @LastVerificationAttempt DATETIMEOFFSET = NULL,
-    @ModifiedBy BIGINT = NULL,
-    @ModifiedOn DATETIMEOFFSET = NULL
-
+    @ModifiedBy BIGINT
 )
 AS
 BEGIN
+    SET NOCOUNT ON;
 
-        UPDATE [dbo].[UserBankAccount]
-        SET 
-            [UserId] = @UserId,
-            [AccountHolderName] = @AccountHolderName,
-            [BankName] = @BankName,
-            [BranchName] = @BranchName,
-            [AccountNumber] = @AccountNumber,
-            [LastFourDigits] = @LastFourDigits,
-            [AccountType] = @AccountType,
-            [RoutingNumber] = @RoutingNumber,
-            [IFSCCode] = @IFSCCode,
-            [SWIFTCode] = @SWIFTCode,
-            [Currency] = @Currency,
-            [IsPrimary] = @IsPrimary,
-            [IsActive] = @IsActive,
-            [VerifiedOn] = @VerifiedOn,
-            [VerificationStatus] = @VerificationStatus,
-            [VerificationAttempts] =@VerificationAttempts,
-            [LastVerificationAttempt] = @LastVerificationAttempt,
-            [ModifiedBy] = @ModifiedBy,
-            [ModifiedOn] = SYSDATETIMEOFFSET()
-        WHERE [Id] = @Id; 
-
+    UPDATE [dbo].[UserBankAccount]
+    SET 
+        [UserId] = @UserId,
+        [AccountHolderName] = @AccountHolderName,
+        [BankName] = @BankName,
+        [BranchName] = @BranchName,
+        [AccountNumber] = @AccountNumber,
+        [LastFourDigits] = @LastFourDigits,
+        [AccountType] = @AccountType,
+        [RoutingNumber] = @RoutingNumber,
+        [IFSCCode] = @IFSCCode,
+        [SWIFTCode] = @SWIFTCode,
+        [Currency] = @Currency,
+        [IsPrimary] = @IsPrimary,
+        [IsActive] = @IsActive,
+        [VerifiedOn] = @VerifiedOn,
+        [VerificationStatus] = @VerificationStatus,
+        [VerificationAttempts] = @VerificationAttempts,
+        [LastVerificationAttempt] = @LastVerificationAttempt,
+        [ModifiedBy] = @ModifiedBy,
+        [ModifiedOn] = SYSDATETIMEOFFSET()
+    WHERE [Id] = @Id;
 END

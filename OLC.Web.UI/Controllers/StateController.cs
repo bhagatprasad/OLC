@@ -6,7 +6,7 @@ using OLC.Web.UI.Services;
 namespace OLC.Web.UI.Controllers
 {
     [Authorize(Roles = ("Administrator,Executive,User"))]
-    public class StateController:Controller
+    public class StateController : Controller
     {
         private readonly IStateService _stateService;
         private readonly INotyfService _notyfService;
@@ -23,8 +23,8 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles =("Administrator,Executive"))] 
-        public async  Task<IActionResult> GetStateByState(long  stateId)
+        [Authorize(Roles = ("Administrator,Executive"))]
+        public async Task<IActionResult> GetStateByState(long stateId)
         {
             try
             {
@@ -38,8 +38,8 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles =("Administrator,Executive)"))]
-        public async Task<IActionResult>GetCountryByCountry(long countryId)
+        [Authorize(Roles = ("Administrator,Executive)"))]
+        public async Task<IActionResult> GetStatesByCountry(long countryId)
         {
             try
             {
