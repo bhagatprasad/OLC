@@ -6,29 +6,29 @@
 <div class="container-fluid">
     <!-- Page Header with Button -->
     <div class="card">
-        <div class="card-hear">
+        <div class="card-header">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
                     <div>
                         <h1 class="h3 fw-bold text-primary">User Bank Accounts</h1>
-                        <p class="text-muted mb-0">Request your payment on anytime, anywhere in the world.</p>
+                        <p class="text-muted mb-0">Manage your bank accounts for payments and transfers.</p>
                     </div>
                     <div>
-                        <a class="btn btn-primary" href="@Url.Action("MakeNewPayment", "Transaction", null)">
-                            <i class="fas fa-plus me-2"></i> Add Bank account
-                        </a>
+                        <button class="btn btn-primary" id="addBankAccountBtn">
+                            <i class="fas fa-plus me-2"></i> Add Bank Account
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <!-- Recent Transactions -->
+            <!-- Bank Accounts Grid -->
             <div class="row">
                 <div class="col-12">
                     <div class="card border">
                         <div class="card-header bg-white py-3 border-bottom">
                             <h5 class="card-title mb-0">
-                                <i class="fas fa-history me-2"></i>All Billing Address
+                                <i class="fas fa-university me-2"></i>All Bank Accounts
                             </h5>
                         </div>
 
@@ -38,75 +38,18 @@
                                 <table class="table table-hover mb-0">
                                     <thead class="table-light">
                                         <tr>
-                                            <th scope="col">Transaction ID</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Recipient</th>
-                                            <th scope="col">Amount</th>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Account Holder Name</th>
+                                            <th scope="col">Last Four Digits</th>
+                                            <th scope="col">Bank Name</th>
+                                            <th scope="col">Account Type</th>
+                                            <th scope="col">Currency</th>
                                             <th scope="col">Status</th>
                                             <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr class="transaction-item">
-                                            <td>#TX-7845</td>
-                                            <td>Jan 15, 2023</td>
-                                            <td>John Smith</td>
-                                            <td>$450.00</td>
-                                            <td><span class="badge bg-success status-badge">Completed</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr class="transaction-item">
-                                            <td>#TX-7844</td>
-                                            <td>Jan 14, 2023</td>
-                                            <td>Sarah Johnson</td>
-                                            <td>$320.50</td>
-                                            <td><span class="badge bg-success status-badge">Completed</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr class="transaction-item">
-                                            <td>#TX-7843</td>
-                                            <td>Jan 14, 2023</td>
-                                            <td>Mike Williams</td>
-                                            <td>$150.00</td>
-                                            <td><span class="badge bg-warning status-badge">Cancelled</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr class="transaction-item">
-                                            <td>#TX-7842</td>
-                                            <td>Jan 13, 2023</td>
-                                            <td>Emma Davis</td>
-                                            <td>$275.75</td>
-                                            <td><span class="badge bg-danger status-badge">Failed</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr class="transaction-item">
-                                            <td>#TX-7841</td>
-                                            <td>Jan 12, 2023</td>
-                                            <td>Robert Brown</td>
-                                            <td>$500.00</td>
-                                            <td><span class="badge bg-success status-badge">Completed</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                    <tbody id="userBankAccountsBody">
+                                        <!-- Bank accounts will be loaded here dynamically -->
                                     </tbody>
                                 </table>
                             </div>
@@ -114,181 +57,8 @@
 
                         <!-- Accordion for Small Screens -->
                         <div class="card-body p-0 d-lg-none">
-                            <div class="accordion" id="transactionsAccordion">
-                                <!-- Transaction 1 -->
-                                <div class="accordion-item border-0">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#transaction1">
-                                            <div class="d-flex justify-content-between w-100 me-3">
-                                                <span class="fw-bold">#TX-7845</span>
-                                                <span class="text-success">$450.00</span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="transaction1" class="accordion-collapse collapse" data-bs-parent="#transactionsAccordion">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <small class="text-muted">Date</small>
-                                                    <p class="mb-2">Jan 15, 2023</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <small class="text-muted">Status</small>
-                                                    <p><span class="badge bg-success status-badge">Completed</span></p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <small class="text-muted">Recipient</small>
-                                                    <p class="mb-2">John Smith</p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <button class="btn btn-sm btn-outline-primary w-100">
-                                                        <i class="fas fa-eye me-2"></i>View Details
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Transaction 2 -->
-                                <div class="accordion-item border-0">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#transaction2">
-                                            <div class="d-flex justify-content-between w-100 me-3">
-                                                <span class="fw-bold">#TX-7844</span>
-                                                <span class="text-success">$320.50</span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="transaction2" class="accordion-collapse collapse" data-bs-parent="#transactionsAccordion">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <small class="text-muted">Date</small>
-                                                    <p class="mb-2">Jan 14, 2023</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <small class="text-muted">Status</small>
-                                                    <p><span class="badge bg-success status-badge">Completed</span></p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <small class="text-muted">Recipient</small>
-                                                    <p class="mb-2">Sarah Johnson</p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <button class="btn btn-sm btn-outline-primary w-100">
-                                                        <i class="fas fa-eye me-2"></i>View Details
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Transaction 3 -->
-                                <div class="accordion-item border-0">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#transaction3">
-                                            <div class="d-flex justify-content-between w-100 me-3">
-                                                <span class="fw-bold">#TX-7843</span>
-                                                <span class="text-warning">$150.00</span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="transaction3" class="accordion-collapse collapse" data-bs-parent="#transactionsAccordion">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <small class="text-muted">Date</small>
-                                                    <p class="mb-2">Jan 14, 2023</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <small class="text-muted">Status</small>
-                                                    <p><span class="badge bg-warning status-badge">Cancelled</span></p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <small class="text-muted">Recipient</small>
-                                                    <p class="mb-2">Mike Williams</p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <button class="btn btn-sm btn-outline-primary w-100">
-                                                        <i class="fas fa-eye me-2"></i>View Details
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Transaction 4 -->
-                                <div class="accordion-item border-0">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#transaction4">
-                                            <div class="d-flex justify-content-between w-100 me-3">
-                                                <span class="fw-bold">#TX-7842</span>
-                                                <span class="text-danger">$275.75</span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="transaction4" class="accordion-collapse collapse" data-bs-parent="#transactionsAccordion">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <small class="text-muted">Date</small>
-                                                    <p class="mb-2">Jan 13, 2023</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <small class="text-muted">Status</small>
-                                                    <p><span class="badge bg-danger status-badge">Failed</span></p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <small class="text-muted">Recipient</small>
-                                                    <p class="mb-2">Emma Davis</p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <button class="btn btn-sm btn-outline-primary w-100">
-                                                        <i class="fas fa-eye me-2"></i>View Details
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Transaction 5 -->
-                                <div class="accordion-item border-0">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#transaction5">
-                                            <div class="d-flex justify-content-between w-100 me-3">
-                                                <span class="fw-bold">#TX-7841</span>
-                                                <span class="text-success">$500.00</span>
-                                            </div>
-                                        </button>
-                                    </h2>
-                                    <div id="transaction5" class="accordion-collapse collapse" data-bs-parent="#transactionsAccordion">
-                                        <div class="accordion-body">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <small class="text-muted">Date</small>
-                                                    <p class="mb-2">Jan 12, 2023</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <small class="text-muted">Status</small>
-                                                    <p><span class="badge bg-success status-badge">Completed</span></p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <small class="text-muted">Recipient</small>
-                                                    <p class="mb-2">Robert Brown</p>
-                                                </div>
-                                                <div class="col-12">
-                                                    <button class="btn btn-sm btn-outline-primary w-100">
-                                                        <i class="fas fa-eye me-2"></i>View Details
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="accordion" id="bankAccountsAccordion">
+                                <!-- Bank Account items will be loaded here dynamically -->
                             </div>
                         </div>
                     </div>
@@ -296,4 +66,16 @@
             </div>
         </div>
     </div>
+    <partial name="_AddEditUserBankAccount.cshtml" />
+    <partial name="_ViewUserBankAccount.cshtml" />
+    <partial name="_DeleteUserBankAccount.cshtml" />
 </div>
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/UserBankAccountController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new UserBankAccountController();
+        ctrl.init();
+    });
+</script>
+
