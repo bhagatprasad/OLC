@@ -42,6 +42,7 @@
     box-shadow: none;
     border-color: rgba(0,0,0,.125);
 }
+
 :root {
     --primary-color: #4e73df;
     --secondary-color: #858796;
@@ -52,6 +53,7 @@
 body {
     background-color: var(--light-bg);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
 }
 
 .container {

@@ -88,26 +88,27 @@
         }
         function loadUserCreditCards() {
             const tbody = $('#userCreditCardsBody');
-            tbody.empty(); // Clear existing rows
+            const cardsContainer = $('#mobileCreditCardsCards');
+            tbody.empty(); // Clear existing desktop table rows
+            cardsContainer.empty(); // Clear existing mobile cards
 
             if (self.UserCreditCards.length > 0) {
-                self.UserCreditCards.forEach(function (card) {
-
+                self.UserCreditCards.forEach(function (card, index) {
                     const statusBadge = getStatusBadge(card);
 
                     const actionButtons = `
-                <button class="btn btn-sm btn-outline-primary view-card" data-card-id="${card.Id}" data-card='${card}' title="view card">
+                <button class="btn btn-sm btn-outline-primary view-card me-1" data-card-id="${card.Id}" data-card='${JSON.stringify(card).replace(/'/g, "&apos;")}' title="view card">
                     <i class="fas fa-eye"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-warning edit-card" data-card-id="${card.Id}" data-card='${card}' title="edit card">
+                <button class="btn btn-sm btn-outline-warning edit-card me-1" data-card-id="${card.Id}" data-card='${JSON.stringify(card).replace(/'/g, "&apos;")}' title="edit card">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger delete-card" data-card-id="${card.Id}" data-card='${card}' title="delete card">
+                <button class="btn btn-sm btn-outline-danger delete-card" data-card-id="${card.Id}" data-card='${JSON.stringify(card).replace(/'/g, "&apos;")}' title="delete card">
                     <i class="fas fa-trash"></i>
                 </button>
             `;
 
-
+                    // Desktop table row
                     const row = `<tr class="transaction-item">
                 <td>#${card.Id}</td>
                 <td>${card.EncryptedCardNumber}</td>
@@ -120,12 +121,32 @@
                    ${actionButtons}
                 </td>
             </tr>`;
-
                     tbody.append(row);
+
+                    // Mobile card
+                    const cardHtml = `
+                <div class="card mb-3 pt-2">
+                    <div class="card-header">
+                        <strong>${card.EncryptedCardNumber} (${card.CardType})</strong>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text mb-1"><strong>ID:</strong> #${card.Id}</p>
+                        <p class="card-text mb-1"><strong>Expiry:</strong> ${card.ExpiryMonth}/${card.ExpiryYear}</p>
+                        <p class="card-text mb-1"><strong>CVV:</strong> ${card.EncryptedCVV || 'N/A'}</p>
+                        <p class="card-text mb-1"><strong>Bank:</strong> ${card.IssuingBank}</p>
+                        <p class="card-text mb-1"><strong>Status:</strong> ${statusBadge}</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        ${actionButtons}
+                    </div>
+                </div>
+            `;
+                    cardsContainer.append(cardHtml);
                 });
             }
-
         }
+
+
         $(document).on("click", ".activiate-card", function () {
             var cardId = $(this).data("card-id");
 
