@@ -1,9 +1,6 @@
-﻿using OLC.Web.API.Models;  // Assuming this is where UserBankAccount is defined
-using Microsoft.Extensions.Configuration;
+﻿using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace OLC.Web.API.Manager
 {
@@ -166,25 +163,21 @@ namespace OLC.Web.API.Manager
                     SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertUserBankAccount]", connection);
                     sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                    sqlCommand.Parameters.AddWithValue("@userId", userBankAccount.UserId);
-                    sqlCommand.Parameters.AddWithValue("@accountHolderName", userBankAccount.AccountHolderName);
+                    sqlCommand.Parameters.AddWithValue("@UserId", userBankAccount.UserId);
+                    sqlCommand.Parameters.AddWithValue("@AccountHolderName", userBankAccount.AccountHolderName);
                     sqlCommand.Parameters.AddWithValue("@BankName", userBankAccount.BankName);
-                    sqlCommand.Parameters.AddWithValue("@BranchName", userBankAccount.BranchName);
-                    sqlCommand.Parameters.AddWithValue("@AccountNumber", userBankAccount.AccountNumber);
+                    sqlCommand.Parameters.AddWithValue("@BranchName", userBankAccount.BranchName ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@AccountNumber", userBankAccount.AccountNumber ?? (object)DBNull.Value);
                     sqlCommand.Parameters.AddWithValue("@LastFourDigits", userBankAccount.LastFourDigits);
                     sqlCommand.Parameters.AddWithValue("@AccountType", userBankAccount.AccountType);
-                    sqlCommand.Parameters.AddWithValue("@RoutingNumber", userBankAccount.RoutingNumber);
-                    sqlCommand.Parameters.AddWithValue("@IFSCCode", userBankAccount.IFSCCode);
-                    sqlCommand.Parameters.AddWithValue("@SWIFTCode", userBankAccount.SWIFTCode);
-                    sqlCommand.Parameters.AddWithValue("@Currency", userBankAccount.Currency);
-                    sqlCommand.Parameters.AddWithValue("@IsPrimary", userBankAccount.IsPrimary);
-                    sqlCommand.Parameters.AddWithValue("@IsActive", userBankAccount.IsActive);
-                    sqlCommand.Parameters.AddWithValue("@VerifiedOn", userBankAccount.VerifiedOn);
-                    sqlCommand.Parameters.AddWithValue("@VerificationStatus", userBankAccount.VerificationStatus);
-                    sqlCommand.Parameters.AddWithValue("@CreatedBy", userBankAccount.CreatedBy);
-                    sqlCommand.Parameters.AddWithValue("@CreatedOn", userBankAccount.CreatedOn);
-                    sqlCommand.Parameters.AddWithValue("@ModifiedBy", userBankAccount.ModifiedBy);
-                    sqlCommand.Parameters.AddWithValue("@ModifiedOn", userBankAccount.ModifiedOn);
+                    sqlCommand.Parameters.AddWithValue("@RoutingNumber", userBankAccount.RoutingNumber ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@IFSCCode", userBankAccount.IFSCCode ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@SWIFTCode", userBankAccount.SWIFTCode ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@Currency", userBankAccount.Currency ?? "USD");
+                    sqlCommand.Parameters.AddWithValue("@IsPrimary", userBankAccount.IsPrimary ?? false);
+                    sqlCommand.Parameters.AddWithValue("@IsActive", userBankAccount.IsActive ?? true);
+                    sqlCommand.Parameters.AddWithValue("@VerificationStatus", userBankAccount.VerificationStatus ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@VerificationAttempts", userBankAccount.VerificationAttempts ?? 0);
 
                     sqlCommand.ExecuteNonQuery();
                     connection.Close();
@@ -203,26 +196,25 @@ namespace OLC.Web.API.Manager
                     connection.Open();
                     SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateUserBankAccount]", connection);
                     sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.Parameters.AddWithValue("@id", userBankAccount.Id);
-                    sqlCommand.Parameters.AddWithValue("@userId", userBankAccount.UserId);
-                    sqlCommand.Parameters.AddWithValue("@accountHolderName", userBankAccount.AccountHolderName);
+                    sqlCommand.Parameters.AddWithValue("@Id", userBankAccount.Id);
+                    sqlCommand.Parameters.AddWithValue("@UserId", userBankAccount.UserId);
+                    sqlCommand.Parameters.AddWithValue("@AccountHolderName", userBankAccount.AccountHolderName);
                     sqlCommand.Parameters.AddWithValue("@BankName", userBankAccount.BankName);
-                    sqlCommand.Parameters.AddWithValue("@BranchName", userBankAccount.BranchName);
-                    sqlCommand.Parameters.AddWithValue("@AccountNumber", userBankAccount.AccountNumber);
+                    sqlCommand.Parameters.AddWithValue("@BranchName", userBankAccount.BranchName ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@AccountNumber", userBankAccount.AccountNumber ?? (object)DBNull.Value);
                     sqlCommand.Parameters.AddWithValue("@LastFourDigits", userBankAccount.LastFourDigits);
                     sqlCommand.Parameters.AddWithValue("@AccountType", userBankAccount.AccountType);
-                    sqlCommand.Parameters.AddWithValue("@RoutingNumber", userBankAccount.RoutingNumber);
-                    sqlCommand.Parameters.AddWithValue("@IFSCCode", userBankAccount.IFSCCode);
-                    sqlCommand.Parameters.AddWithValue("@SWIFTCode", userBankAccount.SWIFTCode);
-                    sqlCommand.Parameters.AddWithValue("@Currency", userBankAccount.Currency);
-                    sqlCommand.Parameters.AddWithValue("@IsPrimary", userBankAccount.IsPrimary);
-                    sqlCommand.Parameters.AddWithValue("@IsActive", userBankAccount.IsActive);
-                    sqlCommand.Parameters.AddWithValue("@VerifiedOn", userBankAccount.VerifiedOn);
-                    sqlCommand.Parameters.AddWithValue("@VerificationStatus", userBankAccount.VerificationStatus);
-                    sqlCommand.Parameters.AddWithValue("@CreatedBy", userBankAccount.CreatedBy);
-                    sqlCommand.Parameters.AddWithValue("@CreatedOn", userBankAccount.CreatedOn);
+                    sqlCommand.Parameters.AddWithValue("@RoutingNumber", userBankAccount.RoutingNumber ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@IFSCCode", userBankAccount.IFSCCode ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@SWIFTCode", userBankAccount.SWIFTCode ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@Currency", userBankAccount.Currency ?? "USD");
+                    sqlCommand.Parameters.AddWithValue("@IsPrimary", userBankAccount.IsPrimary ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@IsActive", userBankAccount.IsActive ?? true);
+                    sqlCommand.Parameters.AddWithValue("@VerifiedOn", userBankAccount.VerifiedOn ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@VerificationStatus", userBankAccount.VerificationStatus ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@VerificationAttempts", userBankAccount.VerificationAttempts ?? (object)DBNull.Value);
+                    sqlCommand.Parameters.AddWithValue("@LastVerificationAttempt", userBankAccount.LastVerificationAttempt ?? (object)DBNull.Value);
                     sqlCommand.Parameters.AddWithValue("@ModifiedBy", userBankAccount.ModifiedBy);
-                    sqlCommand.Parameters.AddWithValue("@ModifiedOn", userBankAccount.ModifiedOn);
                     sqlCommand.ExecuteNonQuery();
                     connection.Close();
                 }
