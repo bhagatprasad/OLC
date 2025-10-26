@@ -5,7 +5,5 @@
 )
 AS
 BEGIN
-   
-    DELETE FROM [dbo].[UserBankAccount]
-    WHERE [Id] = @Id;
+    UPDATE [dbo].[UserBankAccount]   SET IsActive = 0 WHERE [Id] = @Id;
 END

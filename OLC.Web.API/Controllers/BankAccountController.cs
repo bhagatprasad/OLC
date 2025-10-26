@@ -48,8 +48,25 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving the bank account.");
             }
         }
-
-        [HttpGet]
+        [HttpPost]
+        [Route("ActivateUserBankAccount")]
+        public async Task<IActionResult> ActivteUserBankAccountAsync(UserBankAccount userBankAccount)
+        {
+            try
+            {
+                var response = await _userBankAccountManager.ActivteUserBankAccountAsync(userBankAccount);
+                if (response != null)
+                {
+                    return Ok(response);
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving the bank account.");
+            }
+        }
+            [HttpGet]
         [Route("GetAllUserBankAccounts")]
         public async Task<IActionResult> GetAllUserBankAccountsAsync()
         {
