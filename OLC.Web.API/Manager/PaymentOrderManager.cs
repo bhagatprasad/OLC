@@ -115,19 +115,19 @@ namespace OLC.Web.API.Manager
 
                     getPaymentOrderByUserId.UserId = Convert.ToInt64(item["UserId"]);
 
-                    getPaymentOrderByUserId.Amount = Convert.ToInt64(item["Amount"]);
+                    getPaymentOrderByUserId.Amount = Convert.ToDecimal(item["Amount"]);
 
                     getPaymentOrderByUserId.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]) ;
 
-                    getPaymentOrderByUserId.PlatformFeeAmount =  Convert.ToInt64(item["PlatformFeeAmount"]);
+                    getPaymentOrderByUserId.PlatformFeeAmount =  Convert.ToDecimal(item["PlatformFeeAmount"]);
 
                     getPaymentOrderByUserId.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
 
-                    getPaymentOrderByUserId.TotalAmountToChargeCustomer =  Convert.ToInt64(item["TotalAmountToChargeCustomer"]);
+                    getPaymentOrderByUserId.TotalAmountToChargeCustomer =  Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
 
-                    getPaymentOrderByUserId.TotalAmountToDepositToCustomer =  Convert.ToInt64(item["TotalAmountToDepositToCustomer"]);
+                    getPaymentOrderByUserId.TotalAmountToDepositToCustomer =  Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
 
-                    getPaymentOrderByUserId.TotalPlatformFee = Convert.ToInt64(item["TotalPlatformFee"]);
+                    getPaymentOrderByUserId.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
 
                     getPaymentOrderByUserId.Currency = item["Currency"].ToString();
 
@@ -202,19 +202,19 @@ namespace OLC.Web.API.Manager
 
                     getPaymentOrder.UserId = Convert.ToInt64(item["UserId"]);
 
-                    getPaymentOrder.Amount = Convert.ToInt64(item["Amount"]);
+                    getPaymentOrder.Amount = Convert.ToDecimal(item["Amount"]);
 
                     getPaymentOrder.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]);
 
-                    getPaymentOrder.PlatformFeeAmount = Convert.ToInt64(item["PlatformFeeAmount"]);
+                    getPaymentOrder.PlatformFeeAmount = Convert.ToDecimal(item["PlatformFeeAmount"]);
 
                     getPaymentOrder.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
 
-                    getPaymentOrder.TotalAmountToChargeCustomer = Convert.ToInt64(item["TotalAmountToChargeCustomer"]);
+                    getPaymentOrder.TotalAmountToChargeCustomer = Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
 
-                    getPaymentOrder.TotalAmountToDepositToCustomer = Convert.ToInt64(item["TotalAmountToDepositToCustomer"]);
+                    getPaymentOrder.TotalAmountToDepositToCustomer = Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
 
-                    getPaymentOrder.TotalPlatformFee = Convert.ToInt64(item["TotalPlatformFee"]);
+                    getPaymentOrder.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
 
                     getPaymentOrder.Currency = item["Currency"].ToString();
 
