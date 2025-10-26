@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[uspActivateUserCreditCard]
 (
-	@creditcardId     bigint
-	,@modifiedBy      bigint
+	@creditcardId     bigint,
+	@modifiedBy      bigint
 )
 AS
  BEGIN 

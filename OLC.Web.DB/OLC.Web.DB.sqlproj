@@ -175,6 +175,7 @@
     <Build Include="Programmability\Stored Procedures\TransactionFee\uspUpdateTransactionFee.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionFee\uspDeleteTransactionFee.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspActivateUserBankAccount.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspActivateUserBillingAddress.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

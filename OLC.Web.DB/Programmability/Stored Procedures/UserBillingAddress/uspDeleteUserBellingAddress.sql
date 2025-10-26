@@ -1,11 +1,12 @@
 ﻿CREATE PROCEDURE [dbo].[uspDeleteUserBillingAddress]
-	(@billingAddressId  bigint)
+(
+    @billingAddressId  bigint
+)  
 
 AS
 
 BEGIN
 
-update [dbo].[UserBillingAddress]
-       set  IsActive = 0
-       WHERE Id = @billingAddressId
+update [dbo].[UserBillingAddress]  SET  IsActive   = 0
+                                 WHERE  Id         = @billingAddressId
 END
