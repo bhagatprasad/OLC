@@ -81,6 +81,7 @@
     <Folder Include="Programmability\Stored Procedures\AddressType" />
     <Folder Include="Programmability\Stored Procedures\Bank" />
     <Folder Include="Programmability\Stored Procedures\TransactionFee" />
+    <Folder Include="Programmability\Stored Procedures\PaymentOrder" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -176,6 +177,10 @@
     <Build Include="Programmability\Stored Procedures\TransactionFee\uspDeleteTransactionFee.sql" />
     <Build Include="Programmability\Stored Procedures\UserBankAccount\uspActivateUserBankAccount.sql" />
     <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspActivateUserBillingAddress.sql" />
+    <Build Include="Tables\PaymentOrder.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspInsertPaymentOrder.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPaymentOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPayamentOrdersByUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

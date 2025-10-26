@@ -36,6 +36,7 @@ namespace OLC.Web.API
             services.AddScoped<ITransactionFeeManager,TransactionFeeManager>();
             services.AddScoped<IBillingAddressManager, BillingAddressManager>();
             services.AddScoped<IUserBankAccountManager, UserBankAccountManager>();
+            services.AddScoped<IPaymentOrderManager, PaymentOrderManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 
