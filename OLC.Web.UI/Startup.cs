@@ -74,6 +74,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<ICityService, CityService>();
 
+            services.AddScoped<IPaymentOrderService, PaymentOrderService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
