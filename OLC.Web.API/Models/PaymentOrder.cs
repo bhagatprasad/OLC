@@ -29,5 +29,9 @@
         public long? ModifiedBy { get; set; }
         public DateTimeOffset? ModifiedOn { get;set; }
         public bool? IsActive { get; set; }
+        public int? PaymentOrderId { get; set; }
+        public int? StatusId { get; set; }
+        public string? Description { get; set; }
+
     }
 }

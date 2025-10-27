@@ -13,15 +13,15 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async  Task<bool> InsertPaymentOrderAsync(PaymentOrder paymentOrder)
+        public async Task<bool> InsertPaymentOrderAsync(PaymentOrder paymentOrder)
         {
-           if (paymentOrder != null)
-           {
+            if (paymentOrder != null)
+            {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
-                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertPaymentOrder]",sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertPaymentOrder]", sqlConnection);
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
@@ -74,8 +74,8 @@ namespace OLC.Web.API.Manager
                 sqlConnection.Close();
 
                 return true;
-           }
-            return false;                       
+            }
+            return false;
         }
 
         public async Task<List<PaymentOrder>> GetPaymentOrdersByUserIdAsync(long userId)
@@ -117,15 +117,15 @@ namespace OLC.Web.API.Manager
 
                     getPaymentOrderByUserId.Amount = Convert.ToDecimal(item["Amount"]);
 
-                    getPaymentOrderByUserId.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]) ;
+                    getPaymentOrderByUserId.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]);
 
-                    getPaymentOrderByUserId.PlatformFeeAmount =  Convert.ToDecimal(item["PlatformFeeAmount"]);
+                    getPaymentOrderByUserId.PlatformFeeAmount = Convert.ToDecimal(item["PlatformFeeAmount"]);
 
                     getPaymentOrderByUserId.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
 
-                    getPaymentOrderByUserId.TotalAmountToChargeCustomer =  Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
+                    getPaymentOrderByUserId.TotalAmountToChargeCustomer = Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
 
-                    getPaymentOrderByUserId.TotalAmountToDepositToCustomer =  Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
+                    getPaymentOrderByUserId.TotalAmountToDepositToCustomer = Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
 
                     getPaymentOrderByUserId.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
 
@@ -139,7 +139,7 @@ namespace OLC.Web.API.Manager
 
                     getPaymentOrderByUserId.OrderStatusId = item["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(item["OrderStatusId"]) : null;
 
-                    getPaymentOrderByUserId.PaymentStatusId = item["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(item["PaymentStatusId"]):null;
+                    getPaymentOrderByUserId.PaymentStatusId = item["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(item["PaymentStatusId"]) : null;
 
                     getPaymentOrderByUserId.DepositStatusId = item["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(item["DepositStatusId"]) : null;
 
@@ -253,5 +253,67 @@ namespace OLC.Web.API.Manager
             }
             return getPaymentOrders;
         }
+
+        public async Task<List<PaymentOrderHistory>> GetPaymentOrderHistoryAsync(long paymentOrderId)
+        {
+            List<PaymentOrderHistory> paymentOrderHistories = new List<PaymentOrderHistory>();
+
+            PaymentOrderHistory paymentOrderHistory = null;
+
+            SqlConnection conn = new SqlConnection(connectionString);
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("uspGetPaymentOrderHistory", conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@paymentOrderId", paymentOrderId);
+
+            DataTable dt = new DataTable();
+
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            conn.Close();
+            foreach (DataRow dr in dt.Rows)
+            {
+                paymentOrderHistory = new PaymentOrderHistory();
+
+                paymentOrderHistory.Id = Convert.ToInt32(dr["Id"]);
+                paymentOrderHistory.StatusId = dr["StatusId"] != DBNull.Value ? Convert.ToInt32(dr["StatusId"]) : null;
+                paymentOrderHistory.Description = dr["Description"] != DBNull.Value ? dr["Description"].ToString() : null;
+                paymentOrderHistory.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt32(dr["CreatedBy"]) : null;
+                paymentOrderHistory.CreatedOn = dr["CreatedOn"] != DBNull.Value ? (DateTimeOffset)dr["CreatedOn"] : null;
+                paymentOrderHistory.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)dr["ModifiedOn"] : null;
+                paymentOrderHistory.ModifiedBy = dr["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(dr["ModifiedBy"]) : null;
+                paymentOrderHistory.IsActive = dr["IsActive"] != DBNull.Value ? (bool)dr["IsActive"] : null;
+                paymentOrderHistories.Add(paymentOrderHistory);
+            }
+
+
+            return paymentOrderHistories;
+        }
+
+        public async Task<bool> InsertPaymentOrderHistoryAsync(PaymentOrderHistory paymentOrderHistory)
+        {
+            if (paymentOrderHistory != null)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertPaymentOrderHistory]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@paymentOrderId", paymentOrderHistory.PaymentOrderId);
+                sqlCommand.Parameters.AddWithValue("@statusId", paymentOrderHistory.StatusId);
+                sqlCommand.Parameters.AddWithValue("@description", paymentOrderHistory.Description);
+                sqlCommand.Parameters.AddWithValue("@createdBy", paymentOrderHistory.CreatedBy);
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+            }
+            return false;
+        }
+
     }
 }
