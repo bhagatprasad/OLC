@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[uspDeleteUserBankAccount]
 	
 (
-    @Id BIGINT
+    @Id INT
 )
 AS
 BEGIN

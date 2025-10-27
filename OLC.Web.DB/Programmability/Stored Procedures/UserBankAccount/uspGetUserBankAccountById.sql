@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetUserBankAccountById]
 (
-    @Id BIGINT
+    @Id INT
 )
 AS
 BEGIN

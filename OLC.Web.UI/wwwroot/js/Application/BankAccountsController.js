@@ -1,19 +1,20 @@
-﻿
-function BankAccountsController() {
+﻿function BankAccountsController() {
     var self = this;
     self.init = function (e) {
         $("#preloader").show();
+        var accountNumberInputMask = new Inputmask("####-####-####-####");
+        accountNumberInputMask.mask($('[id*=AccountNumber]'));
 
         $(document).on("click", ".dataClass", function () {
             $('.modal').hide();
             $('.modal-backdrop').remove();
         });
-        self.LoadUserBankAccounts();
-        self.loadBankAccountsActivity();
+        self.LoadBankAccounts();
+        self.loadBankAccountActivity();
         $(document).on("click", "#btncreateBankAccount", function (e) {
             self.AddBankAccount(e);
         });
-        $(document).on("click", ".btnEdit", function (e) {
+        $(document).on("click", ".btnEditBankAccount", function (e) {
             var BankAccountId = $(this).data("id");
             self.EditBankAccount(BankAccountId);
         });
@@ -22,9 +23,9 @@ function BankAccountsController() {
             self.loadUserBankAccountsActivityDetails(activityId);
         });
     };
-    self.loadBankAccountsActivity = function () {
+    self.loadBankAccountActivity = function () {
         $.ajax({
-            url: "/BankAccounts/LoadUserBankAccountsActivity",
+            url: "/BankAccounts/LoadUserBankAccountActivity",
             type: 'GET',
             data: { take:100, skip:0 },
             dataType: 'html', // added data type
@@ -113,8 +114,8 @@ function BankAccountsController() {
             dataType: 'json',
             success: function (responce) {
                 $("#edit-BankAccount-details-data").modal('hide');
-                self.loadBankAccountsActivity();
-                self.LoadUserBankAccounts();
+                self.loadBankAccountActivity();
+                self.LoadUserBankAccount();
             },
             error: function (err) {
                 console.log(err);
@@ -153,7 +154,7 @@ function BankAccountsController() {
                 $("#add-new-BankAccount-details").modal('hide');
                 $('.modal-backdrop').remove();
                 self.loadBankAccountActivity();
-                self.LoadUserBankAccounts();
+                self.LoadBankAccounts();
             },
             error: function (err) {
                 console.log(err);

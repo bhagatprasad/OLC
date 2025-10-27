@@ -1,0 +1,87 @@
+﻿<form id="AddEditUserBankAccountForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Add/Edit User Bank Account</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="AccountHolderName">Account Holder Name</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="AccountHolderName" placeholder="Enter account holder name" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="BankName">Bank Name</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-university"></i></span>
+                    </div>
+                    <select class="form-control" id="BankName" required>
+                        <option value="">-- Select Bank --</option>
+                        <option>State Bank of India</option>
+                        <option>HDFC Bank</option>
+                        <option>ICICI Bank</option>
+                        <option>Axis Bank</option>
+                        <option>Canara Bank</option>
+                        <option>Punjab National Bank</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="BranchName">Branch Name</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="BranchName" placeholder="Enter branch name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="AccountNumber">Account Number</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                    </div>
+                    <input type="password" class="form-control" id="AccountNumber" placeholder="Enter account number" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-eye-slash"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="IFSCCode">IFSC Code</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="IFSCCode" placeholder="Enter IFSC code">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="AccountType">Account Type</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-list"></i></span>
+                    </div>
+                    <select class="form-control" id="AccountType">
+                        <option value="">-- Select Account Type --</option>
+                        <option>Savings</option>
+                        <option>Current</option>
+                        <option>Salary</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" id="btnsubmit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+

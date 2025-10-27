@@ -14,9 +14,9 @@
                         <p class="text-muted mb-0">Request your payment on anytime, anywhere in the world.</p>
                     </div>
                     <div>
-                        <a class="btn btn-primary" href="@Url.Action("MakeNewPayment", "Transaction", null)">
+                        <button type="button" class="btn btn-primary" id="addBankAccountBtn">
                             <i class="fas fa-plus me-2"></i> Add Bank account
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                     <div class="card border">
                         <div class="card-header bg-white py-3 border-bottom">
                             <h5 class="card-title mb-0">
-                                <i class="fas fa-history me-2"></i>All Billing Address
+                                <i class="fas fa-history me-2"></i>All Bank Accounts
                             </h5>
                         </div>
 
@@ -296,4 +296,13 @@
             </div>
         </div>
     </div>
+    <partial name="_AddEditUserBankAccount.cshtml"/>
 </div>
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/UserBankAccountController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new UserBankAccountController();
+        ctrl.init();
+    });
+</script>
