@@ -77,9 +77,6 @@ namespace OLC.Web.UI
 
             services.AddScoped<IPaymentOrderService, PaymentOrderService>();
 
-            services.Configure<StripeSettings>(configuration.GetSection("Stripe"));
-            StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
-
 
             services.AddSession(options =>
             {
