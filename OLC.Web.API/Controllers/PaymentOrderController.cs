@@ -77,22 +77,5 @@ namespace OLC.Web.API.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError);
                 }
             }
-
-        [HttpPost]
-        [Route("InsertPaymentOrderHistoryAsync")]
-        public async Task<IActionResult> InsertPaymentOrderHistoryAsync(PaymentOrderHistory paymentOrderHistory)
-        {
-            try
-            {
-                var response = await _paymentOrderManager.InsertPaymentOrderHistoryAsync(paymentOrderHistory);    
-                return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
     }
 }

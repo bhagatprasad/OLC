@@ -185,6 +185,7 @@
     <Build Include="Programmability\Stored Procedures\PaymentOrderHistroy\uspGetPaymentOrderHistory.sql" />
     <Build Include="Tables\PaymentOrderHistory.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrderHistroy\uspInsertPaymentOrderHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPaymentOrderById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
