@@ -82,6 +82,7 @@
     <Folder Include="Programmability\Stored Procedures\Bank" />
     <Folder Include="Programmability\Stored Procedures\TransactionFee" />
     <Folder Include="Programmability\Stored Procedures\PaymentOrder" />
+    <Folder Include="Programmability\Stored Procedures\PaymentOrderHistroy" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -181,6 +182,9 @@
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspInsertPaymentOrder.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPayamentOrdersByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrderHistroy\uspGetPaymentOrderHistory.sql" />
+    <Build Include="Tables\PaymentOrderHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrderHistroy\uspInsertPaymentOrderHistory.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

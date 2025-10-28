@@ -6,7 +6,7 @@ namespace OLC.Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentOrderController: ControllerBase
+    public class PaymentOrderController : ControllerBase
     {
         private readonly IPaymentOrderManager _paymentOrderManager;
         public PaymentOrderController(IPaymentOrderManager paymentOrderManager)
@@ -16,7 +16,7 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("SavePaymentOrderAsync")]
-        public async Task<IActionResult> SavePaymentOrderAsync (PaymentOrder paymentOrder)
+        public async Task<IActionResult> SavePaymentOrderAsync(PaymentOrder paymentOrder)
         {
             try
             {
@@ -60,6 +60,39 @@ namespace OLC.Web.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+
         }
+            [HttpGet]
+            [Route("GetPaymentOrderHistoryAsync/{paymentOrderId}")]
+            public async Task<IActionResult> GetPaymentOrderHistoryAsync(long paymentOrderId)
+            {
+                try
+                {
+                    var response = await _paymentOrderManager.GetPaymentOrderHistoryAsync(paymentOrderId);
+                    return Ok(response);
+
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+            }
+
+        [HttpPost]
+        [Route("InsertPaymentOrderHistoryAsync")]
+        public async Task<IActionResult> InsertPaymentOrderHistoryAsync(PaymentOrderHistory paymentOrderHistory)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.InsertPaymentOrderHistoryAsync(paymentOrderHistory);    
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
     }
 }
