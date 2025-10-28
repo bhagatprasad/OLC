@@ -13,8 +13,10 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<bool> InsertPaymentOrderAsync(PaymentOrder paymentOrder)
+        public async Task<PaymentOrder> InsertPaymentOrderAsync(PaymentOrder paymentOrder)
         {
+            PaymentOrder responsePaymentOrder = new PaymentOrder();
+
             if (paymentOrder != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -69,13 +71,76 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.Parameters.AddWithValue("@createdBy", paymentOrder.CreatedBy);
 
-                sqlCommand.ExecuteNonQuery();
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+                DataTable dt = new DataTable();
+
+                sqlDataAdapter.Fill(dt);
 
                 sqlConnection.Close();
 
-                return true;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow item in dt.Rows)
+                    {
+
+                        responsePaymentOrder.Id = Convert.ToInt64(item["Id"]);
+
+                        responsePaymentOrder.OrderReference = item["OrderReference"].ToString();
+
+                        responsePaymentOrder.UserId = Convert.ToInt64(item["UserId"]);
+
+                        responsePaymentOrder.Amount = Convert.ToDecimal(item["Amount"]);
+
+                        responsePaymentOrder.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]);
+
+                        responsePaymentOrder.PlatformFeeAmount = Convert.ToDecimal(item["PlatformFeeAmount"]);
+
+                        responsePaymentOrder.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
+
+                        responsePaymentOrder.TotalAmountToChargeCustomer = Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
+
+                        responsePaymentOrder.TotalAmountToDepositToCustomer = Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
+
+                        responsePaymentOrder.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
+
+                        responsePaymentOrder.Currency = item["Currency"].ToString();
+
+                        responsePaymentOrder.CreditCardId = item["CreditCardId"] != DBNull.Value ? Convert.ToInt64(item["CreditCardId"]) : null;
+
+                        responsePaymentOrder.BankAccountId = item["BankAccountId"] != DBNull.Value ? Convert.ToInt64(item["BankAccountId"]) : null;
+
+                        responsePaymentOrder.BillingAddressId = item["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(item["BillingAddressId"]) : null;
+
+                        responsePaymentOrder.OrderStatusId = item["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(item["OrderStatusId"]) : null;
+
+                        responsePaymentOrder.PaymentStatusId = item["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(item["PaymentStatusId"]) : null;
+
+                        responsePaymentOrder.DepositStatusId = item["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(item["DepositStatusId"]) : null;
+
+                        responsePaymentOrder.StripePaymentIntentId = item["StripePaymentIntentId"] != DBNull.Value ? (item["StripePaymentIntentId"].ToString()) : null;
+
+                        responsePaymentOrder.StripePaymentChargeId = item["StripePaymentChargeId"] != DBNull.Value ? (item["StripePaymentChargeId"].ToString()) : null;
+
+                        responsePaymentOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
+
+                        responsePaymentOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
+
+                        responsePaymentOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+
+                        responsePaymentOrder.CreatedOn = item["createdOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+
+                        responsePaymentOrder.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+
+                        responsePaymentOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+
+                        responsePaymentOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                    }
+
+                }
             }
-            return false;
+
+            return responsePaymentOrder;
         }
 
         public async Task<List<PaymentOrder>> GetPaymentOrdersByUserIdAsync(long userId)

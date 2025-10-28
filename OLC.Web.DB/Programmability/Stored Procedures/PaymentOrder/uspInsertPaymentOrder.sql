@@ -23,8 +23,13 @@
 		,@stripeDepositeChargeId			nvarchar(255)
 		,@createdBy							bigint
 )
+
 As
+
 BEGIN
+
+  declare @PaymentOrderId bigint;
+
 	INSERT INTO [dbo].[PaymentOrder]
 (
 		 OrderReference
@@ -83,4 +88,13 @@ BEGIN
 		,GETDATE()
 		,1
 )
+
+SET @PaymentOrderId  = SCOPE_IDENTITY()
+
+
+EXEC [dbo].[uspInsertPaymentOrderHistory] @PaymentOrderId,@orderStatusId,'Order placed', @createdBy
+
+EXEC  [dbo].[uspGetPaymentOrderById] @PaymentOrderId
+
+
 END
