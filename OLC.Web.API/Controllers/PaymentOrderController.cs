@@ -62,20 +62,37 @@ namespace OLC.Web.API.Controllers
             }
 
         }
-            [HttpGet]
-            [Route("GetPaymentOrderHistoryAsync/{paymentOrderId}")]
-            public async Task<IActionResult> GetPaymentOrderHistoryAsync(long paymentOrderId)
-            {
-                try
-                {
-                    var response = await _paymentOrderManager.GetPaymentOrderHistoryAsync(paymentOrderId);
-                    return Ok(response);
 
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError);
-                }
+        [HttpGet]
+        [Route("GetPaymentOrderHistoryAsync/{paymentOrderId}")]
+        public async Task<IActionResult> GetPaymentOrderHistoryAsync(long paymentOrderId)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.GetPaymentOrderHistoryAsync(paymentOrderId);
+                return Ok(response);
+
             }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Route("ProcessPaymentOrderAsync")]
+        public async Task<IActionResult> ProcessPaymentOrderAsync(ProcessPaymentOrder processPaymentOrder)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.ProcessPaymentOrderAsync(processPaymentOrder);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

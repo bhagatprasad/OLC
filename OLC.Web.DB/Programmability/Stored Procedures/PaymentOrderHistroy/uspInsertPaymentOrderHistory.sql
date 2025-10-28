@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[uspInsertPaymentOrderHistory]	 
 (        
-    @paymentOrderId bigint    
-    ,@statusId       bigint    
-    ,@description    nvarchar(max)    
-    ,@createdBy      bigint    
+    @paymentOrderId       bigint    
+    ,@orderStatusId       bigint    
+    ,@description         nvarchar(max)    
+    ,@createdBy           bigint    
         
 )    
 AS     
@@ -24,7 +24,7 @@ AS
 (    
                        
                     @paymentOrderId    
-                   ,@statusId    
+                   ,@orderStatusId    
                    ,@description    
                    ,@createdBy    
                    ,GETDATE()    
