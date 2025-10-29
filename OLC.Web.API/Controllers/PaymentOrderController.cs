@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
 
@@ -86,6 +87,21 @@ namespace OLC.Web.API.Controllers
             try
             {
                 var response = await _paymentOrderManager.ProcessPaymentOrderAsync(processPaymentOrder);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpPost]
+        [Route("ProcessPaymentStatusAsync")]
+        public async Task<IActionResult> ProcessPaymentStatusAsync(ProcessPaymentStatus processPaymentStatus)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.ProcessPaymentStatusAsync(processPaymentStatus);
                 return Ok(response);
 
             }

@@ -82,7 +82,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Success(string session_id)
-        
+
         {
             PaymentSuccessViewModel successModel = new PaymentSuccessViewModel();
             try
@@ -132,9 +132,10 @@ namespace OLC.Web.UI.Controllers
                     };
 
                     // Here you can update your database with the payment success
-                    //  await UpdateOrderStatus(successModel);
+                    await UpdateOrderStatus(successModel);
 
                     ViewBag.SuccessModel = successModel;
+
                     ViewBag.IsSuccess = true;
                 }
                 else
@@ -185,28 +186,27 @@ namespace OLC.Web.UI.Controllers
         }
 
         // Helper method to update order status in your database
-        private async Task UpdateOrderStatus(PaymentSuccessViewModel successModel)
+        private async Task<PaymentOrder> UpdateOrderStatus(PaymentSuccessViewModel successModel)
         {
             try
             {
-                // Implement your business logic here to update the order status
-                // This is where you would typically:
-                // 1. Update the order status to "paid" in your database
-                // 2. Create a transaction record
-                // 3. Send confirmation emails
-                // 4. Update user account balances, etc.
+                ProcessPaymentStatus processPaymentStatus = new ProcessPaymentStatus();
+                processPaymentStatus.PaymentOrderId = successModel.PaymentOrderId;
+                processPaymentStatus.OrderStatusId = 42;
+                processPaymentStatus.PaymentStatusId = 24;
+                processPaymentStatus.Description = "Payment successfull";
+                processPaymentStatus.PaymentMethod = successModel.PaymentMethod;
+                processPaymentStatus.PaymentIntentId = successModel.PaymentIntentId;
+                processPaymentStatus.SessionId = successModel.SessionId;
+                processPaymentStatus.UserId = successModel.UserId;
+                return await _paymentOrderService.ProcessPaymentStatusAsync(processPaymentStatus);
 
-                // Example:
-                // var orderService = new OrderService();
-                // await orderService.UpdateOrderStatusAsync(successModel.UserId, successModel.SessionId, "paid");
-
-                // For now, we'll just log the success
-                Console.WriteLine($"Payment successful for user {successModel.UserId}, amount: {successModel.AmountTotal} {successModel.Currency}");
             }
             catch (Exception ex)
             {
                 // Log the error but don't throw - we don't want to show error to user if DB update fails
                 Console.WriteLine($"Error updating order status: {ex.Message}");
+                throw ex;
             }
         }
     }

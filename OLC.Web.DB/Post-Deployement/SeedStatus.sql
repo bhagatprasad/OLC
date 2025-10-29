@@ -53,7 +53,9 @@ USING (
         ('Overdue', 'OVERDUE'),
         ('Blocked', 'BLOCKED'),
         ('Enabled', 'ENABLED'),
-        ('Disabled', 'DISABLED')
+        ('Disabled', 'DISABLED'),
+        ('Payment Receved', 'Payment_Receved'),
+        ('Payment Deposited', 'Payment_Deposited'),
 ) AS source ([Name], [Code])
 ON target.[Name] = source.[Name]
 WHEN NOT MATCHED THEN
