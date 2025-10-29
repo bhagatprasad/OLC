@@ -6,7 +6,7 @@ AS
 
 BEGIN 
 
-	    DELETE FROM [dbo].[AccountType] 
+	    UPDATE [dbo].[AccountType] set IsActive = 0
 		WHERE 
 		Id = @accountTypeId
 END

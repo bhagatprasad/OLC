@@ -12,7 +12,7 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> ActivateUserCreditcard(UserCreditCard userCreditCard)
         {
-            return await _repositoryFactory.SendAsync<UserCreditCard, bool>(HttpMethod.Post, "UserCreditCard / ActivateUserCreditcard", userCreditCard);
+            return await _repositoryFactory.SendAsync<UserCreditCard, bool>(HttpMethod.Post, "CreditCard/ActivateUserCreditCardAsync", userCreditCard);
         }
 
         public async Task<bool> DeleteUserCreditAsync(long creditcardId)
