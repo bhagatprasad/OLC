@@ -101,6 +101,34 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> ActivateUserCreditcard([FromBody] UserCreditCard userCreditCard)
+        {
+            try
+            {
+                bool isActivate = false;
 
+                if (userCreditCard != null)
+                {
+                    if (userCreditCard.Id > 0)
+                        isActivate = await _creditCardService.UpdateUserCreditCardAsync(userCreditCard);
+                    else
+                        isActivate = await _creditCardService.InsertUserCreditCardAsync(userCreditCard);
+
+                    _notyfService.Success("Successfully saved user credit card");
+
+                    return Json(isActivate);
+                }
+
+                _notyfService.Error("Unable to save user credit card");
+
+                return Json(isActivate);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

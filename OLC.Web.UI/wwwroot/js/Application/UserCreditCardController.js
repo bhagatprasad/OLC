@@ -76,16 +76,20 @@
                 }
             });
         };
-        //activiate-card
+
 
         function getStatusBadge(card) {
             if (card.IsActive) {
-                return '<span class="badge bg-success status-badge">Active</span>';
-            } else {
-                return `<span data-card-id="${card.Id}" class="badge bg-warning status-badge activiate-card">In Active</span>`;
-            }
+                return '<span class="badge bg-success status-badge">active</span>';
+            } 
+                 else {
+                    // 🟡 When inactive, show the "In Active" badge + "Activate" button
+                    return `
 
+                <button data-card-id="${card.Id}" data-card='${JSON.stringify(card)}' class="badge bg-warning status-badge delete-card">In Active </button> `;
+                }
         }
+
         function loadUserCreditCards() {
             const tbody = $('#userCreditCardsBody');
             tbody.empty(); // Clear existing rows
@@ -95,6 +99,11 @@
 
                     const statusBadge = getStatusBadge(card);
 
+                    const deleteButton = card.IsActive ?
+                `<button class="btn btn-sm btn-outline-danger delete-card"  data-card-id="${card.Id}" data-card='${JSON.stringify(card)}' 
+                    title="delete card"> <i class="fas fa-trash"></i>
+                </button>`: '';
+
                     const actionButtons = `
                 <button class="btn btn-sm btn-outline-primary view-card" data-card-id="${card.Id}" data-card='${card}' title="view card">
                     <i class="fas fa-eye"></i>
@@ -102,11 +111,8 @@
                 <button class="btn btn-sm btn-outline-warning edit-card" data-card-id="${card.Id}" data-card='${card}' title="edit card">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-danger delete-card" data-card-id="${card.Id}" data-card='${card}' title="delete card">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
 
+                ${deleteButton}  `;
 
                     const row = `<tr class="transaction-item">
                 <td>#${card.Id}</td>
@@ -119,18 +125,24 @@
                 <td>
                    ${actionButtons}
                 </td>
-            </tr>`;
+                     </tr>`;
 
                     tbody.append(row);
                 });
             }
-
         }
-        $(document).on("click", ".activiate-card", function () {
+
+        $(document).on("click", ".active-card", function () {
             var cardId = $(this).data("card-id");
 
             console.log(cardId);
         });
+
+        $(document).on("click", ".inactive-card", function () {
+            var creditCard = $(this).data("credit-card");
+            console.log(creditCard);
+        });
+
         $(document).on("click", "#addCreditCardBtn", function () {
             $('#sidebar').addClass('show');
             $('body').append('<div class="modal-backdrop fade show"></div>');
@@ -187,7 +199,57 @@
             self.CurrentSelectedCreditCard = null;
             $("#viewCreditCard").modal("hide");
             $("#deleteCreditCard").modal("hide");
+            $("#activateCreditCard").modal("hide");
         });
+
+        //InActive Card Function
+
+        $(document).on("click", ".inActive-card", function () {
+            console.log("inActve...");
+
+            var cardId = $(this).data("card-id");
+
+            var selectedCreditCard = self.UserCreditCards.filter(x => x.Id == cardId)[0];
+
+            console.log("current selected user credit card is .." + JSON.stringify(selectedCreditCard));
+
+            self.CurrentSelectedCreditCard = selectedCreditCard;
+
+            $("#deleteCardHolderName").val(self.CurrentSelectedCreditCard.CardHolderName);
+            $("#deleteCardNumber").val(self.CurrentSelectedCreditCard.EncryptedCardNumber);
+            $("#deleteExpirymonth").val(self.CurrentSelectedCreditCard.ExpiryMonth);
+            $("#deleteExpiryYear").val(self.CurrentSelectedCreditCard.ExpiryYear);
+            $("#deleteCVV").val(self.CurrentSelectedCreditCard.EncryptedCVV);
+
+            $("#inActiveCreditCard").modal("show");
+        });
+
+        $(document).on("click", "#activeCreditCardBtn", function () {
+            console.log("Active button yes clicked..................");
+            $.ajax({
+                type: "inActive",
+                url: "/CreditCard/ActivateUserCreditcard/",
+                data: { creditCardId: self.CurrentSelectedCreditCard.Id },
+                cache: false,
+                success: function (response) {
+
+                    console.log(response);
+
+                    self.CurrentSelectedCreditCard = null;
+
+                    $("#inActiveCreditCard").modal("hide");
+
+                    GetUserCreditCards();
+
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        });
+
+
+       //delete button function
 
         $(document).on("click", ".delete-card", function () {
             console.log("deleting...");
@@ -230,8 +292,8 @@
                     console.log(error);
                 }
             });
-
         });
+
 
         $(document).on("click", ".view-card", function () {
 
@@ -251,7 +313,6 @@
             $("#ViewExpiryYear").val(self.CurrentSelectedCreditCard.ExpiryYear);
             $("#ViewCVV").val(self.CurrentSelectedCreditCard.EncryptedCVV);
             $("#viewCreditCard").modal("show");
-
         });
 
         $('#AddEditUserCreditCardForm').on('submit', function (e) {
@@ -267,7 +328,6 @@
             var cvv = $("#CVV").val();
 
             console.log(cardHolderName);
-
 
             var userCard = {
                 Id: self.CurrentSelectedCreditCard ? self.CurrentSelectedCreditCard.Id : 0,
@@ -310,8 +370,6 @@
                     console.log(error);
                 }
             });
-
-
         });
     }
 }

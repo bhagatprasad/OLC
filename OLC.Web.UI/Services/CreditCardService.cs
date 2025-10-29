@@ -10,6 +10,11 @@ namespace OLC.Web.UI.Services
             _repositoryFactory = repositoryFactory;
         }
 
+        public async Task<bool> ActivateUserCreditcard(UserCreditCard userCreditCard)
+        {
+            return await _repositoryFactory.SendAsync<UserCreditCard, bool>(HttpMethod.Post, "UserCreditCard / ActivateUserCreditcard", userCreditCard);
+        }
+
         public async Task<bool> DeleteUserCreditAsync(long creditcardId)
         {
             var url = Path.Combine("CreditCard/DeleteUserCreditAsync", creditcardId.ToString());
