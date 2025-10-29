@@ -75,6 +75,21 @@ namespace OLC.Web.API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("ActivateUserBillingAddressAsync")]
+        public async Task<IActionResult> ActivateUserBillingAddressAsync(UserBillingAddress userBillingAddress)
+        {
+            try
+            {
+                var response = await _billingAddressManager.ActivateUserBillingAddressAsync(userBillingAddress);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
         [HttpDelete]
         [Route("DeleteUserBillingAddressAsync/{billingAddressId}")]
         public async Task<IActionResult> DeleteUserBillingAddressAsync(long billingAddressId)

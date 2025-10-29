@@ -1,0 +1,52 @@
+﻿<form id="AddEditBankForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Add/Edit Bank</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Bank Name -->
+            <div class="form-group">
+                <label for="Name">Name</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-list-alt"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="Name" maxlength="50" placeholder="Enter bank name" required>
+                </div>
+            </div>
+
+            <!-- Bank Code -->
+            <div class="form-group">
+                <label for="Code">Code</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="Code" maxlength="20" placeholder="Enter bank code" required>
+                </div>
+            </div>
+
+            <!-- IsActive -->
+            <div class="form-group">
+                <label for="IsActive">Status</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-toggle-on"></i></span>
+                    </div>
+                    <select class="form-control form-select" id="IsActive" required>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+    </div>
+</form>

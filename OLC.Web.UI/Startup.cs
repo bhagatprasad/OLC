@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Newtonsoft.Json.Serialization;
 using OLC.Web.UI.Helper;
 using OLC.Web.UI.Services;
+using Stripe;
 
 namespace OLC.Web.UI
 {
@@ -70,9 +71,12 @@ namespace OLC.Web.UI
 
             services.AddScoped<IBillingAddressService, BillingAddressService>();
 
-            services.AddScoped<IBankAccountService, BankAccountService>();
+            services.AddScoped<IBankAccountService, OLC.Web.UI.Services.BankAccountService>();
 
             services.AddScoped<ICityService, CityService>();
+
+            services.AddScoped<IPaymentOrderService, PaymentOrderService>();
+
 
             services.AddSession(options =>
             {

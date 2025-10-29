@@ -14,7 +14,9 @@
 
     self.CurrentSelectedBankAccount = null;
 
-    self.currentSelectedBankAccount = {};
+    var actions = [];
+
+    var dataObjects = [];
 
     self.init = function () {
 
@@ -27,63 +29,28 @@
             self.ApplicationUser = appUserInfo;
         }
 
-        GetUserBankAccounts();
-        GetBanks();
-        GetAccountTypes();
-        GetCurrencies();
+        actions.push("/BankAccount/GetUserBankAccounts");
 
-        function GetUserBankAccounts() {
-            $.ajax({
-                type: "GET",
-                url: "/BankAccount/GetUserBankAccounts",
-                data: { userId: self.ApplicationUser.Id },
-                cache: false,
-                success: function (response) {
-                    console.log(response)
-                    self.UserBankAccounts = response && response.data ? response.data : [];
+        actions.push("/AccountType/GetAccountTypes");
 
-                    loadUserBankAccounts();
+        actions.push("/Bank/GetBanks");
 
-                }, error: function (error) {
-                    console.log(error);
-                }
-            });
-        };
+        dataObjects.push({ userId: self.ApplicationUser.Id });
 
-        function GetAccountTypes() {
-            $.ajax({
-                type: "GET",
-                url: "/AccountType/GetAccountTypes",
-                cache: false,
-                success: function (response) {
-                    console.log(response)
-                    self.AccountTypes = response && response.data ? response.data : [];
-                    genarateDropdown("AccountType", self.AccountTypes, "Id", "Name");
+        var requests = actions.map((action, index) => {
+            var ajaxConfig = {
+                url: action,
+                method: 'GET'
+            };
+            if (index === 0) {
+                ajaxConfig.data = dataObjects[0];
+            }
+            return $.ajax(ajaxConfig);
+        });
 
-                }, error: function (error) {
-                    console.log(error);
-                }
-            });
-        };
-
-        function GetBanks() {
-            $.ajax({
-                type: "GET",
-                url: "/Bank/GetBanks",
-                cache: false,
-                success: function (response) {
-                    console.log(response)
-                    self.Banks = response && response.data ? response.data : [];
-                    genarateDropdown("Bank", self.Banks, "Id", "Name");
-
-                }, error: function (error) {
-                    console.log(error);
-                }
-            });
-        };
-
-        function GetCurrencies() {
-
+        $.when.apply($, requests).done(function () {
+            var responses = arguments;
+            console.log(responses);
             var currencies = [
                 { Id: 1, Name: "Indian Rupee", Code: "INR" },
                 { Id: 2, Name: "US Dollar", Code: "USD" },
@@ -97,10 +64,20 @@
                 { Id: 10, Name: "Swedish Krona", Code: "SEK" }
             ];
             self.Currencies = currencies;
-            genarateDropdown("Currency", self.Currencies, "Id", "Code");
-            
-        };
+            self.UserBankAccounts = responses[0][0] && responses[0][0].data ? responses[0][0].data : [];
+            self.AccountTypes = responses[1][0] && responses[1][0].data ? responses[1][0].data : [];
+            self.Banks = responses[2][0] && responses[2][0].data ? responses[2][0].data : [];
 
+            loadUserBankAccounts();
+            genarateDropdown("AccountType", self.AccountTypes, "Id", "Name");
+            genarateDropdown("Bank", self.Banks, "Id", "Name");
+            genarateDropdown("Currency", self.Currencies, "Id", "Code");
+
+            $(".se-pre-con").hide();
+        }).fail(function () {
+            console.log('One or more requests failed.');
+            hideLoader();
+        });
         function getStatusBadge(account) {
             if (account.IsActive) {
                 return '<span class="badge bg-success status-badge">Active</span>';
@@ -111,42 +88,64 @@
 
         function loadUserBankAccounts() {
             const tbody = $('#userBankAccountsBody');
-            tbody.empty(); // Clear existing rows
+            const cardsContainer = $('#mobileBankAccountsCards');
+            tbody.empty(); // Clear existing desktop table rows
+            cardsContainer.empty(); // Clear existing mobile cards
 
             if (self.UserBankAccounts.length > 0) {
-                self.UserBankAccounts.forEach(function (account) {
-
+                self.UserBankAccounts.forEach(function (account, index) {
                     const statusBadge = getStatusBadge(account);
 
                     const actionButtons = `
-                <button class="btn btn-sm btn-outline-primary view-account" data-account-id="${account.Id}" data-account='${JSON.stringify(account)}' title="view account">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-warning edit-account" data-account-id="${account.Id}" data-account='${JSON.stringify(account)}' title="edit account">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger delete-account" data-account-id="${account.Id}" data-account='${JSON.stringify(account)}' title="delete account">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
+                                        <button class="btn btn-sm btn-outline-primary view-account me-1" data-account-id="${account.Id}" data-account='${JSON.stringify(account).replace(/'/g, "&apos;")}' title="view account">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-warning edit-account me-1" data-account-id="${account.Id}" data-account='${JSON.stringify(account).replace(/'/g, "&apos;")}' title="edit account">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger delete-account" data-account-id="${account.Id}" data-account='${JSON.stringify(account).replace(/'/g, "&apos;")}' title="delete account">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    `;
 
+                    // Desktop table row
                     const row = `<tr class="transaction-item">
-                <td>#${account.Id}</td>
-                <td>${account.AccountHolderName || 'N/A'}</td>
-                <td>${account.LastFourDigits || 'N/A'}</td>
-                <td>${account.BankName || 'N/A'}</td>
-                <td>${account.AccountType || 'N/A'}</td>
-                <td>${account.Currency || 'N/A'}</td>
-                <td>${statusBadge}</td>
-                <td>
-                   ${actionButtons}
-                </td>
-            </tr>`;
+                                <td>#${account.Id}</td>
+                                <td>${account.AccountHolderName || 'N/A'}</td>
+                                <td>${account.LastFourDigits || 'N/A'}</td>
+                                <td>${account.BankName || 'N/A'}</td>
+                                <td>${account.AccountType || 'N/A'}</td>
+                                <td>${account.Currency || 'N/A'}</td>
+                                <td>${statusBadge}</td>
+                                <td>
+                                   ${actionButtons}
+                                </td>
+                                  </tr>`;
+                            tbody.append(row);
 
-                    tbody.append(row);
+                    // Mobile card
+                    const cardHtml = `
+                                    <div class="card mb-3 pt-2">
+                                        <div class="card-header">
+                                            <strong>${account.AccountHolderName || 'N/A'} (${account.LastFourDigits || 'N/A'})</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text mb-1"><strong>ID:</strong> #${account.Id}</p>
+                                            <p class="card-text mb-1"><strong>Bank:</strong> ${account.BankName || 'N/A'}</p>
+                                            <p class="card-text mb-1"><strong>Type:</strong> ${account.AccountType || 'N/A'}</p>
+                                            <p class="card-text mb-1"><strong>Currency:</strong> ${account.Currency || 'N/A'}</p>
+                                            <p class="card-text mb-1"><strong>Status:</strong> ${statusBadge}</p>
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-between">
+                                            ${actionButtons}
+                                        </div>
+                                    </div>
+                                `;
+                    cardsContainer.append(cardHtml);
                 });
             }
         }
+
 
         $(document).on("click", ".activiate-account", function () {
             var accountId = $(this).data("account-id");
@@ -347,5 +346,23 @@
             });
 
         });
+
+        function GetUserBankAccounts() {
+            $.ajax({
+                type: "GET",
+                url: "/BankAccount/GetUserBankAccounts",
+                data: { userId: self.ApplicationUser.Id },
+                cache: false,
+                success: function (response) {
+                    console.log(response)
+                    self.UserBankAccounts = response && response.data ? response.data : [];
+
+                    loadUserBankAccounts();
+
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+        };
     }
 }

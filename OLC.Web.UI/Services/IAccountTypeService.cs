@@ -8,6 +8,6 @@ namespace OLC.Web.UI.Services
         Task<List<AccountType>> GetAccountTypeAsync();
         Task<bool> InsertAccountTypeAsync(AccountType accountType);
         Task<bool> UpdateAccountTypeAsync(AccountType accountType);
-        Task<bool> DeleteAccoutntTypeAsync(long accountTypeId);
+        Task<bool> DeleteAccountTypeAsync(long accountTypeId);
     }
 }

@@ -80,8 +80,8 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpDelete]
-        [Route("DeleteAccoutntTypeAsync/{accountTypeId}")]
-        public async Task<IActionResult> DeleteAccoutntTypeAsync(long accountTypeId)
+        [Route("DeleteAccountTypeAsync/{accountTypeId}")]
+        public async Task<IActionResult> DeleteAccountTypeAsync(long accountTypeId)
         {
             try
             {

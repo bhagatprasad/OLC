@@ -10,9 +10,10 @@ namespace OLC.Web.UI.Services
             _repositoryFactory = repositoryFactory;
         }
 
-        public async Task<bool> DeleteAccoutntTypeAsync(long accountTypeId)
+        public async Task<bool> DeleteAccountTypeAsync(long accountTypeId)
         {
-            var url = Path.Combine("AccountType/GetAccountTypeAsync", accountTypeId.ToString());
+
+            var url = Path.Combine("AccountType/DeleteAccountTypeAsync", accountTypeId.ToString());
             return await _repositoryFactory.SendAsync<bool>(HttpMethod.Delete, url);
         }
 
@@ -29,7 +30,7 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> InsertAccountTypeAsync(AccountType accountType)
         {
-            return await _repositoryFactory.SendAsync< AccountType, bool>(HttpMethod.Post, "AccountType/InsertAccountTypeAsync", accountType);
+            return await _repositoryFactory.SendAsync<AccountType, bool>(HttpMethod.Post, "AccountType/InsertAccountTypeAsync", accountType);
         }
 
         public async Task<bool> UpdateAccountTypeAsync(AccountType accountType)
