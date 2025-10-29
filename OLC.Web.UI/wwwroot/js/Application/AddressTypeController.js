@@ -1,133 +1,238 @@
 ﻿function AddressTypeController() {
     var self = this;
-    self.pageTitle = "Address types";
-    self.formTitle = "";
-    self.gridTitle = "All Address types";
-    self.addressTypes = [];
+
+    self.ApplicationUser = {};
+    self.AddressTypes = [];
+    self.CurrentSelectedAddressType = null;
+    self.CurrentSelectedAddressType = {};
+
     self.init = function () {
 
-        var form = $('#AddEditTypeForm');
-
-        var signUpButton = $('#btnSubmit');
-
-        form.on('input', 'input, select, textarea', checkFormValidity);
-
-        checkFormValidity();
-
-        function checkFormValidity() {
-            if (form[0].checkValidity()) {
-                signUpButton.prop('disabled', false);
-            } else {
-                signUpButton.prop('disabled', true);
-            }
+        var appUserInfo = storageService.get('ApplicationUser');
+        console.log(appUserInfo);
+        if (appUserInfo) {
+            self.ApplicationUser = appUserInfo;
         }
 
+        GetAddressTypes();
 
-        getTypes();
+        function GetAddressTypes() {
+            $.ajax({
+                type: "GET",
+                url: "/AddressType/GetAddressTypes",
+                data: { Id: self.ApplicationUser.Id },
+                cache: false,
+                success: function (response) {
+                    console.log(response);
+                    self.AddressTypes = response && response.data ? response.data : [];
+                    loadAddressTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
-        //setup page title 
-        $("#pageTitle").text(self.pageTitle);
+        function getStatusBadge(addresstype) {
+            if (addresstype.IsActive) {
+                return '<span class="badge bg-success status-badge">Active</span>';
+            } else {
+                return `<span data-addresstype-id="${addresstype.Id}" class="badge bg-warning status-badge activiate-addresstype">In Active</span>`;
+            }
 
-        //setup grid title
-        $("#gridTitle").text(self.gridTitle);
+        }
 
+        function loadAddressTypes() {
+            const tbody = $('#addressTypesBody');
+            const cardsContainer = $('#mobileAddressTypesCards');
+            tbody.empty();
+            cardsContainer.empty();
 
-        $(document).on("click", "#addTypeBtn", function () {
+            if (self.AddressTypes.length > 0) {
+                self.AddressTypes.forEach(function (type) {
+                    const statusBadge = getStatusBadge(type);
+
+                    const actionButtons = `
+                
+                <button class="btn btn-sm btn-outline-warning edit-addresstype me-1" data-id="${type.Id}">
+                        <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger delete-addresstype" data-id="${type.Id}">
+                        <i class="fas fa-trash"></i>
+                </button>
+            `;
+
+                    // Desktop row
+                    const row = `
+                <tr>
+                <td>#${type.Id}</td>
+                <td>${type.Name || ''}</td>
+                <td>${type.Code || ''}</td>
+                <td>${formatDate(type.CreatedOn)}</td>
+                <td>${formatDate(type.ModifiedOn)}</td>
+                <td>${statusBadge}</td>
+                <td>${actionButtons}</td>
+                </tr>`;
+                    tbody.append(row);
+
+                    // Mobile card
+                    const typeHtml = `
+                <div class="card mb-3 pt-2">
+                        <div class="card-header"><strong>${type.Name}</strong></div>
+                        <div class="card-body">
+                            <p><strong>Code:</strong> ${type.Code}</p>
+                            <p><strong>Status:</strong> ${statusBadge}</p>
+                            <p><strong>Created:</strong> ${formatDate(type.CreatedOn)}</p>
+                            <p><strong>Modified:</strong> ${formatDate(type.ModifiedOn)}</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            ${actionButtons}
+                        </div>
+                </div>`;
+                    cardsContainer.append(typeHtml);
+                });
+            }
+
+        }
+
+        // ===================== ADD ADDRESS TYPE =====================
+        $(document).on("click", "#addAddressTypeBtn", function () {
             $('#sidebar').addClass('show');
-            self.formTitle = "Add Address type";
-            $("#formTitle").text(self.formTitle);
             $('body').append('<div class="modal-backdrop fade show"></div>');
             console.log("Iam getting from add button click");
         });
 
+        // ===================== CLOSE SIDEBAR =====================
         $(document).on("click", "#closeSidebar", function () {
-            $('#AddEditTypeForm')[0].reset();
+            $('#AddEditAddressTypeForm')[0].reset();
             $('#sidebar').removeClass('show');
             $('.modal-backdrop').remove();
         });
 
+        // ===================== EDIT ADDRESS TYPE =====================
+        $(document).on("click", ".edit-addresstype", function () {
+            var addressTypeId = $(this).data("addresstype-id");
+            var selectedAddressType = self.AddressTypes.filter(x => x.Id == addressTypeId)[0];
+            console.log("current address type is .." + JSON.stringify(selectedAddressType));
+            self.CurrentSelectedAddressType = selectedAddressType;
+            $("#Name").val(self.CurrentSelectedAddressType.Name);
+            $("#Code").val(self.CurrentSelectedAddressType.Code);
+            $("#IsActive").val(self.CurrentSelectedAddressType.IsActive ? "true" : "false");
 
-        $('#AddEditTypeForm').on('submit', function (e) {
+            $('#sidebar').addClass('show');
+            $('body').append('<div class="modal-backdrop fade show"></div>');
+            console.log("Iam getting from add button click");
+        });
+
+        // ===================== VIEW ADDRESS TYPE =====================
+        $(document).on("click", ".btn-view-addresstype-close", function () {
+            self.CurrentSelectedAddressType = null;
+            $("#viewAddressType").modal("hide");
+            $("#deleteAddressType").modal("hide");
+        });
+
+        // ===================== DELETE ADDRESS TYPE =====================
+        $(document).on("click", ".delete-addresstype", function () {
+            console.log("deleting...");
+            var addressTypeId = $(this).data("addresstype-id");
+            var selectedAddressType = self.AddressTypes.filter(x => x.Id == addressTypeId)[0];
+            console.log("current selected address type is .." + JSON.stringify(selectedAddressType));
+
+            self.CurrentSelectedAddressType = selectedAddressType;
+
+            $("#DeleteName").val(self.CurrentSelectedAddressType.Name);
+            $("#DeleteCode").val(self.CurrentSelectedAddressType.Code);
+            $("#DeleteStatus").val(self.CurrentSelectedAddressType.IsActive ? "true" : "false");
+
+            $("#deleteAddressType").modal("show");
+        });
+
+        $(document).on("click", "#deleteAddressTypeBtn", function () {
+            console.log("delete yes clicked");
+            $.ajax({
+                type: "DELETE",
+                url: "/AddressType/DeleteAddressType?addressTypeId=" + self.CurrentSelectedAddressType.Id,
+                cache: false,
+                success: function (response) {
+                    console.log(response);
+                    self.CurrentSelectedAddressType = null;
+                    $("#deleteAddressType").modal("hide");
+
+                    GetAddressTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        $(document).on("click", ".view-addresstype", function () {
+            console.log("Hoooooo");
+            var addressTypeId = $(this).data("addresstype-id");
+            var selectedAddressType = self.AddressTypes.filter(x => x.Id == addressTypeId)[0];
+            console.log("current selected address type is .." + JSON.stringify(selectedAddressType));
+
+            self.CurrentSelectedAddressType = selectedAddressType;
+
+            $("#ViewName").val(self.CurrentSelectedAddressType.Name);
+            $("#ViewCode").val(self.CurrentSelectedAddressType.Code);
+            $("#ViewCreatedBy").val(self.CurrentSelectedAddressType.CreatedBy || '');
+            $("#ViewCreatedOn").val(formatDate(self.CurrentSelectedAddressType.CreatedOn));
+            $("#ViewModifiedBy").val(self.CurrentSelectedAddressType.ModifiedBy || '');
+            $("#ViewModifiedOn").val(formatDate(self.CurrentSelectedAddressType.ModifiedOn));
+            $("#ViewIsActive").prop('checked', self.CurrentSelectedAddressType.IsActive);
+
+            $("#viewAddressType").modal("show");
+        });
+
+        // ===================== SAVE ADDRESS TYPE =====================
+        $('#AddEditAddressTypeForm').on('submit', function (e) {
             e.preventDefault();
-            console.log();
-            $('#AddEditTypeForm')[0].reset();
-            $('#sidebar').removeClass('show');
-            $('.modal-backdrop').remove();
+            showLoader();
+
+            var name = $("#Name").val();
+            var code = $("#Code").val();
+            var isActive = $("#IsActive").val() === "true";
+            console.log("Submitting:", name, code, isActive);
+
+            var addressType = {
+                Id: self.CurrentSelectedAddressType ? self.CurrentSelectedAddressType.Id : 0,
+                Name: name,
+                Code: code,
+                CreatedBy: self.ApplicationUser.Id,
+                ModifiedBy: self.ApplicationUser.Id,
+                IsActive: isActive
+            };
+            console.log("addressType payload:", JSON.stringify(addressType));
+
+            $.ajax({
+                type: "POST",
+                url: "/AddressType/SaveAddressType",
+                cache: false,
+                data: JSON.stringify(addressType),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (response) {
+                    console.log("Save response:", response);
+                    if (response === true) {
+                        console.log("Save successful, refreshing grid...");
+                        self.CurrentSelectedAddressType = null;
+                        $('#AddEditAddressTypeForm')[0].reset();
+                        $('#sidebar').removeClass('show');
+                        $('.modal-backdrop').remove();
+                        GetAddressTypes();  // This should refresh
+                    } else {
+                        alert("Save failed on server.");
+                    }
+                },
+                error: function (error) {
+                    console.log("Save error:", error);
+                    alert("Error saving address type.");
+                }
+            });
         });
+            
+        
 
-        function getTypes() {
-            makeAjaxRequest({
-                url: API_URLS.GetAddressTypesAsync,
-                type: 'GET',
-                successCallback: handleSuccess,
-                errorCallback: handleError
-            });
-
-        }
-        function handleSuccess(response) {
-
-            console.info(response);
-
-            self.addressTypes = response && response.data ? response.data : [];
-
-            self.LoadTypesGrid();
-
-            $(".se-pre-con").hide();
-        }
-
-        function handleError(xhr, status, error) {
-            console.error('Error loading account type data:', error);
-            $('#gridBody').html(`
-                <tr>
-                    <td colspan="8" class="text-center text-danger">
-                        Error loading account type data. Please try again.
-                    </td>
-                </tr>
-            `);
-            $(".se-pre-con").hide();
-        }
-
-        self.LoadTypesGrid = function () {
-            const tbody = $('#gridBody');
-            tbody.empty(); // Clear existing rows
-
-            if (self.addressTypes.length === 0) {
-                tbody.append(`<tr>
-                    <td colspan="8" class="text-center text-muted">No accounts types found</td>
-                    </tr>`);
-                return;
-            }
-            self.addressTypes.forEach(function (item) {
-                const statusBadge = getStatusBadge(item.IsActive);
-                const createdOn = formatDate(item.CreatedOn);
-                const modifiedOn = formatDate(item.ModifiedOn);
-                // Generate action buttons based on role
-                const actionButtons = `
-                <button class="btn btn-sm btn-outline-primary view-type" data-id="${item.Id}" data-type='${item}' title="view type">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-warning edit-type" data-id="${item.Id}" data-type='${item}' title="edit type">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger delete-type" data-id="${item.Id}" data-type='${item}' title="delete type">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
-                const row = `
-            <tr class="user-account-item" data-type='${item}' data-id='${item.Id}'>
-                <td><a style="cursor:pointer;color:blue;" class="view-type" data-id="${item.Id}">#${item.Id}</a></td>
-                <td>${item.Name}</td>
-                <td>${item.Code}</td>
-                <td>${createdOn || 'N/A'}</td>
-                <td>${modifiedOn || 'N/A'}</td>
-                <td>${statusBadge}</td>
-                <td>
-                    ${actionButtons}
-                </td>
-            </tr>
-        `;
-                tbody.append(row);
-            });
-        }
     }
 }

@@ -13,13 +13,14 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> DeleteBankAsync(long bankId)
         {
-            var url = Path.Combine("Bank/DeleteBankAsync", bankId.ToString());
+            
+            var url = $"Bank/DeleteBank?bankId={bankId}";
             return await _repositoryFactory.SendAsync<bool>(HttpMethod.Delete, url);
         }
 
-        public async Task<List<Bank>> GetBanksListAsync()
+        public async Task<List<Bank>> GetBankAsync()  
         {
-            return await _repositoryFactory.SendAsync<List<Bank>>(HttpMethod.Get, "Bank/GetBanksListAsync");
+            return await _repositoryFactory.SendAsync<List<Bank>>(HttpMethod.Get, "Bank/GetBankAsync");
         }
 
         public async Task<Bank> GetBankByIdAsync(long bankId)
