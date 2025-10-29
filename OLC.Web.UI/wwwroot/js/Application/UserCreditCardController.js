@@ -80,14 +80,14 @@
 
         function getStatusBadge(card) {
             if (card.IsActive) {
-                return '<span class="badge bg-success status-badge">active</span>';
-            } 
-                 else {
-                    // 🟡 When inactive, show the "In Active" badge + "Activate" button
-                    return `
+                return '<span class="badge bg-success status-badge">Active</span>';
+            }
+            else {
+                // 🟡 When inactive, show the "In Active" badge + "Activate" button
+                return `
 
-                <button data-card-id="${card.Id}" data-card='${JSON.stringify(card)}' class="badge bg-warning status-badge delete-card">In Active </button> `;
-                }
+                <button data-card-id="${card.Id}" data-card='${JSON.stringify(card)}' class="badge bg-warning status-badge activate-card">In Active </button> `;
+            }
         }
 
         function loadUserCreditCards() {
@@ -100,12 +100,7 @@
                 self.UserCreditCards.forEach(function (card, index) {
                     const statusBadge = getStatusBadge(card);
 
-                    const deleteButton = card.IsActive ?
-                `<button class="btn btn-sm btn-outline-danger delete-card"  data-card-id="${card.Id}" data-card='${JSON.stringify(card)}' 
-                    title="delete card"> <i class="fas fa-trash"></i>
-                </button>`: '';
-
-                    const actionButtons = `
+                    const actionButtons = card.IsActive ? `
                 <button class="btn btn-sm btn-outline-primary view-card me-1" data-card-id="${card.Id}" data-card='${JSON.stringify(card).replace(/'/g, "&apos;")}' title="view card">
                     <i class="fas fa-eye"></i>
                 </button>
@@ -115,29 +110,32 @@
                 <button class="btn btn-sm btn-outline-danger delete-card" data-card-id="${card.Id}" data-card='${JSON.stringify(card).replace(/'/g, "&apos;")}' title="delete card">
                     <i class="fas fa-trash"></i>
                 </button>
+            ` : `
+                <button class="btn btn-sm btn-outline-primary view-card me-1" data-card-id="${card.Id}" data-card='${JSON.stringify(card).replace(/'/g, "&apos;")}' title="view card">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-warning edit-card me-1" data-card-id="${card.Id}" data-card='${JSON.stringify(card).replace(/'/g, "&apos;")}' title="edit card">
+                    <i class="fas fa-edit"></i>
+                </button>              
             `;
 
-                    // Desktop table row
-                ${deleteButton}  `;
-
-                    const row = `<tr class="transaction-item">
-                <td>#${card.Id}</td>
-                <td>${card.EncryptedCardNumber}</td>
-                <td>${card.ExpiryMonth}/${card.ExpiryYear}</td>
-                <td>${card.EncryptedCVV || 'N/A'}</td>
-                <td>${card.CardType}</td>
-                <td>${card.IssuingBank}</td>
-                <td>${statusBadge}</td>
-                <td>
-                   ${actionButtons}
-                </td>
-                     </tr>`;
-            </tr>`;
+                    const row = `<tr class="transaction-item" >
+                                <td>#${card.Id}</td>
+                                <td>${card.EncryptedCardNumber}</td>
+                                <td>${card.ExpiryMonth}/${card.ExpiryYear}</td>
+                                <td>${card.EncryptedCVV || 'N/A'}</td>
+                                <td>${card.CardType}</td>
+                                <td>${card.IssuingBank}</td>
+                                <td>${statusBadge}</td>
+                                <td>
+                                   ${actionButtons}
+                                </td>
+                                </tr > `;
                     tbody.append(row);
 
                     // Mobile card
                     const cardHtml = `
-                <div class="card mb-3 pt-2">
+                        < div class="card mb-3 pt-2" >
                     <div class="card-header">
                         <strong>${card.EncryptedCardNumber} (${card.CardType})</strong>
                     </div>
@@ -151,27 +149,12 @@
                     <div class="card-footer d-flex justify-content-between">
                         ${actionButtons}
                     </div>
-                </div>
-            `;
+                </div >
+                        `;
                     cardsContainer.append(cardHtml);
                 });
             }
         }
-
-        }
-
-        $(document).on("click", ".active-card", function () {
-
-        $(document).on("click", ".activiate-card", function () {
-            var cardId = $(this).data("card-id");
-
-            console.log(cardId);
-        });
-
-        $(document).on("click", ".inactive-card", function () {
-            var creditCard = $(this).data("credit-card");
-            console.log(creditCard);
-        });
 
         $(document).on("click", "#addCreditCardBtn", function () {
             $('#sidebar').addClass('show');
@@ -234,7 +217,7 @@
 
         //InActive Card Function
 
-        $(document).on("click", ".inActive-card", function () {
+        $(document).on("click", ".activate-card", function () {
             console.log("inActve...");
 
             var cardId = $(this).data("card-id");
@@ -245,29 +228,34 @@
 
             self.CurrentSelectedCreditCard = selectedCreditCard;
 
-            $("#deleteCardHolderName").val(self.CurrentSelectedCreditCard.CardHolderName);
-            $("#deleteCardNumber").val(self.CurrentSelectedCreditCard.EncryptedCardNumber);
-            $("#deleteExpirymonth").val(self.CurrentSelectedCreditCard.ExpiryMonth);
-            $("#deleteExpiryYear").val(self.CurrentSelectedCreditCard.ExpiryYear);
-            $("#deleteCVV").val(self.CurrentSelectedCreditCard.EncryptedCVV);
+            $("#ActivateCardHolderName").val(self.CurrentSelectedCreditCard.CardHolderName);
+            $("#ActivateCardNumber").val(self.CurrentSelectedCreditCard.EncryptedCardNumber);
+            $("#ActivateExpirymonth").val(self.CurrentSelectedCreditCard.ExpiryMonth);
+            $("#ActivateExpiryYear").val(self.CurrentSelectedCreditCard.ExpiryYear);
+            $("#ActivateCVV").val(self.CurrentSelectedCreditCard.EncryptedCVV);
 
-            $("#inActiveCreditCard").modal("show");
+            $("#activateCreditCard").modal("show");
         });
 
-        $(document).on("click", "#activeCreditCardBtn", function () {
+        $(document).on("click", "#activateCreditCardBtn", function () {
+
+            self.CurrentSelectedCreditCard.ModifiedBy = self.ApplicationUser.Id;
+
             console.log("Active button yes clicked..................");
             $.ajax({
-                type: "inActive",
+                type: "POST",
                 url: "/CreditCard/ActivateUserCreditcard/",
-                data: { creditCardId: self.CurrentSelectedCreditCard.Id },
+                data: JSON.stringify(self.CurrentSelectedCreditCard),
                 cache: false,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
                 success: function (response) {
 
                     console.log(response);
 
                     self.CurrentSelectedCreditCard = null;
 
-                    $("#inActiveCreditCard").modal("hide");
+                    $("#activateCreditCard").modal("hide");
 
                     GetUserCreditCards();
 
@@ -279,7 +267,7 @@
         });
 
 
-       //delete button function
+        //delete button function
 
         $(document).on("click", ".delete-card", function () {
             console.log("deleting...");

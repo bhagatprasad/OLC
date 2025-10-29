@@ -50,12 +50,16 @@
                 self.AccountTypes.forEach(function (type) {
                     const statusBadge = getStatusBadge(type);
 
-                    const actionButtons = `
+                    const actionButtons = type.IsActive ?  `
                         <button class="btn btn-sm btn-outline-warning edit-type me-1" data-accounttype-id="${type.Id}" title="edit type">
                             <i class="fas fa-edit"></i>
                         </button>
                         <button class="btn btn-sm btn-outline-danger delete-type" data-accounttype-id="${type.Id}" title="delete type">
                             <i class="fas fa-trash"></i>
+                        </button>
+                    `: `
+                        <button class="btn btn-sm btn-outline-warning edit-type me-1" data-accounttype-id="${type.Id}" title="edit type">
+                            <i class="fas fa-edit"></i>
                         </button>
                     `;
 
