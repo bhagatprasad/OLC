@@ -1,0 +1,108 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="viewAccountType" tabindex="-1" aria-labelledby="accountTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="accountTypeModalLabel">
+                    <i class="fas fa-list"></i> Account Type Information
+                </h5>
+                <button type="button" class="btn-close btn-view-accounttype-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <form id="accountTypeForm">
+                    <div class="mb-3">
+                        <label for="ViewName" class="form-label">
+                            <i class="fas fa-font"></i> Name
+                        </label>
+                        <input type="text" class="form-control" id="ViewName" placeholder="e.g., Savings Account" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ViewCode" class="form-label">
+                            <i class="fas fa-code"></i> Code
+                        </label>
+                        <input type="text" class="form-control" id="ViewCode" placeholder="e.g., SAV001" readonly>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ViewCreatedBy" class="form-label">
+                                <i class="fas fa-user-cog"></i> Created By
+                            </label>
+                            <input type="text" class="form-control" id="ViewCreatedBy" readonly>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="ViewCreatedOn" class="form-label">
+                                <i class="fas fa-calendar-plus"></i> Created On
+                            </label>
+                            <input type="text" class="form-control" id="ViewCreatedOn" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ViewModifiedBy" class="form-label">
+                                <i class="fas fa-user-edit"></i> Modified By
+                            </label>
+                            <input type="text" class="form-control" id="ViewModifiedBy" readonly>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="ViewModifiedOn" class="form-label">
+                                <i class="fas fa-calendar-check"></i> Modified On
+                            </label>
+                            <input type="text" class="form-control" id="ViewModifiedOn" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="ViewIsActive" disabled>
+                        <label class="form-check-label" for="ViewIsActive">
+                            <i class="fas fa-toggle-on"></i> Active
+                        </label>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #viewAccountType .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    #viewAccountType .form-control {
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    #viewAccountType .form-label {
+        font-weight: 500;
+    }
+
+    #viewAccountType .modal-header {
+        background: linear-gradient(135deg, #007bff, #6610f2);
+        color: white;
+        border-bottom: none;
+    }
+
+    #viewAccountType .btn-primary {
+        background: linear-gradient(135deg, #007bff, #6610f2);
+        border: none;
+    }
+
+        #viewAccountType .btn-primary:hover {
+            background: linear-gradient(135deg, #0056b3, #520dc2);
+        }
+
+    #viewAccountType .form-check-input:checked {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+</style>

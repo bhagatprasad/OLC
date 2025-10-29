@@ -1,134 +1,223 @@
 ﻿function AccountTypeController() {
-
     var self = this;
-    self.pageTitle = "Account types";
-    self.formTitle = "";
-    self.gridTitle = "All account types";
-    self.accountTypes = [];
+
+    self.ApplicationUser = {};
+    self.AccountTypes = [];
+    self.CurrentSelectedAccountType = null;
+    self.CurrentSelectedAccountType = {};
+
     self.init = function () {
+        var appUserInfo = storageService.get('ApplicationUser');
+        console.log(appUserInfo);
+        if (appUserInfo) {
+            self.ApplicationUser = appUserInfo;
+        }
 
-        var form = $('#AddEditTypeForm');
+        GetAccountTypes();
 
-        var signUpButton = $('#btnSubmit');
+        function GetAccountTypes() {
+            $.ajax({
+                type: "GET",
+                url: "/AccountType/GetAccountTypes",
+                data: { Id: self.ApplicationUser.Id },
+                cache: false,
+                success: function (response) {
+                    console.log(response);
+                    self.AccountTypes = response && response.data ? response.data : [];
+                    loadAccountTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
-        form.on('input', 'input, select, textarea', checkFormValidity);
-
-        checkFormValidity();
-
-        function checkFormValidity() {
-            if (form[0].checkValidity()) {
-                signUpButton.prop('disabled', false);
+        function getStatusBadge(type) {
+            if (type.IsActive) {
+                return '<span class="badge bg-success status-badge">Active</span>';
             } else {
-                signUpButton.prop('disabled', true);
+                return `<span data-accounttype-id="${type.Id}" class="badge bg-warning status-badge activiate-type">In Active</span>`;
             }
         }
 
+        function loadAccountTypes() {
+            const tbody = $('#accountTypesBody');
+            const cardsContainer = $('#mobileAccountTypesCards');
+            tbody.empty();
+            cardsContainer.empty();
 
-        getTypes();
+            if (self.AccountTypes.length > 0) {
+                self.AccountTypes.forEach(function (type) {
+                    const statusBadge = getStatusBadge(type);
 
-        //setup page title 
-        $("#pageTitle").text(self.pageTitle);
+                    const actionButtons = `
+                        <button class="btn btn-sm btn-outline-warning edit-type me-1" data-accounttype-id="${type.Id}" title="edit type">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-type" data-accounttype-id="${type.Id}" title="delete type">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    `;
 
-        //setup grid title
-        $("#gridTitle").text(self.gridTitle);
+                    const row = `
+                        <tr>
+                            <td>#${type.Id}</td>
+                            <td>${type.Name || ''}</td>
+                            <td>${type.Code || ''}</td>
+                            <td>${formatDate(type.CreatedOn)}</td>
+                            <td>${formatDate(type.ModifiedOn)}</td>
+                            <td>${statusBadge}</td>
+                            <td>${actionButtons}</td>
+                        </tr>
+                    `;
+                    tbody.append(row);
 
+                    const typeHtml = `
+                        <div class="card mb-3 pt-2">
+                            <div class="card-body">
+                                <p class="card-text mb-1"><strong>ID:</strong> #${type.Id}</p>
+                                <p class="card-text mb-1"><strong>Name:</strong> ${type.Name}</p>
+                                <p class="card-text mb-1"><strong>Code:</strong> ${type.Code}</p>
+                                <p class="card-text mb-1"><strong>Status:</strong> ${statusBadge}</p>
+                                <p class="card-text mb-1"><strong>CreatedOn:</strong> ${formatDate(type.CreatedOn)}</p>
+                                <p class="card-text mb-1"><strong>ModifiedOn:</strong> ${formatDate(type.ModifiedOn)}</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between">
+                                ${actionButtons}
+                            </div>
+                        </div>`;
+                    cardsContainer.append(typeHtml);  
+                });
+            }
+        }
 
-        $(document).on("click", "#addTypeBtn", function () {
+        $(document).on("click", ".activiate-type", function () {
+            var typeId = $(this).data("type-id");
+            console.log(typeId);
+        });
+
+        $(document).on("click", "#addAccountTypeBtn", function () {
             $('#sidebar').addClass('show');
-            self.formTitle = "Add account type";
-            $("#formTitle").text(self.formTitle);
             $('body').append('<div class="modal-backdrop fade show"></div>');
             console.log("Iam getting from add button click");
         });
 
         $(document).on("click", "#closeSidebar", function () {
-            $('#AddEditTypeForm')[0].reset();
+            $('#AddEditAccountTypeForm')[0].reset();
             $('#sidebar').removeClass('show');
             $('.modal-backdrop').remove();
         });
 
+        $(document).on("click", ".edit-type", function () {
+            var typeId = parseInt($(this).data("accounttype-id"));  
+            var selectedAccountType = self.AccountTypes.filter(x => x.Id === typeId)[0];
+            console.log("current selected account type is .." + JSON.stringify(selectedAccountType));
+            self.CurrentSelectedAccountType = selectedAccountType;
 
-        $('#AddEditTypeForm').on('submit', function (e) {
+            $("#Name").val(self.CurrentSelectedAccountType.Name);
+            $("#Code").val(self.CurrentSelectedAccountType.Code);
+            $("#IsActive").val(self.CurrentSelectedAccountType.IsActive ? "true" : "false");
+
+            $('#sidebar').addClass('show');
+            $('body').append('<div class="modal-backdrop fade show"></div>');
+            console.log("Iam getting from add button click");
+        });
+
+        $(document).on("click", ".btn-view-type-close", function () {
+            self.CurrentSelectedAccountType = null;
+            $("#viewAccountType").modal("hide");
+            $("#deleteAccountType").modal("hide");
+        });
+
+        $(document).on("click", ".delete-type", function () {
+            console.log("deleting...");
+            var typeId = parseInt($(this).data("accounttype-id"));  
+            var selectedAccountType = self.AccountTypes.filter(x => x.Id === typeId)[0];
+            console.log("current selected account type is .." + JSON.stringify(selectedAccountType));
+            self.CurrentSelectedAccountType = selectedAccountType;
+
+            $("#DeleteName").val(self.CurrentSelectedAccountType.Name);
+            $("#DeleteCode").val(self.CurrentSelectedAccountType.Code);
+            $("#DeleteStatus").val(self.CurrentSelectedAccountType.IsActive ? "true" : "false");
+
+            $("#deleteAccountType").modal("show");
+        });
+
+        $(document).on("click", "#deleteAccountTypeBtn", function () {
+            console.log("delete yes clicked");
+            $.ajax({
+                type: "DELETE",
+                url: "/AccountType/DeleteAccountType",
+                data: { accountTypeId: self.CurrentSelectedAccountType.Id },// Fixed: Query param
+                cache: false,
+                success: function (response) {
+                    console.log(response);
+                    self.CurrentSelectedAccountType = null;
+                    $("#deleteAccountType").modal("hide");
+                    GetAccountTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        $(document).on("click", ".view-type", function () {
+            console.log("Hoooooo");
+            var typeId = parseInt($(this).data("accounttype-id"));  
+            var selectedAccountType = self.AccountTypes.filter(x => x.Id === typeId)[0];
+            console.log("current selected account type is .." + JSON.stringify(selectedAccountType));
+            self.CurrentSelectedAccountType = selectedAccountType;
+
+            $("#ViewName").val(self.CurrentSelectedAccountType.Name);
+            $("#ViewCode").val(self.CurrentSelectedAccountType.Code);
+            $("#ViewCreatedBy").val(self.CurrentSelectedAccountType.CreatedBy || '');
+            $("#ViewCreatedOn").val(formatDate(self.CurrentSelectedAccountType.CreatedOn));
+            $("#ViewModifiedBy").val(self.CurrentSelectedAccountType.ModifiedBy || '');
+            $("#ViewModifiedOn").val(formatDate(self.CurrentSelectedAccountType.ModifiedOn));
+            $("#ViewIsActive").prop('checked', self.CurrentSelectedAccountType.IsActive);
+
+            $("#viewAccountType").modal("show");
+        });
+
+        $('#AddEditAccountTypeForm').on('submit', function (e) {
             e.preventDefault();
-            console.log();
-            $('#AddEditTypeForm')[0].reset();
-            $('#sidebar').removeClass('show');
-            $('.modal-backdrop').remove();
+            showLoader();
+
+            var name = $("#Name").val();
+            var code = $("#Code").val();
+            var isActive = $("#IsActive").val() === "true";  
+            console.log(name);
+
+            var accountType = {
+                Id: self.CurrentSelectedAccountType ? self.CurrentSelectedAccountType.Id : 0,
+                Name: name,
+                Code: code,
+                CreatedBy: self.ApplicationUser.Id,
+                ModifiedBy: self.ApplicationUser.Id,
+                IsActive: isActive  
+            };
+            console.log("accountType..." + JSON.stringify(accountType));
+
+            $.ajax({
+                type: "POST",
+                url: "/AccountType/SaveAccountType",
+                cache: false,
+                data: JSON.stringify(accountType),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    self.CurrentSelectedAccountType = null;
+                    $('#AddEditAccountTypeForm')[0].reset();
+                    $('#sidebar').removeClass('show');
+                    $('.modal-backdrop').remove();
+                    GetAccountTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         });
-
-        function getTypes() {
-            makeAjaxRequest({
-                url: API_URLS.GetAccountTypeAsync,
-                type: 'GET',
-                successCallback: handleSuccess,
-                errorCallback: handleError
-            });
-
-        }
-        function handleSuccess(response) {
-
-            console.info(response);
-
-            self.accountTypes = response && response.data ? response.data : [];
-
-            self.LoadTypesGrid();
-
-            $(".se-pre-con").hide();
-        }
-
-        function handleError(xhr, status, error) {
-            console.error('Error loading account type data:', error);
-            $('#gridBody').html(`
-                <tr>
-                    <td colspan="8" class="text-center text-danger">
-                        Error loading account type data. Please try again.
-                    </td>
-                </tr>
-            `);
-            $(".se-pre-con").hide();
-        }
-
-        self.LoadTypesGrid = function () {
-            const tbody = $('#gridBody');
-            tbody.empty(); // Clear existing rows
-
-            if (self.accountTypes.length === 0) {
-                tbody.append(`<tr>
-                    <td colspan="8" class="text-center text-muted">No accounts types found</td>
-                    </tr>`);
-                return;
-            }
-            self.accountTypes.forEach(function (accountType) {
-                const statusBadge = getStatusBadge(accountType.IsActive);
-                const createdOn = formatDate(accountType.CreatedOn);
-                const modifiedOn = formatDate(accountType.ModifiedOn);
-                // Generate action buttons based on role
-                const actionButtons = `
-                <button class="btn btn-sm btn-outline-primary view-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="view accountType">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-warning edit-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="edit accountType">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger delete-accounttype" data-id="${accountType.Id}" data-accountType='${accountType}' title="delete accountType">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
-                const row = `
-            <tr class="user-account-item" data-accounttype='${accountType}' data-id='${accountType.Id}'>
-                <td><a style="cursor:pointer;color:blue;" class="view-accounttype" data-user-id="${accountType.Id}">#${accountType.Id}</a></td>
-                <td>${accountType.Name}</td>
-                <td>${accountType.Code}</td>
-                <td>${createdOn || 'N/A'}</td>
-                <td>${modifiedOn || 'N/A'}</td>
-                <td>${statusBadge}</td>
-                <td>
-                    ${actionButtons}
-                </td>
-            </tr>
-        `;
-                tbody.append(row);
-            });
-        }
-    }
+    };
 }

@@ -6,30 +6,28 @@ using OLC.Web.UI.Services;
 
 namespace OLC.Web.UI.Controllers
 {
-    [Authorize]
-    [Authorize(Roles = ("Administrator,Executive"))]
+    [Authorize(Roles = "Administrator,Executive,User")]
     public class AddressTypeController : Controller
     {
         private readonly IAddressTypeService _addressTypeService;
         private readonly INotyfService _notyfService;
 
-        public AddressTypeController(IAddressTypeService addressTypeService,
-            INotyfService notyfService)
+        public AddressTypeController(IAddressTypeService addressTypeService, INotyfService notyfService)
         {
             _addressTypeService = addressTypeService;
             _notyfService = notyfService;
         }
 
-        [HttpGet]
-        [Authorize(Roles = ("Administrator,Executive"))]
-        public IActionResult Index()
+        [HttpGet("/AddressType")]
+        [Authorize(Roles = "Administrator,Executive")]
+        public IActionResult AddressTypes()
         {
             return View();
         }
 
         [HttpGet]
-        [Authorize(Roles = ("Administrator,Executive"))]
-        public async Task<IActionResult> GetAddressTypes()
+        [Authorize(Roles = "Administrator,Executive,User")]
+        public async Task<IActionResult> GetAddressTypes([FromQuery] long Id)  // Fixed: Accept Id parameter
         {
             try
             {
@@ -39,33 +37,61 @@ namespace OLC.Web.UI.Controllers
             catch (Exception ex)
             {
                 _notyfService.Error(ex.Message);
-                throw ex;
+                throw;
             }
         }
 
         [HttpPost]
-        [Authorize(Roles = ("Administrator"))]
-        public async Task<IActionResult> InsertOrUpdateAddressType([FromBody] AddressType addressType)
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> SaveAddressType([FromBody] AddressType addressType)
         {
             try
             {
-                bool isSucess = false;
+                bool isSaved = false;
 
-                if (addressType.Id > 0)
-                    isSucess = await _addressTypeService.InsertAddressTypeAsync(addressType);
-                else
-                    isSucess = await _addressTypeService.UpdateAddressTypeAsync(addressType);
+                if (addressType != null)
+                {
+                    // Call a single service method
+                    isSaved = await _addressTypeService.SaveAddressTypeAsync(addressType);
 
-                _notyfService.Success("Save operation successful");
+                    _notyfService.Success("Successfully saved address type");
+                    return Json(isSaved);
+                }
 
-                return Json(true);
+                _notyfService.Error("Unable to save address type");
+                return Json(isSaved);
             }
             catch (Exception ex)
             {
-                _notyfService.Error(ex.Message);
-                throw ex;
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteAddressType(long addressTypeId)
+        {
+            try
+            {
+                bool isSaved = false;
+                if (addressTypeId > 0)
+                {
+                    isSaved = await _addressTypeService.DeleteAddressTypeAsync(addressTypeId);
+
+                    if (isSaved)
+                        _notyfService.Success("Successfully deleted address type");
+                    else
+                        _notyfService.Warning("Unable to delete address type");
+
+                    return Json(isSaved);
+                }
+                _notyfService.Error("Unable to delete address type");
+                return Json(isSaved);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }
-
 }

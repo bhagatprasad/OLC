@@ -187,7 +187,7 @@ const API_URLS = {
     InsertOrUpdatePaymentMethod: '/PaymentMethod/InsertOrUpdatePaymentMethod',
     InsertOrUpdateBillingAccount: '/BillingAccount/InsertOrUpdateBillingAccount',
     FetchBillingAccount: '/BillingAccount/FetchBillingAccount',
-    GetAccountTypeAsync: '/AccountType/GetAccountTypes',
+    GetAccountTypeAsync: '/AccountType/GetAccountType',
     GetAddressTypesAsync: '/AddressType/GetAddressTypes',
     GetBanksAsync: '/Bank/GetBanks',
     GetCardTypesAsync: '/CardType/GetCardTypes',
