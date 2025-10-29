@@ -193,7 +193,8 @@ const API_URLS = {
     GetCardTypesAsync: '/CardType/GetCardTypes',
     GetStatusesAsync: '/Status/GetStatuses',
     GetTransactionTypesAsync: '/TransactionType/GetTransactionTypes',
-    GetCountriesListAsync: '/Country/GetCountriesList'
+    GetCountriesListAsync: '/Country/GetCountriesList',
+    PlacePaymentOrderAsync:'/PaymentOrder/PlacePaymentOrder'
 
 };
 function addCommonProperties(data) {
@@ -354,7 +355,7 @@ function disableAllButtons() {
     $(".custom-cursor").addClass("disabled");
     $("#addBtn").removeClass("disabled");
     $("#exportBtn").removeClass("disabled");
-   /* $("#importBtn").removeClass("disabled");*/
+    /* $("#importBtn").removeClass("disabled");*/
     /* $("#permissionBtn").removeClass("disabled");*/
 }
 
@@ -477,7 +478,7 @@ const statuses = {
     SentForTests: "Sent for test",
     TestCompleted: "Test completed",
     ReportsAvailable: "Reports Available",
-    DoctorReportsSeen:"Doctor reports seen",
+    DoctorReportsSeen: "Doctor reports seen",
     SentToPharmacy: "Sent for medicine",
     MediceneGiven: "Medicene given",
     HospitalVisitCompleted: "Hospital visit completed"
@@ -645,3 +646,82 @@ function generateUniqueEmail(baseName, domain) {
 
     return email;
 }
+function generateOrderReference(userId, paymentType) {
+    // Get current date and time
+    var now = new Date();
+
+    // Format day, month, year, hour, minute with leading zeros
+    var day = String(now.getDate()).padStart(2, '0');
+    var month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is 0-based
+    var year = now.getFullYear();
+    var hour = String(now.getHours()).padStart(2, '0');
+    var minute = String(now.getMinutes()).padStart(2, '0');
+
+    // Create timestamp string: DDMMYYYYHHMM
+    var timestamp = day + month + year + hour + minute;
+
+    // Determine type code: DP for deposit, PY for payment
+    var typeCode = (paymentType.toLowerCase() === 'deposit') ? 'DP' : 'PY';
+
+    // Construct order reference: ORD-{typeCode}-{timestamp}{userId}
+    var orderRef = 'ORD-' + typeCode + '-' + timestamp + userId;
+
+    return orderRef;
+}
+
+const OrderType = {
+    Deposite: "deposit",
+    Payment: "Payment"
+}
+
+const FeeCollectionMethod = {
+    Yes: "Yes",
+    No: "No"
+}
+
+const statusConstants = {
+    "Pending": 1,
+    "In Progress": 2,
+    "Active": 3,
+    "Inactive": 4,
+    "Approved": 5,
+    "Rejected": 6,
+    "Completed": 7,
+    "Cancelled": 8,
+    "Draft": 9,
+    "Submitted": 10,
+    "Under Review": 11,
+    "Processing": 12,
+    "Processed": 13,
+    "Failed": 14,
+    "Success": 15,
+    "Expired": 16,
+    "Suspended": 17,
+    "Archived": 18,
+    "Deleted": 19,
+    "Locked": 20,
+    "Unlocked": 21,
+    "Verified": 22,
+    "Unverified": 23,
+    "Paid": 24,
+    "Unpaid": 25,
+    "Open": 26,
+    "Closed": 27,
+    "Resolved": 28,
+    "New": 29,
+    "On Hold": 30,
+    "Awaiting Approval": 31,
+    "Awaiting Payment": 32,
+    "Shipped": 33,
+    "Delivered": 34,
+    "Returned": 35,
+    "Refunded": 36,
+    "Partially Paid": 37,
+    "Overdue": 38,
+    "Blocked": 39,
+    "Enabled": 40,
+    "Disabled": 41
+};
+
+// Example usage:
+// var statusId = statusConstants["Pending"]; // Returns 1

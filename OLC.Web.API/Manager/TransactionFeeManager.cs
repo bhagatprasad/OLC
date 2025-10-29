@@ -99,7 +99,7 @@ namespace OLC.Web.API.Manager
                     transactionFee.Id = Convert.ToInt64(dr["Id"]);
                     transactionFee.Name = dr["Name"] != DBNull.Value ? Convert.ToString(dr["Name"]) : null;
                     transactionFee.Code = dr["Code"] != DBNull.Value ? Convert.ToString(dr["Code"]) : null;
-                    transactionFee.CreatedBy = dr["Price"] != DBNull.Value ? Convert.ToInt64(dr["Price"]) : null;
+                    transactionFee.Price = dr["Price"] != DBNull.Value ? Convert.ToInt64(dr["Price"]) : null;
                     transactionFee.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt64(dr["CreatedBy"]) : null;
                     transactionFee.CreatedOn = dr["CreatedOn"] != DBNull.Value ? (DateTimeOffset)dr["CreatedOn"] : null;
                     transactionFee.ModifiedBy = dr["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(dr["ModifiedBy"]) : null;

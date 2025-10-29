@@ -96,6 +96,31 @@
                                 </div>
                             </div>
 
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <select class="form-control form-select" id="PaymentReason" required></select>
+                                    <span>Payment Reason</span>
+                                </div>
+                            </div>
+
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <select class="form-control form-select" id="TransactionFee" required></select>
+                                    <span>Transaction Fee</span>
+                                </div>
+                            </div>
+
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <select class="form-control form-select" id="FeeCollectionMethod" required>
+                                        <option value="" disabled selected>select option</option>
+                                        <option value="Yes">Add</option>
+                                        <option value="No">Deduct</option>
+                                    </select>
+                                    <span>Fee Collection method (deducte / add) </span>
+                                </div>
+                            </div>
+
                             <div class="buttons button_space">
                                 <button class="back_button">Back</button>
                                 <button class="next_button">Next Step</button>
@@ -159,16 +184,28 @@
                                 <h5>Payment Details</h5>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Transfer Amount:</span>
-                                    <span class="fw-bold">$500.00</span>
+                                    <span class="fw-bold" id="usrTransferAmount">$500.00</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Processing Fee:</span>
-                                    <span>$2.50</span>
+                                    <span id="usrProcessingFee">$2.50</span>
                                 </div>
                                 <hr>
                                 <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Fee collection:</span>
+                                    <span class="fw-bold text-primary" id="usrFeeCollection">deducted/add</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Plotform Charges:</span>
+                                    <span class="fw-bold text-primary" id="usrPlotformCharges">$502.50</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">User receves:</span>
+                                    <span class="fw-bold text-primary" id="usrUserReceves">$502.50</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
                                     <span class="fw-bold">Total Amount:</span>
-                                    <span class="fw-bold text-primary">$502.50</span>
+                                    <span class="fw-bold text-primary" id="usrTotalAmount">$502.50</span>
                                 </div>
                             </div>
 
