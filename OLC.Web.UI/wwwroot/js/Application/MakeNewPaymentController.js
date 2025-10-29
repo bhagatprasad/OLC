@@ -13,6 +13,10 @@
 
     self.BillingAddress = [];
 
+    self.PaymentReasons = [];
+
+    self.TransactionFees = [];
+
     self.SelectedCreditCard = {};
 
     self.SelectedBankAccount = {};
@@ -20,6 +24,8 @@
     self.SelectedBillingAddress = {};
 
     self.CurrentPaymentItem = {};
+
+    self.CurrentPlacedPaymentOrder = {};
 
     self.CurrentOrder = null;
 
@@ -43,6 +49,8 @@
         actions.push("/CreditCard/GetUserCreditCards");
         actions.push("/BankAccount/GetUserBankAccounts");
         actions.push("/BillingAddress/GetUserBillingAddresses");
+        actions.push("/PaymentReason/GetPaymentReasons");
+        actions.push("/TransactionFee/GetTransactionFeesList");
 
         dataObjects.push({ userId: self.ApplicationUser.Id });
 
@@ -63,11 +71,17 @@
             self.CreditCards = responses[0][0] && responses[0][0].data ? responses[0][0].data : [];
             self.BankAccounts = responses[1][0] && responses[1][0].data ? responses[1][0].data : [];
             self.BillingAddress = responses[2][0] && responses[2][0].data ? responses[2][0].data : [];
+            self.PaymentReasons = responses[3][0] && responses[3][0].data ? responses[3][0].data : [];
+            self.TransactionFees = responses[4][0] && responses[4][0].data ? responses[4][0].data : [];
 
+            genarateDropdown("TransactionFee", self.TransactionFees, "Id", "Name");
+            genarateDropdown("PaymentReason", self.PaymentReasons, "Id", "Name");
             // Bind the data to the form
             self.bindCreditCards();
             self.bindBankAccounts();
             self.bindBillingAddresses();
+
+
 
             $(".se-pre-con").hide();
         }).fail(function () {
@@ -96,9 +110,79 @@
         // ✅ FIXED: Submit button functionality - REAL Stripe Integration
         $('.submit_button').on('click', function () {
             if (self.validateStep(currentStep)) {
-                self.processPaymentWithStripe();
+
+                const transferAmount = $('#transfer_amount').val();
+                var transactionFeeId = $("#TransactionFee").val();
+                var paymentReasonId = $("#PaymentReason").val();
+                var feeCollectionType = $("#FeeCollectionMethod").val();
+                var transactionfees = self.TransactionFees.filter(x => x.Id == transactionFeeId)[0];
+                const plotFormFeePercentage = transactionfees.Price;
+
+                const platformFeeAmount = (parseFloat(transferAmount) * parseFloat(plotFormFeePercentage)) / 100;
+
+                let totalAmountToChargeCustomer;
+                let totalAmountToDepositToCustomer;
+                let totalPlatformFee = platformFeeAmount; // This remains the same in both cases
+
+                if (feeCollectionType === FeeCollectionMethod.Yes) {
+                    // Add the platform fee to the amount charged from the customer
+                    totalAmountToChargeCustomer = parseFloat(transferAmount) + platformFeeAmount;
+                    totalAmountToDepositToCustomer = parseFloat(transferAmount);
+                } else {
+                    // Deduct the platform fee from the entered amount
+                    totalAmountToChargeCustomer = parseFloat(transferAmount);
+                    totalAmountToDepositToCustomer = parseFloat(transferAmount) - platformFeeAmount;
+                }
+
+                var paymentOrderObject = {
+                    Id: 0,
+                    OrderReference: generateOrderReference(self.ApplicationUser.Id, OrderType.Payment),
+                    UserId: self.ApplicationUser.Id,
+                    PaymentReasonId: paymentReasonId,
+                    Amount: parseFloat(transferAmount),
+                    TransactionFeeId: transactionFeeId,
+                    PlatformFeeAmount: platformFeeAmount, // Corrected to the calculated fee amount
+                    FeeCollectionMethod: feeCollectionType, // Or whatever is selected
+                    TotalAmountToChargeCustomer: totalAmountToChargeCustomer,
+                    TotalAmountToDepositToCustomer: totalAmountToDepositToCustomer,
+                    TotalPlatformFee: totalPlatformFee,
+                    Currency: "INR",
+                    CreditCardId: self.SelectedCreditCard.Id,
+                    BankAccountId: self.SelectedBankAccount.Id,
+                    BillingAddressId: self.SelectedBillingAddress.Id,
+                    OrderStatusId: statusConstants.Draft,
+                    PaymentStatusId: statusConstants.Pending,
+                    DepositStatusId: statusConstants.Pending,
+                    StripePaymentIntentId: null,
+                    StripePaymentChargeId: null,
+                    StripeDepositeIntentId: null,
+                    StripeDepositeChargeId: null,
+                };
+
+                var paymentOrder = addCommonProperties(paymentOrderObject);
+
+                console.log("paymentOrder....." + JSON.stringify(paymentOrder));
+                makeAjaxRequest({
+                    url: API_URLS.PlacePaymentOrderAsync,
+                    data: paymentOrder,
+                    type: 'POST',
+                    successCallback: handleSuccess,
+                    errorCallback: handleError
+                });
+
             }
         });
+
+        function handleSuccess(response) {
+            console.info(response);
+            self.CurrentPlacedPaymentOrder = response && response.data ? response.data : {};
+            self.processPaymentWithStripe();
+        }
+
+        function handleError(xhr, status, error) {
+            console.error("Error in placing payment order: " + error);
+            $(".se-pre-con").hide();
+        }
 
         // Payment option selection
         $(document).on('click', '.payment-option', function () {
@@ -305,34 +389,48 @@
         // Update payment amount
         const transferAmount = $('#transfer_amount').val();
         if (transferAmount) {
-            const processingFee = 2.50;
-            const totalAmount = parseFloat(transferAmount) + processingFee;
+            var transactionFeeId = $("#TransactionFee").val();
+            var feeCollectionType = $("#FeeCollectionMethod").val();
+            var transactionfees = self.TransactionFees.filter(x => x.Id == transactionFeeId)[0];
+            const processingFee = transactionfees.Price;
 
-            confirmationStep.find('.summary-item').eq(3).find('.fw-bold').eq(0).text('$' + parseFloat(transferAmount).toFixed(2));
-            confirmationStep.find('.summary-item').eq(3).find('.text-primary').text('$' + totalAmount.toFixed(2));
+            let platformCharges;
+            let userReceives;
+            let feeCollectionText;
+            let totalAmount;
+
+            if (feeCollectionType === "Yes") { // Assuming "Yes" means add fee to charged amount
+                platformCharges = (parseFloat(transferAmount) * processingFee) / 100;
+                userReceives = parseFloat(transferAmount);
+                feeCollectionText = "add";
+                totalAmount = platformCharges + userReceives;
+            } else { // "No" means deduct fee from transfer amount
+                platformCharges = (parseFloat(transferAmount) * processingFee) / 100;
+                userReceives = parseFloat(transferAmount) - platformCharges;
+                feeCollectionText = "deducted";
+                totalAmount = platformCharges + userReceives;
+            }
+
+            // Update UI elements using IDs
+            $('#usrTransferAmount').text('$' + parseFloat(transferAmount).toFixed(2));
+            $('#usrProcessingFee').text('$' + processingFee.toFixed(2));
+            $('#usrFeeCollection').text(feeCollectionText);
+            $('#usrPlotformCharges').text('$' + platformCharges.toFixed(2));
+            $('#usrUserReceves').text('$' + userReceives.toFixed(2));
+            $('#usrTotalAmount').text('$' + totalAmount.toFixed(2));
         }
     };
 
     // ✅ FIXED: REAL Stripe Checkout Integration
     self.processPaymentWithStripe = function () {
-        const transferAmount = $('#transfer_amount').val();
-
-        if (!transferAmount || transferAmount <= 0) {
-            alert('Please enter a valid transfer amount');
-            return;
-        }
-
-        const processingFee = 2.50;
-        const totalAmount = parseFloat(transferAmount) + processingFee;
-
         // Disable button and show loading
         $('.submit_button').prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Redirecting to Stripe...');
 
         console.log('🎬 Starting REAL Stripe Checkout Process...');
-        console.log('💰 Amount:', totalAmount);
+        console.log('💰 Amount:', self.CurrentPlacedPaymentOrder.TotalAmountToChargeCustomer);
 
         // Create Stripe Checkout Session
-        self.createStripeCheckoutSession(totalAmount)
+        self.createStripeCheckoutSession(self.CurrentPlacedPaymentOrder.TotalAmountToChargeCustomer)
             .then(function (session) {
                 console.log('✅ Stripe Session Created:', session.id);
 
@@ -371,9 +469,11 @@
                     amount: totalAmount,
                     currency: 'usd',
                     customerEmail: self.ApplicationUser.Email,
-                    successUrl: window.location.origin + '/Payment/Success?session_id={CHECKOUT_SESSION_ID}',
-                    cancelUrl: window.location.origin + '/Payment/Cancel',
+                    successUrl: window.location.origin + '/PaymentOrder/Success?session_id={CHECKOUT_SESSION_ID}',
+                    cancelUrl: window.location.origin + '/PaymentOrder/Cancel',
                     metadata: {
+                        PaymentOrderId: self.CurrentPlacedPaymentOrder.Id,
+                        OrderReference: self.CurrentPlacedPaymentOrder.OrderReference,
                         userId: self.ApplicationUser.Id,
                         creditCardId: self.SelectedCreditCard.Id,
                         bankAccountId: self.SelectedBankAccount.Id,

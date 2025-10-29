@@ -84,57 +84,7 @@ namespace OLC.Web.API.Manager
                     foreach (DataRow item in dt.Rows)
                     {
 
-                        responsePaymentOrder.Id = Convert.ToInt64(item["Id"]);
-
-                        responsePaymentOrder.OrderReference = item["OrderReference"].ToString();
-
-                        responsePaymentOrder.UserId = Convert.ToInt64(item["UserId"]);
-
-                        responsePaymentOrder.Amount = Convert.ToDecimal(item["Amount"]);
-
-                        responsePaymentOrder.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]);
-
-                        responsePaymentOrder.PlatformFeeAmount = Convert.ToDecimal(item["PlatformFeeAmount"]);
-
-                        responsePaymentOrder.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
-
-                        responsePaymentOrder.TotalAmountToChargeCustomer = Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
-
-                        responsePaymentOrder.TotalAmountToDepositToCustomer = Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
-
-                        responsePaymentOrder.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
-
-                        responsePaymentOrder.Currency = item["Currency"].ToString();
-
-                        responsePaymentOrder.CreditCardId = item["CreditCardId"] != DBNull.Value ? Convert.ToInt64(item["CreditCardId"]) : null;
-
-                        responsePaymentOrder.BankAccountId = item["BankAccountId"] != DBNull.Value ? Convert.ToInt64(item["BankAccountId"]) : null;
-
-                        responsePaymentOrder.BillingAddressId = item["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(item["BillingAddressId"]) : null;
-
-                        responsePaymentOrder.OrderStatusId = item["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(item["OrderStatusId"]) : null;
-
-                        responsePaymentOrder.PaymentStatusId = item["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(item["PaymentStatusId"]) : null;
-
-                        responsePaymentOrder.DepositStatusId = item["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(item["DepositStatusId"]) : null;
-
-                        responsePaymentOrder.StripePaymentIntentId = item["StripePaymentIntentId"] != DBNull.Value ? (item["StripePaymentIntentId"].ToString()) : null;
-
-                        responsePaymentOrder.StripePaymentChargeId = item["StripePaymentChargeId"] != DBNull.Value ? (item["StripePaymentChargeId"].ToString()) : null;
-
-                        responsePaymentOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
-
-                        responsePaymentOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
-
-                        responsePaymentOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
-
-                        responsePaymentOrder.CreatedOn = item["createdOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
-
-                        responsePaymentOrder.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
-
-                        responsePaymentOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
-
-                        responsePaymentOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                        responsePaymentOrder = PreLoadPaymentOrderAsync(item);
                     }
 
                 }
@@ -147,7 +97,7 @@ namespace OLC.Web.API.Manager
         {
             List<PaymentOrder> getPaymentOrders = new List<PaymentOrder>();
 
-            PaymentOrder getPaymentOrderByUserId = null;
+            PaymentOrder getPaymentOrder = new PaymentOrder();
 
             SqlConnection connection = new SqlConnection(connectionString);
 
@@ -172,61 +122,7 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    getPaymentOrderByUserId = new PaymentOrder();
-
-                    getPaymentOrderByUserId.Id = Convert.ToInt64(item["Id"]);
-
-                    getPaymentOrderByUserId.OrderReference = item["OrderReference"].ToString();
-
-                    getPaymentOrderByUserId.UserId = Convert.ToInt64(item["UserId"]);
-
-                    getPaymentOrderByUserId.Amount = Convert.ToDecimal(item["Amount"]);
-
-                    getPaymentOrderByUserId.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]);
-
-                    getPaymentOrderByUserId.PlatformFeeAmount = Convert.ToDecimal(item["PlatformFeeAmount"]);
-
-                    getPaymentOrderByUserId.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
-
-                    getPaymentOrderByUserId.TotalAmountToChargeCustomer = Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
-
-                    getPaymentOrderByUserId.TotalAmountToDepositToCustomer = Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
-
-                    getPaymentOrderByUserId.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
-
-                    getPaymentOrderByUserId.Currency = item["Currency"].ToString();
-
-                    getPaymentOrderByUserId.CreditCardId = item["CreditCardId"] != DBNull.Value ? Convert.ToInt64(item["CreditCardId"]) : null;
-
-                    getPaymentOrderByUserId.BankAccountId = item["BankAccountId"] != DBNull.Value ? Convert.ToInt64(item["BankAccountId"]) : null;
-
-                    getPaymentOrderByUserId.BillingAddressId = item["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(item["BillingAddressId"]) : null;
-
-                    getPaymentOrderByUserId.OrderStatusId = item["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(item["OrderStatusId"]) : null;
-
-                    getPaymentOrderByUserId.PaymentStatusId = item["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(item["PaymentStatusId"]) : null;
-
-                    getPaymentOrderByUserId.DepositStatusId = item["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(item["DepositStatusId"]) : null;
-
-                    getPaymentOrderByUserId.StripePaymentIntentId = item["StripePaymentIntentId"] != DBNull.Value ? (item["StripePaymentIntentId"].ToString()) : null;
-
-                    getPaymentOrderByUserId.StripePaymentChargeId = item["StripePaymentChargeId"] != DBNull.Value ? (item["StripePaymentChargeId"].ToString()) : null;
-
-                    getPaymentOrderByUserId.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
-
-                    getPaymentOrderByUserId.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
-
-                    getPaymentOrderByUserId.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
-
-                    getPaymentOrderByUserId.CreatedOn = item["createdOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
-
-                    getPaymentOrderByUserId.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
-
-                    getPaymentOrderByUserId.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
-
-                    getPaymentOrderByUserId.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
-
-                    getPaymentOrders.Add(getPaymentOrderByUserId);
+                    getPaymentOrders.Add(PreLoadPaymentOrderAsync(item));
                 }
             }
             return getPaymentOrders;
@@ -258,62 +154,7 @@ namespace OLC.Web.API.Manager
             {
                 foreach (DataRow item in dt.Rows)
                 {
-
-                    getPaymentOrder = new PaymentOrder();
-
-                    getPaymentOrder.Id = Convert.ToInt64(item["Id"]);
-
-                    getPaymentOrder.OrderReference = item["OrderReference"].ToString();
-
-                    getPaymentOrder.UserId = Convert.ToInt64(item["UserId"]);
-
-                    getPaymentOrder.Amount = Convert.ToDecimal(item["Amount"]);
-
-                    getPaymentOrder.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]);
-
-                    getPaymentOrder.PlatformFeeAmount = Convert.ToDecimal(item["PlatformFeeAmount"]);
-
-                    getPaymentOrder.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
-
-                    getPaymentOrder.TotalAmountToChargeCustomer = Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
-
-                    getPaymentOrder.TotalAmountToDepositToCustomer = Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
-
-                    getPaymentOrder.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
-
-                    getPaymentOrder.Currency = item["Currency"].ToString();
-
-                    getPaymentOrder.CreditCardId = item["CreditCardId"] != DBNull.Value ? Convert.ToInt64(item["CreditCardId"]) : null;
-
-                    getPaymentOrder.BankAccountId = item["BankAccountId"] != DBNull.Value ? Convert.ToInt64(item["BankAccountId"]) : null;
-
-                    getPaymentOrder.BillingAddressId = item["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(item["BillingAddressId"]) : null;
-
-                    getPaymentOrder.OrderStatusId = item["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(item["OrderStatusId"]) : null;
-
-                    getPaymentOrder.PaymentStatusId = item["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(item["PaymentStatusId"]) : null;
-
-                    getPaymentOrder.DepositStatusId = item["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(item["DepositStatusId"]) : null;
-
-                    getPaymentOrder.StripePaymentIntentId = item["StripePaymentIntentId"] != DBNull.Value ? (item["StripePaymentIntentId"].ToString()) : null;
-
-                    getPaymentOrder.StripePaymentChargeId = item["StripePaymentChargeId"] != DBNull.Value ? (item["StripePaymentChargeId"].ToString()) : null;
-
-                    getPaymentOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
-
-                    getPaymentOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
-
-                    getPaymentOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
-
-                    getPaymentOrder.CreatedOn = item["createdOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
-
-                    getPaymentOrder.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
-
-                    getPaymentOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
-
-                    getPaymentOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
-
-                    getPaymentOrders.Add(getPaymentOrder);
+                    getPaymentOrders.Add(PreLoadPaymentOrderAsync(item));
                 }
             }
             return getPaymentOrders;
@@ -396,60 +237,74 @@ namespace OLC.Web.API.Manager
                     foreach (DataRow item in dt.Rows)
                     {
 
-                        responsePaymentOrder.Id = Convert.ToInt64(item["Id"]);
-
-                        responsePaymentOrder.OrderReference = item["OrderReference"].ToString();
-
-                        responsePaymentOrder.UserId = Convert.ToInt64(item["UserId"]);
-
-                        responsePaymentOrder.Amount = Convert.ToDecimal(item["Amount"]);
-
-                        responsePaymentOrder.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]);
-
-                        responsePaymentOrder.PlatformFeeAmount = Convert.ToDecimal(item["PlatformFeeAmount"]);
-
-                        responsePaymentOrder.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
-
-                        responsePaymentOrder.TotalAmountToChargeCustomer = Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
-
-                        responsePaymentOrder.TotalAmountToDepositToCustomer = Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
-
-                        responsePaymentOrder.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
-
-                        responsePaymentOrder.Currency = item["Currency"].ToString();
-
-                        responsePaymentOrder.CreditCardId = item["CreditCardId"] != DBNull.Value ? Convert.ToInt64(item["CreditCardId"]) : null;
-
-                        responsePaymentOrder.BankAccountId = item["BankAccountId"] != DBNull.Value ? Convert.ToInt64(item["BankAccountId"]) : null;
-
-                        responsePaymentOrder.BillingAddressId = item["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(item["BillingAddressId"]) : null;
-
-                        responsePaymentOrder.OrderStatusId = item["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(item["OrderStatusId"]) : null;
-
-                        responsePaymentOrder.PaymentStatusId = item["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(item["PaymentStatusId"]) : null;
-
-                        responsePaymentOrder.DepositStatusId = item["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(item["DepositStatusId"]) : null;
-
-                        responsePaymentOrder.StripePaymentIntentId = item["StripePaymentIntentId"] != DBNull.Value ? (item["StripePaymentIntentId"].ToString()) : null;
-
-                        responsePaymentOrder.StripePaymentChargeId = item["StripePaymentChargeId"] != DBNull.Value ? (item["StripePaymentChargeId"].ToString()) : null;
-
-                        responsePaymentOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
-
-                        responsePaymentOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
-
-                        responsePaymentOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
-
-                        responsePaymentOrder.CreatedOn = item["createdOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
-
-                        responsePaymentOrder.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
-
-                        responsePaymentOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
-
-                        responsePaymentOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                        responsePaymentOrder = PreLoadPaymentOrderAsync(item);
                     }
-                }                
+                }
             }
+            return responsePaymentOrder;
+        }
+
+        private PaymentOrder PreLoadPaymentOrderAsync(DataRow item)
+        {
+            PaymentOrder responsePaymentOrder = new PaymentOrder();
+
+            if (item != null)
+            {
+                responsePaymentOrder.Id = Convert.ToInt64(item["Id"]);
+
+                responsePaymentOrder.OrderReference = item["OrderReference"].ToString();
+
+                responsePaymentOrder.UserId = Convert.ToInt64(item["UserId"]);
+
+                responsePaymentOrder.PaymentReasonId = Convert.ToInt64(item["PaymentReasonId"]);
+
+                responsePaymentOrder.Amount = Convert.ToDecimal(item["Amount"]);
+
+                responsePaymentOrder.TransactionFeeId = Convert.ToInt64(item["TransactionFeeId"]);
+
+                responsePaymentOrder.PlatformFeeAmount = Convert.ToDecimal(item["PlatformFeeAmount"]);
+
+                responsePaymentOrder.FeeCollectionMethod = item["FeeCollectionMethod"] != DBNull.Value ? item["FeeCollectionMethod"].ToString() : null;
+
+                responsePaymentOrder.TotalAmountToChargeCustomer = Convert.ToDecimal(item["TotalAmountToChargeCustomer"]);
+
+                responsePaymentOrder.TotalAmountToDepositToCustomer = Convert.ToDecimal(item["TotalAmountToDepositToCustomer"]);
+
+                responsePaymentOrder.TotalPlatformFee = Convert.ToDecimal(item["TotalPlatformFee"]);
+
+                responsePaymentOrder.Currency = item["Currency"].ToString();
+
+                responsePaymentOrder.CreditCardId = item["CreditCardId"] != DBNull.Value ? Convert.ToInt64(item["CreditCardId"]) : null;
+
+                responsePaymentOrder.BankAccountId = item["BankAccountId"] != DBNull.Value ? Convert.ToInt64(item["BankAccountId"]) : null;
+
+                responsePaymentOrder.BillingAddressId = item["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(item["BillingAddressId"]) : null;
+
+                responsePaymentOrder.OrderStatusId = item["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(item["OrderStatusId"]) : null;
+
+                responsePaymentOrder.PaymentStatusId = item["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(item["PaymentStatusId"]) : null;
+
+                responsePaymentOrder.DepositStatusId = item["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(item["DepositStatusId"]) : null;
+
+                responsePaymentOrder.StripePaymentIntentId = item["StripePaymentIntentId"] != DBNull.Value ? (item["StripePaymentIntentId"].ToString()) : null;
+
+                responsePaymentOrder.StripePaymentChargeId = item["StripePaymentChargeId"] != DBNull.Value ? (item["StripePaymentChargeId"].ToString()) : null;
+
+                responsePaymentOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
+
+                responsePaymentOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
+
+                responsePaymentOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+
+                responsePaymentOrder.CreatedOn = item["createdOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+
+                responsePaymentOrder.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+
+                responsePaymentOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+
+                responsePaymentOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+            }
+
             return responsePaymentOrder;
         }
     }

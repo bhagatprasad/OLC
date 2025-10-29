@@ -77,6 +77,9 @@ namespace OLC.Web.UI
 
             services.AddScoped<IPaymentOrderService, PaymentOrderService>();
 
+            services.AddScoped<IPaymentReasonService, PaymentReasonService>();
+
+            services.AddScoped<ITransactionFeeService, TransactionFeeService>();
 
             services.AddSession(options =>
             {
