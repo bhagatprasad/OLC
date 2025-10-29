@@ -81,11 +81,7 @@ namespace OLC.Web.API.Manager
 
                 if (dt.Rows.Count > 0)
                 {
-                    foreach (DataRow item in dt.Rows)
-                    {
-
-                        responsePaymentOrder = PreLoadPaymentOrderAsync(item);
-                    }
+                    responsePaymentOrder = PreLoadPaymentOrderAsync(dt.Rows[0]);
 
                 }
             }
@@ -234,15 +230,49 @@ namespace OLC.Web.API.Manager
 
                 if (dt.Rows.Count > 0)
                 {
-                    foreach (DataRow item in dt.Rows)
-                    {
-
-                        responsePaymentOrder = PreLoadPaymentOrderAsync(item);
-                    }
+                    responsePaymentOrder = PreLoadPaymentOrderAsync(dt.Rows[0]);
                 }
             }
             return responsePaymentOrder;
         }
+
+        public async Task<PaymentOrder> ProcessPaymentStatusAsync(ProcessPaymentStatus processPaymentStatus)
+        {
+            SqlConnection conn = new SqlConnection(connectionString);
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("[dbo].[uspProcessPaymentStatus]", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            // Add parameters based on the ProcessPaymentStatus object
+            cmd.Parameters.AddWithValue("@paymentOrderId", processPaymentStatus.PaymentOrderId ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@sessionId", processPaymentStatus.SessionId ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@paymentIntentId", processPaymentStatus.PaymentIntentId ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@paymentMethod", processPaymentStatus.PaymentMethod ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@orderStatusId", processPaymentStatus.OrderStatusId ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@paymentStatusId", processPaymentStatus.PaymentStatusId ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@description", processPaymentStatus.Description ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@userId", processPaymentStatus.UserId?.ToString() ?? (object)DBNull.Value); // Assuming UserId is long? and converting to string for varchar(max)
+
+            DataTable dt = new DataTable();
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+            da.Fill(dt);
+
+            conn.Close();
+
+            PaymentOrder paymentOrder = new PaymentOrder();
+            ;
+            if (dt.Rows.Count > 0)
+            {
+                DataRow dr = dt.Rows[0]; 
+
+                paymentOrder = PreLoadPaymentOrderAsync(dr);
+            }
+
+            return paymentOrder;
+        }
+
 
         private PaymentOrder PreLoadPaymentOrderAsync(DataRow item)
         {
@@ -307,5 +337,7 @@ namespace OLC.Web.API.Manager
 
             return responsePaymentOrder;
         }
+
+       
     }
 }
