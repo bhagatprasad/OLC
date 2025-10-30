@@ -30,12 +30,12 @@
         public string DepositStatus { get; set; }
         public string StripePaymentIntentId { get; set; }
         public string StripePaymentChargeId { get; set; }
-        public string StripeDepositIntentId { get; set; }
-        public string StripeDepositChargeId { get; set; }
+        public string StripeDepositeIntentId { get; set; }
+        public string StripeDepositeChargeId { get; set; }
         public long? CreatedBy { get; set; }
-        public DateTime? CreatedOn { get; set; }
+        public DateTimeOffset? CreatedOn { get; set; }
         public long? ModifiedBy { get; set; }
-        public DateTime? ModifiedOn { get; set; }
+        public DateTimeOffset? ModifiedOn { get; set; }
         public bool? IsActive { get; set; }
     }
 }
