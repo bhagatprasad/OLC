@@ -166,7 +166,39 @@
         $(document).on("click", ".activiate-address", function () {
             var addressId = $(this).data("address-id");
 
-            console.log(addressId);
+            self.CurrentSelectedBillingAddress = self.UserBillingAddresses.filter(x => x.Id == addressId)[0];
+
+            var country = null;
+            var state = null;
+            var city = null;
+
+            if (self.CurrentSelectedBillingAddress.CountryId)
+                country = self.Countries.filter(x => x.Id == self.CurrentSelectedBillingAddress.CountryId)[0];
+
+            if (self.CurrentSelectedBillingAddress.StateId)
+                state = self.States.filter(x => x.Id == self.CurrentSelectedBillingAddress.StateId)[0];
+
+            if (self.CurrentSelectedBillingAddress.CityId)
+                city = self.Cities.filter(x => x.Id == self.CurrentSelectedBillingAddress.CityId)[0];
+
+            $("#ActivateAddressLineOne").val(self.CurrentSelectedBillingAddress.AddessLineOne);
+            $("#ActivateAddessLineTwo").val(self.CurrentSelectedBillingAddress.AddessLineTwo);
+            $("#ActivateAddessLineThree").val(self.CurrentSelectedBillingAddress.AddessLineThree);
+            $("#ActivateLocation").val(self.CurrentSelectedBillingAddress.Location);
+            $("#ActivatePincode").val(self.CurrentSelectedBillingAddress.PinCode);
+
+            if (country)
+                $("#Country").val(country.Id);
+
+            if (state)
+                $("#State").val(state.Id);
+
+            if (city)
+                $("#City").val(city.Id);
+
+            $("#activateBillingAddress").modal("show");
+
+          
         });
 
         $(document).on("click", "#addBillingAddressBtn", function () {
@@ -179,6 +211,11 @@
             $('#AddEditUserBillingAddressForm')[0].reset();
             $('#sidebar').removeClass('show');
             $('.modal-backdrop').remove();
+        });
+
+        $(document).on("click", ".btn-view-card-close", function () {
+            $('#billingAddressForm')[0].reset();
+            $("#activateBillingAddress").modal("hide");
         });
 
         $(document).on("click", ".edit-address", function () {
@@ -230,28 +267,6 @@
             $("#inActiveeBillingAddress").modal("hide");
         });
 
-
-        //InActive Card Function
-
-        $(document).on("click", ".activate-billingAddress", function () {
-            console.log("inActve...");
-
-            var cardId = $(this).data("card-id");
-
-            var selectedBillingAddress = self.UserBillingAddress.filter(x => x.Id == cardId)[0];
-
-            console.log("current selected user Billing Address  is .." + JSON.stringify(selectedBillingAddress));
-
-            self.CurrentSelectedBillingAddress = selectedBillingAddress;
-
-            $("#ActivateAddressLineOne").val(self.CurrentSelectedBillingAddress.AddressLineOne);
-            $("#ActivateAddessLineTwo").val(self.CurrentSelectedBillingAddress.AddessLineTwo);
-            $("#ActivateAddessLineThree").val(self.CurrentSelectedBillingAddress.AddessLineThree);
-            $("#ActivateLocation").val(self.CurrentSelectedBillingAddress.Location);
-            $("#ActivatePincode").val(self.CurrentSelectedBillingAddress.PinCode);
-
-            $("#activateBillingAddress").modal("show");
-        });
 
         $(document).on("click", "#activateBillingAddressBtn", function () {
 
