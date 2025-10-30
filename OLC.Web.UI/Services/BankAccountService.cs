@@ -1,4 +1,5 @@
 ﻿using OLC.Web.UI.Models;
+using Stripe;
 
 namespace OLC.Web.UI.Services
 {
@@ -9,6 +10,11 @@ namespace OLC.Web.UI.Services
         public BankAccountService(IRepositoryFactory repositoryFactory)
         {
             _repositoryFactory = repositoryFactory;
+        }
+
+        public async Task<bool> ActivateBankAccountAsync(UserBankAccount userBankAccount)
+        {
+            return await _repositoryFactory.SendAsync<UserBankAccount, bool>(HttpMethod.Post, "BankAccount,ActivateBankAccountAsync", userBankAccount);
         }
 
         public async Task<bool> DeleteUserBankAccountAsync(long id)

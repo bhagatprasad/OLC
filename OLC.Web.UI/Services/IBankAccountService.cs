@@ -10,5 +10,6 @@ namespace OLC.Web.UI.Services
         Task<bool> InsertUserBankAccountAsync(UserBankAccount userBankAccount);
         Task<bool> UpdateUserBankAccountAsync(UserBankAccount userBankAccount);
         Task<bool> DeleteUserBankAccountAsync(long id);
+        Task<bool> ActivateBankAccountAsync(UserBankAccount userBankAccount);
     }
 }
