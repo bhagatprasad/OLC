@@ -194,8 +194,8 @@ const API_URLS = {
     GetStatusesAsync: '/Status/GetStatuses',
     GetTransactionTypesAsync: '/TransactionType/GetTransactionTypes',
     GetCountriesListAsync: '/Country/GetCountriesList',
-    PlacePaymentOrderAsync:'/PaymentOrder/PlacePaymentOrder'
-
+    PlacePaymentOrderAsync: '/PaymentOrder/PlacePaymentOrder',
+    CreatePortalUserAsync:'/User/CreatePortalUser'
 };
 function addCommonProperties(data) {
     var appuser = storageService.get("ApplicationUser");
@@ -722,6 +722,159 @@ const statusConstants = {
     "Enabled": 40,
     "Disabled": 41
 };
+
+const rolesList = [
+    {
+        Id: 1,
+        Name: "Administrator",
+        Code: "ADMIN",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 0
+    },
+    {
+        Id: 2,
+        Name: "User",
+        Code: "USER",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 0
+    },
+    {
+        Id: 3,
+        Name: "Executive",
+        Code: "EXEC",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 4,
+        Name: "Manager",
+        Code: "MANAGER",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 5,
+        Name: "Supervisor",
+        Code: "SUPERVISOR",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 6,
+        Name: "Analyst",
+        Code: "ANALYST",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 7,
+        Name: "Support",
+        Code: "SUPPORT",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 8,
+        Name: "Viewer",
+        Code: "VIEWER",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 9,
+        Name: "Editor",
+        Code: "EDITOR",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 10,
+        Name: "Auditor",
+        Code: "AUDITOR",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 11,
+        Name: "Developer",
+        Code: "DEV",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 12,
+        Name: "Finance",
+        Code: "FINANCE",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 13,
+        Name: "HR",
+        Code: "HR",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 14,
+        Name: "Sales",
+        Code: "SALES",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: null,
+        ModifiedOn: null,
+        IsActive: 1
+    },
+    {
+        Id: 15,
+        Name: "Marketing",
+        Code: "MARKETING",
+        CreatedBy: null,
+        CreatedOn: "2025-10-11 07:04:16.8726881 -04:00",
+        ModifiedBy: 1,
+        ModifiedOn: "2025-10-11 07:23:52.2100000 +00:00",
+        IsActive: 1
+    }
+];
 
 // Example usage:
 // var statusId = statusConstants["Pending"]; // Returns 1

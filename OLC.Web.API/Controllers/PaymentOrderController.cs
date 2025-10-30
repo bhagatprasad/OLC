@@ -111,6 +111,22 @@ namespace OLC.Web.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetUserPaymentOrderListAsync/{userId}")]
+        public async Task<IActionResult> GetUserPaymentOrderListAsync(long userId)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.GetUserPaymentOrderListAsync(userId);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [HttpPost]
         [Route("GetAllUserPaymentOrdersAsync")]
         public async Task<IActionResult> GetAllUserPaymentOrdersAsync(UserPaymentOrder userPaymentOrder)
