@@ -9,5 +9,6 @@ namespace OLC.Web.UI.Services
         Task<UserBillingAddress> GetUserBillingAddressByIdAsync(long billingAddressId);
         Task<bool> UpdateUserBillingAddressAsync(UserBillingAddress userBillingAddress);
         Task<bool> DeleteUserBillingAddressAsync(long billingAddressId);
+        Task<bool> ActivateBillingAddress(UserBillingAddress userBillingAddress);
     }
 }

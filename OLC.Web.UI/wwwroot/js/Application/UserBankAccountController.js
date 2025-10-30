@@ -29,7 +29,7 @@
             self.ApplicationUser = appUserInfo;
         }
 
-        actions.push("/BankAccount/GetUserBankAccounts");
+        actions.push("/BankAccount/GetAllUserBankAccountsAsync");
 
         actions.push("/AccountType/GetAccountTypes");
 
