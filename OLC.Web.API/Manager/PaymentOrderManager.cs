@@ -426,9 +426,9 @@ namespace OLC.Web.API.Manager
 
                         responsePaymentOrder.StripePaymentChargeId = item["StripePaymentChargeId"] != DBNull.Value ? (item["StripePaymentChargeId"].ToString()) : null;
 
-                        responsePaymentOrder.StripeDepositIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
+                        responsePaymentOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
 
-                        responsePaymentOrder.StripeDepositChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
+                        responsePaymentOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
 
                         responsePaymentOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
 
@@ -447,100 +447,103 @@ namespace OLC.Web.API.Manager
             return userPaymentOrders;
         }
 
-        public async Task<List<UserPaymentOrder>> GetAllUserPaymentOrdersAsync(UserPaymentOrder userPaymentOrder)
+        public async Task<List<UserPaymentOrder>> GetAllUserPaymentOrdersAsync()
         {
             List<UserPaymentOrder> userPaymentOrders = new List<UserPaymentOrder>();
 
             UserPaymentOrder Upo = null;
 
             SqlConnection conn = new SqlConnection(connectionString);
+
             conn.Open();
+
             SqlCommand cmd = new SqlCommand("uspGetAllUserPaymentOrders", conn);
+
             cmd.CommandType = CommandType.StoredProcedure;
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
+
             DataTable dt = new DataTable();
+
             da.Fill(dt);
+
             conn.Close();
 
-            if (userPaymentOrder != null)
+            foreach (DataRow dr in dt.Rows)
             {
-                foreach (DataRow dr in dt.Rows)
-                {
 
-                    Upo = new UserPaymentOrder();
+                Upo = new UserPaymentOrder();
 
-                    Upo.Id = dr["Id"] != DBNull.Value ? Convert.ToInt64(dr["Id"]) : null;
+                Upo.Id = dr["Id"] != DBNull.Value ? Convert.ToInt64(dr["Id"]) : null;
 
-                    Upo.OrderReference = dr["OrderReference"] != DBNull.Value ? dr["OrderReference"].ToString() : null;
+                Upo.OrderReference = dr["OrderReference"] != DBNull.Value ? dr["OrderReference"].ToString() : null;
 
-                    Upo.UserId = dr["UserId"] != DBNull.Value ? Convert.ToInt64(dr["UserId"]) : null;
+                Upo.UserId = dr["UserId"] != DBNull.Value ? Convert.ToInt64(dr["UserId"]) : null;
 
-                    Upo.PaymentReasonId = dr["PaymentReasonId"] != DBNull.Value ? Convert.ToInt64(dr["PaymentReasonId"]) : null;
+                Upo.PaymentReasonId = dr["PaymentReasonId"] != DBNull.Value ? Convert.ToInt64(dr["PaymentReasonId"]) : null;
 
-                    Upo.PaymentReasonName = dr["PaymentReasonName"] != DBNull.Value ? dr["PaymentReasonName"].ToString() : null;
+                Upo.PaymentReasonName = dr["PaymentReasonName"] != DBNull.Value ? dr["PaymentReasonName"].ToString() : null;
 
-                    Upo.Amount = dr["Amount"] != DBNull.Value ? Convert.ToDecimal(dr["Amount"]) : null;
+                Upo.Amount = dr["Amount"] != DBNull.Value ? Convert.ToDecimal(dr["Amount"]) : null;
 
-                    Upo.TransactionFeeId = dr["TransactionFeeId"] != DBNull.Value ? Convert.ToInt64(dr["TransactionFeeId"]) : null;
+                Upo.TransactionFeeId = dr["TransactionFeeId"] != DBNull.Value ? Convert.ToInt64(dr["TransactionFeeId"]) : null;
 
-                    Upo.TransactionFeeAmount = dr["TransactionFeeAmount"] != DBNull.Value ? dr["TransactionFeeAmount"].ToString() : null;
+                Upo.TransactionFeeAmount = dr["TransactionFeeAmount"] != DBNull.Value ? dr["TransactionFeeAmount"].ToString() : null;
 
-                    Upo.PlatformFeeAmount = dr["PlatformFeeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PlatformFeeAmount"]) : null;
+                Upo.PlatformFeeAmount = dr["PlatformFeeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PlatformFeeAmount"]) : null;
 
-                    Upo.FeeCollectionMethod = dr["FeeCollectionMethod"] != DBNull.Value ? dr["FeeCollectionMethod"].ToString() : null;
+                Upo.FeeCollectionMethod = dr["FeeCollectionMethod"] != DBNull.Value ? dr["FeeCollectionMethod"].ToString() : null;
 
-                    Upo.TotalAmountToChargeCustomer = dr["TotalAmountToChargeCustomer"] != DBNull.Value ? Convert.ToDecimal(dr["TotalAmountToChargeCustomer"]) : null;
+                Upo.TotalAmountToChargeCustomer = dr["TotalAmountToChargeCustomer"] != DBNull.Value ? Convert.ToDecimal(dr["TotalAmountToChargeCustomer"]) : null;
 
-                    Upo.TotalAmountToDepositToCustomer = dr["TotalAmountToDepositToCustomer"] != DBNull.Value ? Convert.ToDecimal(dr["TotalAmountToDepositToCustomer"]) : null;
+                Upo.TotalAmountToDepositToCustomer = dr["TotalAmountToDepositToCustomer"] != DBNull.Value ? Convert.ToDecimal(dr["TotalAmountToDepositToCustomer"]) : null;
 
-                    Upo.TotalPlatformFee = dr["TotalPlatformFee"] != DBNull.Value ? Convert.ToDecimal(dr["TotalPlatformFee"]) : null;
+                Upo.TotalPlatformFee = dr["TotalPlatformFee"] != DBNull.Value ? Convert.ToDecimal(dr["TotalPlatformFee"]) : null;
 
-                    Upo.Currency = dr["Currency"] != DBNull.Value ? dr["Currency"].ToString() : null;
+                Upo.Currency = dr["Currency"] != DBNull.Value ? dr["Currency"].ToString() : null;
 
-                    Upo.CreditCardId = dr["CreditCardId"] != DBNull.Value ? Convert.ToInt64(dr["CreditCardId"]) : null;
+                Upo.CreditCardId = dr["CreditCardId"] != DBNull.Value ? Convert.ToInt64(dr["CreditCardId"]) : null;
 
-                    Upo.CreditCardNumber = dr["CreditCardNumber"] != DBNull.Value ? dr["CreditCardNumber"].ToString() : null;
+                Upo.CreditCardNumber = dr["CreditCardNumber"] != DBNull.Value ? dr["CreditCardNumber"].ToString() : null;
 
-                    Upo.BankAccountId = dr["BankAccountId"] != DBNull.Value ? Convert.ToInt64(dr["BankAccountId"]) : null;
+                Upo.BankAccountId = dr["BankAccountId"] != DBNull.Value ? Convert.ToInt64(dr["BankAccountId"]) : null;
 
-                    Upo.BillingAddressId = dr["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(dr["BillingAddressId"]) : null;
+                Upo.BillingAddressId = dr["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(dr["BillingAddressId"]) : null;
 
-                    Upo.BillingAddress = dr["BillingAddress"] != DBNull.Value ? dr["BillingAddress"].ToString() : null;
+                Upo.BillingAddress = dr["BillingAddress"] != DBNull.Value ? dr["BillingAddress"].ToString() : null;
 
-                    Upo.OrderStatusId = dr["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(dr["OrderStatusId"]) : null;
+                Upo.OrderStatusId = dr["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(dr["OrderStatusId"]) : null;
 
-                    Upo.OrderStatus = Convert.ToString(dr["OrderStatus"]);
+                Upo.OrderStatus = Convert.ToString(dr["OrderStatus"]);
 
-                    Upo.PaymentStatusId = dr["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(dr["PaymentStatusId"]) : null;
+                Upo.PaymentStatusId = dr["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(dr["PaymentStatusId"]) : null;
 
-                    Upo.PaymentStatus = Convert.ToString(dr["PaymentStatus"]); 
+                Upo.PaymentStatus = Convert.ToString(dr["PaymentStatus"]);
 
-                    Upo.DepositStatusId = dr["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(dr["DepositStatusId"]) : null;
+                Upo.DepositStatusId = dr["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(dr["DepositStatusId"]) : null;
 
-                    Upo.DepositStatus = Convert.ToString(dr["DepositStatus"]); 
+                Upo.DepositStatus = Convert.ToString(dr["DepositStatus"]);
 
-                    Upo.StripePaymentIntentId = Convert.ToString(dr["StripePaymentIntentId"]);
+                Upo.StripePaymentIntentId = Convert.ToString(dr["StripePaymentIntentId"]);
 
-                    Upo.StripePaymentChargeId = Convert.ToString(dr["StripePaymentChargeId"]);
+                Upo.StripePaymentChargeId = Convert.ToString(dr["StripePaymentChargeId"]);
 
-                    Upo.StripeDepositeIntentId =  Convert.ToString(dr["StripeDepositeIntentId"]);
+                Upo.StripeDepositeIntentId = Convert.ToString(dr["StripeDepositeIntentId"]);
 
-                    Upo.StripeDepositeChargeId = Convert.ToString(dr["StripeDepositeChargeId"]);
+                Upo.StripeDepositeChargeId = Convert.ToString(dr["StripeDepositeChargeId"]);
 
-                    Upo.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt64(dr["CreatedBy"]) : null;
+                Upo.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt64(dr["CreatedBy"]) : null;
 
-                    Upo.CreatedOn = dr["CreatedOn"] != DBNull.Value ? (DateTimeOffset)dr["CreatedOn"] : null;
+                Upo.CreatedOn = dr["CreatedOn"] != DBNull.Value ? (DateTimeOffset)dr["CreatedOn"] : null;
 
-                    Upo.ModifiedBy = dr["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(dr["ModifiedBy"]) : null;
+                Upo.ModifiedBy = dr["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(dr["ModifiedBy"]) : null;
 
-                    Upo.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)dr["ModifiedOn"] : null;
+                Upo.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)dr["ModifiedOn"] : null;
 
-                    Upo.IsActive = dr["IsActive"] != DBNull.Value ? (bool?)dr["IsActive"] : null;
+                Upo.IsActive = dr["IsActive"] != DBNull.Value ? (bool?)dr["IsActive"] : null;
 
-                    userPaymentOrders.Add(Upo);
+                userPaymentOrders.Add(Upo);
 
-                }                
             }
             return userPaymentOrders;
         }

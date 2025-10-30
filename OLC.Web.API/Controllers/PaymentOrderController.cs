@@ -129,11 +129,11 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("GetAllUserPaymentOrdersAsync")]
-        public async Task<IActionResult> GetAllUserPaymentOrdersAsync(UserPaymentOrder userPaymentOrder)
+        public async Task<IActionResult> GetAllUserPaymentOrdersAsync()
         {
             try
             {
-                var response = await _paymentOrderManager.GetAllUserPaymentOrdersAsync(userPaymentOrder);
+                var response = await _paymentOrderManager.GetAllUserPaymentOrdersAsync();
                 return Ok(response);
 
             }
