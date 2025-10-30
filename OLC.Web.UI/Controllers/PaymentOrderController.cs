@@ -209,5 +209,20 @@ namespace OLC.Web.UI.Controllers
                 throw ex;
             }
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Executive")]
+        public async Task<IActionResult> GetUserPaymentOrderList(long userId)
+        {
+            try
+            {
+                var response = await _paymentOrderService.GetUserPaymentOrderListAsync(userId);
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
