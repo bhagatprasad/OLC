@@ -20,7 +20,7 @@ namespace OLC.Web.UI.Services
 
         public async Task<List<Bank>> GetBankAsync()  
         {
-            return await _repositoryFactory.SendAsync<List<Bank>>(HttpMethod.Get, "Bank/GetBankAsync");
+            return await _repositoryFactory.SendAsync<List<Bank>>(HttpMethod.Get, "Bank/GetBanksListAsync");
         }
 
         public async Task<Bank> GetBankByIdAsync(long bankId)

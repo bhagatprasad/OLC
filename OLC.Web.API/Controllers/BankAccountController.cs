@@ -66,9 +66,10 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving the bank account.");
             }
         }
-            [HttpGet]
+
+        [HttpGet]
         [Route("GetAllUserBankAccounts")]
-        public async Task<IActionResult> GetAllUserBankAccountsAsync()
+        public async Task<IActionResult> GetAllUserBankAccounts()
         {
             try
             {
