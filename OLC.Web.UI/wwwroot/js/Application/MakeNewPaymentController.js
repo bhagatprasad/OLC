@@ -47,7 +47,7 @@
         }
 
         actions.push("/CreditCard/GetUserCreditCards");
-        actions.push("/BankAccount/GetUserBankAccounts");
+        actions.push("/BankAccount/GetAllUserBankAccounts");
         actions.push("/BillingAddress/GetUserBillingAddresses");
         actions.push("/PaymentReason/GetPaymentReasons");
         actions.push("/TransactionFee/GetTransactionFeesList");
