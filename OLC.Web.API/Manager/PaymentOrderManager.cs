@@ -338,6 +338,11 @@ namespace OLC.Web.API.Manager
             return responsePaymentOrder;
         }
 
-       
+        public async Task<List<UserPaymentOrder>> GetUserPaymentOrderListAsync(long userId)
+        {
+            List<UserPaymentOrder> userPaymentOrders = new List<UserPaymentOrder>();
+
+            return userPaymentOrders;
+        }
     }
 }
