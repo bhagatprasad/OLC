@@ -6,15 +6,18 @@
 <div class="container-fluid">
     <!-- Page Header with Button -->
     <div class="card">
-        <div class="card-hear">
+        <div class="card-header">
             <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3 pb-3 border-bottom">
                     <div>
-                        <h1 class="h3 fw-bold text-primary">User Account</h1>
-                        <p class="text-muted mb-0">Request your payment on anytime, anywhere in the world.</p>
+                        <h1 class="h4 fw-bold text-primary mb-1">User Account</h1>
+                        <p class="text-muted mb-0 small">
+                            <span class="d-none d-sm-inline">Request your payment on anytime, anywhere in the world.</span>
+                            <span class="d-sm-none">Request payment anytime, anywhere.</span>
+                        </p>
                     </div>
-                    <div>
-                        <div class="input-group" style="width: 300px;">
+                    <div class="w-100 w-lg-auto">
+                        <div class="input-group float-right" style="max-width: 400px;">
                             <input type="text" class="form-control" placeholder="Search users..." id="userSearch">
                             <span class="input-group-text bg-primary text-white">
                                 <i class="fas fa-search"></i>
@@ -29,13 +32,16 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card border">
-                        <div class="card-header bg-white py-3 border-bottom">
+                        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">
                                 <i class="fas fa-history me-2"></i>All User Accounts
                             </h5>
+                            <button type="button" class="btn btn-primary" id="addUserBtn">
+                                <i class="fas fa-plus me-1"></i> Add User
+                            </button>
                         </div>
 
-                        <!-- Table for Large Screens -->
+                        <!-- Desktop Table View (hidden on mobile) -->
                         <div class="card-body p-0 d-none d-lg-block">
                             <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
                                 <table class="table table-hover mb-0" id="userAccountsTable">
@@ -58,12 +64,27 @@
                             </div>
                         </div>
 
+                        <!-- Mobile Card View (hidden on desktop) -->
+                        <div class="card-body p-0 d-lg-none" id="mobileUserAccountsCards">
+                            <!-- Bootstrap cards will be populated here dynamically -->
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <partial name="_createPortalUserPartial.cshtml" />
 </div>
+<!-- Content end -->
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/UserController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new UserController();
+        ctrl.init();
+    });
+</script>
 <!-- Content end -->
 <script src="~/js/jquery/jquery.min.js"></script>
 <script src="~/js/Application/UserController.js"></script>
