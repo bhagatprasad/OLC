@@ -30,7 +30,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive,User"))]
-        public async Task<IActionResult> GetAllUserBankAccountsAsync(long userId)
+        public async Task<IActionResult> GetAllUserBankAccounts(long userId)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace OLC.Web.UI.Controllers
         //GET
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive,User"))]
-        public async Task<IActionResult> GetAllUserBankAccountsAsync()
+        public async Task<IActionResult> GetBankAccountsAsync()
         {
             try
             {
