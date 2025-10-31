@@ -1,10 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[uspDeleteAddressType]
 (
-		@id			bigint
+    @addressTypeId BIGINT
 )
 AS
 BEGIN
-		DELETE FROM [dbo].[AddressType]
-	WHERE
-			Id		=@id
+    UPDATE [dbo].[AddressType]
+    SET IsActive = 0
+       
+    WHERE Id = @addressTypeId;
 END

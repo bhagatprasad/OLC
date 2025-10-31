@@ -14,7 +14,7 @@
                     </div>
                     <div>
                         <button type="button" class="btn btn-primary" id="addAddressTypeBtn">
-                            <i class="fas fa-plus me-2"></i> Add Address Type
+                            <i class="fas fa-plus me-2"></i> Add Type
                         </button>
                     </div>
                 </div>
@@ -32,9 +32,9 @@
                         </div>
                         <div class="card-body p-0">
                             <!-- Desktop Table View -->
-                            <div class="table-responsive d-none d-lg-block">
+                            <div class="table-responsive d-none d-lg-block" style="max-height: 600px; overflow-y: auto;">
                                 <table class="table table-hover mb-0">
-                                    <thead class="table-light">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1; background-color: #f8f9fa;">
                                         <tr>
                                             <th scope="col">Address Type ID</th>
                                             <th scope="col">Name</th>
@@ -61,6 +61,7 @@
     </div>
 
     <!-- Partials for Modals -->
+    <partial name="_ActiveAddressType.cshtml" />
     <partial name="_AddEditAddressType.cshtml" />
     <partial name="_ViewAddressType.cshtml" />
     <partial name="_DeleteAddressType.cshtml" />
