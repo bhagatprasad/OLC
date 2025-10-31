@@ -190,6 +190,7 @@
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspProcessPaymentStatus.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetUserPaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllUserPaymentOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspActiveAddressType.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

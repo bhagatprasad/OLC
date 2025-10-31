@@ -172,9 +172,9 @@ namespace OLC.Web.API.Manager
 
             return false;
         }
-        public async Task<bool> DeleteAddressTypeAsync(long Id)
+        public async Task<bool> DeleteAddressTypeAsync(long addressTypeId)
         {
-            if (Id != null)
+            if (addressTypeId != 0)
             {
 
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -185,7 +185,31 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@id", Id);
+                sqlCommand.Parameters.AddWithValue("@addressTypeId", addressTypeId);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> ActivateAddressTypeAsync(AddressType addressType)
+        {
+            if (addressType != null)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspActivateAddressType]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@addressTypeId", addressType.Id);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", addressType.ModifiedBy);
 
                 sqlCommand.ExecuteNonQuery();
 

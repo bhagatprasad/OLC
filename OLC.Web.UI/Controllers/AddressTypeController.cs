@@ -27,7 +27,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator,Executive,User")]
-        public async Task<IActionResult> GetAddressTypes([FromQuery] long Id)  // Fixed: Accept Id parameter
+        public async Task<IActionResult> GetAddressTypes([FromQuery]long Id) 
         {
             try
             {
@@ -41,6 +41,7 @@ namespace OLC.Web.UI.Controllers
             }
         }
 
+
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> SaveAddressType([FromBody] AddressType addressType)
@@ -51,8 +52,10 @@ namespace OLC.Web.UI.Controllers
 
                 if (addressType != null)
                 {
-                    // Call a single service method
-                    isSaved = await _addressTypeService.SaveAddressTypeAsync(addressType);
+                    if (addressType.Id >0)
+                      isSaved = await _addressTypeService.UpdateAddressTypeAsync(addressType);
+                    else
+                        isSaved = await _addressTypeService.InsertAddressTypeAsync(addressType);
 
                     _notyfService.Success("Successfully saved address type");
                     return Json(isSaved);
@@ -70,6 +73,7 @@ namespace OLC.Web.UI.Controllers
         [HttpDelete]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteAddressType(long addressTypeId)
+
         {
             try
             {
@@ -87,6 +91,30 @@ namespace OLC.Web.UI.Controllers
                 }
                 _notyfService.Error("Unable to delete address type");
                 return Json(isSaved);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> ActivateAddressType([FromBody] AddressType addressType)
+        {
+            try
+            {
+                bool isActivate = false;
+
+                isActivate = await _addressTypeService.ActivateAddressTypeAsync(addressType);
+
+                if (isActivate)
+                    _notyfService.Success("Successfully activated address type");
+                else
+                    _notyfService.Error("Unable to activate address type");
+
+                return Json(isActivate);
+
             }
             catch (Exception ex)
             {
