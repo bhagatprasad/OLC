@@ -3,7 +3,7 @@
     <div class="header-column justify-content-start">
         <!-- Logo
         ============================= -->
-        <div class="logo"> <a class="d-flex" href="@Url.Action("Index", "UserBoard", null)" title="Betalen"><img src="~/images/logo.png" alt=" Betalen" /></a> </div>
+        <div class="logo"> <a class="d-flex" href="@Url.Action("Index", "ExecutiveBoard", null)" title="Betalen"><img src="~/images/logo.png" alt=" Betalen" /></a> </div>
         <!-- Logo end -->
         <!-- Collapse Button
         ============================== -->
@@ -14,12 +14,9 @@
         <nav class="primary-menu navbar navbar-expand-lg">
             <div id="header-nav" class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
-                    <li class="active"><a href="@Url.Action("Index", "UserBoard", null)">Dashboard</a></li>
-                    <li><a href="@Url.Action("MakeNewPayment", "Transaction", null)">Send/Request</a></li>
-                    <li><a href="@Url.Action("UserCreditCards", "CreditCard", null)">Cards</a></li>
-                    <li><a href="@Url.Action("UserBankAccounts", "BankAccount", null)">Bank Acoount</a></li>
-                    <li><a href="@Url.Action("UserBillingAddress", "BillingAddress", null)">Billing Address</a></li>
-                    <li><a href="@Url.Action("UserHelp", "Help", null)">Help</a></li>
+                    <li class="active"><a href="@Url.Action("Index", "ExecutiveBoard", null)">Dashboard</a></li>
+                    <li><a href="@Url.Action("Index", "User", null)">User</a></li>
+                    <li><a href="@Url.Action("UserTransactions", "Transaction", null)">Transactions</a></li>
                     <li class="d-sm-block d-lg-none"><a href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
                 </ul>
             </div>
@@ -31,8 +28,8 @@
         ============================== -->
         <nav class="login-signup navbar navbar-expand">
             <ul class="navbar-nav">
-                <li><a href="@Url.Action("Profile","User",null)">Settings</a> </li>
-                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-outline-primary shadow-none d-none d-sm-block" href="@Url.Action("Logout","Account",null)">Sign out</a></li>
+                <li><a href="@Url.Action("Profile", "User", null)">Settings</a> </li>
+                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-outline-primary shadow-none d-none d-sm-block" href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
             </ul>
         </nav>
         <!-- Login & Signup Link end -->

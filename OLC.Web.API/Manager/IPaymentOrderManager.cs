@@ -12,5 +12,6 @@ namespace OLC.Web.API.Manager
         Task<PaymentOrder> ProcessPaymentStatusAsync(ProcessPaymentStatus processPaymentStatus);
         Task<List<UserPaymentOrder>> GetUserPaymentOrderListAsync(long userId);
         Task<List<UserPaymentOrder>> GetAllUserPaymentOrdersAsync();
+        Task<List<ExecutivePaymentOrders>> GetExecutivePaymentOrdersAsync();
     }
 }

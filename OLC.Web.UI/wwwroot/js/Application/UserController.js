@@ -1,19 +1,13 @@
 ﻿function UserController() {
-
     $(".se-pre-con").show();
-
     var self = this;
-
     self.usersList = [];
-
+    self.filteredUsersList = [];
     self.currentUser = {};
-
     self.rolesList = rolesList.filter(x => x.IsActive == true);
 
     self.init = function () {
-
         var appUserInfo = storageService.get('ApplicationUser');
-
         if (appUserInfo) {
             self.currentUser = appUserInfo;
         }
@@ -22,6 +16,7 @@
         var signUpButton = $('#btnSubmit');
         form.on('input', 'input, select, textarea', checkFormValidity);
         checkFormValidity();
+
         function checkFormValidity() {
             if (form[0].checkValidity()) {
                 signUpButton.prop('disabled', false);
@@ -31,6 +26,7 @@
         }
 
         GetUserAccountsAsync();
+
         function GetUserAccountsAsync() {
             makeAjaxRequest({
                 url: API_URLS.GetUserAccountsAsync,
@@ -40,17 +36,13 @@
             });
         }
 
-       
         function handleUserAccountsSuccess(response) {
-
             console.info(response);
-
             self.usersList = response && response.data ? response.data : [];
+            self.filteredUsersList = [...self.usersList];
 
             genarateDropdown("RoleId", self.rolesList, "Id", "Name");
-
             populateUserTable();
-
             $(".se-pre-con").hide();
         }
 
@@ -86,6 +78,7 @@
                 return '<span class="badge bg-warning status-badge">Inactive</span>';
             }
         }
+
         function getExternalBadge(isExternal) {
             if (isExternal) {
                 return '<span class="badge bg-success status-badge">Yes</span>';
@@ -99,28 +92,60 @@
             const roles = {
                 1: 'Admin',
                 2: 'User',
-                3: 'Manager',
-                4: 'Viewer'
+                3: 'Executive',
+                4: 'Manager',
+                5: 'Viewer'
             };
             return roles[roleId] || 'Unknown';
         }
+
+        // Search functionality
+        function performSearch(searchTerm) {
+            if (!searchTerm || searchTerm.trim() === '') {
+                self.filteredUsersList = [...self.usersList];
+            } else {
+                const term = searchTerm.toLowerCase().trim();
+                self.filteredUsersList = self.usersList.filter(user =>
+                    (user.FirstName && user.FirstName.toLowerCase().includes(term)) ||
+                    (user.LastName && user.LastName.toLowerCase().includes(term)) ||
+                    (user.Email && user.Email.toLowerCase().includes(term)) ||
+                    (user.Phone && user.Phone.includes(term)) ||
+                    (getRoleName(user.RoleId).toLowerCase().includes(term)) ||
+                    (user.Id && user.Id.toString().includes(term))
+                );
+            }
+            populateUserTable();
+        }
+
+        // Initialize search
+        $('#userSearch').on('input', function () {
+            performSearch($(this).val());
+        });
 
         // Populate the table with user data
         function populateUserTable() {
             const tbody = $('#userAccountsBody');
             const cardsContainer = $('#mobileUserAccountsCards');
-            tbody.empty(); // Clear existing desktop table rows
-            cardsContainer.empty(); // Clear existing mobile cards
+            tbody.empty();
+            cardsContainer.empty();
 
-            if (self.usersList.length === 0) {
-                tbody.append(`<tr>
-            <td colspan="9" class="text-center text-muted">No user accounts found</td>
-            </tr>`);
-                cardsContainer.append(`<div class="text-center text-muted p-4">No user accounts found</div>`);
+            if (self.filteredUsersList.length === 0) {
+                tbody.append(`
+                    <tr>
+                        <td colspan="9" class="text-center text-muted">
+                            ${self.usersList.length === 0 ? 'No user accounts found' : 'No users match your search'}
+                        </td>
+                    </tr>
+                `);
+                cardsContainer.append(`
+                    <div class="text-center text-muted p-4">
+                        ${self.usersList.length === 0 ? 'No user accounts found' : 'No users match your search'}
+                    </div>
+                `);
                 return;
             }
 
-            self.usersList.forEach(function (user) {
+            self.filteredUsersList.forEach(function (user) {
                 const fullName = user.FirstName + ' ' + user.LastName;
                 const statusBadge = getStatusBadge(user.IsActive, user.IsBlocked);
                 const roleName = getRoleName(user.RoleId);
@@ -132,85 +157,79 @@
 
                 // Generate action buttons based on role
                 const actionButtons = `
-        <button class="btn btn-sm btn-outline-primary view-user" data-user-id="${user.Id}" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' title="view user profile">
-            <i class="fas fa-eye"></i>
-        </button>`;
+                    <button class="btn btn-sm btn-outline-primary view-user" data-user-id="${user.Id}" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' title="view user profile">
+                        <i class="fas fa-eye"></i>
+                    </button>`;
 
                 // Desktop table row
                 const row = `
-        <tr class="user-account-item" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' data-user-id='${user.Id}' data-is-admin='${isAdmin}'>
-            <td><a style="cursor:pointer;color:blue;" class="view-user" data-user-id="${user.Id}">#${user.Id}</a></td>
-            <td>${fullName}</td>
-            <td>${user.Email}</td>
-            <td>${user.Phone || 'N/A'}</td>
-            <td>${roleName}</td>
-            <td>${externalUser}</td>
-            <td>${statusBadge}</td>
-            <td>${lastUpdated}</td>
-            <td>
-                ${actionButtons}
-            </td>
-        </tr>
-    `;
+                    <tr class="user-account-item" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' data-user-id='${user.Id}' data-is-admin='${isAdmin}'>
+                        <td><a style="cursor:pointer;color:blue;" class="view-user" data-user-id="${user.Id}">#${user.Id}</a></td>
+                        <td>${fullName}</td>
+                        <td>${user.Email}</td>
+                        <td>${user.Phone || 'N/A'}</td>
+                        <td>${roleName}</td>
+                        <td>${externalUser}</td>
+                        <td>${statusBadge}</td>
+                        <td>${lastUpdated}</td>
+                        <td>${actionButtons}</td>
+                    </tr>
+                `;
                 tbody.append(row);
 
                 // Mobile card
                 const cardHtml = `
-        <div class="card mb-3 border" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' data-user-id='${user.Id}' data-is-admin='${isAdmin}'>
-            <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                <strong>${fullName}</strong>
-                <span class="badge bg-primary">#${user.Id}</span>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Email:</small>
-                        <div>${user.Email}</div>
+                    <div class="card mb-3 border" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' data-user-id='${user.Id}' data-is-admin='${isAdmin}'>
+                        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                            <strong>${fullName}</strong>
+                            <span class="badge bg-primary">#${user.Id}</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 mb-2">
+                                    <small class="text-muted">Email:</small>
+                                    <div>${user.Email}</div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <small class="text-muted">Phone:</small>
+                                    <div>${user.Phone || 'N/A'}</div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <small class="text-muted">Role:</small>
+                                    <div>${roleName}</div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <small class="text-muted">External:</small>
+                                    <div>${externalUser}</div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <small class="text-muted">Status:</small>
+                                    <div>${statusBadge}</div>
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <small class="text-muted">Last Updated:</small>
+                                    <div>${lastUpdated}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            ${actionButtons}
+                        </div>
                     </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Phone:</small>
-                        <div>${user.Phone || 'N/A'}</div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Role:</small>
-                        <div>${roleName}</div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">External:</small>
-                        <div>${externalUser}</div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Status:</small>
-                        <div>${statusBadge}</div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Last Updated:</small>
-                        <div>${lastUpdated}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer d-flex justify-content-between">
-                ${actionButtons}
-            </div>
-        </div>
-    `;
+                `;
                 cardsContainer.append(cardHtml);
             });
         }
 
         // Action functions
-
         $(document).on("click", ".view-user", function () {
             var currentUserId = $(this).data("user-id");
             console.log("current user is .." + currentUserId);
 
-            // Replace "YourController" with your actual controller name (without "Controller")
-
             var isAdmin = self.currentUser.RoleId == 1 ? true : false;
-
             window.location.href = '/User/ManageUser?userId=' + currentUserId + '&isReadOnly=' + isAdmin + '';
         });
-       
+
         $(document).on("click", "#addUserBtn", function () {
             $('#sidebar').addClass('show');
             $('body').append('<div class="modal-backdrop fade show"></div>');
@@ -241,7 +260,7 @@
                 data: registerUser,
                 type: 'POST',
                 successCallback: function (response) {
-                    $('#AddEditBankForm')[0].reset();
+                    $('#CreatePortalUserForm')[0].reset();
                     $('#sidebar').removeClass('show');
                     $('.modal-backdrop').remove();
                     GetUserAccountsAsync();
@@ -251,6 +270,5 @@
                 }
             });
         });
-
-    }
+    };
 }
