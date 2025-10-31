@@ -81,6 +81,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<ITransactionFeeService, TransactionFeeService>();
 
+            services.AddScoped<IRoleService, RoleService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
