@@ -11,6 +11,11 @@ namespace OLC.Web.UI.Services
             _repositoryFactory = repositoryFactory;
         }
 
+        public async Task<bool> ActivateBillingAddress(UserBillingAddress userBillingAddress)
+        {
+            return await _repositoryFactory.SendAsync<UserBillingAddress, bool>(HttpMethod.Post, "BillingAddress/ActivateBillingAddress", userBillingAddress);
+        }
+
         public async Task<bool> DeleteUserBillingAddressAsync(long billingAddressId)
         {
             var url = Path.Combine("BillingAddress/DeleteUserBillingAddressAsync", billingAddressId.ToString());

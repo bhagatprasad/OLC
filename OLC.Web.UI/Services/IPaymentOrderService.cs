@@ -4,8 +4,10 @@ namespace OLC.Web.UI.Services
 {
     public interface IPaymentOrderService
     {
-        Task<bool> InsertPaymentOrderAsync(PaymentOrder paymentOrder);
+        Task<PaymentOrder> InsertPaymentOrderAsync(PaymentOrder paymentOrder);
         Task<List<PaymentOrder>> GetPaymentOrdersByUserIdAsync(long userId);
         Task<List<PaymentOrder>> GetPaymentOrdersAsync();
+        Task<PaymentOrder> ProcessPaymentStatusAsync(ProcessPaymentStatus processPaymentStatus);
+        Task<List<UserPaymentOrder>> GetUserPaymentOrderListAsync(long userId);
     }
 }

@@ -100,17 +100,27 @@
                     if (address.CityId)
                         city = self.Cities.filter(x => x.Id == address.CityId)[0];
 
-                    const actionButtons = `
+                    const actionButtons = address.IsActive ? `
                                             <button class="btn btn-sm btn-outline-primary view-address me-1" data-address-id="${address.Id}" data-address='${JSON.stringify(address).replace(/'/g, "&apos;")}' title="view address">
                                                 <i class="fas fa-eye"></i>
                                             </button>
+
                                             <button class="btn btn-sm btn-outline-warning edit-address me-1" data-address-id="${address.Id}" data-address='${JSON.stringify(address).replace(/'/g, "&apos;")}' title="edit address">
                                                 <i class="fas fa-edit"></i>
                                             </button>
+
                                             <button class="btn btn-sm btn-outline-danger delete-address" data-address-id="${address.Id}" data-address='${JSON.stringify(address).replace(/'/g, "&apos;")}' title="delete address">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-                                         `;
+                                          ` : `
+                                            <button class="btn btn-sm btn-outline-primary view-address me-1" data-address-id="${address.Id}" data-address='${JSON.stringify(address).replace(/'/g, "&apos;") }' title="view address">
+                                            <i class="fas fa-eye" ></i >
+                                            </button >
+
+                                            <button class="btn btn-sm btn-outline-warning edit-address me-1" data-address-id="${address.Id}" data-address='${JSON.stringify(address).replace(/'/g, "&apos;")}' title="edit address">
+                                            <i class="fas fa-edit"></i>
+                                            </button >
+                                            `;
 
                     // Desktop table row
                     const row = `<tr class="transaction-item">
@@ -156,7 +166,39 @@
         $(document).on("click", ".activiate-address", function () {
             var addressId = $(this).data("address-id");
 
-            console.log(addressId);
+            self.CurrentSelectedBillingAddress = self.UserBillingAddresses.filter(x => x.Id == addressId)[0];
+
+            var country = null;
+            var state = null;
+            var city = null;
+
+            if (self.CurrentSelectedBillingAddress.CountryId)
+                country = self.Countries.filter(x => x.Id == self.CurrentSelectedBillingAddress.CountryId)[0];
+
+            if (self.CurrentSelectedBillingAddress.StateId)
+                state = self.States.filter(x => x.Id == self.CurrentSelectedBillingAddress.StateId)[0];
+
+            if (self.CurrentSelectedBillingAddress.CityId)
+                city = self.Cities.filter(x => x.Id == self.CurrentSelectedBillingAddress.CityId)[0];
+
+            $("#ActivateAddressLineOne").val(self.CurrentSelectedBillingAddress.AddessLineOne);
+            $("#ActivateAddessLineTwo").val(self.CurrentSelectedBillingAddress.AddessLineTwo);
+            $("#ActivateAddessLineThree").val(self.CurrentSelectedBillingAddress.AddessLineThree);
+            $("#ActivateLocation").val(self.CurrentSelectedBillingAddress.Location);
+            $("#ActivatePincode").val(self.CurrentSelectedBillingAddress.PinCode);
+
+            if (country)
+                $("#Country").val(country.Id);
+
+            if (state)
+                $("#State").val(state.Id);
+
+            if (city)
+                $("#City").val(city.Id);
+
+            $("#activateBillingAddress").modal("show");
+
+          
         });
 
         $(document).on("click", "#addBillingAddressBtn", function () {
@@ -169,6 +211,11 @@
             $('#AddEditUserBillingAddressForm')[0].reset();
             $('#sidebar').removeClass('show');
             $('.modal-backdrop').remove();
+        });
+
+        $(document).on("click", ".btn-view-card-close", function () {
+            $('#billingAddressForm')[0].reset();
+            $("#activateBillingAddress").modal("hide");
         });
 
         $(document).on("click", ".edit-address", function () {
@@ -194,7 +241,7 @@
 
             $("#AddressLineOne").val(self.CurrentSelectedBillingAddress.AddessLineOne);
             $("#AddressLineTwo").val(self.CurrentSelectedBillingAddress.AddessLineTwo);
-            $("#AddressLineThree").val(self.CurrentSelectedBillingAddress.AddessLineThress);
+            $("#AddressLineThree").val(self.CurrentSelectedBillingAddress.AddessLineThree);
             $("#Location").val(self.CurrentSelectedBillingAddress.Location);
 
             if (country)
@@ -217,8 +264,40 @@
             self.CurrentSelectedBillingAddress = null;
             $("#viewBillingAddress").modal("hide");
             $("#deleteBillingAddress").modal("hide");
+            $("#inActiveeBillingAddress").modal("hide");
         });
 
+
+        $(document).on("click", "#activateBillingAddressBtn", function () {
+
+            self.CurrentSelectedBillingAddress.ModifiedBy = self.ApplicationUser.Id;
+
+            console.log("Active button yes clicked.................."); 
+            $.ajax({
+                type: "POST",
+                url: "/BillingAddress/ActivateBillingAddress/",
+                data: JSON.stringify(self.CurrentSelectedBillingAddress),
+                cache: false,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (response) {
+
+                    console.log(response);
+
+                    self.CurrentSelectedBillingAddress = null;
+
+                    $("#activateBillingAddress").modal("hide");
+
+                    GetUserBillingAddresses();
+
+                }, error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        });
+
+        //Delete button function
         $(document).on("click", ".delete-address", function () {
             console.log("deleting...");
 

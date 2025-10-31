@@ -187,6 +187,9 @@
     <Build Include="Programmability\Stored Procedures\PaymentOrderHistroy\uspInsertPaymentOrderHistory.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPaymentOrderById.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspProcessPaymentOrder.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspProcessPaymentStatus.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetUserPaymentOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllUserPaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\AddressType\uspActiveAddressType.sql" />
   </ItemGroup>
   <ItemGroup>

@@ -100,6 +100,26 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-    }
+        public async Task<IActionResult> ActivateBillingAddress([FromBody] UserBillingAddress userBillingAddress)
+        {
+            try
+            {
+                bool isActivate = false;
 
+                isActivate = await _billingAddressService.ActivateBillingAddress(userBillingAddress);
+
+                if (isActivate)
+                    _notyfService.Success("Successfully activated user Billing Address");
+                else
+                    _notyfService.Error("Unable to activate user Billing Address");
+
+                return Json(isActivate);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
 }

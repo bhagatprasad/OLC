@@ -1,0 +1,123 @@
+﻿<form id="CreatePortalUserForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Add / Edit Portal User</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="col-lg-12 mb-3">
+                    <div class="form-group">
+                        <label for="Firstname" class="form-label">First Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" id="Firstname" class="form-control" placeholder="Enter First Name" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <div class="form-group">
+                        <label for="Lastname" class="form-label">Last Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" id="Lastname" class="form-control" placeholder="Enter Last Name" required />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 mb-3">
+                    <div class="form-group">
+                        <label for="Email" class="form-label">Email Address</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" id="Email" class="form-control" placeholder="Enter Email Address" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <div class="form-group">
+                        <label for="Phone" class="form-label">Phone Number</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="tel" id="Phone" class="form-control" placeholder="Enter Phone Number" required />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 mb-3">
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="password" id="password" class="form-control" placeholder="Enter your password" required />
+                            <div class="input-group-append">
+                                <span class="input-group-text toggle-password"><i class="fa fa-eye-slash"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            </div>
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required />
+                            <div class="input-group-append">
+                                <span class="input-group-text toggle-password"><i class="fa fa-eye-slash"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-lg-12 mb-3">
+                    <div class="form-group">
+                        <label for="RoleId" class="form-label">Role</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-toggle-on"></i></span>
+                            </div>
+                            <select class="form-control form-select" id="RoleId" required>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 mb-3">
+                    <div class="form-group">
+                        <label for="IsActive" class="form-label">Status</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-toggle-on"></i></span>
+                            </div>
+                            <select class="form-control form-select" id="IsActive" required>
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+    </div>
+</form>

@@ -30,12 +30,29 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive,User"))]
-        public async Task<IActionResult> GetUserBankAccounts(long userId)
+        public async Task<IActionResult> GetAllUserBankAccounts(long userId)
         {
             try
             {
                 var accounts = await _bankAccountService.GetAllUserBankAccountByUserIdAsync(userId);
                 return Json(new { data = accounts });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+
+        //GET
+        [HttpGet]
+        [Authorize(Roles = ("Administrator,Executive,User"))]
+        public async Task<IActionResult> GetBankAccountsAsync()
+        {
+            try
+            {
+                var bankAccounts= await _bankAccountService.GetAllUserBankAccountsAsync();
+                return Json(new { data = bankAccounts });
             }
             catch (Exception ex)
             {
@@ -102,6 +119,25 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-    }
 
+        [HttpPost]
+        public async Task<IActionResult> ActivateBankAccount([FromBody] UserBankAccount userBankAccount)
+        {
+            try
+            {
+                bool isSaved = false;
+                isSaved = await _bankAccountService.ActivateBankAccountAsync(userBankAccount);
+
+                if (isSaved)
+                    _notyfService.Success("Successfully Activated user Bank Account");
+                else
+                    _notyfService.Error("unable to Activate user Bank Account");
+                return Json(isSaved);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
 }

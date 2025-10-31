@@ -27,7 +27,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator,Executive,User")]
-        public async Task<IActionResult> GetBanks([FromQuery] long Id)
+        public async Task<IActionResult> GetBanks()
         {
             try
             {
