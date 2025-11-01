@@ -5,6 +5,7 @@
     self.CoreStatus = [];
     self.ApplicationUser = {};
     var actions = [];
+    self.slaTimers = {}; // To store interval IDs for SLA timers
 
     self.init = function () {
         $(".se-pre-con").show();
@@ -153,6 +154,40 @@
         return text.substring(0, maxLength) + '...';
     };
 
+    // Update SLA timer for a specific order
+    self.updateSLATimer = function (orderId) {
+        const order = self.ExecutivePaymentOrders.find(o => o.Id === orderId);
+        if (!order) return;
+
+        const slaInfo = calculateSLATimer(order);
+
+        // Update desktop table
+        $(`tr[data-order-id="${orderId}"] .sla-timer`).text(slaInfo.display)
+            .removeClass('sla-normal sla-warning sla-critical sla-completed')
+            .addClass(slaInfo.class);
+
+        // Update mobile card
+        $(`.card[data-order-id="${orderId}"] .sla-timer`).text(slaInfo.display)
+            .removeClass('sla-normal sla-warning sla-critical sla-completed')
+            .addClass(slaInfo.class);
+    };
+
+    // Start SLA timers for all orders
+    self.startSLATimers = function () {
+        // Clear any existing timers
+        Object.values(self.slaTimers).forEach(timerId => clearInterval(timerId));
+        self.slaTimers = {};
+
+        // Start timers for each order that's not completed
+        self.ExecutivePaymentOrders.forEach(order => {
+            if (order.OrderStatus !== 'Completed') {
+                self.slaTimers[order.Id] = setInterval(() => {
+                    self.updateSLATimer(order.Id);
+                }, 1000);
+            }
+        });
+    };
+
     // Populate payment orders grid
     self.populatePaymentOrdersGrid = function () {
         const tbody = $('#paymentOrdersBody');
@@ -181,6 +216,7 @@
             const createdDate = self.formatDate(order.CreatedOn);
             const creditCardDisplay = self.formatCreditCard(order.CreditCardNumber);
             const bankAccountDisplay = self.formatBankAccount(order.BankAccountNumber);
+            const slaInfo = calculateSLATimer(order);
 
             // Desktop table row - BOTH USER INFO AND PAYMENT METHODS
             const row = `
@@ -204,6 +240,9 @@
                         </div>
                     </td>
                     <td>${statusBadge}</td>
+                    <td>
+                        <span class="sla-timer ${slaInfo.class}">${slaInfo.display}</span>
+                    </td>
                     <td><small class="text-muted">${createdDate}</small></td>
                     <td>
                         <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
@@ -240,6 +279,10 @@
                                 <div>${self.formatCurrency(order.TotalAmountToDepositToCustomer)}</div>
                             </div>
                             <div class="col-6 mb-2">
+                                <small class="text-muted">SLA:</small>
+                                <div><span class="sla-timer ${slaInfo.class}">${slaInfo.display}</span></div>
+                            </div>
+                            <div class="col-12 mb-2">
                                 <small class="text-muted">Created:</small>
                                 <div><small class="text-muted">${createdDate}</small></div>
                             </div>
@@ -273,6 +316,9 @@
 
         // Initialize view order click handlers
         self.initializeViewOrderHandlers();
+
+        // Start SLA timers
+        self.startSLATimers();
     };
 
     // Initialize view order click handlers
