@@ -42,3 +42,15 @@ Post-Deployment Script Template
 
 -- Include seed data for SeedBanks
 :r .\SeedBanks.sql
+
+-- Include seed data for SeedUsers
+:r .\SeedUsers.sql
+
+-- Include seed data for SeedUserBankAccount
+:r .\SeedUserBankAccount.sql
+
+-- Include seed data for SeedUserCreditCards
+:r .\SeedUserCreditCards.sql
+
+-- Include seed data for SeedPaymentOrders
+:r .\SeedPaymentOrders.sql

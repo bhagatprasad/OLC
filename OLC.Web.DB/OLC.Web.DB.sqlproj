@@ -215,5 +215,10 @@
     <None Include="Post-Deployement\SeedStates.sql" />
     <None Include="Post-Deployement\SeedCities.sql" />
     <None Include="Post-Deployement\SeedBanks.sql" />
+    <None Include="Post-Deployement\SeedUsers.sql" />
+    <None Include="Post-Deployement\SeedUserBankAccount.sql" />
+    <None Include="Post-Deployement\SeedBillingAddress.sql" />
+    <None Include="Post-Deployement\SeedUserCreditCards.sql" />
+    <None Include="Post-Deployement\SeedPaymentOrders.sql" />
   </ItemGroup>
 </Project>

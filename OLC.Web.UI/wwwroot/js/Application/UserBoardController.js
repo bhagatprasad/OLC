@@ -463,4 +463,8 @@
             }
         }, 3000);
     };
+
+    $(document).on("click", "#makeNewPayment", function () {
+        window.location.href = "/Transaction/MakeNewPayment";
+    })
 }
