@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OLC.Web.UI.Models;
 using OLC.Web.UI.Services;
+using System.Threading.Tasks;
 
 namespace OLC.Web.UI.Controllers
 {
@@ -14,15 +15,75 @@ namespace OLC.Web.UI.Controllers
 
         public RoleController(IRoleService roleService, INotyfService notyfService)
         {
-            _roleService=roleService;
-            _notyfService=notyfService;
+            _roleService = roleService;
+            _notyfService = notyfService;
         }
 
-        [HttpGet("/Role")]
+        [HttpGet]
         [Authorize(Roles = "Administrator,Executive")]
-        public IActionResult Roles()
+        public async Task<IActionResult> Index()
+        {
+
+            var response = await _roleService.GetRolesAsync();
+
+            return View(response);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Role role)
+        {
+            role.CreatedBy = -1;
+            role.CreatedOn = DateTime.Now;
+            role.ModifiedBy=-1;
+            role.ModifiedOn = DateTime.Now;
+            role.IsActive = true;
+
+
+            var response = await _roleService.InsertRoleAsync(role);
+            if (response)
+            {
+                _notyfService.Success("Successfully added role");
+                return RedirectToAction("Index", "Role", null);
+            }
+
+            _notyfService.Error("Unable to add role,please try again");
+
+            return View(role);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Edit(long roleId)
+        {
+            var response = await _roleService.GetRoleByIdAsync(roleId);
+            return View(response);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Role role)
+        {
+            role.CreatedBy = -1;
+            role.CreatedOn = DateTime.Now;
+            role.ModifiedBy = -1;
+            role.ModifiedOn = DateTime.Now;
+            role.IsActive = true;
+           
+
+            var response = await _roleService.UpdateRoleAsync(role);
+            if (response)
+            {
+                _notyfService.Success("Successfully updated role");
+                return RedirectToAction("Index", "Role", null);
+            }
+
+            _notyfService.Error("Unable to update role,please try again");
+
+            return View(role);
         }
 
         [HttpGet]
