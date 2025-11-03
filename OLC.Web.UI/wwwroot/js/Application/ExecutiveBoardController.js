@@ -248,6 +248,10 @@
                         <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
                             <i class="fas fa-eye"></i>
                         </button>
+                         <button class="btn btn-sm btn-outline-warning view-order" data-order-id="${order.Id}" title="Process Order Details">
+                            <i class="fas fa-gear"></i>
+                        </button>
+
                     </td>
                 </tr>
             `;

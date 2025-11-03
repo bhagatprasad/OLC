@@ -31,7 +31,7 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetRoleByIdAsync")]
+        [Route("GetRoleByIdAsync/{roleId}")]
         public async Task<IActionResult> GetRoleByIdAsync(long roleId)
         {
             try

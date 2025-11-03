@@ -1,0 +1,66 @@
+﻿@model OLC.Web.UI.Models.Role
+@{
+    ViewData["Title"] = "Roles - Manage different role categories for users.";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    @using (Html.BeginForm("Create", "Role", FormMethod.Post, new { @class = "my_form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card">
+            <div class="card-header">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 fw-bold text-primary">
+                                Roles
+                            </h1>
+                        </div>
+                        <div>
+                            <a class="btn btn-primary" id="addAccountTypeBtn" href="@Url.Action("Index", "Role", null)">
+                                <i class="fas fa-plus me-2"></i> roles
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+
+                <div class="form-group">
+                    <label for="Name">Name</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-list-alt"></i></span>
+                        </div>
+
+                        @*  <input type="text" class="form-control" id="Name" maxlength="50" placeholder="Enter account type name" required> *@
+
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Enter  name" })
+                    </div>
+                </div>
+
+                <!-- Account Type Code -->
+                <div class="form-group">
+                    <label for="Code">Code</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                        </div>
+                        @Html.TextBoxFor(x => x.Code, new { @class = "form-control", @placeholder = "Enter code" })
+                        @* <input type="text" class="form-control" id="Code" maxlength="20" placeholder="Enter account type code" required> *@
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </div>
+        </div>
+    }
+</div>
