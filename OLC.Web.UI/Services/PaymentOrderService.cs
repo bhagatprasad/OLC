@@ -5,20 +5,23 @@ namespace OLC.Web.UI.Services
     public class PaymentOrderService : IPaymentOrderService
     {
         private readonly IRepositoryFactory _repositoryFactory;
+
         public PaymentOrderService(IRepositoryFactory repositoryFactory)
         {
             _repositoryFactory = repositoryFactory;
         }
+
         public async Task<List<PaymentOrder>> GetPaymentOrdersByUserIdAsync(long userId)
         {
-            var url = Path.Combine("PaymentOrder/GetPaymentOrdersByUserIdAsync",userId.ToString());
+            var url = Path.Combine("PaymentOrder/GetPaymentOrdersByUserIdAsync", userId.ToString());
             return await _repositoryFactory.SendAsync<List<PaymentOrder>>(HttpMethod.Get, url);
         }
-       
+
         public async Task<List<PaymentOrder>> GetPaymentOrdersAsync()
         {
             return await _repositoryFactory.SendAsync<List<PaymentOrder>>(HttpMethod.Get, "PaymentOrder/GetAllPaymentOrdersAsync");
         }
+
         public async Task<PaymentOrder> InsertPaymentOrderAsync(PaymentOrder paymentOrder)
         {
             return await _repositoryFactory.SendAsync<PaymentOrder, PaymentOrder>(HttpMethod.Post, "PaymentOrder/SavePaymentOrderAsync", paymentOrder);
@@ -38,6 +41,26 @@ namespace OLC.Web.UI.Services
         public async Task<List<ExecutivePaymentOrders>> GetExecutivePaymentOrdersAsync()
         {
             return await _repositoryFactory.SendAsync<List<ExecutivePaymentOrders>>(HttpMethod.Get, "PaymentOrder/GetExecutivePaymentOrdersAsync");
+        }
+
+        public async Task<List<UserPaymentOrder>> GetAllUserPaymentOrdersAsync()
+        {
+            return await _repositoryFactory.SendAsync<List<UserPaymentOrder>>(HttpMethod.Get, "PaymentOrder/GetAllUserPaymentOrdersAsync");
+        }
+
+        public async Task<List<PaymentOrderHistory>> GetPaymentOrderHistoryAsync(long paymentOrderId)
+        {
+            return await _repositoryFactory.SendAsync<List<PaymentOrderHistory>>(HttpMethod.Get, "PaymentOrder/GetPaymentOrderHistoryAsync");
+        }
+
+        public async Task<PaymentOrderDetails> GetExecutivePaymentOrderDetailsAsync(long paymentOrderId)
+        {
+            return await _repositoryFactory.SendAsync<PaymentOrderDetails>(HttpMethod.Get, "PaymentOrder/GetExecutivePaymentOrderDetailsAsync");
+        }
+
+        public async Task<PaymentOrder> ProcessPaymentOrderAsync(ProcessPaymentOrder processPaymentOrder)
+        {
+            return await _repositoryFactory.SendAsync<PaymentOrder>(HttpMethod.Get, "PaymentOrder/ProcessPaymentOrderAsync");
         }
     }
 }
