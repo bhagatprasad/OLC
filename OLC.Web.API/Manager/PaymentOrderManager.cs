@@ -10,10 +10,14 @@ namespace OLC.Web.API.Manager
     {
         private readonly string connectionString;
         private readonly IUserBankAccountManager _userBankAccountManager;
-        public PaymentOrderManager(IConfiguration configuration, IUserBankAccountManager userBankAccountManager)
+        private readonly ICreditCardManager _creditCardManager;
+        private readonly IBillingAddressManager _billingAddressManager;
+        public PaymentOrderManager(IConfiguration configuration, IUserBankAccountManager userBankAccountManager,ICreditCardManager creditCardManager,IBillingAddressManager billingAddressManager)
         {
             connectionString = configuration.GetConnectionString("DefaultConnection");
             _userBankAccountManager = userBankAccountManager;
+            _creditCardManager = creditCardManager;
+            _billingAddressManager = billingAddressManager;
         }
 
         public async Task<PaymentOrder> InsertPaymentOrderAsync(PaymentOrder paymentOrder)
@@ -773,12 +777,23 @@ namespace OLC.Web.API.Manager
                 }
             }
 
+            if (Upo != null &&Upo.CreditCardId.HasValue)
+            {
+                var userCreditCard = await _creditCardManager.GetUserCreditCardByCardIdAsync(Upo.CreditCardId.Value); 
 
-
-            // first inject the ICreditCardManager at constructor , after init call check the PyamentOrder is null or not ,
-            // //if not then use its creditcatid to make and birng the credit card used for the payment
-
-
+                if (userCreditCard != null)
+                {
+                    paymentOrderDetails.userCreditCard = userCreditCard;
+                }
+            }
+            if(Upo != null && Upo.BillingAddressId.HasValue)
+            {
+                var userBillingAddress = await _billingAddressManager.GetUserBillingAddressByIdAsync(Upo.BillingAddressId.Value);
+                if (userBillingAddress != null)
+                {
+                    paymentOrderDetails.userBillingAddress = userBillingAddress;
+                }
+            }           
             //history 
 
             if (paymentOrderId > 0)
