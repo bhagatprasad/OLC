@@ -1,35 +1,35 @@
 ﻿<!-- Modal -->
-<div class="modal fade" id="deleteAddressType" tabindex="-1" aria-labelledby="addressTypeModalLabel" aria-hidden="true">
+<div class="modal fade" id="activateAddressType" tabindex="-1" aria-labelledby="addressTypeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addressTypeModalLabel">Are you sure you want to delete this address type?</h5>
-                <button type="button" class="btn-close btn-view-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="addressTypeModalLabel">Are you sure you want to activate this address type?</h5>
+                <button type="button" class="btn-close btn-view-addresstype-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body" style="padding:0">
-                <div class="address-type-card">
-                    <i class="fas fa-cogs chip-icon"></i>
+                <div class="address-type">
+                    <i class="fas fa-map-marker-alt chip-icon"></i>  
                     <form id="addressTypeForm">
                         <div class="mb-3">
-                            <label for="DeleteName" class="form-label">
+                            <label for="ActivateName" class="form-label">
                                 <i class="fas fa-list-alt"></i> Name
                             </label>
-                            <input type="text" class="form-control" id="DeleteName" placeholder="Savings, Current, etc." maxlength="50" readonly>
+                            <input type="text" class="form-control" id="ActivateName" placeholder="e.g., Home" maxlength="50" readonly>
                         </div>
 
                         <div class="mb-3">
-                            <label for="DeleteCode" class="form-label">
+                            <label for="ActivateCode" class="form-label">
                                 <i class="fas fa-barcode"></i> Code
                             </label>
-                            <input type="text" class="form-control" id="DeleteCode" placeholder="e.g., SAV01" maxlength="20" readonly>
+                            <input type="text" class="form-control" id="ActivateCode" placeholder="e.g., HOME" maxlength="20" readonly>
                         </div>
 
                         <div class="mb-3">
-                            <label for="DeleteStatus" class="form-label">
+                            <label for="ActivateStatus" class="form-label">
                                 <i class="fas fa-toggle-on"></i> Status
                             </label>
-                            <select class="form-select" id="DeleteStatus" disabled>
+                            <select class="form-select" id="ActivateStatus" disabled>
                                 <option value="true">Active</option>
                                 <option value="false">Inactive</option>
                             </select>
@@ -40,15 +40,15 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-view-type-close" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="deleteAddressTypeBtn">Delete</button>
+                <button type="button" class="btn btn-primary" id="activateAddressTypeBtn">Yes Activate!</button>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .address-type-card {
-        background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+    .address-type {
+        background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%); /* Changed gradient to green for address theme */
         border-radius: 15px;
         padding: 20px;
         color: white;
@@ -57,7 +57,7 @@
         overflow: hidden;
     }
 
-        .address-type-card::before {
+        .address-type::before {
             content: '';
             position: absolute;
             top: 0;
@@ -69,25 +69,25 @@
             opacity: 0.1;
         }
 
-        .address-type-card .form-control {
+        .address-type .form-control {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
             border-radius: 5px;
         }
 
-            .address-type-card .form-control::placeholder {
+            .address-type .form-control::placeholder {
                 color: rgba(255, 255, 255, 0.7);
             }
 
-        .address-type-card .form-select {
+        .address-type .form-select {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
             border-radius: 5px;
         }
 
-            .address-type-card .form-select option {
+            .address-type .form-select option {
                 background: #00b09b;
                 color: white;
             }
@@ -100,4 +100,3 @@
         color: gold;
     }
 </style>
-

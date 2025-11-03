@@ -4,530 +4,440 @@
     ViewData["Title"] = "Payment Successful";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-<div class="container-fluid py-4">
-    <div class="row justify-content-center">
-        <div class="col-12 col-md-10 col-lg-8 col-xl-6">
-            <!-- Success Card -->
-            <div class="card border-0 shadow-lg">
-                <div class="card-header bg-success text-white py-4">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <i class="fas fa-check-circle fa-3x"></i>
-                        </div>
-                        <div class="col">
-                            <h1 class="h2 mb-0">Payment Successful</h1>
-                            <p class="mb-0 opacity-75">Your transaction has been completed successfully</p>
-                        </div>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                    <div>
+                        <h1 class="h3 fw-bold text-success">
+                            <i class="fas fa-check-circle me-2"></i> Payment Successful
+                        </h1>
+                        <p class="text-muted mb-0">Your transaction has been completed successfully</p>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-outline-primary" onclick="window.print()">
+                            <i class="fas fa-print me-2"></i> Print Receipt
+                        </button>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="card-body p-4">
-                    @if (ViewBag.IsSuccess == true)
-                    {
-                        <!-- Success Content -->
-                        <div class="row">
-                            <!-- Left Column - Payment Details -->
-                            <div class="col-md-7">
-                                <div class="mb-4">
-                                    <h4 class="text-success mb-3">
-                                        <i class="fas fa-receipt me-2"></i>Payment Confirmation
-                                    </h4>
-
-                                    <div class="alert alert-success border-0">
-                                        <div class="d-flex">
-                                            <i class="fas fa-check-circle text-success me-2 mt-1"></i>
-                                            <div>
-                                                <strong>Payment Completed</strong>
-                                                <p class="mb-0 small">A confirmation email has been sent to your registered email address.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Transaction Details -->
-                                <div class="transaction-details">
-                                    <h5 class="mb-3 border-bottom pb-2">Transaction Details</h5>
-                                    <div class="table-responsive">
-                                        <table class="table table-borderless">
-                                            <tbody>
-                                                <!-- Order Reference -->
-                                                @if (!string.IsNullOrEmpty(Model.OrderReference))
-                                                {
-                                                    <tr>
-                                                        <td class="text-muted" style="width: 40%">Order Reference:</td>
-                                                        <td class="fw-bold">
-                                                            <span class="text-primary">@Model.OrderReference</span>
-                                                        </td>
-                                                    </tr>
-                                                }
-
-                                                <!-- Payment Order ID -->
-                                                @if (Model.PaymentOrderId.HasValue)
-                                                {
-                                                    <tr>
-                                                        <td class="text-muted">Payment Order ID:</td>
-                                                        <td class="fw-bold">
-                                                            <span class="font-monospace">#@Model.PaymentOrderId</span>
-                                                        </td>
-                                                    </tr>
-                                                }
-
-                                                <!-- Transaction ID -->
+        <div class="card-body">
+            @if (ViewBag.IsSuccess == true)
+            {
+                <div class="row">
+                    <!-- Desktop Table View -->
+                    <div class="col-12 d-none d-lg-block">
+                        <div class="card border">
+                            <div class="card-header bg-white py-3 border-bottom">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-receipt me-2"></i> Transaction Details
+                                </h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th scope="col">Detail</th>
+                                                <th scope="col">Value</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Order Reference -->
+                                            @if (!string.IsNullOrEmpty(Model.OrderReference))
+                                            {
                                                 <tr>
-                                                    <td class="text-muted">Transaction ID:</td>
-                                                    <td class="fw-bold">
-                                                        <span class="font-monospace">@Model.SessionId</span>
-                                                        <button class="btn btn-sm btn-outline-secondary ms-2" onclick="copyToClipboard('@Model.SessionId')">
+                                                    <td class="fw-bold">Order Reference</td>
+                                                    <td>@Model.OrderReference</td>
+                                                    <td><span class="badge bg-success">Completed</span></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('@Model.OrderReference')">
                                                             <i class="fas fa-copy"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
-
-                                                <!-- Payment Intent ID -->
-                                                @if (!string.IsNullOrEmpty(Model.PaymentIntentId))
-                                                {
-                                                    <tr>
-                                                        <td class="text-muted">Payment Intent ID:</td>
-                                                        <td class="fw-bold font-monospace small">@Model.PaymentIntentId</td>
-                                                    </tr>
-                                                }
-
-                                                <!-- Amount Paid -->
-                                                @if (Model.AmountTotal.HasValue)
-                                                {
-                                                    <tr>
-                                                        <td class="text-muted">Amount Paid:</td>
-                                                        <td class="fw-bold fs-5 text-success">
-                                                            @Model.AmountTotal.Value.ToString("C") @Model.Currency
-                                                        </td>
-                                                    </tr>
-                                                }
-
-                                                <!-- Payment Method -->
-                                                @if (!string.IsNullOrEmpty(Model.PaymentMethod))
-                                                {
-                                                    <tr>
-                                                        <td class="text-muted">Payment Method:</td>
-                                                        <td class="fw-bold text-capitalize">
-                                                            <i class="fas fa-credit-card me-2"></i>@Model.PaymentMethod
-                                                        </td>
-                                                    </tr>
-                                                }
-
-                                                <!-- Date & Time -->
-                                                @if (Model.Created.HasValue)
-                                                {
-                                                    <tr>
-                                                        <td class="text-muted">Date & Time:</td>
-                                                        <td class="fw-bold">
-                                                            @Model.Created.Value.ToString("MMMM dd, yyyy 'at' hh:mm tt")
-                                                        </td>
-                                                    </tr>
-                                                }
-
-                                                <!-- Customer Email -->
-                                                @if (!string.IsNullOrEmpty(Model.CustomerEmail))
-                                                {
-                                                    <tr>
-                                                        <td class="text-muted">Customer Email:</td>
-                                                        <td class="fw-bold text-primary">@Model.CustomerEmail</td>
-                                                    </tr>
-                                                }
-
-                                                <!-- Customer Name -->
-                                                @if (!string.IsNullOrEmpty(Model.CustomerName))
-                                                {
-                                                    <tr>
-                                                        <td class="text-muted">Customer Name:</td>
-                                                        <td class="fw-bold">@Model.CustomerName</td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Right Column - Quick Actions & Summary -->
-                            <div class="col-md-5 border-start">
-                                <div class="sticky-top" style="top: 20px;">
-                                    <!-- Quick Actions -->
-                                    <div class="mb-4">
-                                        <h5 class="mb-3">Quick Actions</h5>
-                                        <div class="d-grid gap-2">
-                                            <a href="@Url.Action("Index", "UserBoard")" class="btn btn-primary btn-lg">
-                                                <i class="fas fa-tachometer-alt me-2"></i>Back to Dashboard
-                                            </a>
-                                            <button class="btn btn-outline-primary" onclick="window.print()">
-                                                <i class="fas fa-print me-2"></i>Print Receipt
-                                            </button>
-                                            <a href="@Url.Action("Index", "Transaction")" class="btn btn-outline-success">
-                                                <i class="fas fa-receipt me-2"></i>View Transaction History
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <!-- Payment Summary -->
-                                    <div class="card bg-light border-0">
-                                        <div class="card-body">
-                                            <h6 class="card-title mb-3">Payment Summary</h6>
-
-                                            @if (Model.AmountTotal.HasValue)
-                                            {
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span class="text-muted">Amount:</span>
-                                                    <span class="fw-bold">@Model.AmountTotal.Value.ToString("C")</span>
-                                                </div>
                                             }
 
-                                            @if (!string.IsNullOrEmpty(Model.Currency))
-                                            {
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span class="text-muted">Currency:</span>
-                                                    <span class="fw-bold">@Model.Currency</span>
-                                                </div>
-                                            }
-
-                                            <div class="d-flex justify-content-between mb-2">
-                                                <span class="text-muted">Status:</span>
-                                                <span class="badge bg-success">Completed</span>
-                                            </div>
-
+                                            <!-- Payment Order ID -->
                                             @if (Model.PaymentOrderId.HasValue)
                                             {
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <span class="text-muted">Order ID:</span>
-                                                    <span class="fw-bold">#@Model.PaymentOrderId</span>
-                                                </div>
+                                                <tr>
+                                                    <td class="fw-bold">Payment Order ID</td>
+                                                    <td>#@Model.PaymentOrderId</td>
+                                                    <td><span class="badge bg-success">Completed</span></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('#@Model.PaymentOrderId')">
+                                                            <i class="fas fa-copy"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
                                             }
 
-                                            <hr>
-                                            <div class="d-flex justify-content-between">
-                                                <strong>Total Paid:</strong>
-                                                <strong class="text-success">
-                                                    @(Model.AmountTotal.HasValue? Model.AmountTotal.Value.ToString("C") : "N/A")
-                                                    @Model.Currency
-                                                </strong>
-                                            </div>
-                                        </div>
-                                    </div>
+                                            <!-- Transaction ID -->
+                                            <tr>
+                                                <td class="fw-bold">Transaction ID</td>
+                                                <td class="font-monospace">@Model.SessionId</td>
+                                                <td><span class="badge bg-success">Completed</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('@Model.SessionId')">
+                                                        <i class="fas fa-copy"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
 
-                                    <!-- Support Information -->
-                                    <div class="mt-3 text-center">
-                                        <p class="small text-muted mb-2">Need help with your payment?</p>
-                                        <div class="d-flex justify-content-center gap-3">
-                                            <a href="#" class="small text-decoration-none">
-                                                <i class="fas fa-envelope me-1"></i>Support
-                                            </a>
-                                            <a href="#" class="small text-decoration-none">
-                                                <i class="fas fa-file-invoice me-1"></i>Invoice
-                                            </a>
-                                        </div>
-                                    </div>
+                                            <!-- Payment Intent ID -->
+                                            @if (!string.IsNullOrEmpty(Model.PaymentIntentId))
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">Payment Intent ID</td>
+                                                    <td class="font-monospace small">@Model.PaymentIntentId</td>
+                                                    <td><span class="badge bg-success">Completed</span></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('@Model.PaymentIntentId')">
+                                                            <i class="fas fa-copy"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                            <!-- Amount Paid -->
+                                            @if (Model.AmountTotal.HasValue)
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">Amount Paid</td>
+                                                    <td class="fw-bold fs-5 text-success">@Model.AmountTotal.Value.ToString("C") @Model.Currency</td>
+                                                    <td><span class="badge bg-success">Completed</span></td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+
+                                            <!-- Payment Method -->
+                                            @if (!string.IsNullOrEmpty(Model.PaymentMethod))
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">Payment Method</td>
+                                                    <td class="text-capitalize">
+                                                        <i class="fas fa-credit-card me-2"></i>@Model.PaymentMethod
+                                                    </td>
+                                                    <td><span class="badge bg-success">Completed</span></td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+
+                                            <!-- Date & Time -->
+                                            @if (Model.Created.HasValue)
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">Date & Time</td>
+                                                    <td>@Model.Created.Value.ToString("MMMM dd, yyyy 'at' hh:mm tt")</td>
+                                                    <td><span class="badge bg-success">Completed</span></td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+
+                                            <!-- Customer Email -->
+                                            @if (!string.IsNullOrEmpty(Model.CustomerEmail))
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">Customer Email</td>
+                                                    <td class="text-primary">@Model.CustomerEmail</td>
+                                                    <td><span class="badge bg-success">Completed</span></td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+
+                                            <!-- Customer Name -->
+                                            @if (!string.IsNullOrEmpty(Model.CustomerName))
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">Customer Name</td>
+                                                    <td>@Model.CustomerName</td>
+                                                    <td><span class="badge bg-success">Completed</span></td>
+                                                    <td></td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Additional Information Section -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card bg-light border-0">
-                                    <div class="card-body">
-                                        <h6 class="card-title mb-3">
-                                            <i class="fas fa-info-circle me-2"></i>Additional Information
-                                        </h6>
-                                        <div class="row">
-                                            <!-- User Information -->
-                                            @if (!string.IsNullOrEmpty(Model.UserId))
-                                            {
-                                                <div class="col-md-3 mb-3">
-                                                    <div class="border-start border-3 border-primary ps-3">
-                                                        <small class="text-muted d-block">User ID</small>
-                                                        <div class="fw-bold text-primary">@Model.UserId</div>
-                                                    </div>
-                                                </div>
-                                            }
-
-                                            <!-- Payment Method Details -->
-                                            @if (!string.IsNullOrEmpty(Model.CreditCardId))
-                                            {
-                                                <div class="col-md-3 mb-3">
-                                                    <div class="border-start border-3 border-info ps-3">
-                                                        <small class="text-muted d-block">Credit Card</small>
-                                                        <div class="fw-bold text-info">@Model.CreditCardId</div>
-                                                    </div>
-                                                </div>
-                                            }
-
-                                            <!-- Bank Account Details -->
-                                            @if (!string.IsNullOrEmpty(Model.BankAccountId))
-                                            {
-                                                <div class="col-md-3 mb-3">
-                                                    <div class="border-start border-3 border-warning ps-3">
-                                                        <small class="text-muted d-block">Bank Account</small>
-                                                        <div class="fw-bold text-warning">@Model.BankAccountId</div>
-                                                    </div>
-                                                </div>
-                                            }
-
-                                            <!-- Billing Address Details -->
-                                            @if (!string.IsNullOrEmpty(Model.BillingAddressId))
-                                            {
-                                                <div class="col-md-3 mb-3">
-                                                    <div class="border-start border-3 border-success ps-3">
-                                                        <small class="text-muted d-block">Billing Address</small>
-                                                        <div class="fw-bold text-success">@Model.BillingAddressId</div>
-                                                    </div>
-                                                </div>
-                                            }
-
-                                            <!-- Order Reference Display -->
-                                            @if (!string.IsNullOrEmpty(Model.OrderReference))
-                                            {
-                                                <div class="col-12 mt-2">
-                                                    <div class="border-start border-3 border-secondary ps-3">
-                                                        <small class="text-muted d-block">Order Reference</small>
-                                                        <div class="fw-bold fs-6">@Model.OrderReference</div>
-                                                    </div>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+                    <!-- Mobile Card View -->
+                    <div class="col-12 d-lg-none">
+                        <div class="card border">
+                            <div class="card-header bg-white py-3 border-bottom">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-receipt me-2"></i> Transaction Details
+                                </h5>
                             </div>
-                        </div>
-
-                        <!-- Timeline -->
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card border-0">
-                                    <div class="card-body">
-                                        <h6 class="card-title mb-4">
-                                            <i class="fas fa-history me-2"></i>Payment Timeline
-                                        </h6>
-                                        <div class="timeline">
-                                            <div class="timeline-item">
-                                                <div class="timeline-marker bg-success"></div>
-                                                <div class="timeline-content">
-                                                    <h6 class="mb-1">Payment Processed</h6>
-                                                    <p class="text-muted mb-0">Funds successfully transferred</p>
-                                                    <small class="text-muted">@DateTime.Now.ToString("MMM dd, yyyy 'at' hh:mm tt")</small>
-                                                </div>
+                            <div class="card-body p-0">
+                                <div class="list-group list-group-flush">
+                                    <!-- Order Reference -->
+                                    @if (!string.IsNullOrEmpty(Model.OrderReference))
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Order Reference</h6>
+                                                <p class="mb-1">@Model.OrderReference</p>
                                             </div>
-                                            <div class="timeline-item">
-                                                <div class="timeline-marker bg-primary"></div>
-                                                <div class="timeline-content">
-                                                    <h6 class="mb-1">Order Confirmed</h6>
-                                                    <p class="text-muted mb-0">Order @(Model.OrderReference ?? Model.PaymentOrderId?.ToString() ?? "reference") confirmed</p>
-                                                    <small class="text-muted">@DateTime.Now.ToString("MMM dd, yyyy 'at' hh:mm tt")</small>
-                                                </div>
-                                            </div>
-                                            <div class="timeline-item">
-                                                <div class="timeline-marker bg-info"></div>
-                                                <div class="timeline-content">
-                                                    <h6 class="mb-1">Confirmation Sent</h6>
-                                                    <p class="text-muted mb-0">Email sent to @Model.CustomerEmail</p>
-                                                    <small class="text-muted">@DateTime.Now.ToString("MMM dd, yyyy 'at' hh:mm tt")</small>
-                                                </div>
+                                            <div class="text-end">
+                                                <span class="badge bg-success mb-2">Completed</span>
+                                                <br>
+                                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('@Model.OrderReference')">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
                                             </div>
                                         </div>
+                                    }
+
+                                    <!-- Payment Order ID -->
+                                    @if (Model.PaymentOrderId.HasValue)
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Payment Order ID</h6>
+                                                <p class="mb-1">#@Model.PaymentOrderId</p>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="badge bg-success mb-2">Completed</span>
+                                                <br>
+                                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('#@Model.PaymentOrderId')">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Transaction ID -->
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Transaction ID</h6>
+                                            <p class="mb-1 font-monospace small">@Model.SessionId</p>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-success mb-2">Completed</span>
+                                            <br>
+                                            <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('@Model.SessionId')">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
                                     </div>
+
+                                    <!-- Payment Intent ID -->
+                                    @if (!string.IsNullOrEmpty(Model.PaymentIntentId))
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Payment Intent ID</h6>
+                                                <p class="mb-1 font-monospace small">@Model.PaymentIntentId</p>
+                                            </div>
+                                            <div class="text-end">
+                                                <span class="badge bg-success mb-2">Completed</span>
+                                                <br>
+                                                <button class="btn btn-sm btn-outline-secondary" onclick="copyToClipboard('@Model.PaymentIntentId')">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Amount Paid -->
+                                    @if (Model.AmountTotal.HasValue)
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Amount Paid</h6>
+                                                <p class="mb-1 text-success fw-bold">@Model.AmountTotal.Value.ToString("C") @Model.Currency</p>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-success">Completed</span>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Payment Method -->
+                                    @if (!string.IsNullOrEmpty(Model.PaymentMethod))
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Payment Method</h6>
+                                                <p class="mb-1 text-capitalize">
+                                                    <i class="fas fa-credit-card me-2"></i>@Model.PaymentMethod
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-success">Completed</span>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Date & Time -->
+                                    @if (Model.Created.HasValue)
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Date & Time</h6>
+                                                <p class="mb-1">@Model.Created.Value.ToString("MMMM dd, yyyy 'at' hh:mm tt")</p>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-success">Completed</span>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Customer Email -->
+                                    @if (!string.IsNullOrEmpty(Model.CustomerEmail))
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Customer Email</h6>
+                                                <p class="mb-1 text-primary">@Model.CustomerEmail</p>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-success">Completed</span>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Customer Name -->
+                                    @if (!string.IsNullOrEmpty(Model.CustomerName))
+                                    {
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="mb-1">Customer Name</h6>
+                                                <p class="mb-1">@Model.CustomerName</p>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-success">Completed</span>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <!-- Error State -->
-                        <div class="text-center py-5">
-                            <i class="fas fa-exclamation-triangle fa-4x text-warning mb-4"></i>
-                            <h3 class="text-warning mb-3">Payment Status Unknown</h3>
-                            <p class="text-muted mb-4">@ViewBag.Error</p>
-                            <div class="d-grid gap-2 d-md-flex justify-content-center">
-                                <a href="@Url.Action("Index", "UserBoard")" class="btn btn-primary me-md-2">
-                                    <i class="fas fa-tachometer-alt me-2"></i>Back to Dashboard
-                                </a>
-                                <a href="@Url.Action("Create", "Payment")" class="btn btn-outline-primary">
-                                    <i class="fas fa-credit-card me-2"></i>Try Payment Again
-                                </a>
-                            </div>
-                        </div>
-                    }
-                </div>
-
-                <!-- Footer -->
-                <div class="card-footer bg-light py-3">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <small class="text-muted">
-                                <i class="fas fa-shield-alt me-1"></i>Secured by Stripe • Transaction ID: @Model.SessionId
-                            </small>
-                        </div>
-                        <div class="col-auto">
-                            <small class="text-muted">
-                                Confirmation generated on @DateTime.Now.ToString("MMMM dd, yyyy 'at' hh:mm tt")
-                            </small>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Next Steps -->
-            @if (ViewBag.IsSuccess == true)
-            {
+                <!-- Quick Actions -->
                 <div class="row mt-4">
                     <div class="col-12">
-                        <div class="card border-0">
-                            <div class="card-body text-center">
-                                <h5 class="mb-3">What would you like to do next?</h5>
-                                <div class="d-flex flex-wrap justify-content-center gap-2">
-                                    <a href="@Url.Action("Index", "UserBoard")" class="btn btn-outline-primary">
-                                        <i class="fas fa-home me-2"></i>Go to Dashboard
-                                    </a>
-                                    <a href="@Url.Action("Index", "Transaction")" class="btn btn-outline-success">
-                                        <i class="fas fa-history me-2"></i>View All Transactions
-                                    </a>
-                                    <a href="@Url.Action("Create", "Payment")" class="btn btn-outline-info">
-                                        <i class="fas fa-plus me-2"></i>Make Another Payment
-                                    </a>
-                                    <button class="btn btn-outline-secondary" onclick="window.print()">
-                                        <i class="fas fa-print me-2"></i>Print Confirmation
-                                    </button>
+                        <div class="card border">
+                            <div class="card-header bg-white py-3 border-bottom">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-rocket me-2"></i> Quick Actions
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card border">
+                            <div class="card-header bg-white py-3 border-bottom">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-info-circle me-2"></i> Additional Information
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- User Information -->
+                                    @if (!string.IsNullOrEmpty(Model.UserId))
+                                    {
+                                        <div class="col-md-4 mb-3">
+                                            <div class="border-start border-3 border-primary ps-3">
+                                                <small class="text-muted d-block">User ID</small>
+                                                <div class="fw-bold text-primary">@Model.UserId</div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Payment Method Details -->
+                                    @if (!string.IsNullOrEmpty(Model.CreditCardId))
+                                    {
+                                        <div class="col-md-4 mb-3">
+                                            <div class="border-start border-3 border-info ps-3">
+                                                <small class="text-muted d-block">Credit Card</small>
+                                                <div class="fw-bold text-info">@Model.CreditCardId</div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Bank Account Details -->
+                                    @if (!string.IsNullOrEmpty(Model.BankAccountId))
+                                    {
+                                        <div class="col-md-4 mb-3">
+                                            <div class="border-start border-3 border-warning ps-3">
+                                                <small class="text-muted d-block">Bank Account</small>
+                                                <div class="fw-bold text-warning">@Model.BankAccountId</div>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <!-- Billing Address Details -->
+                                    @if (!string.IsNullOrEmpty(Model.BillingAddressId))
+                                    {
+                                        <div class="col-md-4 mb-3">
+                                            <div class="border-start border-3 border-success ps-3">
+                                                <small class="text-muted d-block">Billing Address</small>
+                                                <div class="fw-bold text-success">@Model.BillingAddressId</div>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             }
+            else
+            {
+                <!-- Error State -->
+                <div class="text-center py-5">
+                    <i class="fas fa-exclamation-triangle fa-4x text-warning mb-4"></i>
+                    <h3 class="text-warning mb-3">Payment Status Unknown</h3>
+                    <p class="text-muted mb-4">@ViewBag.Error</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-center">
+                        <a href="@Url.Action("Index", "UserBoard")" class="btn btn-primary me-md-2">
+                            <i class="fas fa-tachometer-alt me-2"></i>Back to Dashboard
+                        </a>
+                        <a href="@Url.Action("Create", "Payment")" class="btn btn-outline-primary">
+                            <i class="fas fa-credit-card me-2"></i>Try Payment Again
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer bg-light py-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <small class="text-muted">
+                        <i class="fas fa-shield-alt me-1"></i>Secured by Stripe • Transaction ID: @Model.SessionId
+                    </small>
+                </div>
+                <div class="col-auto">
+                    <small class="text-muted">
+                        Confirmation generated on @DateTime.Now.ToString("MMMM dd, yyyy 'at' hh:mm tt")
+                    </small>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-
-<style>
-    .card {
-        border-radius: 15px;
-        overflow: hidden;
-    }
-
-    .card-header {
-        border-radius: 15px 15px 0 0 !important;
-    }
-
-    .transaction-details table td {
-        padding: 0.5rem 0;
-        border-bottom: 1px solid #f8f9fa;
-    }
-
-    .transaction-details table tr:last-child td {
-        border-bottom: none;
-    }
-
-    .sticky-top {
-        position: sticky;
-        z-index: 10;
-    }
-
-    .badge {
-        font-size: 0.75em;
-    }
-
-    .font-monospace {
-        font-family: 'Courier New', monospace;
-    }
-
-    /* Timeline Styles */
-    .timeline {
-        position: relative;
-        padding-left: 30px;
-    }
-
-    .timeline-item {
-        position: relative;
-        margin-bottom: 20px;
-    }
-
-    .timeline-marker {
-        position: absolute;
-        left: -30px;
-        top: 5px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        border: 3px solid #fff;
-        box-shadow: 0 0 0 3px;
-    }
-
-    .timeline-content {
-        padding: 10px 0;
-    }
-
-    .timeline::before {
-        content: '';
-        position: absolute;
-        left: -24px;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: #e9ecef;
-    }
-
-    /* Print Styles */
-    @@media print {
-        .btn, .card-footer, .sticky-top {
-            display: none !important;
-        }
-
-        .card {
-            border: 1px solid #000 !important;
-            box-shadow: none !important;
-        }
-
-        .card-header {
-            background: #fff !important;
-            color: #000 !important;
-            border-bottom: 2px solid #000 !important;
-        }
-    }
-</style>
-
-<script>
-    // Copy to clipboard function
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(function() {
-            // Show success message
-            const originalText = event.target.innerHTML;
-            event.target.innerHTML = '<i class="fas fa-check"></i>';
-            event.target.classList.remove('btn-outline-secondary');
-            event.target.classList.add('btn-success');
-
-            setTimeout(() => {
-                event.target.innerHTML = originalText;
-                event.target.classList.remove('btn-success');
-                event.target.classList.add('btn-outline-secondary');
-            }, 2000);
-        }).catch(function(err) {
-            console.error('Failed to copy text: ', err);
-            alert('Failed to copy transaction ID');
-        });
-    }
-
-    // Auto-scroll to top when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        window.scrollTo(0, 0);
-    });
-
-    // Add some interactive effects
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add fade-in animation to success elements
-        const elements = document.querySelectorAll('.card, .transaction-details, .sticky-top, .timeline');
-        elements.forEach((el, index) => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                el.style.transition = 'all 0.5s ease';
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
-            }, index * 100);
-        });
-    });
+<script src="~/js/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+          setTimeout(function() {
+              window.location.href = "/UserBoard/Index";
+          }, 5000);
+      });
 </script>

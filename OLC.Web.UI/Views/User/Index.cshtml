@@ -1,51 +1,129 @@
 ﻿@{
-
-    ViewData["Title"] = "Request Money-Request your payment on anytime, anywhere in the world.";
+    ViewData["Title"] = "User Accounts - Manage all user accounts in the system";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="container-fluid">
-    <!-- Page Header with Button -->
+    <!-- Page Header -->
     <div class="card">
         <div class="card-header">
             <div class="col-12">
-                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3 pb-3 border-bottom">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
                     <div>
-                        <h1 class="h4 fw-bold text-primary mb-1">User Account</h1>
-                        <p class="text-muted mb-0 small">
-                            <span class="d-none d-sm-inline">Request your payment on anytime, anywhere in the world.</span>
-                            <span class="d-sm-none">Request payment anytime, anywhere.</span>
-                        </p>
+                        <h1 class="h3 fw-bold text-primary">User Accounts</h1>
+                        <p class="text-muted mb-0">Manage all user accounts in the system.</p>
                     </div>
-                    <div class="w-100 w-lg-auto">
-                        <div class="input-group float-right" style="max-width: 400px;">
-                            <input type="text" class="form-control" placeholder="Search users..." id="userSearch">
-                            <span class="input-group-text bg-primary text-white">
-                                <i class="fas fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
+                    <button type="button" class="btn btn-primary" id="addUserBtn">
+                        <i class="fas fa-plus me-1"></i> Add User
+                    </button>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <!-- Recent Transactions -->
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-5">
+                <!-- Total Users Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Total Users</h5>
+                                    <h2 class="fw-bold text-primary" id="totalUsers">0</h2>
+                                </div>
+                                <div class="card-icon bg-primary text-white">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                            <p class="card-text text-success">
+                                <i class="fas fa-arrow-up"></i> <span id="usersChange">0%</span> from last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Users Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Active Users</h5>
+                                    <h2 class="fw-bold text-success" id="activeUsers">0</h2>
+                                </div>
+                                <div class="card-icon bg-success text-white">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                            </div>
+                            <p class="card-text text-success">
+                                <i class="fas fa-arrow-up"></i> <span id="activeChange">0%</span> from last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blocked Users Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Blocked Users</h5>
+                                    <h2 class="fw-bold text-warning" id="blockedUsers">0</h2>
+                                </div>
+                                <div class="card-icon bg-warning text-white">
+                                    <i class="fas fa-user-slash"></i>
+                                </div>
+                            </div>
+                            <p class="card-text text-danger">
+                                <i class="fas fa-arrow-down"></i> <span id="blockedChange">0%</span> from last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- External Users Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">External Users</h5>
+                                    <h2 class="fw-bold text-info" id="externalUsers">0</h2>
+                                </div>
+                                <div class="card-icon bg-info text-white">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                            </div>
+                            <p class="card-text text-success">
+                                <i class="fas fa-arrow-up"></i> <span id="externalChange">0%</span> from last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Accounts Table -->
             <div class="row">
                 <div class="col-12">
                     <div class="card border">
                         <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">
-                                <i class="fas fa-history me-2"></i>All User Accounts
+                                <i class="fas fa-users me-2"></i>All User Accounts
                             </h5>
-                            <button type="button" class="btn btn-primary" id="addUserBtn">
-                                <i class="fas fa-plus me-1"></i> Add User
-                            </button>
+                            <div class="input-group" style="max-width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search users..." id="userSearch">
+                                <span class="input-group-text bg-primary text-white">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
                         </div>
 
                         <!-- Desktop Table View (hidden on mobile) -->
                         <div class="card-body p-0 d-none d-lg-block">
                             <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
                                 <table class="table table-hover mb-0" id="userAccountsTable">
-                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1; background-color: #f8f9fa;">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
                                         <tr>
                                             <th scope="col">User ID</th>
                                             <th scope="col">Name</th>
@@ -59,6 +137,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="userAccountsBody">
+                                        <!-- Data will be populated dynamically -->
                                     </tbody>
                                 </table>
                             </div>
@@ -66,26 +145,78 @@
 
                         <!-- Mobile Card View (hidden on desktop) -->
                         <div class="card-body p-0 d-lg-none" id="mobileUserAccountsCards">
-                            <!-- Bootstrap cards will be populated here dynamically -->
+                            <!-- User account cards will be populated here dynamically -->
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <partial name="_createPortalUserPartial.cshtml" />
+    <partial name="_createportaluserpartial.cshtml" />
 </div>
-<!-- Content end -->
-<script src="~/js/jquery/jquery.min.js"></script>
-<script src="~/js/Application/UserController.js"></script>
-<script type="text/javascript">
-    $(function () {
-        var ctrl = new UserController();
-        ctrl.init();
-    });
-</script>
-<!-- Content end -->
+
+<!-- Loading Spinner -->
+<div class="se-pre-con" style="display: none;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<style>
+    .summary-card {
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+        }
+
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+    }
+
+    .se-pre-con {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .table thead th {
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.25rem;
+    }
+
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+</style>
+
 <script src="~/js/jquery/jquery.min.js"></script>
 <script src="~/js/Application/UserController.js"></script>
 <script type="text/javascript">

@@ -126,5 +126,51 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpPost]
+        [Route("GetAllUserPaymentOrdersAsync")]
+        public async Task<IActionResult> GetAllUserPaymentOrdersAsync()
+        {
+            try
+            {
+                var response = await _paymentOrderManager.GetAllUserPaymentOrdersAsync();
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [Route("GetExecutivePaymentOrdersAsync")]
+        public async Task<IActionResult> GetExecutivePaymentOrdersAsync()
+        {
+            try
+            {
+                var response = await _paymentOrderManager.GetExecutivePaymentOrdersAsync();
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [Route("GetExecutivePaymentOrderByOrderIdAsync")]
+        public async Task<IActionResult> GetExecutivePaymentOrderByOrderIdAsync(long paymentOrderId)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.GetExecutivePaymentOrderDetailsAsync(paymentOrderId);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

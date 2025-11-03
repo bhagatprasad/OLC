@@ -9,5 +9,7 @@ namespace OLC.Web.UI.Services
         Task<List<PaymentOrder>> GetPaymentOrdersAsync();
         Task<PaymentOrder> ProcessPaymentStatusAsync(ProcessPaymentStatus processPaymentStatus);
         Task<List<UserPaymentOrder>> GetUserPaymentOrderListAsync(long userId);
+        Task<List<ExecutivePaymentOrders>> GetExecutivePaymentOrdersAsync();
+
     }
 }
