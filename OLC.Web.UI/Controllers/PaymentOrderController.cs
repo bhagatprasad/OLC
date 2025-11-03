@@ -239,5 +239,25 @@ namespace OLC.Web.UI.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult GetPaymentOrderDetails(long paymentOrderId)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator, Executive")]
+        public async Task<IActionResult> GetExecutivePaymentOrderByOrderIdAsync(long paymentOrderId)
+        {
+            try
+            {
+                var response = await _paymentOrderService.GetExecutivePaymentOrderDetailsAsync(paymentOrderId);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
