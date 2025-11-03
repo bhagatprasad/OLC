@@ -8,9 +8,7 @@
 
         public UserCreditCard userCreditCard { get; set; }
 
-        public List<PaymentOrderHistory> paymentOrderHistory { get; set; }
         public UserBillingAddress userBillingAddress { get; set; }
-
-
+        public List<PaymentOrderHistory> paymentOrderHistory { get; set; }
     }
 }
