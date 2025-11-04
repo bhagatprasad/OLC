@@ -218,6 +218,18 @@
             const bankAccountDisplay = self.formatBankAccount(order.BankAccountNumber);
             const slaInfo = calculateSLATimer(order);
 
+            const actionButtons = order.OrderStatus=="Completed"?`
+            
+              <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
+                 <i class="fas fa-eye"></i>
+              </button>
+              ` : `<button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
+                <i class="fas fa-eye"></i>
+               </button>          
+              <button class="btn btn-sm btn-outline-warning view-order" data-order-id="${order.Id}" title="Process Order Details">
+                 <i class="fas fa-gear"></i>
+               </button>`;
+
             // Desktop table row - BOTH USER INFO AND PAYMENT METHODS
             const row = `
                 <tr class="payment-order-item" data-order-id="${order.Id}">
@@ -245,13 +257,9 @@
                     </td>
                     <td><small class="text-muted">${createdDate}</small></td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                         <button class="btn btn-sm btn-outline-warning view-order" data-order-id="${order.Id}" title="Process Order Details">
-                            <i class="fas fa-gear"></i>
-                        </button>
-
+                       <div class="btn-group">
+                       ${actionButtons}
+                       </div>
                     </td>
                 </tr>
             `;
