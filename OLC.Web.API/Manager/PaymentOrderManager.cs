@@ -823,15 +823,15 @@ namespace OLC.Web.API.Manager
 
             cmd.CommandType = CommandType.StoredProcedure;
 
+            cmd.Parameters.AddWithValue("@fromDate", paymentOrderDetailsFilter.FromDate);
+
+            cmd.Parameters.AddWithValue("@toDate", paymentOrderDetailsFilter.ToDate);
+
             cmd.Parameters.AddWithValue("@orderStatusId",paymentOrderDetailsFilter.OrderStatusId);
 
             cmd.Parameters.AddWithValue("@paymentStatusId", paymentOrderDetailsFilter.PaymentStatusId);
 
             cmd.Parameters.AddWithValue("@depositStatusId", paymentOrderDetailsFilter.DepositStatusId);
-
-            cmd.Parameters.AddWithValue("@fromDate", paymentOrderDetailsFilter.FromDate);
-
-            cmd.Parameters.AddWithValue("@toDate", paymentOrderDetailsFilter.ToDate);
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
 

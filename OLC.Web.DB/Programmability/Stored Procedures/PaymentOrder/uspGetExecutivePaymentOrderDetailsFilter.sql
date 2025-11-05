@@ -1,10 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetExecutivePaymentOrdersFilter]
 (
-    @orderStatusId		     bigint       =NULL,
-    @paymentStatusId		 bigint       = NULL,
-    @depositStatusId		 bigint       = NULL,
     @fromDate				 DATETIME     = NULL,
-    @toDate					 DATETIME     = NULL
+    @toDate					 DATETIME     = NULL,
+    @orderStatusId		     bigint       = NULL,
+    @paymentStatusId		 bigint       = NULL,
+    @depositStatusId		 bigint       = NULL
+    
 )
 AS
 BEGIN
@@ -58,13 +59,11 @@ BEGIN
     LEFT JOIN [dbo].[STATUS] os ON po.[OrderStatusId] = os.[Id]
     LEFT JOIN [dbo].[STATUS] ps ON po.[PaymentStatusId] = ps.[Id]
     LEFT JOIN [dbo].[STATUS] ds ON po.[DepositStatusId] = ds.[Id]
-    WHERE
-        (po.OrderStatusId = @orderStatusId OR @orderStatusId IS NULL)
-        AND (po.PaymentStatusId = @paymentStatusId OR @paymentStatusId IS NULL)
-        AND (po.DepositStatusId = @depositStatusId OR @depositStatusId IS NULL)
-        AND (
-            (@fromDate IS NULL AND @toDate IS NULL)
-            OR (po.CreatedOn BETWEEN @fromDate AND @toDate)
-        )
+   WHERE 
+        (@FromDate IS NULL OR po.[ModifiedOn] >= @FromDate)
+        AND (@ToDate IS NULL OR po.[ModifiedOn] <= @ToDate)
+        AND (@OrderStatusId IS NULL OR po.[OrderStatusId] = @OrderStatusId)
+        AND (@PaymentStatusId IS NULL OR po.[PaymentStatusId] = @PaymentStatusId)
+        AND (@DepositStatusId IS NULL OR po.[DepositStatusId] = @DepositStatusId)
     ORDER BY po.ModifiedOn DESC;
 END
