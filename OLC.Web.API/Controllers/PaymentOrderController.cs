@@ -158,8 +158,8 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpGet]
-        [Route("GetExecutivePaymentOrderByOrderIdAsync")]
-        public async Task<IActionResult> GetExecutivePaymentOrderByOrderIdAsync(long paymentOrderId)
+        [Route("GetExecutivePaymentOrderDetailsAsync/{paymentOrderId}")]
+        public async Task<IActionResult> GetExecutivePaymentOrderDetailsAsync(long paymentOrderId)
         {
             try
             {
