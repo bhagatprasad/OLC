@@ -158,12 +158,28 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpGet]
-        [Route("GetExecutivePaymentOrderByOrderIdAsync")]
-        public async Task<IActionResult> GetExecutivePaymentOrderByOrderIdAsync(long paymentOrderId)
+        [Route("GetExecutivePaymentOrderDetailsAsync/{paymentOrderId}")]
+        public async Task<IActionResult> GetExecutivePaymentOrderDetailsAsync(long paymentOrderId)
         {
             try
             {
                 var response = await _paymentOrderManager.GetExecutivePaymentOrderDetailsAsync(paymentOrderId);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetExecutivePaymentOrderDetailsFilterAsync")]
+        public async Task<IActionResult> GetExecutivePaymentOrderDetailsFilterAsync([FromQuery] PaymentOrderDetailsFilter paymentOrderDetailsFilter)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.GetExecutivePaymentOrderDetailsFilterAsync(paymentOrderDetailsFilter);
                 return Ok(response);
 
             }
