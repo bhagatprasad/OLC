@@ -6,6 +6,8 @@
     self.ApplicationUser = {};
     var actions = [];
     self.slaTimers = {}; // To store interval IDs for SLA timers
+    self.selectedPaymentOrder = null;
+    self.selectedPaymentOrder = [];
 
     self.init = function () {
         $(".se-pre-con").show();
@@ -446,4 +448,55 @@
         // For now, just show an alert
         alert('View order details for ID: ' + orderId);
     };
+   
+    $(document).on("click", ".approve-order", function () {
+        console.log("deleting...");
+
+        var orderId = $(this).data("order-id");
+
+        var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == orderId)[0];
+
+        console.log("current selected  approve order is .." + JSON.stringify(selectedPaymentOrder));
+
+        self.selectedPaymentOrder = selectedPaymentOrder;
+
+        $("#approveOrderModal").modal("show");
+    });
+
+    $(document).on("click", "#btnProcessOrder", function () {
+
+        var comment = $("#approvalComment").val();
+
+        console.log("Processing Order:", self.selectedPaymentOrder);
+
+        console.log("Comment:", comment);
+
+       
+        $("#approveOrderModal").modal("hide");
+
+        alert("Order ID " + self.selectedPaymentOrder.Id + " processed successfully!");
+    });
+    
+    // Cancel button click event
+    $(document).on('click', '#btnCancelOrder', function () {
+
+        console.log('Cancel button clicked!');
+
+        $('#approvalComment').val('');
+
+        $('#errorMsg').hide();
+
+    });
+
+    $(document).on('click', '.btn-secondary', function () {
+
+        console.log('Cancel button clicked!');
+
+        $('#approvalComment').val('');
+
+        $('#errorMsg').hide();
+
+        $('#approveOrderModal').modal('hide');
+    });
+
 }
