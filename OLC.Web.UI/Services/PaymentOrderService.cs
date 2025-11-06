@@ -55,8 +55,10 @@ namespace OLC.Web.UI.Services
 
         public async Task<PaymentOrderDetails> GetExecutivePaymentOrderDetailsAsync(long paymentOrderId)
         {
-            return await _repositoryFactory.SendAsync<PaymentOrderDetails>(HttpMethod.Get, "PaymentOrder/GetExecutivePaymentOrderDetailsAsync");
+            var url = Path.Combine("PaymentOrder/GetExecutivePaymentOrderDetailsAsync", paymentOrderId.ToString());
+            return await _repositoryFactory.SendAsync<PaymentOrderDetails>(HttpMethod.Get, url);
         }
+
 
         public async Task<PaymentOrder> ProcessPaymentOrderAsync(ProcessPaymentOrder processPaymentOrder)
         {
