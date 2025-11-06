@@ -16,19 +16,22 @@
                 </div>
             </div>
         </div>
-
         <div class="card-body">
             <div class="row g-4">
-
                 <div class="col-md-4">
                     <div class="card border shadow-sm h-100">
                         <div class="card-header bg-primary text-white text-center">
                             <h5 class="mb-0"><i class="fas fa-receipt me-2"></i>Payment Information</h5>
                         </div>
                         <div class="card-body">
-                            <div class="mb-3">
-                                <p><strong>Order Reference:</strong><span id="orderReference"></span></p>
-                            </div>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Order Reference</strong></td>
+                                        <td><span id="orderReference"></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <div class="mb-3">
                                 <p><strong>Amount:</strong> <span id="amount"></span></p>
                             </div>
@@ -36,7 +39,7 @@
                                 <p></p><strong>Charge Amount:</strong><span id="chargeAmount"></span></p>
                             </div>
                             <div class="mb-3">
-                                <p></p><strong>Deposit Amount:</strong><span  id="depositAmount"></span></p>
+                                <p></p><strong>Deposit Amount:</strong><span id="depositAmount"></span></p>
                             </div>
                             <div class="mb-3">
                                 <p><strong>User:</strong><span id="user"></span></p>
@@ -56,86 +59,77 @@
                         </div>
                     </div>
                 </div>
-                <!-- Middle Column -->
-                <div class="row g-4">
-
-                    <!-- Left Column: Credit Card, Bank Account, Billing Address -->
-                    <div class="col-md-4">
-
-                        <!-- Credit Card Information -->
-                        <div class="card border shadow-sm mb-4">
-                            <div class="card-header bg-primary text-white text-center">
-                                <h5 class="mb-0"><i class="fas fa-credit-card me-2"></i>Credit Card Used</h5>
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Card Holder Name:</strong> <span id="cardHolderName"></span></p>
-                                <p><strong>Card Type:</strong> <span id="cardType"></span></p>
-                                <p><strong>Card Number:</strong> <span id="cardNumberMasked"></span></p>
-                                <p><strong>Expiry:</strong> <span id="cardExpiry"></span></p>
-                                <p><strong>Issuing Bank:</strong> <span id="issuingBank"></span></p>
-                            </div>
+                <div class="col-md-4">
+                    <!-- Credit Card Information -->
+                    <div class="card border shadow-sm mb-4">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h5 class="mb-0"><i class="fas fa-credit-card me-2"></i>Credit Card Used</h5>
                         </div>
-
-                        <!-- Bank Account Information -->
-                        <div class="card border shadow-sm mb-4">
-                            <div class="card-header bg-success text-white text-center">
-                                <h5 class="mb-0"><i class="fas fa-university me-2"></i>Bank Account</h5>
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Account Holder:</strong> <span id="bankAccountHolderName"></span></p>
-                                <p><strong>Bank Name:</strong> <span id="bankName"></span></p>
-                                <p><strong>Account Number:</strong> <span id="bankAccountNumber"></span></p>
-                                <p><strong>Account Type:</strong> <span id="bankAccountType"></span></p>
-                                <p><strong>Branch Name:</strong> <span id="bankBranchName"></span></p>
-                                <p><strong>IFSC Code:</strong> <span id="bankIFSC"></span></p>
-                                <p><strong>SWIFT Code:</strong> <span id="bankSwift"></span></p>
-                                <p><strong>Verification Status:</strong> <span id="bankVerificationStatus"></span></p>
-                            </div>
+                        <div class="card-body">
+                            <p><strong>Card Holder Name:</strong> <span id="cardHolderName"></span></p>
+                            <p><strong>Card Type:</strong> <span id="cardType"></span></p>
+                            <p><strong>Card Number:</strong> <span id="cardNumberMasked"></span></p>
+                            <p><strong>Expiry:</strong> <span id="cardExpiry"></span></p>
+                            <p><strong>Issuing Bank:</strong> <span id="issuingBank"></span></p>
                         </div>
-
-                        <!-- Billing Address -->
-                        <div class="card border shadow-sm">
-                            <div class="card-header bg-warning text-white text-center">
-                                <h5 class="mb-0"><i class="fas fa-map-marker-alt me-2"></i>Billing Address</h5>
-                            </div>
-                            <div class="card-body">
-                                <p><strong>Address Line 1:</strong> <span id="addressLine1"></span></p>
-                                <p><strong>Address Line 2:</strong> <span id="addressLine2"></span></p>
-                                <p><strong>Address Line 3:</strong> <span id="addressLine3"></span></p>
-                                <p><strong>Location:</strong> <span id="addressLocation"></span></p>
-                                <p><strong>City:</strong> <span id="addressCity"></span></p>
-                                <p><strong>State:</strong> <span id="addressState"></span></p>
-                                <p><strong>Country:</strong> <span id="addressCountry"></span></p>
-                                <p><strong>Pin Code:</strong> <span id="addressPinCode"></span></p>
-                            </div>
-                        </div>
-
                     </div>
 
-                    <!-- Right Column: Payment Order History -->
-                    <div class="col-md-8">
-                        <div class="card border shadow-sm h-100">
-                            <div class="card-header bg-info text-white text-center">
-                                <h5 class="mb-0"><i class="fas fa-history me-2"></i>Payment Order History</h5>
-                            </div>
-                            <div class="card-body">
-                                <table class="table table-sm table-bordered">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Id</th>
-                                            <th>Status</th>
-                                            <th>Description</th>
-                                            <th>Created By</th>
-                                            <th>Created On</th>
-                                            <th>Modified On</th>
-                                            <th>Active</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="paymentOrderHistory">
-                                        <!-- History data will be appended here -->
-                                    </tbody>
-                                </table>
-                            </div>
+                    <!-- Bank Account Information -->
+                    <div class="card border shadow-sm mb-4">
+                        <div class="card-header bg-success text-white text-center">
+                            <h5 class="mb-0"><i class="fas fa-university me-2"></i>Bank Account</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Account Holder:</strong> <span id="bankAccountHolderName"></span></p>
+                            <p><strong>Bank Name:</strong> <span id="bankName"></span></p>
+                            <p><strong>Account Number:</strong> <span id="bankAccountNumber"></span></p>
+                            <p><strong>Account Type:</strong> <span id="bankAccountType"></span></p>
+                            <p><strong>Branch Name:</strong> <span id="bankBranchName"></span></p>
+                            <p><strong>IFSC Code:</strong> <span id="bankIFSC"></span></p>
+                            <p><strong>SWIFT Code:</strong> <span id="bankSwift"></span></p>
+                            <p><strong>Verification Status:</strong> <span id="bankVerificationStatus"></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Billing Address -->
+                    <div class="card border shadow-sm">
+                        <div class="card-header bg-warning text-white text-center">
+                            <h5 class="mb-0"><i class="fas fa-map-marker-alt me-2"></i>Billing Address</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Address Line 1:</strong> <span id="addressLine1"></span></p>
+                            <p><strong>Address Line 2:</strong> <span id="addressLine2"></span></p>
+                            <p><strong>Address Line 3:</strong> <span id="addressLine3"></span></p>
+                            <p><strong>Location:</strong> <span id="addressLocation"></span></p>
+                            <p><strong>City:</strong> <span id="addressCity"></span></p>
+                            <p><strong>State:</strong> <span id="addressState"></span></p>
+                            <p><strong>Country:</strong> <span id="addressCountry"></span></p>
+                            <p><strong>Pin Code:</strong> <span id="addressPinCode"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border shadow-sm h-100">
+                        <div class="card-header bg-info text-white text-center">
+                            <h5 class="mb-0"><i class="fas fa-history me-2"></i>Payment Order History</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Status</th>
+                                        <th>Description</th>
+                                        <th>Created By</th>
+                                        <th>Created On</th>
+                                        <th>Modified On</th>
+                                        <th>Active</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentOrderHistory">
+                                    <!-- History data will be appended here -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -143,7 +137,26 @@
         </div>
     </div>
 </div>
-
+<!-- Loading Spinner -->
+<div class="se-pre-con" style="display: none;">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<style>
+    .se-pre-con {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 <!-- JS and Controller -->
 <script src="~/js/jquery/jquery.min.js"></script>
 <script src="~/js/Application/PaymentOrderDetailsController.js"></script>

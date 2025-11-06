@@ -440,10 +440,6 @@
     // View order details
     self.viewOrderDetails = function (orderId) {
         console.log('Viewing order details for:', orderId);
-        // Implement your view order details logic here
-        // Example: window.location.href = '/PaymentOrder/Details?id=' + orderId;
         window.location.href = '/PaymentOrder/GetPaymentOrderDetails?paymentOrderId=' + orderId;
-        // For now, just show an alert
-        alert('View order details for ID: ' + orderId);
     };
 }
