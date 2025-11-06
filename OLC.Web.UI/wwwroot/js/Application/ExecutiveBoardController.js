@@ -218,6 +218,116 @@
             const bankAccountDisplay = self.formatBankAccount(order.BankAccountNumber);
             const slaInfo = calculateSLATimer(order);
 
+            let actionButtons = '';
+
+            if (order.OrderStatus === "Completed") {
+                actionButtons = `
+                <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
+                    <i class="fas fa-eye"></i>
+                </button>
+            `;
+            } else if (order.OrderStatus === "Draft") {
+                actionButtons = `
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
+            <i class="fas fa-eye"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    `;
+            } else if (order.OrderStatus === "Payment Receved" && order.PaymentStatus === "Paid") {
+                actionButtons = `
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
+            <i class="fas fa-eye"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-success approve-order" data-order-id="${order.Id}" title="Approve Order">
+            <i class="fas fa-check"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    `;
+            } else if (order.OrderStatus === "Approved") {
+                actionButtons = `
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
+            <i class="fas fa-eye"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-success pay-now" data-order-id="${order.Id}" title="Pay Now">
+            <i class="fas fa-credit-card"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    `;
+            } else {
+                actionButtons = `
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
+            <i class="fas fa-eye"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-warning process-order" data-order-id="${order.Id}" title="Process Order">
+            <i class="fas fa-gear"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    `;
+            }
+
+            // MOBILE - Grouped compact icons with Cancel icon for all status except Completed
+            const mobileActionButtonsGrouped = order.OrderStatus === "Completed" ? `
+    <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
+            <i class="fas fa-file-invoice"></i>
+        </button>
+    </div>
+` : order.OrderStatus === "Draft" ? `
+    <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
+            <i class="fas fa-search"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+` : order.OrderStatus === "Payment Received" && order.PaymentStatus === "Paid" ? `
+    <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
+            <i class="fas fa-search"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-success approve-order" data-order-id="${order.Id}" title="Approve Order">
+            <i class="fas fa-check-circle"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+` : order.OrderStatus === "Approved" ? `
+    <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
+            <i class="fas fa-search"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-success pay-now" data-order-id="${order.Id}" title="Pay Now">
+            <i class="fas fa-credit-card"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+` : `
+    <div class="btn-group" role="group">
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
+            <i class="fas fa-search"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-warning process-order" data-order-id="${order.Id}" title="Process Order">
+            <i class="fas fa-play-circle"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+`;
+
+
             // Desktop table row - BOTH USER INFO AND PAYMENT METHODS
             const row = `
                 <tr class="payment-order-item" data-order-id="${order.Id}">
@@ -245,13 +355,9 @@
                     </td>
                     <td><small class="text-muted">${createdDate}</small></td>
                     <td>
-                        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                         <button class="btn btn-sm btn-outline-warning view-order" data-order-id="${order.Id}" title="Process Order Details">
-                            <i class="fas fa-gear"></i>
-                        </button>
-
+                       <div class="btn-group">
+                       ${actionButtons}
+                       </div>
                     </td>
                 </tr>
             `;
@@ -309,9 +415,7 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-sm btn-outline-primary w-100 view-order" data-order-id="${order.Id}">
-                            <i class="fas fa-eye me-2"></i>View Details
-                        </button>
+                       ${mobileActionButtonsGrouped}
                     </div>
                 </div>
             `;
