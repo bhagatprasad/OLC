@@ -91,6 +91,12 @@
         var country = {};
         if (data.userBillingAddress.CountryId)
             country = self.CoreCountries.filter(x => x.Id == data.userBillingAddress.CountryId)[0];//data.userBillingAddress.CountryId
+        var state = {};
+        if (data.userBillingAddress.StateId)
+            state = self.CoreStates.filter(x => x.Id == data.userBillingAddress.StateId)[0];
+        var city = {};
+        if (data.userBillingAddress.CityId)
+            city = self.CoreCities.filter(x => x.Id == data.userBillingAddress.CityId)[0];
 
         $("#orderReference").text(data.paymentOrder.OrderReference);
         $("#amount").text(data.paymentOrder.Amount);
@@ -122,8 +128,10 @@
         $('#addressLine2').text(data.userBillingAddress.AddessLineTwo || '--');
         $('#addressLine3').text(data.userBillingAddress.AddessLineThress || '--');
         $('#addressLocation').text(data.userBillingAddress.Location || '--');
-        $('#addressCity').text(data.userBillingAddress.CityId || '--');
-        $('#addressState').text(data.userBillingAddress.StateId || '--');
+        if(city)
+            $('#addressCity').text(city.Name || '--');
+        if (state)
+            $('#addressState').text(state.Name || '--');
         if (country)
             $('#addressCountry').text(country.Name || '--');
         $('#addressPinCode').text(data.userBillingAddress.PinCode || '--');
