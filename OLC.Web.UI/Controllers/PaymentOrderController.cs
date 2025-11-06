@@ -247,7 +247,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator, Executive")]
-        public async Task<IActionResult> GetExecutivePaymentOrderByOrderIdAsync(long paymentOrderId)
+        public async Task<IActionResult> GetExecutivePaymentOrderDetails(long paymentOrderId)
         {
             try
             {
