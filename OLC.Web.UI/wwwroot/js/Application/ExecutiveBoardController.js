@@ -1,15 +1,24 @@
 ﻿function ExecutiveBoardController() {
+
     var self = this;
+
     self.ExecutivePaymentOrders = [];
+
     self.filteredPaymentOrders = [];
+
     self.CoreStatus = [];
+
     self.ApplicationUser = {};
+
     var actions = [];
-    self.slaTimers = {}; // To store interval IDs for SLA timers
-    self.selectedPaymentOrder = null;
-    self.selectedPaymentOrder = [];
+
+    self.slaTimers = {};
+
+    self.selectedPaymentOrder = {}
+        ;
 
     self.init = function () {
+
         $(".se-pre-con").show();
 
         var appUserInfo = storageService.get('ApplicationUser');
@@ -444,8 +453,11 @@
         console.log('Viewing order details for:', orderId);
         window.location.href = '/PaymentOrder/GetPaymentOrderDetails?paymentOrderId=' + orderId;
     };
-   
+
     $(document).on("click", ".approve-order", function () {
+
+        $('#approveOrderModal').modal({ backdrop: 'static', keyboard: false });
+
         console.log("deleting...");
 
         var orderId = $(this).data("order-id");
@@ -461,38 +473,39 @@
 
     $(document).on("click", "#btnProcessOrder", function () {
 
-        var comment = $("#approvalComment").val();
+        var message = $("#approvalComment").val();
 
         console.log("Processing Order:", self.selectedPaymentOrder);
 
-        console.log("Comment:", comment);
+        console.log("Comment:", message);
 
-       
+        const orderStatusId = statusConstants.Approved;
+
+
+        var processPaymentOrder = {
+            PaymentOrderId: self.selectedPaymentOrder.Id,
+            OrderStatusId: orderStatusId,
+            PaymentStatusId: self.selectedPaymentOrder.PaymentStatusId,
+            DepositeStatusId: self.selectedPaymentOrder.DepositeStatusId,
+            CreatedBy: self.ApplicationUser.Id,
+            Description: message
+        };
+
+        //create a ajax call for post ,please refer previoue once how to make ajaz,
+
+        //if sucess in the response hide the popup , comment text area value make empty
+
+        //$("#approvalComment").val("");
+
+        //self.selectedPaymentOrder={};
+
+        //reload the grid
+
         $("#approveOrderModal").modal("hide");
-
-        alert("Order ID " + self.selectedPaymentOrder.Id + " processed successfully!");
-    });
-    
-    // Cancel button click event
-    $(document).on('click', '#btnCancelOrder', function () {
-
-        console.log('Cancel button clicked!');
-
-        $('#approvalComment').val('');
-
-        $('#errorMsg').hide();
-
     });
 
-    $(document).on('click', '.btn-secondary', function () {
-
-        console.log('Cancel button clicked!');
-
-        $('#approvalComment').val('');
-
-        $('#errorMsg').hide();
-
-        $('#approveOrderModal').modal('hide');
+    $(document).on("click", ".btn-approve-order-close", function () {
+        self.selectedPaymentOrder = {};
+        $("#approveOrderModal").modal("hide");
     });
-
 }

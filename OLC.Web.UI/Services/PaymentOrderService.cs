@@ -62,7 +62,7 @@ namespace OLC.Web.UI.Services
 
         public async Task<PaymentOrder> ProcessPaymentOrderAsync(ProcessPaymentOrder processPaymentOrder)
         {
-            return await _repositoryFactory.SendAsync<PaymentOrder>(HttpMethod.Get, "PaymentOrder/ProcessPaymentOrderAsync");
+            return await _repositoryFactory.SendAsync<ProcessPaymentOrder,PaymentOrder>(HttpMethod.Post, "PaymentOrder/ProcessPaymentOrderAsync", processPaymentOrder);
         }
     }
 }
