@@ -14,8 +14,9 @@
 
     self.slaTimers = {};
 
-    self.selectedPaymentOrder = {}
-        ;
+    self.CurrentSelectedPaymentOrder = [];
+
+    self.selectedPaymentOrder = {};
 
     self.init = function () {
 
@@ -502,10 +503,55 @@
         //reload the grid
 
         $("#approveOrderModal").modal("hide");
+
+        $("#approvalComment").val("");
     });
 
     $(document).on("click", ".btn-approve-order-close", function () {
         self.selectedPaymentOrder = {};
         $("#approveOrderModal").modal("hide");
+    });
+
+    ////
+    $(document).on("click", ".processPayment-order", function () {
+
+        console.log("process payment order..............");
+
+        var paymentOrderId = $(this).data("paymentOrder-Id");
+
+        var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == paymentOrderId)[0];
+
+        console.log("current selected payment order is...." + JSON.stringify(selectedPaymentOrder));
+
+        self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
+
+        $("#processPaymentOrder").modal("show");
+    });
+
+    $(document).on("click", "#processPaymentOrderBtn", function () {
+
+        self.CurrentSelectedPaymentOrder.ModifiedBy = self.ApplicationUser.Id;
+
+        console.log("process payment order......");
+
+        $.ajax({
+            type: "POST",
+            url: "/PaymentOrder/ProcessPaymentOrder/",
+            data: JSON.stringify(self.CurrentSelectedPaymentOrder),
+            cache: false,
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+
+            success: function (response) {
+                console.log(response);
+
+                self.CurrentSelectedPaymentOrder = null;
+
+                $("#processPaymentOrderBtn").modal("hide");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
     });
 }
