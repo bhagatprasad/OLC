@@ -259,5 +259,29 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpPost]
+        [Authorize(Roles="AdminiStrator,Executive")]
+        public async Task <IActionResult> ProcessPaymentOrder([FromBody] ProcessPaymentOrder processPaymentOrder)
+        {
+            try
+            {
+                bool isActivate = false;
+
+                isActivate = await _paymentOrderService.ProcessPaymentOrderAsync(processPaymentOrder);
+
+                if (isActivate)
+                    _notyfService.Success("Successfully processed payment order");
+                else
+                    _notyfService.Error("Unable to process payment order");
+
+                return Json(isActivate);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
