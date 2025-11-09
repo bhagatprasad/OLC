@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Aransaction Types - Manage different transaction categories for users.";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                    <div>
+                        <h1 class="h3 fw-bold text-primary">
+                            Transaction Types
+                        </h1>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" id="addTransactionTypeBtn">
+                            <i class="fas fa-plus me-2"></i> Add Type
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-database me-2"></i> All Transaction Types
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Desktop Table View -->
+                            <div class="table-responsive d-none d-lg-block" style="max-height: 600px; overflow-y: auto;">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1; background-color: #f8f9fa;">
+                                        <tr>
+                                            <th scope="col">Transaction Type ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Code</th>
+                                            <th scope="col">Created On</th>
+                                            <th scope="col">Modified On</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="transactionTypesBody"></tbody>
+                                </table>
+                            </div>
+
+                            <!-- Mobile Card View -->
+                            <div class="d-lg-none" id="mobileTransactionTypesCards">
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partials for Modals -->
+    <partial name="_ActiveTransactionType.cshtml" />
+    <partial name="_AddEditTransactionType.cshtml" />
+    <partial name="_ViewTransactionType.cshtml" />
+    <partial name="_DeleteTransactionType.cshtml" />
+</div>
+
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/transactionTypeController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new TransactionTypeController();
+        ctrl.init();
+    });
+</script>

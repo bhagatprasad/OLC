@@ -120,7 +120,7 @@ namespace OLC.Web.API.Manager
 
                 sqlConnection.Open();
 
-                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertAddressType]", sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertAddressTypes]", sqlConnection);
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 

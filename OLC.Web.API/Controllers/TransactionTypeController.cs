@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
-using System.Linq.Expressions;
 
 namespace OLC.Web.API.Controllers
 {
@@ -45,6 +43,7 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+     
 
         [HttpGet]
         [Route("GetTransactionTypeByIdAsync/{id}")]
@@ -61,7 +60,7 @@ namespace OLC.Web.API.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpDelete]
         [Route("DeleteTransactionTypeAsync/{id}")]
         public async Task <IActionResult> DeleteTransactionTypeAsync(long id)
         {
@@ -76,7 +75,7 @@ namespace OLC.Web.API.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("UpdateTransactionTypeAsync")]
         public async Task<IActionResult> UpdateTransactionTypeAsync(TransactionType transactionType)
         {
@@ -94,5 +93,22 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating the transaction type.");
             }
         }
+        //Active Method.
+        [HttpPost]
+        [Route("ActivateTransactionTypeAsync")]
+        public async Task<IActionResult> ActivateTransactionTypeAsync(TransactionType transactionType)
+        {
+            try
+            {
+                var response = await _transactionTypeManager.ActivateTransactionTypeAsync(transactionType);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
     }
 }

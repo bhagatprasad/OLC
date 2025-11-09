@@ -1,134 +1,273 @@
 ﻿function TransactionTypeController() {
-
     var self = this;
-    self.pageTitle = "Transaction types";
-    self.formTitle = "";
-    self.gridTitle = "All Transaction types";
-    self.transactionTypes = [];
+    self.ApplicationUser = {};
+    self.TransactionTypes = [];
+    self.CurrentSelectedTransactionType = null;
+
     self.init = function () {
+        var appUserInfo = storageService.get('ApplicationUser');
+        console.log(appUserInfo);
+        if (appUserInfo) {
+            self.ApplicationUser = appUserInfo;
+        }
 
-        var form = $('#AddEditTypeForm');
+        GetTransactionTypes();
 
-        var signUpButton = $('#btnSubmit');
+        function GetTransactionTypes() {
+            $.ajax({
+                type: "GET",
+                url: "/TransactionType/GetTransactionTypes",
+                data: { Id: self.ApplicationUser.Id },
+                cache: false,
+                success: function (response) {
+                    console.log(response);
+                    self.TransactionTypes = response && response.data ? response.data : [];
+                    loadTransactionTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
 
-        form.on('input', 'input, select, textarea', checkFormValidity);
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            return new Date(dateStr).toLocaleDateString();
+        }
 
-        checkFormValidity();
+        function getStatusBadge(type) {
+            return type.IsActive
+                ? '<span class="badge bg-success">Active</span>'
+                : `<button data-type-id="${type.Id}" class="badge bg-warning activate-type">Inactive</button>`;
+        }
 
-        function checkFormValidity() {
-            if (form[0].checkValidity()) {
-                signUpButton.prop('disabled', false);
-            } else {
-                signUpButton.prop('disabled', true);
+        function loadTransactionTypes() {
+            const tbody = $('#transactionTypesBody').empty();
+            const cardsContainer = $('#mobileTransactionTypesCards');
+            tbody.empty();
+            cardsContainer.empty();
+
+            if (self.TransactionTypes.length > 0) {
+                self.TransactionTypes.forEach(function (type) {
+                    const statusBudge = getStatusBadge(type);
+                    const actionButtons = type.IsActive
+                        ? `<button class="btn btn-sm btn-outline-warning edit-type" data-type-id="${type.Id}"><i class="fas fa-edit"></i></button>
+                           <button class="btn btn-sm btn-outline-danger delete-type" data-type-id="${type.Id}"><i class="fas fa-trash"></i></button>
+                           `
+                        : `<button class="btn btn-sm btn-outline-warning edit-type" data-type-id="${type.Id}"><i class="fas fa-edit"></i></button>
+                        `;
+                    const row =
+                        `<tr>
+                                <td>#${type.Id}</td>
+                                <td>${type.Name}</td>
+                                <td>${type.Code}</td>
+                                <td>${formatDate(type.CreatedOn)}</td>
+                                <td>${formatDate(type.ModifiedOn)}</td>
+                                <td>${statusBudge}</td>
+                                <td>${actionButtons}</td>
+                            </tr>`;
+                    tbody.append(row);
+
+                    const typeHtml = `
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <p><strong>ID:</strong> #${type.Id}</p>
+                                    <p><strong>Name:</strong> ${type.Name}</p>
+                                    <p><strong>Code:</strong> ${type.Code}</p>
+                                    <p><strong>Status:</strong> ${statusBudge}</p>
+                                    <p><strong>Created:</strong> ${formatDate(type.CreatedOn)}</p>
+                                    <p><strong>Modified:</strong> ${formatDate(type.ModifiedOn)}</p>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between">
+                                ${actionButtons}</div>
+                            </div>`;
+                    cardsContainer.append(typeHtml);
+                });
             }
+
         }
 
 
-        getTypes();
+        $(document).on("click", ".activate-type", function () {
+            var typeId = $(this).data("type-id");
+            console.log(typeId);
+        });
 
-        //setup page title 
-        $("#pageTitle").text(self.pageTitle);
-
-        //setup grid title
-        $("#gridTitle").text(self.gridTitle);
-
-
-        $(document).on("click", "#addTypeBtn", function () {
+        // Add/Edit
+        $(document).on("click", "#addTransactionTypeBtn", function () {
             $('#sidebar').addClass('show');
-            self.formTitle = "Add account type";
-            $("#formTitle").text(self.formTitle);
             $('body').append('<div class="modal-backdrop fade show"></div>');
-            console.log("Iam getting from add button click");
+            console.log("im getting from add button click");
         });
 
         $(document).on("click", "#closeSidebar", function () {
-            $('#AddEditTypeForm')[0].reset();
+            $('#AddEditTransactionTypeForm')[0].reset();
             $('#sidebar').removeClass('show');
             $('.modal-backdrop').remove();
         });
 
+        $(document).on("click", ".edit-type", function () {
+            var typeId = parseInt($(this).data("type-id"));
+            var selectedTransactionType = self.TransactionTypes.filter(x => x.Id === typeId)[0];
+            console.log("current selected Transaction type is .." + JSON.stringify(selectedTransactionType));
+            self.CurrentSelectedTransactionType = selectedTransactionType;
 
-        $('#AddEditTypeForm').on('submit', function (e) {
+            $("#Name").val(self.CurrentSelectedTransactionType.Name);
+            $("#Code").val(self.CurrentSelectedTransactionType.Code);
+            $("#IsActive").val(self.CurrentSelectedTransactionType.IsActive ? "true" : "false");
+
+            $('#sidebar').addClass('show');
+            $('body').append('<div class="modal-backdrop fade show"></div>');
+            console.log("im getting from add button click");
+        });
+
+
+        // Close modals
+        $(document).on("click", ".btn-view-type-close", function () {
+            self.CurrentSelectedTransactionType = null;
+            $("#viewTransactionType").modal("hide");
+            $("#deleteTransactionType").modal("hide");
+            $("#activateTransactionType").modal("hide");
+        });
+
+
+        // Delete
+        $(document).on("click", ".delete-type", function () {
+            console.log("Deleting...");
+            var typeId = $(this).data("type-id");
+            var selectedTransactionType = self.TransactionTypes.filter(x => x.Id === typeId)[0];
+            console.log("current selected Transaction type is .." + JSON.stringify(selectedTransactionType));
+            self.CurrentSelectedTransactionType = selectedTransactionType;
+
+
+            $("#DeleteName").val(self.CurrentSelectedTransactionType.Name);
+            $("#DeleteCode").val(self.CurrentSelectedTransactionType.Code);
+            $("#DeleteStatus").val(self.CurrentSelectedTransactionType.IsActive ? "true" : "false");
+
+
+            $("#deleteTransactionType").modal("show");
+        });
+
+        $(document).on("click", "#deleteTransactionTypeBtn", function () {
+            console.log("delete yes clicked");
+
+            $.ajax({
+                type: "DELETE",
+                url: "/TransactionType/DeleteTransactionType",
+                data: { transactionTypeId: self.CurrentSelectedTransactionType.Id },
+                cache: false,
+                success: function (response) {
+                    console.log(response);
+                    self.CurrentSelectedTransactionType = null;
+                    $("#deleteTransactionType").modal("hide");
+                    GetTransactionTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+        });
+
+
+        // View
+        $(document).on("click", ".view-type", function () {
+            console.log("Hoooooo");
+            var typeId = parseInt($(this).data("Transactionttype-id"));
+            var selectedTransactionType = self.TransactionTypes.filter(x => x.Id === typeId)[0];
+            console.log("current selected Transaction type is .." + JSON.stringify(selectedTransactionType));
+            self.CurrentSelectedTransactionType = selectedTransactionType;
+
+            $("#ViewName").val(self.CurrentSelectedTransactionType.Name);
+            $("#ViewCode").val(self.CurrentSelectedTransactionType.Code);
+            $("#ViewCreatedBy").val(self.CurrentSelectedTransactionType.CreatedBy || '');
+            $("#ViewCreatedOn").val(formatDate(self.CurrentSelectedTransactionType.CreatedOn));
+            $("#ViewModifiedBy").val(self.CurrentSelectedTransactionType.ModifiedBy || '');
+            $("#ViewModifiedOn").val(formatDate(self.CurrentSelectedTransactionType.ModifiedOn));
+            $("#ViewIsActive").prop('checked', self.CurrentSelectedTransactionType.IsActive);
+            $("#viewTransactionType").modal("show");
+        });
+
+        $('#AddEditTransactionTypeForm').on('submit', function (e) {
             e.preventDefault();
-            console.log();
-            $('#AddEditTypeForm')[0].reset();
-            $('#sidebar').removeClass('show');
-            $('.modal-backdrop').remove();
+            showLoader();
+            var name = $("#Name").val();
+            var code = $("#Code").val();
+            var isActive = $("#IsActive").val() === "true";
+            console.log(name);
+
+            var transactionType = {
+                Id: self.CurrentSelectedTransactionType ? self.CurrentSelectedTransactionType.Id : 0,
+                Name: name,
+                Code: code,
+                CreatedBy: self.ApplicationUser.Id,
+                ModifiedBy: self.ApplicationUser.Id,
+                IsActive: isActive
+            };
+            console.log("TransactionType..." + JSON.stringify(transactionType));
+
+            $.ajax({
+                type: "POST",
+                url: "/TransactionType/SaveTransactionType",
+                cache: false,
+                data: JSON.stringify(transactionType),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+                    self.CurrentSelectedTransactionType = null;
+                    $('#AddEditTransactionTypeForm')[0].reset();
+                    $('#sidebar').removeClass('show');
+                    $('.modal-backdrop').remove();
+                    GetTransactionTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+
+            });
         });
 
-        function getTypes() {
-            makeAjaxRequest({
-                url: API_URLS.GetTransactionTypesAsync,
-                type: 'GET',
-                successCallback: handleSuccess,
-                errorCallback: handleError
+
+        // Activate
+        $(document).on("click", ".activate-type", function () {
+            console.log("inactive...");
+            var typeId = parseInt($(this).data("type-id"));
+            var selectedTransactionType = self.TransactionTypes.filter(x => x.Id === typeId)[0];
+            console.log("current selected Transaction type is .." + JSON.stringify(selectedTransactionType));
+            self.CurrentSelectedTransactionType = selectedTransactionType;
+
+            $("#activeName").val(self.CurrentSelectedTransactionType.Name);
+            $("#activeCode").val(self.CurrentSelectedTransactionType.Code);
+            $("#activeCreatedBy").val(self.CurrentSelectedTransactionType.CreatedBy || '');
+            $("#activeCreatedOn").val(formatDate(self.CurrentSelectedTransactionType.CreatedOn));
+            $("#activeModifiedBy").val(self.CurrentSelectedTransactionType.ModifiedBy || '');
+            $("#activeModifiedOn").val(formatDate(self.CurrentSelectedTransactionType.ModifiedOn));
+            $("#activeIsActive").prop('checked', self.CurrentSelectedTransactionType.IsActive);
+            $("#activateTransactionType").modal("show");
+        });
+
+        $(document).on("click", "#activateTransactionTypeBtn", function () {
+            self.CurrentSelectedTransactionType.ModifiedBy = self.ApplicationUser.Id;
+            console.log("Active button yes clicked....................");
+            $.ajax({
+                type: "POST",
+                url: "/TransactionType/ActivateTransactionType/",
+                data: JSON.stringify(self.CurrentSelectedTransactionType),
+                cache: false,
+                contentType: 'application/json',
+                success: function (response) {
+                    console.log(response);
+                    self.CurrentSelectedTransactionType = null;
+                    $("#activateTransactionType").modal("hide");
+                    GetTransactionTypes();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+
             });
+        });
 
-        }
-        function handleSuccess(response) {
-
-            console.info(response);
-
-            self.transactionTypes = response && response.data ? response.data : [];
-
-            self.LoadTypesGrid();
-
-            $(".se-pre-con").hide();
-        }
-
-        function handleError(xhr, status, error) {
-            console.error('Error loading account type data:', error);
-            $('#gridBody').html(`
-                <tr>
-                    <td colspan="8" class="text-center text-danger">
-                        Error loading account type data. Please try again.
-                    </td>
-                </tr>
-            `);
-            $(".se-pre-con").hide();
-        }
-
-        self.LoadTypesGrid = function () {
-            const tbody = $('#gridBody');
-            tbody.empty(); // Clear existing rows
-
-            if (self.transactionTypes.length === 0) {
-                tbody.append(`<tr>
-                    <td colspan="8" class="text-center text-muted">No accounts types found</td>
-                    </tr>`);
-                return;
-            }
-            self.transactionTypes.forEach(function (item) {
-                const statusBadge = getStatusBadge(item.IsActive);
-                const createdOn = formatDate(item.CreatedOn);
-                const modifiedOn = formatDate(item.ModifiedOn);
-                // Generate action buttons based on role
-                const actionButtons = `
-                <button class="btn btn-sm btn-outline-primary view-type" data-id="${item.Id}" data-type='${item}' title="view type">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-warning edit-type" data-id="${item.Id}" data-type='${item}' title="edit type">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-danger delete-type" data-id="${item.Id}" data-type='${item}' title="delete type">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
-                const row = `
-            <tr class="user-account-item" data-type='${item}' data-id='${item.Id}'>
-                <td><a style="cursor:pointer;color:blue;" class="view-type" data-id="${item.Id}">#${item.Id}</a></td>
-                <td>${item.Name}</td>
-                <td>${item.Code}</td>
-                <td>${createdOn || 'N/A'}</td>
-                <td>${modifiedOn || 'N/A'}</td>
-                <td>${statusBadge}</td>
-                <td>
-                    ${actionButtons}
-                </td>
-            </tr>
-        `;
-                tbody.append(row);
-            });
-        }
-    }
+    };
 }

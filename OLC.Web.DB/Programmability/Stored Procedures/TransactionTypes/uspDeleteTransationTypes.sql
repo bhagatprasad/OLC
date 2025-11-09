@@ -1,11 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[uspDeleteTransationTypes]
-	(@id bigint)
+﻿CREATE PROCEDURE [dbo].[uspDeleteTransactionTypes]
+    @id BIGINT
+AS
+BEGIN
+    UPDATE dbo.[TransactionType]
+    SET IsActive = 0
+    WHERE Id = @id
+END
 
-	AS 
-
-	BEGIN
-
-	update dbo.[TransactionType]
-	       set IsActive=0
-		   where Id=@id
-   END

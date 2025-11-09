@@ -9,5 +9,6 @@ namespace OLC.Web.UI.Services
         Task<TransactionType> GetTransactionTypeByIdAsync(long transactionTypeId);
         Task<bool> InsertTransactionTypeAsync(TransactionType transactionType);
         Task<bool> UpdateTransactionTypeAsync(TransactionType transactionType);
+        Task<bool> ActivateTransactionTypeAsync(TransactionType transactionType);
     }
 }
