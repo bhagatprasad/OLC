@@ -276,12 +276,6 @@
         <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
             <i class="fas fa-eye"></i>
         </button>
-        <button class="btn btn-sm btn-outline-warning process-order" data-order-id="${order.Id}" title="Process Order">
-            <i class="fas fa-gear"></i>
-        </button>
-        <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
-            <i class="fas fa-trash-alt"></i>
-        </button>
     `;
             }
 
@@ -472,7 +466,7 @@
         $("#approveOrderModal").modal("show");
     });
 
-    $(document).on("click", "#btnProcessOrder", function () {
+    $(document).on("click", "#btnApproveOrder", function () {
 
         var message = $("#approvalComment").val();
 
@@ -487,57 +481,23 @@
             PaymentOrderId: self.selectedPaymentOrder.Id,
             OrderStatusId: orderStatusId,
             PaymentStatusId: self.selectedPaymentOrder.PaymentStatusId,
-            DepositeStatusId: self.selectedPaymentOrder.DepositeStatusId,
+            DepositeStatusId: self.selectedPaymentOrder.DepositStatusId,
             CreatedBy: self.ApplicationUser.Id,
             Description: message
         };
 
-        //create a ajax call for post ,please refer previoue once how to make ajaz,
-
-        //if sucess in the response hide the popup , comment text area value make empty
-
-        //$("#approvalComment").val("");
-
-        //self.selectedPaymentOrder={};
-
-        //reload the grid
-
-        $("#approveOrderModal").modal("hide");
-
-        $("#approvalComment").val("");
-    });
-
-    $(document).on("click", ".btn-approve-order-close", function () {
-        self.selectedPaymentOrder = {};
-        $("#approveOrderModal").modal("hide");
-    });
-
-    ////
-    $(document).on("click", ".processPayment-order", function () {
-
-        console.log("process payment order..............");
-
-        var paymentOrderId = $(this).data("paymentOrder-Id");
-
-        var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == paymentOrderId)[0];
-
-        console.log("current selected payment order is...." + JSON.stringify(selectedPaymentOrder));
-
-        self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
-
-        $("#processPaymentOrder").modal("show");
-    });
-
-    $(document).on("click", "#processPaymentOrderBtn", function () {
-
-        self.CurrentSelectedPaymentOrder.ModifiedBy = self.ApplicationUser.Id;
-
         console.log("process payment order......");
 
+      
+        self.ProcesspaymentOrderDetailsAsync(processPaymentOrder,false);
+
+    });
+
+    self.ProcesspaymentOrderDetailsAsync = function (processPaymentOrder,isCancel) {
         $.ajax({
             type: "POST",
-            url: "/PaymentOrder/ProcessPaymentOrder/",
-            data: JSON.stringify(self.CurrentSelectedPaymentOrder),
+            url: "/PaymentOrder/ProcessPaymentOrder",
+            data: JSON.stringify(processPaymentOrder),
             cache: false,
             contentType: 'application/json;charset=utf-8',
             dataType: 'json',
@@ -545,13 +505,39 @@
             success: function (response) {
                 console.log(response);
 
-                self.CurrentSelectedPaymentOrder = null;
+                if (response.data) {
 
-                $("#processPaymentOrderBtn").modal("hide");
+                    self.CurrentSelectedPaymentOrder = null;
+
+                    if (isCancel) {
+
+                    } else {
+                        $("#approveOrderModal").modal("hide");
+
+                        $("#approvalComment").val("");
+                    }
+                   
+
+                    self.ExecutivePaymentOrders = [];
+                    self.filteredPaymentOrders = [];
+                    self.ExecutivePaymentOrders = response && response.data ? response.data : [];
+                    self.filteredPaymentOrders = [...self.ExecutivePaymentOrders];
+                    self.populateSummaryCards();
+                    self.populatePaymentOrdersGrid();
+                    self.initializeSearch();
+                    $(".se-pre-con").hide();
+
+                }
+
             },
             error: function (error) {
                 console.log(error);
             }
         });
+    }
+
+    $(document).on("click", ".btn-approve-order-close", function () {
+        self.selectedPaymentOrder = {};
+        $("#approveOrderModal").modal("hide");
     });
 }

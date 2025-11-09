@@ -1,6 +1,35 @@
-﻿@{
+﻿@inject IHttpContextAccessor _contextAccessor;
+@using Newtonsoft.Json;
+@using OLC.Web.UI.Models;
+
+@{
     ViewData["Title"] = "Payment Details";
-    Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+
+    Layout = "";
+
+    var currentApplicationUser = _contextAccessor.HttpContext.Session.GetString("ApplicationUser");
+
+    if (!string.IsNullOrEmpty(currentApplicationUser))
+    {
+        var applicationUser = JsonConvert.DeserializeObject<ApplicationUser>(currentApplicationUser);
+
+        if (applicationUser.RoleId == 1)
+        {
+            Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        }
+        else if (applicationUser.RoleId == 3)
+        {
+            Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_UserLayout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+    }
 }
 
 <div class="container-fluid">
@@ -34,7 +63,7 @@
                                         <td><strong>Amount</strong></td>
                                         <td><span id="amount"></span></td>
                                     </tr>
-                                     <tr>
+                                    <tr>
                                         <td><strong>Charge Amount</strong></td>
                                         <td><span id="chargeAmount"></span></td>
                                     </tr>
@@ -60,7 +89,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                          
+
                         </div>
                     </div>
                 </div>
