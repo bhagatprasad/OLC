@@ -15,12 +15,11 @@
             <div id="header-nav" class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="active"><a href="@Url.Action("Index", "UserBoard", null)">Dashboard</a></li>
-                    <li><a href="@Url.Action("UserTransactions", "Transaction", null)">Transactions</a></li>
                     <li><a href="@Url.Action("MakeNewPayment", "Transaction", null)">Send/Request</a></li>
                     <li><a href="@Url.Action("UserCreditCards", "CreditCard", null)">Cards</a></li>
                     <li><a href="@Url.Action("UserBankAccounts", "BankAccount", null)">Bank Acoount</a></li>
                     <li><a href="@Url.Action("UserBillingAddress", "BillingAddress", null)">Billing Address</a></li>
-                    <li><a href="@Url.Action("UserHelp", "Help", null)">Help</a></li>
+                    <li><a href="@Url.Action("Index", "ServiceRequest", null)">Service Request</a></li>
                     <li class="d-sm-block d-lg-none"><a href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
                 </ul>
             </div>

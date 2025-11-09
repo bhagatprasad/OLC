@@ -24,4 +24,5 @@ BEGIN
 	,IsActive
 	,IsExternalUser
 	FROM [dbo].[User]
+	ORDER BY ModifiedOn DESC
 END

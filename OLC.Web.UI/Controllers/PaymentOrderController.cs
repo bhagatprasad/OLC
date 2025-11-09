@@ -211,13 +211,72 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Executive")]
+        [Authorize(Roles = "Administrator, Executive, User")]
         public async Task<IActionResult> GetUserPaymentOrderList(long userId)
         {
             try
             {
                 var response = await _paymentOrderService.GetUserPaymentOrderListAsync(userId);
-                return Json(response);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [Authorize(Roles = "Administrator, Executive")]
+        public async Task<IActionResult> GetExecutivePaymentOrders()
+        {
+            try
+            {
+                var response = await _paymentOrderService.GetExecutivePaymentOrdersAsync();
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetPaymentOrderDetails(long paymentOrderId)
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator, Executive, User")]
+        public async Task<IActionResult> GetExecutivePaymentOrderDetails(long paymentOrderId)
+        {
+            try
+            {
+                var response = await _paymentOrderService.GetExecutivePaymentOrderDetailsAsync(paymentOrderId);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "AdminiStrator,Executive")]
+        public async Task<IActionResult> ProcessPaymentOrder([FromBody] ProcessPaymentOrder processPaymentOrder)
+        {
+            try
+            {
+
+
+                var response = await _paymentOrderService.ProcessPaymentOrderAsync(processPaymentOrder);
+
+                if (response != null)
+                {
+                    var paymentOrders = await _paymentOrderService.GetExecutivePaymentOrdersAsync();
+                    return Json(new { data = paymentOrders });
+                }
+
+                return Json(new { data = response });
             }
             catch (Exception ex)
             {

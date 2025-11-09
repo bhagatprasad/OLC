@@ -1,256 +1,370 @@
 ﻿function UserController() {
-
-    $(".se-pre-con").show();
-
     var self = this;
-
     self.usersList = [];
-
-    self.currentUser = {};
-
-    self.rolesList = rolesList.filter(x => x.IsActive == true);
+    self.filteredUsersList = [];
+    self.CoreStatus = [];
+    self.ApplicationUser = {};
+    self.rolesList = rolesList;
+    self.dropDownRolesList = rolesList.filter(x => x.IsActive == true);
+    var actions = [];
 
     self.init = function () {
+        $(".se-pre-con").show();
 
         var appUserInfo = storageService.get('ApplicationUser');
-
         if (appUserInfo) {
-            self.currentUser = appUserInfo;
+            self.ApplicationUser = appUserInfo;
         }
 
-        var form = $('#CreatePortalUserForm');
-        var signUpButton = $('#btnSubmit');
-        form.on('input', 'input, select, textarea', checkFormValidity);
-        checkFormValidity();
-        function checkFormValidity() {
-            if (form[0].checkValidity()) {
-                signUpButton.prop('disabled', false);
-            } else {
-                signUpButton.prop('disabled', true);
-            }
-        }
+        actions.push("/User/GetUserAccounts");
 
-        GetUserAccountsAsync();
-        function GetUserAccountsAsync() {
-            makeAjaxRequest({
-                url: API_URLS.GetUserAccountsAsync,
-                type: 'GET',
-                successCallback: handleUserAccountsSuccess,
-                errorCallback: handleUserAccountsError
-            });
-        }
+        var requests = actions.map((action, index) => {
+            var ajaxConfig = {
+                url: action,
+                method: 'GET'
+            };
+            return $.ajax(ajaxConfig);
+        });
 
-       
-        function handleUserAccountsSuccess(response) {
-
-            console.info(response);
-
-            self.usersList = response && response.data ? response.data : [];
-
-            genarateDropdown("RoleId", self.rolesList, "Id", "Name");
-
-            populateUserTable();
+        $.when.apply($, requests).done(function () {
+            var responses = arguments;
+            console.log(responses);
+            self.usersList = responses[0] && responses[0].data ? responses[0].data : [];
+            self.filteredUsersList = [...self.usersList];
+            genarateDropdown("RoleId", self.dropDownRolesList, "Id", "Name");
+            self.populateSummaryCards();
+            self.populateUserAccountsGrid();
+            self.initializeSearch();
+            self.initializeEventHandlers();
 
             $(".se-pre-con").hide();
-        }
+        }).fail(function (error) {
+            console.log('One or more requests failed:', error);
+            $(".se-pre-con").hide();
+        });
+    };
 
-        function handleUserAccountsError(xhr, status, error) {
-            console.error('Error loading user data:', error);
-            $('#userAccountsBody').html(`
+    // Populate summary cards with calculated data
+    self.populateSummaryCards = function () {
+        if (self.usersList.length === 0) return;
+
+        const totalUsers = self.usersList.length;
+        const activeUsers = self.usersList.filter(user => user.IsActive && !user.IsBlocked).length;
+        const blockedUsers = self.usersList.filter(user => user.IsBlocked).length;
+        const externalUsers = self.usersList.filter(user => user.IsExternalUser).length;
+
+        $('#totalUsers').text(totalUsers.toLocaleString());
+        $('#activeUsers').text(activeUsers.toLocaleString());
+        $('#blockedUsers').text(blockedUsers.toLocaleString());
+        $('#externalUsers').text(externalUsers.toLocaleString());
+
+        // Calculate percentage changes (mock data for demonstration)
+        $('#usersChange').text('5%');
+        $('#activeChange').text('8%');
+        $('#blockedChange').text('-2%');
+        $('#externalChange').text('12%');
+    };
+
+    // Initialize search functionality
+    self.initializeSearch = function () {
+        $('#userSearch').on('input', function () {
+            self.performUserSearch($(this).val());
+        });
+    };
+
+    // Perform search across users
+    self.performUserSearch = function (searchTerm) {
+        if (!searchTerm || searchTerm.trim() === '') {
+            self.filteredUsersList = [...self.usersList];
+        } else {
+            const term = searchTerm.toLowerCase().trim();
+            self.filteredUsersList = self.usersList.filter(user =>
+                (user.FirstName && user.FirstName.toLowerCase().includes(term)) ||
+                (user.LastName && user.LastName.toLowerCase().includes(term)) ||
+                (user.Email && user.Email.toLowerCase().includes(term)) ||
+                (user.Phone && user.Phone.includes(term)) ||
+                (self.getRoleName(user.RoleId).toLowerCase().includes(term)) ||
+                (user.Id && user.Id.toString().includes(term))
+            );
+        }
+        self.populateUserAccountsGrid();
+    };
+
+    // Function to format date
+    self.formatDate = function (dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    };
+
+    // Function to get status badge
+    self.getStatusBadge = function (isActive, isBlocked) {
+        if (isBlocked) {
+            return '<span class="badge bg-danger status-badge">Blocked</span>';
+        } else if (isActive) {
+            return '<span class="badge bg-success status-badge">Active</span>';
+        } else {
+            return '<span class="badge bg-warning status-badge">Inactive</span>';
+        }
+    };
+
+    // Function to get external user badge
+    self.getExternalBadge = function (isExternal) {
+        if (isExternal) {
+            return '<span class="badge bg-info status-badge">Yes</span>';
+        } else {
+            return '<span class="badge bg-secondary status-badge">No</span>';
+        }
+    };
+
+    // Function to get role name based on RoleId
+    self.getRoleName = function (roleId) {
+        const role = self.rolesList.find(r => r.Id === roleId);
+        return role ? role.Name : 'Unknown';
+    };
+
+    // Truncate long text for better display
+    self.truncateText = function (text, maxLength) {
+        if (!text) return 'N/A';
+        if (text.length <= maxLength) return text;
+        return text.substring(0, maxLength) + '...';
+    };
+
+    // Populate user accounts grid
+    self.populateUserAccountsGrid = function () {
+        const tbody = $('#userAccountsBody');
+        const cardsContainer = $('#mobileUserAccountsCards');
+        tbody.empty();
+        cardsContainer.empty();
+
+        if (self.filteredUsersList.length === 0) {
+            tbody.append(`
                 <tr>
-                    <td colspan="8" class="text-center text-danger">
-                        Error loading user data. Please try again.
+                    <td colspan="9" class="text-center text-muted">
+                        ${self.usersList.length === 0 ? 'No user accounts found' : 'No users match your search'}
                     </td>
                 </tr>
             `);
-            $(".se-pre-con").hide();
+            cardsContainer.append(`
+                <div class="text-center text-muted p-4">
+                    ${self.usersList.length === 0 ? 'No user accounts found' : 'No users match your search'}
+                </div>
+            `);
+            return;
         }
 
-        // Function to format date
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
-        }
+        self.filteredUsersList.forEach(function (user) {
+            const fullName = (user.FirstName + ' ' + user.LastName).trim();
+            const statusBadge = self.getStatusBadge(user.IsActive, user.IsBlocked);
+            const roleName = self.getRoleName(user.RoleId);
+            const externalUser = self.getExternalBadge(user.IsExternalUser);
+            const lastUpdated = self.formatDate(user.ModifiedOn);
 
-        // Function to get status badge
-        function getStatusBadge(isActive, isBlocked) {
-            if (isBlocked) {
-                return '<span class="badge bg-danger status-badge">Blocked</span>';
-            } else if (isActive) {
-                return '<span class="badge bg-success status-badge">Active</span>';
-            } else {
-                return '<span class="badge bg-warning status-badge">Inactive</span>';
-            }
-        }
-        function getExternalBadge(isExternal) {
-            if (isExternal) {
-                return '<span class="badge bg-success status-badge">Yes</span>';
-            } else {
-                return '<span class="badge bg-warning status-badge">No</span>';
-            }
-        }
+            // Desktop table row
+            const row = `
+                <tr class="user-account-item" data-user-id="${user.Id}">
+                    <td>
+                        <strong class="text-primary">#${user.Id}</strong>
+                    </td>
+                    <td class="fw-bold">${fullName || 'N/A'}</td>
+                    <td>
+                        <div class="small">
+                            <i class="fas fa-envelope me-1 text-muted"></i>${user.Email || 'N/A'}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="small">
+                            <i class="fas fa-phone me-1 text-muted"></i>${user.Phone || 'N/A'}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge bg-primary status-badge">${roleName}</span>
+                    </td>
+                    <td>${externalUser}</td>
+                    <td>${statusBadge}</td>
+                    <td><small class="text-muted">${lastUpdated}</small></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-outline-primary view-user" data-user-id="${user.Id}" title="View User Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-warning edit-user" data-user-id="${user.Id}" title="Edit User">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            tbody.append(row);
 
-        // Function to get role name based on RoleId
-        function getRoleName(roleId) {
-            const roles = {
-                1: 'Admin',
-                2: 'User',
-                3: 'Manager',
-                4: 'Viewer'
-            };
-            return roles[roleId] || 'Unknown';
-        }
-
-        // Populate the table with user data
-        function populateUserTable() {
-            const tbody = $('#userAccountsBody');
-            const cardsContainer = $('#mobileUserAccountsCards');
-            tbody.empty(); // Clear existing desktop table rows
-            cardsContainer.empty(); // Clear existing mobile cards
-
-            if (self.usersList.length === 0) {
-                tbody.append(`<tr>
-            <td colspan="9" class="text-center text-muted">No user accounts found</td>
-            </tr>`);
-                cardsContainer.append(`<div class="text-center text-muted p-4">No user accounts found</div>`);
-                return;
-            }
-
-            self.usersList.forEach(function (user) {
-                const fullName = user.FirstName + ' ' + user.LastName;
-                const statusBadge = getStatusBadge(user.IsActive, user.IsBlocked);
-                const roleName = getRoleName(user.RoleId);
-                const externalUser = getExternalBadge(user.IsExternalUser);
-                const lastUpdated = formatDate(user.ModifiedOn);
-
-                // Check if user is admin
-                const isAdmin = roleName.toLowerCase() === 'admin';
-
-                // Generate action buttons based on role
-                const actionButtons = `
-        <button class="btn btn-sm btn-outline-primary view-user" data-user-id="${user.Id}" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' title="view user profile">
-            <i class="fas fa-eye"></i>
-        </button>`;
-
-                // Desktop table row
-                const row = `
-        <tr class="user-account-item" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' data-user-id='${user.Id}' data-is-admin='${isAdmin}'>
-            <td><a style="cursor:pointer;color:blue;" class="view-user" data-user-id="${user.Id}">#${user.Id}</a></td>
-            <td>${fullName}</td>
-            <td>${user.Email}</td>
-            <td>${user.Phone || 'N/A'}</td>
-            <td>${roleName}</td>
-            <td>${externalUser}</td>
-            <td>${statusBadge}</td>
-            <td>${lastUpdated}</td>
-            <td>
-                ${actionButtons}
-            </td>
-        </tr>
-    `;
-                tbody.append(row);
-
-                // Mobile card
-                const cardHtml = `
-        <div class="card mb-3 border" data-user='${JSON.stringify(user).replace(/'/g, "&apos;")}' data-user-id='${user.Id}' data-is-admin='${isAdmin}'>
-            <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                <strong>${fullName}</strong>
-                <span class="badge bg-primary">#${user.Id}</span>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Email:</small>
-                        <div>${user.Email}</div>
+            // Mobile card
+            const cardHtml = `
+                <div class="card mb-3 border" data-user-id="${user.Id}">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong class="text-primary">${fullName || 'N/A'}</strong>
+                            <br>
+                            <small class="text-muted">#${user.Id}</small>
+                        </div>
+                        ${statusBadge}
                     </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Phone:</small>
-                        <div>${user.Phone || 'N/A'}</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <small class="text-muted">Email:</small>
+                                <div><i class="fas fa-envelope me-1 text-muted"></i>${user.Email || 'N/A'}</div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <small class="text-muted">Phone:</small>
+                                <div><i class="fas fa-phone me-1 text-muted"></i>${user.Phone || 'N/A'}</div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <small class="text-muted">Role:</small>
+                                <div><span class="badge bg-primary">${roleName}</span></div>
+                            </div>
+                            <div class="col-6 mb-2">
+                                <small class="text-muted">External:</small>
+                                <div>${externalUser}</div>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <small class="text-muted">Last Updated:</small>
+                                <div><small class="text-muted">${lastUpdated}</small></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Role:</small>
-                        <div>${roleName}</div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">External:</small>
-                        <div>${externalUser}</div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Status:</small>
-                        <div>${statusBadge}</div>
-                    </div>
-                    <div class="col-6 mb-2">
-                        <small class="text-muted">Last Updated:</small>
-                        <div>${lastUpdated}</div>
+                    <div class="card-footer">
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary flex-fill view-user" data-user-id="${user.Id}">
+                                <i class="fas fa-eye me-1"></i>View
+                            </button>
+                            <button class="btn btn-sm btn-outline-warning flex-fill edit-user" data-user-id="${user.Id}">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer d-flex justify-content-between">
-                ${actionButtons}
-            </div>
-        </div>
-    `;
-                cardsContainer.append(cardHtml);
-            });
+            `;
+            cardsContainer.append(cardHtml);
+        });
+
+        // Initialize click handlers
+        self.initializeUserActionHandlers();
+    };
+
+    // Initialize user action click handlers
+    self.initializeUserActionHandlers = function () {
+        $('.view-user').off('click').on('click', function () {
+            const userId = $(this).data('user-id');
+            self.viewUserDetails(userId);
+        });
+
+        $('.edit-user').off('click').on('click', function () {
+            const userId = $(this).data('user-id');
+            self.editUser(userId);
+        });
+    };
+
+    // View user details
+    self.viewUserDetails = function (userId) {
+        console.log('Viewing user details for:', userId);
+        const user = self.usersList.find(u => u.Id === userId);
+        if (user) {
+            const isAdmin = self.ApplicationUser.RoleId == 1;
+            window.location.href = '/User/ManageUser?userId=' + userId + '&isReadOnly=' + isAdmin;
         }
+    };
 
-        // Action functions
+    // Edit user
+    self.editUser = function (userId) {
+        console.log('Editing user:', userId);
+        const user = self.usersList.find(u => u.Id === userId);
+        if (user) {
+            window.location.href = '/User/ManageUser?userId=' + userId + '&isReadOnly=false';
+        }
+    };
 
-        $(document).on("click", ".view-user", function () {
-            var currentUserId = $(this).data("user-id");
-            console.log("current user is .." + currentUserId);
-
-            // Replace "YourController" with your actual controller name (without "Controller")
-
-            var isAdmin = self.currentUser.RoleId == 1 ? true : false;
-
-            window.location.href = '/User/ManageUser?userId=' + currentUserId + '&isReadOnly=' + isAdmin + '';
-        });
-       
-        $(document).on("click", "#addUserBtn", function () {
-            $('#sidebar').addClass('show');
-            $('body').append('<div class="modal-backdrop fade show"></div>');
-            console.log("Iam getting from add button click");
+    // Initialize event handlers for form and buttons
+    self.initializeEventHandlers = function () {
+        // Add User Button
+        $('#addUserBtn').off('click').on('click', function () {
+            self.showAddUserForm();
         });
 
-        $(document).on("click", "#closeSidebar", function () {
-            $('#CreatePortalUserForm')[0].reset();
-            $('#sidebar').removeClass('show');
-            $('.modal-backdrop').remove();
+        // Close Sidebar
+        $('#closeSidebar').off('click').on('click', function () {
+            self.hideAddUserForm();
         });
 
-        $('#CreatePortalUserForm').on('submit', function (e) {
+        // Create User Form Submission
+        $('#CreatePortalUserForm').off('submit').on('submit', function (e) {
             e.preventDefault();
-            showLoader();
-
-            var registerUser = {
-                FirstName: $("#Firstname").val(),
-                LastName: $("#Lastname").val(),
-                Email: $("#Email").val(),
-                Phone: $("#Phone").val(),
-                Password: $("#password").val(),
-                RoleId: $("#RoleId").val()
-            };
-
-            makeAjaxRequest({
-                url: API_URLS.CreatePortalUserAsync,
-                data: registerUser,
-                type: 'POST',
-                successCallback: function (response) {
-                    $('#AddEditBankForm')[0].reset();
-                    $('#sidebar').removeClass('show');
-                    $('.modal-backdrop').remove();
-                    GetUserAccountsAsync();
-                },
-                errorCallback: function (error) {
-                    console.log(error);
-                }
-            });
+            self.createUser();
         });
 
-    }
+        // Form validation
+        var form = $('#CreatePortalUserForm');
+        var signUpButton = $('#btnSubmit');
+
+        form.on('input', 'input, select, textarea', function () {
+            self.checkFormValidity(form, signUpButton);
+        });
+
+        self.checkFormValidity(form, signUpButton);
+    };
+
+    // Check form validity
+    self.checkFormValidity = function (form, signUpButton) {
+        if (form[0].checkValidity()) {
+            signUpButton.prop('disabled', false);
+        } else {
+            signUpButton.prop('disabled', true);
+        }
+    };
+
+    // Show add user form
+    self.showAddUserForm = function () {
+        $('#sidebar').addClass('show');
+        $('body').append('<div class="modal-backdrop fade show"></div>');
+        console.log("Add user button clicked");
+    };
+
+    // Hide add user form
+    self.hideAddUserForm = function () {
+        $('#CreatePortalUserForm')[0].reset();
+        $('#sidebar').removeClass('show');
+        $('.modal-backdrop').remove();
+    };
+
+    // Create new user
+    self.createUser = function () {
+        $(".se-pre-con").show();
+
+        var registerUser = {
+            FirstName: $("#Firstname").val(),
+            LastName: $("#Lastname").val(),
+            Email: $("#Email").val(),
+            Phone: $("#Phone").val(),
+            Password: $("#password").val(),
+            RoleId: $("#RoleId").val()
+        };
+
+        makeAjaxRequest({
+            url: API_URLS.CreatePortalUserAsync,
+            data: registerUser,
+            type: 'POST',
+            successCallback: function (response) {
+                self.hideAddUserForm();
+                self.init(); // Reload the user data
+                $(".se-pre-con").hide();
+            },
+            errorCallback: function (error) {
+                console.log('Error creating user:', error);
+                $(".se-pre-con").hide();
+            }
+        });
+    };
 }

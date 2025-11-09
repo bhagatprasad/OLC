@@ -1,0 +1,35 @@
+﻿
+<div class="header-row">
+    <div class="header-column justify-content-start">
+        <!-- Logo
+        ============================= -->
+        <div class="logo"> <a class="d-flex" href="@Url.Action("Index", "ExecutiveBoard", null)" title="Betalen"><img src="~/images/logo.png" alt=" Betalen" /></a> </div>
+        <!-- Logo end -->
+        <!-- Collapse Button
+        ============================== -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header-nav"> <span></span> <span></span> <span></span> </button>
+        <!-- Collapse Button end -->
+        <!-- Primary Navigation
+        ============================== -->
+        <nav class="primary-menu navbar navbar-expand-lg">
+            <div id="header-nav" class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="active"><a href="@Url.Action("Index", "ExecutiveBoard", null)">Dashboard</a></li>
+                    <li class="d-sm-block d-lg-none"><a href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Primary Navigation end -->
+    </div>
+    <div class="header-column justify-content-end">
+        <!-- Login & Signup Link
+        ============================== -->
+        <nav class="login-signup navbar navbar-expand">
+            <ul class="navbar-nav">
+                <li><a href="@Url.Action("Profile", "User", null)">Settings</a> </li>
+                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-outline-primary shadow-none d-none d-sm-block" href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
+            </ul>
+        </nav>
+        <!-- Login & Signup Link end -->
+    </div>
+</div>

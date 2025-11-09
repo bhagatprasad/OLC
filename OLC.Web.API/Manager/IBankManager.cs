@@ -9,6 +9,5 @@ namespace OLC.Web.API.Manager
         Task<bool> DeleteBankAsync(long bankId);
         Task<Bank> GetBankByIdAsync(long bankId);
         Task<List<Bank>> GetBanksListAsync();
-
     }
 }

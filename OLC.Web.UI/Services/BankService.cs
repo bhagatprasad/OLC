@@ -13,7 +13,6 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> DeleteBankAsync(long bankId)
         {
-            
             var url = $"Bank/DeleteBank?bankId={bankId}";
             return await _repositoryFactory.SendAsync<bool>(HttpMethod.Delete, url);
         }

@@ -878,3 +878,127 @@ const rolesList = [
 
 // Example usage:
 // var statusId = statusConstants["Pending"]; // Returns 1
+const statusMap = {
+    1: 'Pending',
+    2: 'In Progress',
+    3: 'Active',
+    4: 'Inactive',
+    5: 'Approved',
+    6: 'Rejected',
+    7: 'Completed',
+    8: 'Cancelled',
+    9: 'Draft',
+    10: 'Submitted',
+    11: 'Under Review',
+    12: 'Processing',
+    13: 'Processed',
+    14: 'Failed',
+    15: 'Success',
+    16: 'Expired',
+    17: 'Suspended',
+    18: 'Archived',
+    19: 'Deleted',
+    20: 'Locked',
+    21: 'Unlocked',
+    22: 'Verified',
+    23: 'Unverified',
+    24: 'Paid',
+    25: 'Unpaid',
+    26: 'Open',
+    27: 'Closed',
+    28: 'Resolved',
+    29: 'New',
+    30: 'On Hold',
+    31: 'Awaiting Approval',
+    32: 'Awaiting Payment',
+    33: 'Shipped',
+    34: 'Delivered',
+    35: 'Returned',
+    36: 'Refunded',
+    37: 'Partially Paid',
+    38: 'Overdue',
+    39: 'Blocked',
+    40: 'Enabled',
+    41: 'Disabled',
+    42: 'Payment Receved',
+    43: 'Payment Deposited'
+};
+
+// Calculate SLA time remaining and get appropriate CSS class
+ function calculateSLATimer (order) {
+    if (order.OrderStatus === 'Completed') {
+        return {
+            display: 'Completed',
+            class: 'sla-completed'
+        };
+    }
+
+    const createdDate = new Date(order.CreatedOn);
+    const now = new Date();
+    const elapsedMs = now - createdDate;
+
+    let totalSlaMs;
+    switch (order.TransactionFeeId) {
+        case 1: // 5 minutes
+            totalSlaMs = 5 * 60 * 1000;
+            break;
+        case 2: // 4 hours
+            totalSlaMs = 4 * 60 * 60 * 1000;
+            break;
+        case 3: // 24 hours
+            totalSlaMs = 24 * 60 * 60 * 1000;
+            break;
+        default:
+            totalSlaMs = 24 * 60 * 60 * 1000; // Default to 24 hours
+    }
+
+    const remainingMs = totalSlaMs - elapsedMs;
+    const isExpired = remainingMs <= 0;
+    const absoluteMs = Math.abs(remainingMs);
+
+    // Calculate display format based on SLA type and whether it's expired
+    let displayText;
+
+    if (order.TransactionFeeId === 1) {
+        // For 5-minute SLA, show MM:SS
+        const minutes = Math.floor(absoluteMs / (60 * 1000));
+        const seconds = Math.floor((absoluteMs % (60 * 1000)) / 1000);
+        displayText = `${isExpired ? '-' : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    } else {
+        // For longer SLAs, calculate days, hours, minutes, seconds
+        const days = Math.floor(absoluteMs / (24 * 60 * 60 * 1000));
+        const hours = Math.floor((absoluteMs % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+        const minutes = Math.floor((absoluteMs % (60 * 60 * 1000)) / (60 * 1000));
+        const seconds = Math.floor((absoluteMs % (60 * 1000)) / 1000);
+
+        if (days > 0) {
+            // Show days and hours when days > 0
+            displayText = `${isExpired ? '-' : ''}${days}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        } else {
+            // Show only hours:minutes:seconds when no days
+            displayText = `${isExpired ? '-' : ''}${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+    }
+
+    // Determine color class
+    let slaClass;
+
+    if (isExpired) {
+        slaClass = 'sla-critical';
+    } else {
+        const percentageRemaining = (remainingMs / totalSlaMs) * 100;
+
+        if (percentageRemaining > 60) {
+            slaClass = 'sla-normal';
+        } else if (percentageRemaining > 20) {
+            slaClass = 'sla-warning';
+        } else {
+            slaClass = 'sla-critical';
+        }
+    }
+
+    return {
+        display: displayText,
+        class: slaClass
+    };
+};

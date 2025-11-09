@@ -192,6 +192,9 @@
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllUserPaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\AddressType\uspActiveAddressType.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionTypes\uspActiveTransactionTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetails.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetailsFilter.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
@@ -215,5 +218,10 @@
     <None Include="Post-Deployement\SeedStates.sql" />
     <None Include="Post-Deployement\SeedCities.sql" />
     <None Include="Post-Deployement\SeedBanks.sql" />
+    <None Include="Post-Deployement\SeedUsers.sql" />
+    <None Include="Post-Deployement\SeedUserBankAccount.sql" />
+    <None Include="Post-Deployement\SeedBillingAddress.sql" />
+    <None Include="Post-Deployement\SeedUserCreditCards.sql" />
+    <None Include="Post-Deployement\SeedPaymentOrders.sql" />
   </ItemGroup>
 </Project>
