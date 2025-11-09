@@ -246,7 +246,7 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Executive")]
+        [Authorize(Roles = "Administrator, Executive, User")]
         public async Task<IActionResult> GetExecutivePaymentOrderDetails(long paymentOrderId)
         {
             try
@@ -261,22 +261,22 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles="AdminiStrator,Executive")]
-        public async Task <IActionResult> ProcessPaymentOrder([FromBody] ProcessPaymentOrder processPaymentOrder)
+        [Authorize(Roles = "AdminiStrator,Executive")]
+        public async Task<IActionResult> ProcessPaymentOrder([FromBody] ProcessPaymentOrder processPaymentOrder)
         {
             try
             {
-                bool isActivate = false;
 
-                isActivate = await _paymentOrderService.ProcessPaymentOrderAsync(processPaymentOrder);
 
-                if (isActivate)
-                    _notyfService.Success("Successfully processed payment order");
-                else
-                    _notyfService.Error("Unable to process payment order");
+                var response = await _paymentOrderService.ProcessPaymentOrderAsync(processPaymentOrder);
 
-                return Json(isActivate);
+                if (response != null)
+                {
+                    var paymentOrders = await _paymentOrderService.GetExecutivePaymentOrdersAsync();
+                    return Json(new { data = paymentOrders });
+                }
 
+                return Json(new { data = response });
             }
             catch (Exception ex)
             {
