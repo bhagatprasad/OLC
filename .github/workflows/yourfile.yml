@@ -1,0 +1,70 @@
+name: Deploy to Plesk via FTP
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    types: [closed]
+    branches: [ master ]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build and Publish OLC.Web.UI (MVC Project)
+      run: |
+        dotnet build OLC.Web.UI/OLC.Web.UI.csproj --configuration Release
+        # The publish files will be in OLC.Web.UI/bin/Release/net8.0/publish/
+
+    - name: Build and Publish OLC.Web.API (API Project)
+      run: |
+        dotnet build OLC.Web.API/OLC.Web.API.csproj --configuration Release
+        # The publish files will be in OLC.Web.API/bin/Release/net8.0/publish/
+
+    - name: Copy MVC publish files to deployment folder
+      run: |
+        xcopy "OLC.Web.UI\bin\Release\net8.0\publish\*" "publish\mvc\" /E /I /Y
+
+    - name: Copy API publish files to deployment folder
+      run: |
+        xcopy "OLC.Web.API\bin\Release\net8.0\publish\*" "publish\api\" /E /I /Y
+
+    - name: List published files for verification
+      run: |
+        echo "=== MVC Published Files ==="
+        dir .\publish\mvc\
+        echo "=== API Published Files ==="
+        dir .\publish\api\
+
+    - name: Deploy MVC to Subdomain via FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./publish/mvc/
+        server-dir: ${{ secrets.FTP_MVC_PATH }}
+        dangerous-clean-slate: true
+
+    - name: Deploy API to Subdomain via FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./publish/api/
+        server-dir: ${{ secrets.FTP_API_PATH }}
+        dangerous-clean-slate: true
