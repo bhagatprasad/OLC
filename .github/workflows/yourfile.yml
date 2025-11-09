@@ -24,30 +24,18 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build and Publish OLC.Web.UI (MVC Project)
+    - name: Publish OLC.Web.UI (MVC Project) with Production config
       run: |
-        dotnet build OLC.Web.UI/OLC.Web.UI.csproj --configuration Release
-        # The publish files will be in OLC.Web.UI/bin/Release/net8.0/publish/
+        dotnet publish OLC.Web.UI/OLC.Web.UI.csproj --configuration Release --output ./publish/mvc -p:EnvironmentName=Production
 
-    - name: Build and Publish OLC.Web.API (API Project)
+    - name: Publish OLC.Web.API (API Project) with Production config
       run: |
-        dotnet build OLC.Web.API/OLC.Web.API.csproj --configuration Release
-        # The publish files will be in OLC.Web.API/bin/Release/net8.0/publish/
+        dotnet publish OLC.Web.API/OLC.Web.API.csproj --configuration Release --output ./publish/api -p:EnvironmentName=Production
 
-    - name: Copy MVC publish files to deployment folder
+    - name: Verify Production config is used
       run: |
-        xcopy "OLC.Web.UI\bin\Release\net8.0\publish\*" "publish\mvc\" /E /I /Y
-
-    - name: Copy API publish files to deployment folder
-      run: |
-        xcopy "OLC.Web.API\bin\Release\net8.0\publish\*" "publish\api\" /E /I /Y
-
-    - name: List published files for verification
-      run: |
-        echo "=== MVC Published Files ==="
-        dir .\publish\mvc\
-        echo "=== API Published Files ==="
-        dir .\publish\api\
+        echo "=== Checking if appsettings.Production.json exists ==="
+        dir "publish\mvc\appsettings.*"
 
     - name: Deploy MVC to Subdomain via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
