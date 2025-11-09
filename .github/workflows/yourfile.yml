@@ -32,11 +32,6 @@ jobs:
       run: |
         dotnet publish OLC.Web.API/OLC.Web.API.csproj --configuration Release --output ./publish/api -p:EnvironmentName=Production
 
-    - name: Verify Production config is used
-      run: |
-        echo "=== Checking if appsettings.Production.json exists ==="
-        dir "publish\mvc\appsettings.*"
-
     - name: Deploy MVC to Subdomain via FTP
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
@@ -44,7 +39,7 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./publish/mvc/
-        server-dir: ${{ secrets.FTP_MVC_PATH }}
+        server-dir: ${{ secrets.FTP_MVC_PATH }}/
         dangerous-clean-slate: true
 
     - name: Deploy API to Subdomain via FTP
@@ -54,5 +49,5 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./publish/api/
-        server-dir: ${{ secrets.FTP_API_PATH }}
+        server-dir: ${{ secrets.FTP_API_PATH }}/
         dangerous-clean-slate: true
