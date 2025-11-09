@@ -191,6 +191,7 @@
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetUserPaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllUserPaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\AddressType\uspActiveAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspActiveTransactionTypes.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetails.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetailsFilter.sql" />

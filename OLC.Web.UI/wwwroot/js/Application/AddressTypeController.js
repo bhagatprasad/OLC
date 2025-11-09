@@ -107,7 +107,7 @@
         });
 
         $(document).on("click", ".edit-type", function () {
-            var typeId = parseInt($(this).data("addresstype-id"));
+            var typeId = parseInt($(this).data("type-id"));
             var selectedAddressType = self.AddressTypes.filter(x => x.Id === typeId)[0];
             console.log("current selected address type is .." + JSON.stringify(selectedAddressType));
             self.CurrentSelectedAddressType = selectedAddressType;
@@ -125,8 +125,9 @@
         // Close modals
         $(document).on("click", ".btn-view-type-close", function () {
             self.CurrentSelectedAddressType = null;
-            $("#viewAddressType").model("hide");
-            $("#deleteAddressType").model("hide");
+            $("#viewAddressType").modal("hide");
+            $("#deleteAddressType").modal("hide");
+            $("#activateAddressType").modal("hide");
         });
 
 

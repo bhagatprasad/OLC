@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OLC.Web.API.Models;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -13,67 +14,39 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<bool> DeleteTransactionTypeAsync(long id)
-        {
-           if(id!=0)
-            {
-                SqlConnection sqlConnection=new SqlConnection(connectionString);
 
-                sqlConnection.Open();
 
-                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspDeleteTransationTypes]", sqlConnection);
-
-                sqlCommand.CommandType=CommandType.StoredProcedure;
-
-                sqlCommand.Parameters.AddWithValue("@id",id);
-
-                sqlCommand.ExecuteNonQuery();
-
-                sqlConnection.Close();
-
-                return true;
-            }
-           return false;
-        }
-
-        public async Task <List<TransactionType>> GetTransactionTypeAsync()
+        public async Task<List<TransactionType>> GetTransactionTypeAsync()
         {
             List<TransactionType> transactionTypes = new List<TransactionType>();
+            TransactionType transactionType = null;
 
-            using(SqlConnection connection=new SqlConnection(connectionString)) 
-            {
-                await connection.OpenAsync();
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            SqlCommand sqlcommand = new SqlCommand("[dbo].[uspGetAllTransactionTypes]", connection);
+             sqlcommand.CommandType = CommandType.StoredProcedure;
 
-                using (SqlCommand sqlcommand = new SqlCommand("[dbo].[uspGetAllTransactionTypes]", connection))
-                {
-                    sqlcommand.CommandType = CommandType.StoredProcedure;
-
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlcommand))
-                    {
-                        DataTable dt = new DataTable();
-                        sqlDataAdapter.Fill(dt);
-
-                        if(dt.Rows.Count > 0 )
-                        {
-                           foreach(DataRow item in dt.Rows)
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlcommand);
+             DataTable dt = new DataTable();
+             sqlDataAdapter.Fill(dt);
+            connection.Close();
+                   if (dt.Rows.Count > 0)
+                   {
+                            foreach (DataRow item in dt.Rows)
                             {
-                                TransactionType transactionType = new TransactionType();
-
-                                transactionType.Id=Convert.ToInt64(item["ID"]);
-                                transactionType.Name = item["Name"] != DBNull.Value ? item["Name"].ToString() : null;
-                                transactionType.Code = item["Code"]!=DBNull.Value? item["Code"].ToString() : null;
+                                transactionType = new TransactionType();
+                                transactionType.Id = Convert.ToInt64(item["Id"]);
+                                transactionType.Name = item["Name"].ToString();
+                                transactionType.Code = item["Code"] != DBNull.Value ? item["Code"].ToString() : null;
                                 transactionType.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
                                 transactionType.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset)item["CreatedOn"] : null;
                                 transactionType.CreatedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
-                                transactionType.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset) item["ModifiedOn"] : null;
+                                transactionType.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)item["ModifiedOn"] : null;
                                 transactionType.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
 
                                 transactionTypes.Add(transactionType);
                             }
-                        }
-                    }
-                }
-            }
+                   }
 
             return transactionTypes;
         }
@@ -82,30 +55,27 @@ namespace OLC.Web.API.Manager
         {
             TransactionType transactionType = null;
 
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                await sqlConnection.OpenAsync();
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
 
-                using (SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetTransactionTypeById]", sqlConnection))
-                {
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.Parameters.AddWithValue("@id", id);
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetTransactionTypeById]", connection);
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.Parameters.AddWithValue("@id", id);
 
-                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand))
-                    {
-                        DataTable dt=new DataTable();
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+            DataTable dt = new DataTable();
 
-                        sqlDataAdapter.Fill(dt);
+            sqlDataAdapter.Fill(dt);
 
-                        sqlConnection.Close();
+            connection.Close();
 
-                        if(dt.Rows.Count > 0)
+                        if (dt.Rows.Count > 0)
                         {
-                            foreach(DataRow item in dt.Rows)
+                            foreach (DataRow item in dt.Rows)
                             {
                                 transactionType = new TransactionType();
 
-                                transactionType.Id=Convert.ToInt64(item["Id"]);
+                                transactionType.Id = Convert.ToInt64(item["Id"]);
                                 transactionType.Name = item["Name"] != DBNull.Value ? item["Name"].ToString() : null;
                                 transactionType.Code = item["Code"] != DBNull.Value ? item["Code"].ToString() : null;
                                 transactionType.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
@@ -115,10 +85,6 @@ namespace OLC.Web.API.Manager
                                 transactionType.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
                             }
                         }
-                    }
-                }
-            }
-
             return transactionType;
         }
 
@@ -127,19 +93,18 @@ namespace OLC.Web.API.Manager
         {
             if (transactionType != null)
             {
-                SqlConnection sqlConnection=new SqlConnection(connectionString);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
-                SqlCommand sqlCommand=new SqlCommand("[dbo].[uspInsertTransationTypes]", sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertTransactionTypes]", sqlConnection);
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@name",transactionType.Name)
-                    ;
-                sqlCommand.Parameters.AddWithValue("@code",transactionType.Code);
+                sqlCommand.Parameters.AddWithValue("@Name", transactionType.Name);
+                sqlCommand.Parameters.AddWithValue("@Code", transactionType.Code);
 
-                sqlCommand.Parameters.AddWithValue("@CreatedBy",transactionType.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@CreatedBy", transactionType.CreatedBy);
 
                 sqlCommand.ExecuteNonQuery();
 
@@ -147,13 +112,13 @@ namespace OLC.Web.API.Manager
 
                 return true;
             }
-            
+
             return false;
         }
-            
+
         public async Task<bool> UpdateTransactionTypeAsync(TransactionType transactionType)
         {
-            if (transactionType != null) 
+            if (transactionType != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
@@ -161,15 +126,15 @@ namespace OLC.Web.API.Manager
 
                 SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateTransationTypes]", sqlConnection);
 
-                sqlCommand.CommandType= CommandType.StoredProcedure;
+                sqlCommand.CommandType = CommandType.StoredProcedure;
 
-                sqlCommand.Parameters.AddWithValue("@id",transactionType.Id);
-
+                sqlCommand.Parameters.AddWithValue("@id", transactionType.Id);
                 sqlCommand.Parameters.AddWithValue("@name", transactionType.Name);
-
-                sqlCommand.Parameters.AddWithValue("@code",transactionType.Code);
-
+                sqlCommand.Parameters.AddWithValue("@code", transactionType.Code);
                 sqlCommand.Parameters.AddWithValue("@createdBy", transactionType.CreatedBy);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", transactionType.ModifiedBy);
+                sqlCommand.Parameters.AddWithValue("@isActive", transactionType.IsActive);
+
 
                 sqlCommand.ExecuteNonQuery();
 
@@ -177,9 +142,62 @@ namespace OLC.Web.API.Manager
 
                 return true;
             }
-            return false ;
+            return false;
         }
+
+        public async Task<bool> ActivateTransactionTypeAsync(TransactionType transactionType)
+        {
+            if (transactionType != null)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspActivateTransactionTypes]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                
+                sqlCommand.Parameters.AddWithValue("@transactionTypeId", transactionType.Id);
+
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", transactionType.ModifiedBy);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteTransactionTypeAsync(long id)
+        {
+            if (id != 0)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspDeleteTransactionTypes]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+               
+                sqlCommand.Parameters.AddWithValue("@id",id);
+
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
+
     }
 }
+   
 
 
