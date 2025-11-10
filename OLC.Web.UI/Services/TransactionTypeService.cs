@@ -37,5 +37,10 @@ namespace OLC.Web.UI.Services
         {
             return await _repositoryFactory.SendAsync<TransactionType, bool>(HttpMethod.Post, "TransactionType/UpdateTransactionTypeAsync", transactionType);
         }
+
+        public async Task<bool> ActivateTransactionTypeAsync(TransactionType transactionType)
+        {
+            return await _repositoryFactory.SendAsync<TransactionType, bool>(HttpMethod.Post, "TransactionType/ActivateTransactionTypeAsync", transactionType);
+        }
     }
 }

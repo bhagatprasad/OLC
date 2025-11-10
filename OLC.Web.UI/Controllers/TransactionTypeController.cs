@@ -20,9 +20,9 @@ namespace OLC.Web.UI.Controllers
             _notyfService = notyfService;
         }
 
-        [HttpGet]
+        [HttpGet("/TransactionType")]
         [Authorize(Roles = ("Administrator,Executive"))]
-        public IActionResult Index()
+        public IActionResult TransactionTypes()
         {
             return View();
         }
@@ -44,26 +44,83 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = ("Administrator"))]
-        public async Task<IActionResult> InsertOrUpdateTransactionType([FromBody] TransactionType transactionType)
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> SaveTransactionType([FromBody] TransactionType transactionType)
         {
             try
             {
-                bool isSucess = false;
+                bool isSaved = false;
 
-                if (transactionType.Id > 0)
-                    isSucess = await _transactionTypeService.UpdateTransactionTypeAsync(transactionType);
-                else
-                    isSucess = await _transactionTypeService.InsertTransactionTypeAsync(transactionType);
+                if (transactionType != null)
+                {
+                    if (transactionType.Id > 0)
+                        isSaved = await _transactionTypeService.UpdateTransactionTypeAsync(transactionType);
+                    else
+                        isSaved = await _transactionTypeService.InsertTransactionTypeAsync(transactionType);
 
-                _notyfService.Success("Save operation successful");
+                    _notyfService.Success("Successfully saved Transaction type");
+                    return Json(isSaved);
+                }
 
-                return Json(true);
+                _notyfService.Error("Unable to save transaction type");
+                return Json(isSaved);
             }
             catch (Exception ex)
             {
-                _notyfService.Error(ex.Message);
-                throw ex;
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
+        [HttpDelete]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> DeleteTransactionType(long transactionTypeId)
+
+        {
+            try
+            {
+                bool isSaved = false;
+                if (transactionTypeId > 0)
+                {
+                    isSaved = await _transactionTypeService.DeleteTransactionTypeAsync(transactionTypeId);
+
+                    if (isSaved)
+                        _notyfService.Success("Successfully deleted Transaction type");
+                    else
+                        _notyfService.Warning("Unable to delete Transaction type");
+
+                    return Json(isSaved);
+                }
+                _notyfService.Error("Unable to delete Transaction type");
+                return Json(isSaved);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> ActivateTransactionType([FromBody] TransactionType transactionType)
+        {
+            try
+            {
+                bool isActivate = false;
+
+                isActivate = await _transactionTypeService.ActivateTransactionTypeAsync(transactionType);
+
+                if (isActivate)
+                    _notyfService.Success("Successfully activated Transaction type");
+                else
+                    _notyfService.Error("Unable to activate Transaction type");
+
+                return Json(isActivate);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }

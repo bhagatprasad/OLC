@@ -1,27 +1,22 @@
 ﻿CREATE PROCEDURE [dbo].[uspUpdateTransationTypes]
-	(    
-    @id        bigint,
-    @name      varchar(50),
-    @code      varchar(50),
-    @createdBy bigint,
-    @modifiedBy  bigint,
-    @isActive   bit
+(
+    @id         BIGINT,
+    @name       VARCHAR(50),
+    @code       VARCHAR(50),
+    @createdBy  BIGINT,
+    @modifiedBy BIGINT,
+    @isActive   BIT
 )
-
 AS
-
 BEGIN
-
-update dbo.[TransactionType] set 
-                            
-                            name=@name,
-                            code=@code,
-                            ModifiedBy=@modifiedBy,
-                            ModifiedOn=GETDATE(),
-                            IsActive=@isActive
-
-                            Where Id=@id
-
+    UPDATE dbo.[TransactionType]
+    SET
+        name = @name,
+        code = @code,
+        ModifiedBy = @modifiedBy,
+        ModifiedOn = GETDATE(),
+        IsActive = @isActive
+    WHERE Id = @id
 END
 
                             

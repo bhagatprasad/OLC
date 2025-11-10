@@ -17,4 +17,3 @@
 	   FROM [dbo].[TransactionType]
 
   END
-

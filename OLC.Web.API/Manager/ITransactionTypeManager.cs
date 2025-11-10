@@ -9,5 +9,6 @@ namespace OLC.Web.API.Manager
         Task<bool> UpdateTransactionTypeAsync(TransactionType transactionType);
         Task<bool> DeleteTransactionTypeAsync(long id);
         Task<TransactionType> GetTransactionTypeByIdAsync(long id);
+        Task<bool> ActivateTransactionTypeAsync(TransactionType transactionType);
     }
 }
