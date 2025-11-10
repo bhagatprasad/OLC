@@ -12,7 +12,7 @@ namespace OLC.Web.API.Manager
         private readonly IUserBankAccountManager _userBankAccountManager;
         private readonly ICreditCardManager _creditCardManager;
         private readonly IBillingAddressManager _billingAddressManager;
-        public PaymentOrderManager(IConfiguration configuration, IUserBankAccountManager userBankAccountManager,ICreditCardManager creditCardManager,IBillingAddressManager billingAddressManager)
+        public PaymentOrderManager(IConfiguration configuration, IUserBankAccountManager userBankAccountManager, ICreditCardManager creditCardManager, IBillingAddressManager billingAddressManager)
         {
             connectionString = configuration.GetConnectionString("DefaultConnection");
             _userBankAccountManager = userBankAccountManager;
@@ -777,23 +777,23 @@ namespace OLC.Web.API.Manager
                 }
             }
 
-            if (Upo != null &&Upo.CreditCardId.HasValue)
+            if (Upo != null && Upo.CreditCardId.HasValue)
             {
-                var userCreditCard = await _creditCardManager.GetUserCreditCardByCardIdAsync(Upo.CreditCardId.Value); 
+                var userCreditCard = await _creditCardManager.GetUserCreditCardByCardIdAsync(Upo.CreditCardId.Value);
 
                 if (userCreditCard != null)
                 {
                     paymentOrderDetails.userCreditCard = userCreditCard;
                 }
             }
-            if(Upo != null && Upo.BillingAddressId.HasValue)
+            if (Upo != null && Upo.BillingAddressId.HasValue)
             {
                 var userBillingAddress = await _billingAddressManager.GetUserBillingAddressByIdAsync(Upo.BillingAddressId.Value);
                 if (userBillingAddress != null)
                 {
                     paymentOrderDetails.userBillingAddress = userBillingAddress;
                 }
-            }           
+            }
             //history 
 
             if (paymentOrderId > 0)
@@ -827,7 +827,7 @@ namespace OLC.Web.API.Manager
 
             cmd.Parameters.AddWithValue("@toDate", paymentOrderDetailsFilter.ToDate);
 
-            cmd.Parameters.AddWithValue("@orderStatusId",paymentOrderDetailsFilter.OrderStatusId);
+            cmd.Parameters.AddWithValue("@orderStatusId", paymentOrderDetailsFilter.OrderStatusId);
 
             cmd.Parameters.AddWithValue("@paymentStatusId", paymentOrderDetailsFilter.PaymentStatusId);
 
@@ -925,5 +925,61 @@ namespace OLC.Web.API.Manager
             }
             return userPaymentOrders;
         }
+
+        public async Task<ExecutivePaymentOrderSum> GetAllExecutivePaymentOrderSumAsync(PaymentOrderDetailsFilter paymentOrderDetailsFilter)
+        {
+
+
+            ExecutivePaymentOrderSum Upo = null;
+
+            SqlConnection conn = new SqlConnection(connectionString);
+
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("[dbo].[uspGetAllExecutivePaymentOrderSum]", conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@fromDate", paymentOrderDetailsFilter.FromDate);
+
+            cmd.Parameters.AddWithValue("@toDate", paymentOrderDetailsFilter.ToDate);
+
+            cmd.Parameters.AddWithValue("@orderStatusId", paymentOrderDetailsFilter.OrderStatusId);
+
+            cmd.Parameters.AddWithValue("@paymentStatusId", paymentOrderDetailsFilter.PaymentStatusId);
+
+            cmd.Parameters.AddWithValue("@depositStatusId", paymentOrderDetailsFilter.DepositStatusId);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+
+            da.Fill(dt);
+
+            conn.Close();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                Upo = new ExecutivePaymentOrderSum();
+
+
+
+                Upo.TotalAmount = dr["TotalAmount"] != DBNull.Value ? Convert.ToInt64(dr["TotalAmount"]) : null;
+
+                Upo.DepositedAmount = dr["DepositedAmount"] != DBNull.Value ? Convert.ToInt64(dr["DepositedAmount"]) : null;
+
+                Upo.PlatformFee = dr["PlatformFee"] != DBNull.Value ? Convert.ToInt64(dr["PlatformFee"]) : null;
+
+                Upo.CancelledAmount = dr["SuccessAmount"] != DBNull.Value ? Convert.ToInt64(dr["SuccessAmount"]) : null;
+
+                Upo.FailedAmount = dr["FailedAmount"] != DBNull.Value ? Convert.ToInt64(dr["FailedAmount"]) : null;
+
+                Upo.CancelledAmount = dr["CancelledAmount"] != DBNull.Value ? Convert.ToInt64(dr["CancelledAmount"]) : null;
+
+            }
+            return Upo;
+
+        }
+
     }
 }

@@ -195,6 +195,7 @@
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetails.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetailsFilter.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllExecutivePaymentOrderSum.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

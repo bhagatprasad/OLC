@@ -188,5 +188,20 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpGet]
+        [Route("GetAllExecutivePaymentOrderSum")]
+        public async Task<IActionResult> GetAllExecutivePaymentOrderSumAsync([FromQuery] PaymentOrderDetailsFilter paymentOrderDetailsFilter)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.GetAllExecutivePaymentOrderSumAsync(paymentOrderDetailsFilter);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
