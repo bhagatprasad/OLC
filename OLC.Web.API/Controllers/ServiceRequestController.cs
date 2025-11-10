@@ -7,10 +7,10 @@ namespace OLC.Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ServiceRequestContoller:ControllerBase
+    public class ServiceRequestController:ControllerBase
     {
         private readonly IServiceRequestManager _serviceRequestManager;
-        public ServiceRequestContoller(IServiceRequestManager serviceRequestManager)
+        public ServiceRequestController(IServiceRequestManager serviceRequestManager)
         {
             _serviceRequestManager = serviceRequestManager;
         }
