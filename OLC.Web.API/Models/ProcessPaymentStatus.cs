@@ -4,6 +4,7 @@
     {
         public long? PaymentOrderId { get; set; }
         public string? SessionId { get; set; }
+        public string? ChargeId { get; set; }
         public string? PaymentIntentId { get; set; }
         public string? PaymentMethod { get; set; }
         public long? OrderStatusId { get; set; }
