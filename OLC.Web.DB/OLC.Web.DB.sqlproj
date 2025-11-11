@@ -207,6 +207,7 @@
     <Build Include="Tables\DepositOrder.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspInsertDepositOrder.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByOrderId.sql" />
+    <Build Include="Tables\DepositeOrder.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

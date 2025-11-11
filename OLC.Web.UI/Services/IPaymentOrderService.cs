@@ -16,5 +16,6 @@ namespace OLC.Web.UI.Services
         Task<PaymentOrder> ProcessPaymentOrderAsync(ProcessPaymentOrder processPaymentOrder);
         Task<DepositOrder> InsertDepositOrderAsync(DepositOrder depositOrder);
         Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId);
+        Task<bool> HandleDepositPaymentAsync(ProcessDepositePayment processDepositePayment);
     }
 }

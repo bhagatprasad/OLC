@@ -50,10 +50,13 @@
 
 <body>
 
-    <!-- Preloader -->
-    <div id="preloader">
-        <div data-loader="dual-ring"></div>
+    <!-- Loading Spinner -->
+    <div class="se-pre-con" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
+    <!-- Preloader End -->
     <!-- Preloader End -->
     <!-- Document Wrapper
     ============================================= -->
@@ -106,15 +109,15 @@
     @await Component.InvokeAsync("Notyf")
     <script>
         $(window).on('load', function () {
-            $("#preloader").hide();
+            $(".se-pre-con").hide();
         });
 
         $(document).ajaxStart(function () {
-            $("#preloader").show();
+            $(".se-pre-con").show();
         });
 
         $(document).ajaxComplete(function () {
-            $("#preloader").hide();
+            $(".se-pre-con").hide();
         });
     </script>
 </body>

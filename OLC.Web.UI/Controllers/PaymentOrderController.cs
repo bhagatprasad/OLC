@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OLC.Web.UI.Helper;
 using OLC.Web.UI.Models;
 using OLC.Web.UI.Services;
 using Stripe;
@@ -203,7 +204,7 @@ namespace OLC.Web.UI.Controllers
             {
                 ProcessPaymentStatus processPaymentStatus = new ProcessPaymentStatus();
                 processPaymentStatus.PaymentOrderId = successModel.PaymentOrderId;
-                processPaymentStatus.ChargeId=successModel.ChargeId;
+                processPaymentStatus.ChargeId = successModel.ChargeId;
                 processPaymentStatus.OrderStatusId = 42;
                 processPaymentStatus.PaymentStatusId = 24;
                 processPaymentStatus.Description = "Payment successfull";
@@ -295,6 +296,42 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> HandleDepositPayment([FromBody] ProcessDepositePayment processDepositePayment)
+        {
+            try
+            {
+
+                StripeConfiguration.ApiKey = "sk_test_51SJ2Nu32ZfCJ3T7ZvHRGxGZ1vVpZQzYTNWejuB9sQrwyJ9J0srziK7R40YojN36uo8zKn0AussEd2vYMb5cc9NWf00cYMmzEh7";
+
+                var refundOptions = new RefundCreateOptions
+                {
+                    Charge = processDepositePayment.StripePaymentChargeId,
+                    Amount = UitlityConverter.ConvertToCents(processDepositePayment.DepositeAmount),
+                };
+
+                var refundService = new RefundService();
+
+                var refund = await refundService.CreateAsync(refundOptions);
+
+
+                var response = await _paymentOrderService.HandleDepositPaymentAsync(processDepositePayment);
+
+                if (response != null)
+                {
+                    var paymentOrders = await _paymentOrderService.GetExecutivePaymentOrdersAsync();
+                    return Json(new { data = paymentOrders });
+                }
+
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateRefund(string chargeId, long amountInCents)
