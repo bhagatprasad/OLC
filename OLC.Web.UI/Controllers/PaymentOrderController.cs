@@ -348,5 +348,43 @@ namespace OLC.Web.UI.Controllers
             var refund = await refundService.CreateAsync(refundOptions);
             return Json(new { RefundId = refund.Id, Status = refund.Status });
         }
+
+        [HttpGet]
+        public async Task <IActionResult> GetDepositOrderByOrderIdAsync(long paymnentOrderId)
+        {
+            try
+            {
+                var response = await _paymentOrderService.GetDepositOrderByOrderIdAsync(paymnentOrderId);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpPost]
+        [Authorize(Roles = "AdminiStrator,Executive")]
+        public async Task <IActionResult> InsertDepositOrderAsync([FromBody] DepositOrder depositOrder)
+        {
+            try
+            {
+
+
+                var response = await _paymentOrderService.InsertDepositOrderAsync(depositOrder);
+
+                if (response == null)
+                    _notyfService.Warning("Unable to place your order , please try again");
+                else
+                    _notyfService.Success($"Your order placed successfully , the order refernace {response.OrderReference.ToString()}");
+
+                return Json(new { data = response });
+
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
     }
 }
