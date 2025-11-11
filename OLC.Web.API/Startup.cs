@@ -38,6 +38,7 @@ namespace OLC.Web.API
             services.AddScoped<IUserBankAccountManager, UserBankAccountManager>();
             services.AddScoped<IPaymentOrderManager, PaymentOrderManager>();
             services.AddScoped<IRoleManager, RoleManager>();
+            services.AddScoped<IServiceRequestManager, ServiceRequestManager>();
             services.AddMvc().AddXmlSerializerFormatters();
 
             services.AddCors(options =>

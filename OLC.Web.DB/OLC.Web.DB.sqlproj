@@ -83,6 +83,7 @@
     <Folder Include="Programmability\Stored Procedures\TransactionFee" />
     <Folder Include="Programmability\Stored Procedures\PaymentOrder" />
     <Folder Include="Programmability\Stored Procedures\PaymentOrderHistroy" />
+    <Folder Include="Programmability\Stored Procedures\ServiceRequest" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -195,6 +196,12 @@
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrders.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetails.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetailsFilter.sql" />
+    <Build Include="Tables\ServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspInsertServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspUpdateServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspDeleteServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetServiceRequestByTicketId.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetAllServiceRequests.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
