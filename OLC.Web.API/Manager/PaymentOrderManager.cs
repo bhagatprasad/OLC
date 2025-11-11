@@ -253,7 +253,7 @@ namespace OLC.Web.API.Manager
 
             // Add parameters based on the ProcessPaymentStatus object
             cmd.Parameters.AddWithValue("@paymentOrderId", processPaymentStatus.PaymentOrderId ?? (object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@sessionId", processPaymentStatus.SessionId ?? (object)DBNull.Value);
+            cmd.Parameters.AddWithValue("@sessionId", processPaymentStatus.ChargeId ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@paymentIntentId", processPaymentStatus.PaymentIntentId ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@paymentMethod", processPaymentStatus.PaymentMethod ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@orderStatusId", processPaymentStatus.OrderStatusId ?? (object)DBNull.Value);
