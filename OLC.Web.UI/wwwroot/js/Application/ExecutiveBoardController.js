@@ -448,96 +448,154 @@
         console.log('Viewing order details for:', orderId);
         window.location.href = '/PaymentOrder/GetPaymentOrderDetails?paymentOrderId=' + orderId;
     };
+ 
 
-    $(document).on("click", ".approve-order", function () {
+    /////Cancel Order.............!
 
-        $('#approveOrderModal').modal({ backdrop: 'static', keyboard: false });
+    $(document).on("click", ".cancel-order", function () {
 
-        console.log("deleting...");
+        $('#cancelOrderModal').modal({ backdrop: 'static', keyboard: false });
+
+        console.log("cancel...........");
 
         var orderId = $(this).data("order-id");
 
         var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == orderId)[0];
 
-        console.log("current selected  approve order is .." + JSON.stringify(selectedPaymentOrder));
+        console.log("current selected cancel order is................" + JSON.stringify(selectedPaymentOrder));
 
-        self.selectedPaymentOrder = selectedPaymentOrder;
+        self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
 
-        $("#approveOrderModal").modal("show");
+        //box=money
+        //a=1
+        //b=a
+
+        $("#cancelOrderModal").modal("show");
+
     });
 
-    $(document).on("click", "#btnApproveOrder", function () {
+    $(document).on("click", "#btnCancelOrder", function () {
 
-        var message = $("#approvalComment").val();
+        var message = $("#cancelOrderComment").val();
 
-        console.log("Processing Order:", self.selectedPaymentOrder);
+        console.log("Cancel Order:", self.CurrentSelectedPaymentOrder);
 
         console.log("Comment:", message);
 
-        const orderStatusId = statusConstants.Approved;
-
+        const orderStatusId = statusConstants.Cancelled;
 
         var processPaymentOrder = {
-            PaymentOrderId: self.selectedPaymentOrder.Id,
-            OrderStatusId: orderStatusId,
-            PaymentStatusId: self.selectedPaymentOrder.PaymentStatusId,
-            DepositeStatusId: self.selectedPaymentOrder.DepositStatusId,
+            PaymentOrderId: self.CurrentSelectedPaymentOrder.Id,
+            OrderStatusId: statusConstants.Cancelled,
+            PaymentStatusId: self.CurrentSelectedPaymentOrder.PaymentStatusId,
+            DepositeStatusId: statusConstants.Cancelled,
             CreatedBy: self.ApplicationUser.Id,
             Description: message
         };
 
-        console.log("process payment order......");
+        console.log("Processing cancel payment order:", processPaymentOrder);
 
-      
-        self.ProcesspaymentOrderDetailsAsync(processPaymentOrder,false);
 
+        self.ProcesspaymentOrderDetailsAsync(processPaymentOrder,true);
+
+        
     });
 
-    self.ProcesspaymentOrderDetailsAsync = function (processPaymentOrder,isCancel) {
-        $.ajax({
-            type: "POST",
-            url: "/PaymentOrder/ProcessPaymentOrder",
-            data: JSON.stringify(processPaymentOrder),
-            cache: false,
-            contentType: 'application/json;charset=utf-8',
-            dataType: 'json',
 
-            success: function (response) {
-                console.log(response);
+        $(document).on("click", ".approve-order", function () {
 
-                if (response.data) {
+            $('#approveOrderModal').modal({ backdrop: 'static', keyboard: false });
 
-                    self.CurrentSelectedPaymentOrder = null;
+            console.log("deleting...");
 
-                    if (isCancel) {
+            var orderId = $(this).data("order-id");
 
-                    } else {
-                        $("#approveOrderModal").modal("hide");
+            var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == orderId)[0];
 
-                        $("#approvalComment").val("");
-                    }
-                   
+            console.log("current selected  approve order is .." + JSON.stringify(selectedPaymentOrder));
 
-                    self.ExecutivePaymentOrders = [];
-                    self.filteredPaymentOrders = [];
-                    self.ExecutivePaymentOrders = response && response.data ? response.data : [];
-                    self.filteredPaymentOrders = [...self.ExecutivePaymentOrders];
-                    self.populateSummaryCards();
-                    self.populatePaymentOrdersGrid();
-                    self.initializeSearch();
-                    $(".se-pre-con").hide();
+            self.selectedPaymentOrder = selectedPaymentOrder;
 
-                }
-
-            },
-            error: function (error) {
-                console.log(error);
-            }
+            $("#approveOrderModal").modal("show");
         });
-    }
 
-    $(document).on("click", ".btn-approve-order-close", function () {
+        $(document).on("click", "#btnApproveOrder", function () {
+
+            var message = $("#approvalComment").val();
+
+            console.log("Processing Order:", self.selectedPaymentOrder);
+
+            console.log("Comment:", message);
+
+            const orderStatusId = statusConstants.Approved;
+
+            var processPaymentOrder = {
+                PaymentOrderId: self.selectedPaymentOrder.Id,
+                OrderStatusId: orderStatusId,
+                PaymentStatusId: self.selectedPaymentOrder.PaymentStatusId,
+                DepositeStatusId: self.selectedPaymentOrder.DepositStatusId,
+                CreatedBy: self.ApplicationUser.Id,
+                Description: message
+            };
+
+            console.log("process payment order......");
+
+            self.ProcesspaymentOrderDetailsAsync(processPaymentOrder, false);
+
+        });
+
+        self.ProcesspaymentOrderDetailsAsync = function (processPaymentOrder, isCancel) {
+            $.ajax({
+                type: "POST",
+                url: "/PaymentOrder/ProcessPaymentOrder",
+                data: JSON.stringify(processPaymentOrder),
+                cache: false,
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+
+                success: function (response) {
+                    console.log(response);
+
+                    if (response.data) {
+
+                        self.CurrentSelectedPaymentOrder = null;
+
+                        if (isCancel) {
+                            $("#cancelOrderComment").val("");
+
+                            $("#cancelOrderModal").modal("hide");
+
+                        } else {
+                            $("#approveOrderModal").modal("hide");
+
+                            $("#approvalComment").val("");
+                        }
+
+                        self.ExecutivePaymentOrders = [];
+                        self.filteredPaymentOrders = [];
+                        self.ExecutivePaymentOrders = response && response.data ? response.data : [];
+                        self.filteredPaymentOrders = [...self.ExecutivePaymentOrders];
+                        self.populateSummaryCards();
+                        self.populatePaymentOrdersGrid();
+                        self.initializeSearch();
+                        $(".se-pre-con").hide();
+
+                    }
+
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        $(document).on("click", ".btn-approve-order-close", function () {
+            self.selectedPaymentOrder = {};
+            $("#approveOrderModal").modal("hide");
+        });
+
+       $(document).on("click", ".btn-cancel-order-close", function () {
         self.selectedPaymentOrder = {};
-        $("#approveOrderModal").modal("hide");
-    });
-}
+        $("#cancelOrderModal").modal("hide");
+       });
+ }
