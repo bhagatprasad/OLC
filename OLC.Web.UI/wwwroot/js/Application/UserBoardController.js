@@ -410,7 +410,7 @@
         // Initialize event handlers
         self.initializeEventHandlers();
     };
-
+    
     // Initialize event handlers
     self.initializeEventHandlers = function () {
         $('.view-order').off('click').on('click', function () {
@@ -425,7 +425,8 @@
     };
 
     self.viewOrderDetails = function (orderId) {
-        window.location.href = '/PaymentOrder/Details?orderId=' + orderId;
+        console.log('Viewing order details for:', orderId);
+        window.location.href = '/PaymentOrder/GetPaymentOrderDetails?paymentOrderId=' + orderId;
     };
 
     self.copyOrderReference = function (orderRef) {
