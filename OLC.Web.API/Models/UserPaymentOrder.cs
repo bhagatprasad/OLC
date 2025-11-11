@@ -32,6 +32,8 @@
         public string StripePaymentChargeId { get; set; }
         public string StripeDepositeIntentId { get; set; }
         public string StripeDepositeChargeId { get; set; }
+        public decimal? DepositeAmount { get; set; }
+        public decimal? PendingDepositeAmount { get; set; }
         public long? CreatedBy { get; set; }
         public DateTimeOffset? CreatedOn { get; set; }
         public long? ModifiedBy { get; set; }
