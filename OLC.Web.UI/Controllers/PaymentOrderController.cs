@@ -82,7 +82,6 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Success(string session_id)
-
         {
             PaymentSuccessViewModel successModel = new PaymentSuccessViewModel();
             try
@@ -90,7 +89,7 @@ namespace OLC.Web.UI.Controllers
                 if (string.IsNullOrEmpty(session_id))
                 {
                     ViewBag.Error = "Invalid session ID";
-                    return View();
+                    return View(successModel);
                 }
 
                 // Initialize Stripe with secret key
@@ -103,12 +102,23 @@ namespace OLC.Web.UI.Controllers
                 if (session == null)
                 {
                     ViewBag.Error = "Payment session not found";
-                    return View();
+                    return View(successModel);
                 }
 
                 // Check if payment was successful
                 if (session.PaymentStatus == "paid")
                 {
+                    // Retrieve the Payment Intent to get the charge ID
+                    string chargeId = null;
+                    if (!string.IsNullOrEmpty(session.PaymentIntentId))
+                    {
+                        var paymentIntentService = new PaymentIntentService();
+                        var paymentIntent = await paymentIntentService.GetAsync(session.PaymentIntentId);
+
+                        // Get the latest charge ID (no expansion needed for the ID)
+                        chargeId = paymentIntent.LatestChargeId;  // e.g., "ch_123456789"
+                    }
+
                     // Extract metadata from the session
                     var metadata = session.Metadata;
 
@@ -129,13 +139,13 @@ namespace OLC.Web.UI.Controllers
                         BillingAddressId = metadata?.ContainsKey("billingAddressId") == true ? metadata["billingAddressId"] : null,
                         PaymentOrderId = metadata?.ContainsKey("PaymentOrderId") == true ? Convert.ToInt64(metadata["PaymentOrderId"]) : 0,
                         OrderReference = metadata?.ContainsKey("OrderReference") == true ? metadata["OrderReference"] : null,
+                        ChargeId = chargeId
                     };
 
-                    // Here you can update your database with the payment success
+                    // Here you can update your database with the payment success (include chargeId)
                     await UpdateOrderStatus(successModel);
 
                     ViewBag.SuccessModel = successModel;
-
                     ViewBag.IsSuccess = true;
                 }
                 else
@@ -157,6 +167,7 @@ namespace OLC.Web.UI.Controllers
                 return View();
             }
         }
+
 
         // GET: /Payment/Cancel
         [HttpGet]
@@ -192,6 +203,7 @@ namespace OLC.Web.UI.Controllers
             {
                 ProcessPaymentStatus processPaymentStatus = new ProcessPaymentStatus();
                 processPaymentStatus.PaymentOrderId = successModel.PaymentOrderId;
+                processPaymentStatus.ChargeId=successModel.ChargeId;
                 processPaymentStatus.OrderStatusId = 42;
                 processPaymentStatus.PaymentStatusId = 24;
                 processPaymentStatus.Description = "Payment successfull";
@@ -282,6 +294,22 @@ namespace OLC.Web.UI.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRefund(string chargeId, long amountInCents)
+        {
+            // Initialize Stripe with secret key
+            StripeConfiguration.ApiKey = "sk_test_51SJ2Nu32ZfCJ3T7ZvHRGxGZ1vVpZQzYTNWejuB9sQrwyJ9J0srziK7R40YojN36uo8zKn0AussEd2vYMb5cc9NWf00cYMmzEh7";
+
+            var refundOptions = new RefundCreateOptions
+            {
+                Charge = chargeId,
+                Amount = amountInCents
+            };
+            var refundService = new RefundService();
+            var refund = await refundService.CreateAsync(refundOptions);
+            return Json(new { RefundId = refund.Id, Status = refund.Status });
         }
     }
 }

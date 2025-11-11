@@ -16,5 +16,6 @@
         public string? CreditCardId { get; set; }
         public string? BankAccountId { get; set; }
         public string? BillingAddressId { get; set; }
+        public string? ChargeId { get; set; }
     }
 }
