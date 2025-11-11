@@ -202,6 +202,7 @@
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspDeleteServiceRequest.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetServiceRequestByTicketId.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetAllServiceRequests.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllExecutivePaymentOrderSum.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
