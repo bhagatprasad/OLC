@@ -1018,11 +1018,14 @@ namespace OLC.Web.API.Manager
             DepositOrder depositOrder = null;
 
             SqlConnection conn = new SqlConnection(connectionString);
+
             conn.Open();
+
             SqlCommand cmd = new SqlCommand("[dbo].[uspGetDepositOrdersByOrderId]", conn);
 
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@paymentOrderId", paymentOrderId);
+
+            cmd.Parameters.AddWithValue("@PaymentOrderId", paymentOrderId);
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd);
 

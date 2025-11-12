@@ -204,7 +204,6 @@
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetServiceRequestByTicketId.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetAllServiceRequests.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllExecutivePaymentOrderSum.sql" />
-    <Build Include="Tables\DepositOrder.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspInsertDepositOrder.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByOrderId.sql" />
     <Build Include="Tables\DepositeOrder.sql" />

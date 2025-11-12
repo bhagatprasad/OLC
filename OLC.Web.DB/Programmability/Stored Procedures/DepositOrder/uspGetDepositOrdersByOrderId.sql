@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetDepositOrdersByOrderId]
-	(
-	@Id     BIGINT
-	)
+(
+	   @PaymentOrderId     bigint
+)
 	AS
 
 	  BEGIN 
@@ -24,6 +24,6 @@
 
 		  FROM [dbo].[DepositOrder]
 
-		  WHERE Id = @Id;
+		  WHERE PaymentOrderId = @PaymentOrderId;
 
 		  END
