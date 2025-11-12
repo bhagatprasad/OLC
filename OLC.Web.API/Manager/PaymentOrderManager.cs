@@ -646,9 +646,9 @@ namespace OLC.Web.API.Manager
 
                 Upo.StripeDepositeChargeId = dr["StripeDepositeChargeId"] != DBNull.Value ? dr["StripeDepositeChargeId"].ToString() : null;  // Added null check
 
-                Upo.DepositeAmount = dr["TotalDepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["TotalDepositeAmount"]) : null;
+                Upo.DepositeAmount = dr["TotalDepositAmount"] != DBNull.Value ? Convert.ToDecimal(dr["TotalDepositAmount"]) : null;
 
-                Upo.PendingDepositeAmount = dr["PendingDepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PendingDepositeAmount"]) : null;
+                Upo.PendingDepositeAmount = dr["PendingDepositAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PendingDepositAmount"]) : null;
 
                 Upo.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt64(dr["CreatedBy"]) : null;
 

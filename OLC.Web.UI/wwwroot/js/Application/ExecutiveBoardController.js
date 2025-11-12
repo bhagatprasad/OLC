@@ -7,9 +7,6 @@
     self.CoreStatus = [];
     self.ApplicationUser = {};
     var actions = [];
-
-    self.selectedDepositOrders = [];
-
     self.slaTimers = {};
     self.CurrentSelectedPaymentOrder = [];
     self.selectedPaymentOrder = {};
@@ -678,63 +675,8 @@
             Description: message
         };
         console.log("Processing cancel payment order:", processPaymentOrder);
-
         self.ProcesspaymentOrderDetailsAsync(processPaymentOrder, true);
     });
-
-    
-    
-    //
-    $(document).on("click", ".view-deposit", function () {
-
-        console.log("View Deposit clicked............");
-        
-        const paymentOrderId = $(this).data("order-id");
-        console.log("PaymentOrderId:", paymentOrderId);
-        const depositOrder = self.selectedDepositOrders
-            .filter(x => x.paymentOrderId == paymentOrderId)[0]; 
-
-        if (!paymentOrderId) {
-            console.log(`Fetching deposits found with paymentOrderId: ${paymentOrderId}`);
-            alert("Order not found. Please try again.");
-            return;
-        }
-
-        console.log("Selected deposits:", JSON.stringify(depositOrder));
-
-        self.CurrentSelectedPaymentOrder = depositOrder;
-
-        $('#depositOrderModal').modal({
-            backdrop: 'static',  
-            keyboard: false,     
-            focus: true
-        });
-    });
-
-    
-
-    function GetDepositOrderByOrder(paymentOrderId) {
-        if (!paymentOrderId) {
-            console.warn("No paymentOrderId Provided foe deposit fetch");
-            return;
-        }
-        $(".se-pre-con").show();
-        $.ajax({
-            type: "GET",
-            url: "/DepositOrder/GetDepositOrderByOrder",
-            data: { paymentOrderId: paymentOrderId },
-            cache: false,
-
-            success: function (response) {
-                console.log(response)
-                self.selectedDepositOrders = response && response.data ? response.data : [];
-                $(".se-pre-con").hide();
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    };
 
     $(document).on("click", ".approve-order", function () {
         $('#approveOrderModal').modal({ backdrop: 'static', keyboard: false });
