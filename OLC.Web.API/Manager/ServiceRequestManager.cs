@@ -228,5 +228,82 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
+
+        public async Task<bool> InsertServiceRequestRepliesAsync(ServiceRequestReplies serviceRequestReplies)
+        {
+            
+            if(serviceRequestReplies != null)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertServiceRequestReply]", sqlConnection);    
+                sqlCommand.CommandType = CommandType.StoredProcedure;   
+
+                sqlCommand.Parameters.AddWithValue("@ticketId", serviceRequestReplies.TicketId);
+                sqlCommand.Parameters.AddWithValue("@replierId", serviceRequestReplies.ReplierId);
+                sqlCommand.Parameters.AddWithValue("@message", serviceRequestReplies.Message);
+                sqlCommand.Parameters.AddWithValue("@status", serviceRequestReplies.Status);
+                sqlCommand.Parameters.AddWithValue("@isInternal", serviceRequestReplies.IsInternal);
+                sqlCommand.Parameters.AddWithValue("@createdBy", serviceRequestReplies.IsInternal);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", serviceRequestReplies.IsInternal);
+
+
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+            }      
+                return false;
+        }
+
+        public async Task<List<ServiceRequestReplies>> GetServiceRequestRepliesByTicketIdAsync(long ticketId)
+        {
+            List<ServiceRequestReplies> serviceRequestRepliess= new List<ServiceRequestReplies>();
+
+            ServiceRequestReplies getServiceRequestReplies = null;
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetServiceRequestRepliesByTicketId]", connection);
+
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+            sqlCommand.Parameters.AddWithValue("@ticketId", ticketId);
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+            DataTable dt = new DataTable();
+
+            sqlDataAdapter.Fill(dt);
+
+            connection.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+
+                    getServiceRequestReplies = new ServiceRequestReplies();
+
+                    getServiceRequestReplies.Id = Convert.ToInt64(item["Id"]);
+                    getServiceRequestReplies.TicketId = item["TicketId"] != DBNull.Value ? Convert.ToInt64(item["TicketId"]) : null;
+                    getServiceRequestReplies.ReplierId = item["ReplierId"] != DBNull.Value ? Convert.ToInt64(item["ReplierId"]) : null;
+                    getServiceRequestReplies.Message = item["Message"] != DBNull.Value ? item["Message"].ToString() : null;
+                    getServiceRequestReplies.Message = item["Status"] != DBNull.Value ? item["Status"].ToString() : null;
+                    getServiceRequestReplies.IsInternal = item["IsInternal"] != DBNull.Value ? (bool?)item["IsInternal"] : null;
+                    getServiceRequestReplies.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+                    getServiceRequestReplies.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTime?)item["CreatedOn"] : null;
+                    getServiceRequestReplies.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+                    getServiceRequestReplies.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTime?)item["ModifiedOn"] : null;
+                    getServiceRequestReplies.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                    serviceRequestRepliess.Add(getServiceRequestReplies);
+
+                }
+            }
+            return serviceRequestRepliess;
+        }
     }
+    
 }

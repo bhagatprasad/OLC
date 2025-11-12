@@ -85,6 +85,7 @@
     <Folder Include="Programmability\Stored Procedures\PaymentOrderHistroy" />
     <Folder Include="Programmability\Stored Procedures\ServiceRequest" />
     <Folder Include="Programmability\Stored Procedures\DepositOrder" />
+    <Folder Include="Programmability\Stored Procedures\ServiceRequestReplies" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -208,6 +209,9 @@
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspInsertDepositOrder.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByOrderId.sql" />
     <Build Include="Tables\DepositeOrder.sql" />
+    <Build Include="Tables\ServiceRequestReplies.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspInsertServiceRequestReply.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspGetServiceRequestRepliesByTicketId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
