@@ -67,18 +67,24 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> InsertDepositOrderAsync(DepositOrder depositOrder)
         {
-            return await _repositoryFactory.SendAsync<DepositOrder, bool>(HttpMethod.Post, "DepositOrder/InsertDepositOrderAsync", depositOrder);
+            return await _repositoryFactory.SendAsync<DepositOrder, bool>(HttpMethod.Post, "PaymentOrder/InsertDepositOrderAsync", depositOrder);
         }
 
         public async Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId)
         {
-            var url = Path.Combine("DepositOrder/GetDepositOrderByOrderIdAsync", paymentOrderId.ToString());
+            var url = Path.Combine("PaymentOrder/GetDepositOrderByOrderIdAsync", paymentOrderId.ToString());
             return await _repositoryFactory.SendAsync<List<DepositOrder>>(HttpMethod.Get, url);
         }
 
         public async Task<bool> HandleDepositPaymentAsync(ProcessDepositePayment processDepositePayment)
         {
             return await _repositoryFactory.SendAsync<ProcessDepositePayment, bool>(HttpMethod.Post, "PaymentOrder/HandleDepositPaymentAsync", processDepositePayment);
+        }
+
+        public async Task<ExecutivePaymentOrders> GetPaymentOrderDetailsAsync(long paymentOrderId)
+        {
+            var url = Path.Combine("PaymentOrder/GetPaymentOrderDetailsAsync", paymentOrderId.ToString());
+            return await _repositoryFactory.SendAsync<ExecutivePaymentOrders>(HttpMethod.Get, url);
         }
     }
 }
