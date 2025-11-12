@@ -363,5 +363,19 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPaymentOrder(long paymnentOrderId)
+        {
+            try
+            {
+                var response = await _paymentOrderService.GetPaymentOrderDetailsAsync(paymnentOrderId);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

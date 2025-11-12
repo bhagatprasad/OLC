@@ -1,29 +1,25 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetDepositOrdersByOrderId]
-	(
-	@Id     BIGINT
-	)
-	AS
-
-	  BEGIN 
-
-	   SELECT
-	       [Id]
-		  ,[PaymentOrderId]
-		  ,[OrderReference]
-		  ,[DepositAmount]
-		  ,[ActualDepositAmount]
-		  ,[PendingDepositAmount]
-		  ,[StripeDepositIntentId]
-		  ,[StripeDepositChargeId]
-		  ,[IsPartialPayment]
-		  ,[CreatedBy]
-		  ,[CreatedOn]
-		  ,[ModifiedBy]
-		  ,[ModifiedOn]
-		  ,[IsActive]
-
-		  FROM [dbo].[DepositOrder]
-
-		  WHERE Id = @Id;
-
-		  END
+(
+    @PaymentOrderId BIGINT
+)
+AS
+BEGIN
+    SELECT
+        [Id],
+        [PaymentOrderId],
+        [OrderReference],
+        [DepositeAmount],
+        [ActualDepositeAmount],
+        [PendingDepositeAmount],
+        [StripeDepositeIntentId],
+        [StripeDepositeChargeId],
+        [IsPartialPayment],
+        [CreatedBy],
+        [CreatedOn],
+        [ModifiedBy],
+        [ModifiedOn],
+        [IsActive]
+    FROM [dbo].[DepositOrder]
+    WHERE PaymentOrderId = @PaymentOrderId
+    ORDER BY [CreatedOn] DESC;
+END

@@ -208,10 +208,10 @@
     <Build Include="Tables\DepositOrder.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspInsertDepositOrder.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByOrderId.sql" />
-    <Build Include="Tables\DepositeOrder.sql" />
     <Build Include="Tables\ServiceRequestReplies.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspInsertServiceRequestReply.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspGetServiceRequestRepliesByTicketId.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\GetPaymentOrderDetails.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
