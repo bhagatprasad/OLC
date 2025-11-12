@@ -298,6 +298,7 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "AdminiStrator,Executive")]
         public async Task<IActionResult> HandleDepositPayment([FromBody] ProcessDepositePayment processDepositePayment)
         {
             try
@@ -315,10 +316,27 @@ namespace OLC.Web.UI.Controllers
 
                 var refund = await refundService.CreateAsync(refundOptions);
 
+                DepositOrder depositOrder = new DepositOrder()
+                {
+                    ActualDepositAmount = processDepositePayment.ActualDepositeAmount,
+                    CreatedBy = processDepositePayment.ModifiedBy,
+                    CreatedOn = DateTime.Now,
+                    IsActive = true,
+                    IsPartialPayment = processDepositePayment.IsPartialPayment == true ? 1 : 0,
+                    ModifiedBy = processDepositePayment.ModifiedBy,
+                    ModifiedOn = DateTime.Now,
+                    OrderReference = processDepositePayment.OrderReference,
+                    PaymentOrderId = processDepositePayment.PaymentOrderId,
+                    DepositAmount = processDepositePayment.DepositeAmount,
+                    PendingDepositAmount = processDepositePayment.PendingDepositeAmount,
+                    StripeDepositChargeId = refund.Id,
+                    StripeDepositIntentId = refund.PaymentIntentId
 
-                var response = await _paymentOrderService.HandleDepositPaymentAsync(processDepositePayment);
+                };
 
-                if (response != null)
+                var response = await _paymentOrderService.InsertDepositOrderAsync(depositOrder);
+
+                if (response)
                 {
                     var paymentOrders = await _paymentOrderService.GetExecutivePaymentOrdersAsync();
                     return Json(new { data = paymentOrders });
@@ -332,25 +350,8 @@ namespace OLC.Web.UI.Controllers
             }
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> CreateRefund(string chargeId, long amountInCents)
-        {
-            // Initialize Stripe with secret key
-            StripeConfiguration.ApiKey = "sk_test_51SJ2Nu32ZfCJ3T7ZvHRGxGZ1vVpZQzYTNWejuB9sQrwyJ9J0srziK7R40YojN36uo8zKn0AussEd2vYMb5cc9NWf00cYMmzEh7";
-
-            var refundOptions = new RefundCreateOptions
-            {
-                Charge = chargeId,
-                Amount = amountInCents
-            };
-            var refundService = new RefundService();
-            var refund = await refundService.CreateAsync(refundOptions);
-            return Json(new { RefundId = refund.Id, Status = refund.Status });
-        }
-
         [HttpGet]
-        public async Task <IActionResult> GetDepositOrderByOrderIdAsync(long paymnentOrderId)
+        public async Task<IActionResult> GetDepositOrderByOrder(long paymnentOrderId)
         {
             try
             {
@@ -360,30 +361,6 @@ namespace OLC.Web.UI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-        [HttpPost]
-        [Authorize(Roles = "AdminiStrator,Executive")]
-        public async Task <IActionResult> InsertDepositOrderAsync([FromBody] DepositOrder depositOrder)
-        {
-            try
-            {
-
-
-                var response = await _paymentOrderService.InsertDepositOrderAsync(depositOrder);
-
-                if (response == null)
-                    _notyfService.Warning("Unable to place your order , please try again");
-                else
-                    _notyfService.Success($"Your order placed successfully , the order refernace {response.OrderReference.ToString()}");
-
-                return Json(new { data = response });
-
-            }
-            catch (Exception ex)
-            {
-                _notyfService.Error(ex.Message);
-                throw ex;
             }
         }
     }

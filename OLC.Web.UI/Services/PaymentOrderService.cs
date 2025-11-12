@@ -65,9 +65,9 @@ namespace OLC.Web.UI.Services
             return await _repositoryFactory.SendAsync<ProcessPaymentOrder, PaymentOrder>(HttpMethod.Post, "PaymentOrder/ProcessPaymentOrderAsync", processPaymentOrder);
         }
 
-        public async Task<DepositOrder> InsertDepositOrderAsync(DepositOrder depositOrder)
+        public async Task<bool> InsertDepositOrderAsync(DepositOrder depositOrder)
         {
-            return await _repositoryFactory.SendAsync<DepositOrder, DepositOrder>(HttpMethod.Post, "DepositOrder/InsertDepositOrderAsync", depositOrder);
+            return await _repositoryFactory.SendAsync<DepositOrder, bool>(HttpMethod.Post, "DepositOrder/InsertDepositOrderAsync", depositOrder);
         }
 
         public async Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId)
