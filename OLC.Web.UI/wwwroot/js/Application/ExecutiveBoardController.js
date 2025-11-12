@@ -19,6 +19,8 @@
     self.hasMoreData = true;
     self.currentDisplayedOrders = [];
 
+    self.DepositOrders = [];
+
     self.init = function () {
         $(".se-pre-con").show();
 
@@ -820,4 +822,41 @@
         $('.table-responsive').off('scroll');
         $('#mobilePaymentOrdersCards').off('scroll');
     };
+
+    //
+    $(document).on("click", ".view-deposit", function () {
+
+        $('#depositOrderModal').modal({
+            backdrop: 'static',
+            keyboard: false,
+            focus: true
+        });
+        console.log("View Deposit clicked............");
+
+        const paymentOrderId = $(this).data("order-id");
+        console.log("PaymentOrderId:", paymentOrderId);
+        var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == orderId)[0];
+
+        self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
+
+        $(".se-pre-con").show();
+        $.ajax({
+            type: "GET",
+            url: "/PaymentOrder/GetDepositOrders",
+            data: { paymnentOrderId: self.CurrentSelectedPaymentOrder.Id },
+            cache: false,
+            success: function (response) {
+                console.log(response)
+                self.DepositOrders = response && response.data ? response.data : [];
+                $(".se-pre-con").hide();
+                $('#depositOrderModal').modal("show");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+
+    });
+
 }

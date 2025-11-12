@@ -351,7 +351,7 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDepositOrderByOrder(long paymnentOrderId)
+        public async Task<IActionResult> GetDepositOrders(long paymnentOrderId)
         {
             try
             {
