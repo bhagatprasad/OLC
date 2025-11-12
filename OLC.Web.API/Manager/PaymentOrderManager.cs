@@ -985,5 +985,98 @@ namespace OLC.Web.API.Manager
 
         }
 
+        public async Task<DepositOrder> InsertDepositOrderAsync(DepositOrder depositOrder)
+        {
+            DepositOrder responseDepositOrder = new DepositOrder();
+            if(depositOrder!=null)
+            {
+                SqlConnection sqlConnection= new SqlConnection(connectionString);
+                sqlConnection.Open();
+                SqlCommand  sqlCommand = new SqlCommand("[dbo].[uspInsertDepositOrder]",sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@PaymentOrderId", depositOrder.PaymentOrderId);
+                sqlCommand.Parameters.AddWithValue("@OrderReference", depositOrder.OrderReference);
+                sqlCommand.Parameters.AddWithValue("@DepositAmount", depositOrder.DepositAmount);
+                sqlCommand.Parameters.AddWithValue("@ActualDepositAmount", depositOrder.ActualDepositAmount);
+                sqlCommand.Parameters.AddWithValue("@PendingDepositAmount",depositOrder.PendingDepositAmount);
+                sqlCommand.Parameters.AddWithValue("@StripeDepositIntentId", depositOrder.StripeDepositIntentId);
+                sqlCommand.Parameters.AddWithValue("@StripeDepositChargeId",depositOrder.StripeDepositChargeId);
+                sqlCommand.Parameters.AddWithValue("@IsPartialPayment",depositOrder.IsPartialPayment);
+                sqlCommand.Parameters.AddWithValue("@createdBy", depositOrder.CreatedBy);
+                SqlDataAdapter sqlDataAdapter=new SqlDataAdapter(sqlCommand);
+                DataTable dt = new DataTable();
+                sqlDataAdapter.Fill(dt);
+                sqlConnection.Close();
+                if(dt.Rows.Count > 0)
+                {
+                    
+                }    
+            }
+            return responseDepositOrder;
+        }
+        
+        public async Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId)
+        {
+            List<DepositOrder> depositOrders = new List<DepositOrder>();
+
+            DepositOrder depositOrder = null;
+
+            SqlConnection conn = new SqlConnection(connectionString);
+            conn.Open();
+            SqlCommand cmd = new SqlCommand("[dbo].[uspGetDepositOrdersByOrderId]", conn);
+
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@paymentOrderId", paymentOrderId);
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd);
+
+            DataTable dt = new DataTable();
+
+            sqlDataAdapter.Fill(dt);
+
+            conn.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+                    DepositOrder responseDepositOrder = new DepositOrder();
+
+                    if (item != null)
+                    {
+                        responseDepositOrder.Id = Convert.ToInt64(item["Id"]);
+
+                        responseDepositOrder.PaymentOrderId = Convert.ToInt64(item["PaymentOrderId"]);
+
+                        responseDepositOrder.OrderReference = item["OrderReference"].ToString();
+                        
+                        responseDepositOrder.DepositAmount = Convert.ToInt64(item["DepositAmount"]);
+
+                        responseDepositOrder.ActualDepositAmount = Convert.ToDecimal(item["ActualDepositAmount"]);
+
+                        responseDepositOrder.PendingDepositAmount = Convert.ToDecimal(item["PendingDepositAmount"]);
+
+                        responseDepositOrder.StripeDepositIntentId = item["StripeDepositIntentId"] != DBNull.Value ? (item["StripeDepositIntentId"].ToString()) : null;
+
+                        responseDepositOrder.StripeDepositChargeId = item["StripeDepositChargeId"] != DBNull.Value ? (item["StripeDepositChargeId"].ToString()) : null;
+
+                        responseDepositOrder.IsPartialPayment = Convert.ToInt64(item["IsPartialPayment"]);
+
+                        responseDepositOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+
+                        responseDepositOrder.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+
+                        responseDepositOrder.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+
+                        responseDepositOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+
+                        responseDepositOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                    }
+
+                    depositOrders.Add(responseDepositOrder);
+                }
+            }
+            return depositOrders;
+        }
     }
 }
