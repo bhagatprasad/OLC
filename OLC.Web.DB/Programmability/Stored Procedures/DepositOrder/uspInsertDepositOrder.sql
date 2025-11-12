@@ -1,14 +1,14 @@
 ﻿CREATE PROCEDURE [dbo].[uspInsertDepositOrder]
 (
-   @PaymentOrderId BIGINT,
-   @OrderReference NVARCHAR(100),
-   @DepositAmount DECIMAL(18,6),
-   @ActualDepositAmount DECIMAL(18,6),
-   @PendingDepositAmount DECIMAL(18,6),
-   @StripeDepositIntentId NVARCHAR(100),
-   @StripeDepositChargeId NVARCHAR(100),
-   @IsPartialPayment BIT,
-   @CreatedBy BIGINT
+    @PaymentOrderId BIGINT,
+    @OrderReference NVARCHAR(50),
+    @DepositeAmount DECIMAL(18,6),
+    @ActualDepositeAmount DECIMAL(18,6),
+    @PendingDepositeAmount DECIMAL(18,6),
+    @StripeDepositeIntentId NVARCHAR(255),
+    @StripeDepositeChargeId NVARCHAR(255),
+    @IsPartialPayment BIGINT,
+    @CreatedBy BIGINT
 )
 AS
 BEGIN
@@ -18,11 +18,11 @@ BEGIN
     (
         PaymentOrderId,
         OrderReference,
-        DepositAmount,
-        ActualDepositAmount,
-        PendingDepositAmount,
-        StripeDepositIntentId,
-        StripeDepositChargeId,
+        DepositeAmount,
+        ActualDepositeAmount,
+        PendingDepositeAmount,
+        StripeDepositeIntentId,
+        StripeDepositeChargeId,
         IsPartialPayment,
         CreatedBy,
         CreatedOn,
@@ -34,16 +34,16 @@ BEGIN
     (
         @PaymentOrderId,
         @OrderReference,
-        @DepositAmount,
-        @ActualDepositAmount,
-        @PendingDepositAmount,
-        @StripeDepositIntentId,
-        @StripeDepositChargeId,
+        @DepositeAmount,
+        @ActualDepositeAmount,
+        @PendingDepositeAmount,
+        @StripeDepositeIntentId,
+        @StripeDepositeChargeId,
         @IsPartialPayment,
         @CreatedBy,
-        GETDATE(),
+        GETUTCDATE(),  -- Matches table default
         @CreatedBy,
-        GETDATE(),
+        GETUTCDATE(),  -- Matches table default
         1
     );
 END

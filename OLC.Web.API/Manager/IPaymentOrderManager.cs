@@ -14,6 +14,7 @@ namespace OLC.Web.API.Manager
         Task<List<UserPaymentOrder>> GetAllUserPaymentOrdersAsync();
         Task<List<ExecutivePaymentOrders>> GetExecutivePaymentOrdersAsync();
         Task<PaymentOrderDetails> GetExecutivePaymentOrderDetailsAsync(long paymentOrderId);
+        Task<ExecutivePaymentOrders> GetPaymentOrderDetailsAsync(long paymentOrderId);
         Task<List<ExecutivePaymentOrders>> GetExecutivePaymentOrderDetailsFilterAsync(PaymentOrderDetailsFilter paymentOrderDetailsFilter);
         Task<ExecutivePaymentOrderSum> GetAllExecutivePaymentOrderSumAsync(PaymentOrderDetailsFilter paymentOrderDetailsFilter);
         Task<bool> InsertDepositOrderAsync(DepositOrder depositOrder);  

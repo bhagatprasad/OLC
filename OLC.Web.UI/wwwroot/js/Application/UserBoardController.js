@@ -6,6 +6,14 @@
     self.ApplicationUser = {};
     var actions = [];
     var dataObjects = [];
+    self.isMobile = window.innerWidth < 768;
+
+    // Pagination variables
+    self.currentPage = 0;
+    self.pageSize = 100;
+    self.isLoading = false;
+    self.hasMoreData = true;
+    self.currentDisplayedOrders = [];
 
     // Status mapping from your database
     self.statusMap = statusMap;
@@ -44,8 +52,9 @@
             self.buildStatusMap();
 
             self.populateSummaryCards();
-            self.populatePaymentOrdersGrid();
             self.initializeSearch();
+            self.initializeScrollHandler();
+            self.loadNextPage(); // Load first page
 
             $(".se-pre-con").hide();
         }).fail(function (error) {
@@ -53,6 +62,310 @@
             self.showErrorState();
             $(".se-pre-con").hide();
         });
+    };
+
+    // Initialize infinite scroll
+    self.initializeScrollHandler = function () {
+        if (self.isMobile) {
+            // For mobile, use the cards container
+            const mobileContainer = $('#mobilePaymentOrdersCards');
+            mobileContainer.off('scroll').on('scroll', function () {
+                if (self.isLoading || !self.hasMoreData) return;
+
+                const scrollTop = $(this).scrollTop();
+                const scrollHeight = $(this)[0].scrollHeight;
+                const clientHeight = $(this).innerHeight();
+
+                // Load more when 100px from bottom
+                if (scrollTop + clientHeight >= scrollHeight - 100) {
+                    self.loadNextPage();
+                }
+            });
+        } else {
+            // For desktop, use the table wrapper div
+            const tableContainer = $('.table-responsive');
+            tableContainer.off('scroll').on('scroll', function () {
+                if (self.isLoading || !self.hasMoreData) return;
+
+                const scrollTop = $(this).scrollTop();
+                const scrollHeight = $(this)[0].scrollHeight;
+                const clientHeight = $(this).innerHeight();
+
+                // Load more when 100px from bottom
+                if (scrollTop + clientHeight >= scrollHeight - 100) {
+                    self.loadNextPage();
+                }
+            });
+        }
+    };
+
+    // Load next page of data
+    self.loadNextPage = function () {
+        if (self.isLoading || !self.hasMoreData) {
+            return;
+        }
+
+        self.isLoading = true;
+
+        // Show loading indicator
+        if (self.currentPage === 0) {
+            $(".se-pre-con").show();
+        } else {
+            self.showLoadingIndicator();
+        }
+
+        setTimeout(() => {
+            try {
+                const startIndex = self.currentPage * self.pageSize;
+                const endIndex = startIndex + self.pageSize;
+                const nextPageData = self.filteredPaymentOrders.slice(startIndex, endIndex);
+
+                if (nextPageData.length === 0) {
+                    self.hasMoreData = false;
+                    self.hideLoadingIndicator();
+                    self.isLoading = false;
+                    return;
+                }
+
+                self.currentDisplayedOrders = [...self.currentDisplayedOrders, ...nextPageData];
+                self.renderOrders(nextPageData, self.currentPage === 0);
+
+                self.currentPage++;
+                self.hasMoreData = nextPageData.length === self.pageSize;
+
+            } catch (error) {
+                console.error('Error loading next page:', error);
+            } finally {
+                self.isLoading = false;
+                self.hideLoadingIndicator();
+
+                if (self.currentPage === 1) {
+                    $(".se-pre-con").hide();
+                }
+            }
+        }, 100);
+    };
+
+    // Show loading indicator for pagination
+    self.showLoadingIndicator = function () {
+        self.hideLoadingIndicator();
+
+        if (self.isMobile) {
+            $('#mobilePaymentOrdersCards').append(`
+                <div class="text-center p-3 loading-indicator">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span class="ms-2">Loading more orders...</span>
+                </div>
+            `);
+        } else {
+            $('#paymentOrdersBody').append(`
+                <tr class="loading-indicator">
+                    <td colspan="9" class="text-center p-3">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span class="ms-2">Loading more orders...</span>
+                    </td>
+                </tr>
+            `);
+        }
+    };
+
+    // Hide loading indicator
+    self.hideLoadingIndicator = function () {
+        $('.loading-indicator').remove();
+    };
+
+    // Reset pagination
+    self.resetPagination = function () {
+        self.currentPage = 0;
+        self.hasMoreData = true;
+        self.currentDisplayedOrders = [];
+        self.isLoading = false;
+
+        const tbody = $('#paymentOrdersBody');
+        const cardsContainer = $('#mobilePaymentOrdersCards');
+        tbody.empty();
+        cardsContainer.empty();
+    };
+
+    // Render orders to the grid
+    self.renderOrders = function (orders, clearExisting = false) {
+        const tbody = $('#paymentOrdersBody');
+        const cardsContainer = $('#mobilePaymentOrdersCards');
+
+        if (clearExisting) {
+            tbody.empty();
+            cardsContainer.empty();
+        }
+
+        if (orders.length === 0 && clearExisting) {
+            const noDataMessage = self.UserPaymentOrders.length === 0 ?
+                'No payment orders found' : 'No orders match your search';
+
+            tbody.append(`
+                <tr>
+                    <td colspan="9" class="text-center text-muted py-4">
+                        <i class="fas fa-inbox me-2"></i>${noDataMessage}
+                    </td>
+                </tr>
+            `);
+            cardsContainer.append(`
+                <div class="text-center text-muted p-4">
+                    <i class="fas fa-inbox me-2"></i>${noDataMessage}
+                </div>
+            `);
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        const mobileFragment = document.createDocumentFragment();
+
+        orders.forEach(function (order) {
+            const statusBadge = self.getCombinedStatusDisplay(order);
+            const createdDate = self.formatDate(order.CreatedOn);
+            const creditCardDisplay = self.formatCreditCard(order.CreditCardNumber);
+            const bankAccountDisplay = self.formatBankAccount(order.BankAccountNumber);
+
+            if (!self.isMobile) {
+                // Desktop table row
+                const row = document.createElement('tr');
+                row.className = 'payment-order-item';
+                row.setAttribute('data-order-id', order.Id);
+                row.innerHTML = `
+                    <td>
+                        <strong class="text-primary">${order.OrderReference || 'N/A'}</strong>
+                    </td>
+                    <td class="fw-bold">${self.formatCurrency(order.Amount, order.Currency)}</td>
+                    <td>${self.formatCurrency(order.TotalAmountToChargeCustomer, order.Currency)}</td>
+                    <td>${self.formatCurrency(order.TotalAmountToDepositToCustomer, order.Currency)}</td>
+                    <td>
+                        <small class="text-muted">${creditCardDisplay}</small>
+                        ${order.CreditCardNumber ? '<br><small class="text-success"><i class="fas fa-credit-card me-1"></i>Card</small>' : ''}
+                    </td>
+                    <td>
+                        <small class="text-muted">${bankAccountDisplay}</small>
+                        ${order.BankAccountNumber ? '<br><small class="text-info"><i class="fas fa-university me-1"></i>Bank</small>' : ''}
+                    </td>
+                    <td>${statusBadge}</td>
+                    <td><small class="text-muted">${createdDate}</small></td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-info copy-order" data-order-ref="${order.OrderReference}" title="Copy Reference">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                fragment.appendChild(row);
+            } else {
+                // Mobile card - COMPACT LAYOUT
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card mb-3 border';
+                cardDiv.setAttribute('data-order-id', order.Id);
+                cardDiv.innerHTML = `
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center py-2">
+                        <div class="flex-grow-1">
+                            <strong class="text-primary d-block">${order.OrderReference || 'N/A'}</strong>
+                            <small class="text-muted">${self.truncateText(order.PaymentReasonName, 25)}</small>
+                        </div>
+                        <div class="ms-2">
+                            ${statusBadge}
+                        </div>
+                    </div>
+                    <div class="card-body py-2">
+                        <div class="row g-1 small">
+                            <div class="col-4">
+                                <small class="text-muted d-block">Amount</small>
+                                <div class="fw-bold text-primary">${self.formatCurrency(order.Amount, order.Currency)}</div>
+                            </div>
+                            <div class="col-4">
+                                <small class="text-muted d-block">Charge</small>
+                                <div>${self.formatCurrency(order.TotalAmountToChargeCustomer, order.Currency)}</div>
+                            </div>
+                            <div class="col-4">
+                                <small class="text-muted d-block">Deposit</small>
+                                <div>${self.formatCurrency(order.TotalAmountToDepositToCustomer, order.Currency)}</div>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted d-block">Created</small>
+                                <div><small>${createdDate}</small></div>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted d-block">Payment Method</small>
+                                <div class="d-flex flex-column">
+                                    ${order.CreditCardNumber ? `<small><i class="fas fa-credit-card text-success me-1"></i>${creditCardDisplay}</small>` : ''}
+                                    ${order.BankAccountNumber ? `<small><i class="fas fa-university text-info me-1"></i>${bankAccountDisplay}</small>` : ''}
+                                    ${!order.CreditCardNumber && !order.BankAccountNumber ? '<small>N/A</small>' : ''}
+                                </div>
+                            </div>
+                            <div class="col-12 mt-1">
+                                <small class="text-muted d-block">Payment Reason</small>
+                                <div>${self.truncateText(order.PaymentReasonName, 30)}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer py-2">
+                        <div class="btn-group w-100" role="group">
+                            <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}">
+                                <i class="fas fa-eye me-1"></i>Details
+                            </button>
+                            <button class="btn btn-sm btn-outline-info copy-order" data-order-ref="${order.OrderReference}">
+                                <i class="fas fa-copy me-1"></i>Copy Ref
+                            </button>
+                        </div>
+                    </div>
+                `;
+                mobileFragment.appendChild(cardDiv);
+            }
+        });
+
+        if (!self.isMobile) {
+            tbody.append(fragment);
+        } else {
+            cardsContainer.append(mobileFragment);
+        }
+
+        // Initialize event handlers
+        self.initializeEventHandlers();
+    };
+
+    // Replace populatePaymentOrdersGrid with new paginated version
+    self.populatePaymentOrdersGrid = function () {
+        self.resetPagination();
+        self.loadNextPage();
+    };
+
+    // Update performOrderSearch to work with pagination
+    self.performOrderSearch = function (searchTerm) {
+        if (!searchTerm || searchTerm.trim() === '') {
+            self.filteredPaymentOrders = [...self.UserPaymentOrders];
+        } else {
+            const term = searchTerm.toLowerCase().trim();
+            self.filteredPaymentOrders = self.UserPaymentOrders.filter(order => {
+                const orderStatusName = self.getStatusName(order.OrderStatusId);
+                const paymentStatusName = self.getStatusName(order.PaymentStatusId);
+                const depositStatusName = self.getStatusName(order.DepositStatusId);
+
+                return (
+                    (order.OrderReference && order.OrderReference.toLowerCase().includes(term)) ||
+                    (order.PaymentReasonName && order.PaymentReasonName.toLowerCase().includes(term)) ||
+                    (order.CreditCardNumber && order.CreditCardNumber.includes(term)) ||
+                    (order.BankAccountNumber && order.BankAccountNumber.includes(term)) ||
+                    (orderStatusName && orderStatusName.toLowerCase().includes(term)) ||
+                    (paymentStatusName && paymentStatusName.toLowerCase().includes(term)) ||
+                    (depositStatusName && depositStatusName.toLowerCase().includes(term)) ||
+                    (order.Amount && order.Amount.toString().includes(term)) ||
+                    (order.TotalAmountToChargeCustomer && order.TotalAmountToChargeCustomer.toString().includes(term))
+                );
+            });
+        }
+        self.populatePaymentOrdersGrid();
     };
 
     // Build status map from API response
@@ -173,33 +486,6 @@
         });
     };
 
-    // Perform search across payment orders
-    self.performOrderSearch = function (searchTerm) {
-        if (!searchTerm || searchTerm.trim() === '') {
-            self.filteredPaymentOrders = [...self.UserPaymentOrders];
-        } else {
-            const term = searchTerm.toLowerCase().trim();
-            self.filteredPaymentOrders = self.UserPaymentOrders.filter(order => {
-                const orderStatusName = self.getStatusName(order.OrderStatusId);
-                const paymentStatusName = self.getStatusName(order.PaymentStatusId);
-                const depositStatusName = self.getStatusName(order.DepositStatusId);
-
-                return (
-                    (order.OrderReference && order.OrderReference.toLowerCase().includes(term)) ||
-                    (order.PaymentReasonName && order.PaymentReasonName.toLowerCase().includes(term)) ||
-                    (order.CreditCardNumber && order.CreditCardNumber.includes(term)) ||
-                    (order.BankAccountNumber && order.BankAccountNumber.includes(term)) ||
-                    (orderStatusName && orderStatusName.toLowerCase().includes(term)) ||
-                    (paymentStatusName && paymentStatusName.toLowerCase().includes(term)) ||
-                    (depositStatusName && depositStatusName.toLowerCase().includes(term)) ||
-                    (order.Amount && order.Amount.toString().includes(term)) ||
-                    (order.TotalAmountToChargeCustomer && order.TotalAmountToChargeCustomer.toString().includes(term))
-                );
-            });
-        }
-        self.populatePaymentOrdersGrid();
-    };
-
     // Function to format date
     self.formatDate = function (dateString) {
         if (!dateString) return 'N/A';
@@ -290,127 +576,6 @@
         return text.substring(0, maxLength) + '...';
     };
 
-    // Populate payment orders grid with new column structure
-    self.populatePaymentOrdersGrid = function () {
-        const tbody = $('#paymentOrdersBody');
-        const cardsContainer = $('#mobilePaymentOrdersCards');
-        tbody.empty();
-        cardsContainer.empty();
-
-        if (self.filteredPaymentOrders.length === 0) {
-            const noDataMessage = self.UserPaymentOrders.length === 0 ?
-                'No payment orders found' : 'No orders match your search';
-
-            tbody.append(`
-                <tr>
-                    <td colspan="9" class="text-center text-muted py-4">
-                        <i class="fas fa-inbox me-2"></i>${noDataMessage}
-                    </td>
-                </tr>
-            `);
-            cardsContainer.append(`
-                <div class="text-center text-muted p-4">
-                    <i class="fas fa-inbox me-2"></i>${noDataMessage}
-                </div>
-            `);
-            return;
-        }
-
-        self.filteredPaymentOrders.forEach(function (order) {
-            const statusBadge = self.getCombinedStatusDisplay(order);
-            const createdDate = self.formatDate(order.CreatedOn);
-            const creditCardDisplay = self.formatCreditCard(order.CreditCardNumber);
-            const bankAccountDisplay = self.formatBankAccount(order.BankAccountNumber);
-
-            // Desktop table row - NEW COLUMN STRUCTURE
-            const row = `
-                <tr class="payment-order-item" data-order-id="${order.Id}">
-                    <td>
-                        <strong class="text-primary">${order.OrderReference || 'N/A'}</strong>
-                    </td>
-                    <td class="fw-bold">${self.formatCurrency(order.Amount, order.Currency)}</td>
-                    <td>${self.formatCurrency(order.TotalAmountToChargeCustomer, order.Currency)}</td>
-                    <td>${self.formatCurrency(order.TotalAmountToDepositToCustomer, order.Currency)}</td>
-                    <td>
-                        <small class="text-muted">${creditCardDisplay}</small>
-                        ${order.CreditCardNumber ? '<br><small class="text-success"><i class="fas fa-credit-card me-1"></i>Card</small>' : ''}
-                    </td>
-                    <td>
-                        <small class="text-muted">${bankAccountDisplay}</small>
-                        ${order.BankAccountNumber ? '<br><small class="text-info"><i class="fas fa-university me-1"></i>Bank</small>' : ''}
-                    </td>
-                    <td>${statusBadge}</td>
-                    <td><small class="text-muted">${createdDate}</small></td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn btn-outline-info copy-order" data-order-ref="${order.OrderReference}" title="Copy Reference">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            tbody.append(row);
-
-            // Mobile card - Updated with new fields
-            const cardHtml = `
-                <div class="card mb-3 border" data-order-id="${order.Id}">
-                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                        <strong class="text-primary">${order.OrderReference || 'N/A'}</strong>
-                        ${statusBadge}
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6 mb-2">
-                                <small class="text-muted">Amount:</small>
-                                <div class="fw-bold">${self.formatCurrency(order.Amount, order.Currency)}</div>
-                            </div>
-                            <div class="col-6 mb-2">
-                                <small class="text-muted">Charge Amount:</small>
-                                <div>${self.formatCurrency(order.TotalAmountToChargeCustomer, order.Currency)}</div>
-                            </div>
-                            <div class="col-6 mb-2">
-                                <small class="text-muted">Deposit Amount:</small>
-                                <div>${self.formatCurrency(order.TotalAmountToDepositToCustomer, order.Currency)}</div>
-                            </div>
-                            <div class="col-6 mb-2">
-                                <small class="text-muted">Created:</small>
-                                <div><small class="text-muted">${createdDate}</small></div>
-                            </div>
-                            <div class="col-12 mb-2">
-                                <small class="text-muted">Credit Card:</small>
-                                <div>${creditCardDisplay}</div>
-                            </div>
-                            <div class="col-12 mb-2">
-                                <small class="text-muted">Bank Account:</small>
-                                <div>${bankAccountDisplay}</div>
-                            </div>
-                            <div class="col-12 mb-2">
-                                <small class="text-muted">Payment Reason:</small>
-                                <div>${order.PaymentReasonName || 'N/A'}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}">
-                            <i class="fas fa-eye me-1"></i>Details
-                        </button>
-                        <button class="btn btn-sm btn-outline-info copy-order" data-order-ref="${order.OrderReference}">
-                            <i class="fas fa-copy me-1"></i>Copy Ref
-                        </button>
-                    </div>
-                </div>
-            `;
-            cardsContainer.append(cardHtml);
-        });
-
-        // Initialize event handlers
-        self.initializeEventHandlers();
-    };
-    
     // Initialize event handlers
     self.initializeEventHandlers = function () {
         $('.view-order').off('click').on('click', function () {
@@ -465,7 +630,13 @@
         }, 3000);
     };
 
+    // Clean up timers when needed
+    self.destroy = function () {
+        $('.table-responsive').off('scroll');
+        $('#mobilePaymentOrdersCards').off('scroll');
+    };
+
     $(document).on("click", "#makeNewPayment", function () {
         window.location.href = "/Transaction/MakeNewPayment";
-    })
+    });
 }
