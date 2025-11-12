@@ -94,5 +94,38 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+
+        [HttpPost]
+        [Route("InsertServiceRequestRepliesAsync")]
+        public async Task<IActionResult> InsertServiceRequestReplies(ServiceRequestReplies serviceRequestReplies)
+        {
+            try
+            {
+                var response = await _serviceRequestManager.InsertServiceRequestRepliesAsync(serviceRequestReplies);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetServiceRequestRepliesByTicketIdAsync/{ticketId}")]
+        public async Task<IActionResult> GetServiceRequestRepliesByTicketId(long ticketId)
+        {
+            try
+            {
+                var response = await _serviceRequestManager.GetServiceRequestRepliesByTicketIdAsync(ticketId);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     } 
 }
