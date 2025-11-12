@@ -610,32 +610,66 @@
 
     // Open Pay Now Modal
     $(document).on("click", ".pay-now", function () {
+
+        $('#payNowModal').modal({ backdrop: 'static', keyboard: false });
+
         const orderId = $(this).data("order-id");
+
         const order = self.ExecutivePaymentOrders.find(o => o.Id == orderId);
-        if (!order) return;
 
-        self.CurrentPayOrder = order;
 
-        // Set Order Reference in header
         $("#payNowOrderRef").text(order.OrderReference || "N/A");
 
-        // Top-right × Close: Just close modal
-        $(document).on("click", "#btnClosePayNowModal", function () {
-            $("#payNowModal").modal("hide");
-        });
 
+        self.CurrentSelectedPaymentOrder = order;
+
+
+        if (self.CurrentSelectedPaymentOrder.PendingDepositeAmount) {
+            $("#txtTotalAmount").val(self.formatCurrency(self.CurrentSelectedPaymentOrder.PendingDepositeAmount));
+        }
+        else if (self.CurrentSelectedPaymentOrder.DepositeAmount == null && self.CurrentSelectedPaymentOrder.PendingDepositeAmount == null) {
+            $("#txtTotalAmount").val(self.formatCurrency(order.TotalAmountToDepositToCustomer));
+        }
         // Set Total Amount
-        const totalAmt = order.TotalAmountToChargeCustomer || order.Amount || 0;
-        $("#txtTotalAmount").val(self.formatCurrency(totalAmt));
-
-        // Reset form
         $("#chkFullAmount").prop("checked", true);
         $("#partialAmountGroup").hide();
         $("#txtPartialAmount").val("");
-
         // Show modal
         $("#payNowModal").modal("show");
     });
+
+
+
+    $(document).on("click", "#btnConfirmPayNow", function () {
+        var isFullPayment = $('#chkFullAmount').is(':checked');
+        var avilableAmount = $("#txtTotalAmount").val();
+        var deposteAmount = $("#txtPartialAmount").val();
+        var pendingAmount = $("#txtPendingAmount").val();
+
+        const depositeOrderReferance = generateOrderReference(self.ApplicationUser.Id, "deposit");
+
+        var depositePayment = {
+            PaymentOrderId: self.CurrentSelectedPaymentOrder.Id,
+            OrderReference: depositeOrderReferance,
+            DepositeAmount: isFullPayment ? parseFloat(avilableAmount) : deposteAmount,
+            ActualDepositeAmount: self.CurrentSelectedPaymentOrder.PendingDepositeAmount ? self.CurrentSelectedPaymentOrder.PendingDepositeAmount : self.CurrentSelectedPaymentOrder.TotalAmountToDepositToCustomer,
+            PendingDepositeAmount: parseFloat(pendingAmount),
+            IsPartialPayment: isFullPayment ? false : true,
+            StripePaymentChargeId: self.CurrentSelectedPaymentOrder.StripePaymentChargeId,
+            StripeDepositeIntentId: "",
+            StripeDepositeChargeId: "",
+            ModifiedBy: self.ApplicationUser.Id
+        };
+        console.log(depositePayment);
+    });
+
+
+    $(document).on("click", "#btnClosePayNowModal", function () {
+        self.CurrentSelectedPaymentOrder = {};
+        $("#payNowModal").modal("hide");
+    });
+
+
 
     // Toggle Partial Amount Field
     $(document).on("change", "#chkFullAmount", function () {
@@ -645,55 +679,5 @@
         } else {
             $("#partialAmountGroup").show();
         }
-    });
-
-    //Cancel Button:
-    $(document).on("click", "#btnCancelPayNow", function () {        
-        $("#payNowModal").modal("hide");
-    });
-
-    // Confirm Pay Now
-    $(document).on("click", "#btnConfirmPayNow", function () {
-        if (!self.CurrentPayOrder) return;
-
-        const isFull = $("#chkFullAmount").is(":checked");
-        const totalAmt = parseFloat(self.CurrentPayOrder.TotalAmountToChargeCustomer || self.CurrentPayOrder.Amount || 0);
-        let payAmount = totalAmt;
-
-        if (!isFull) {
-            const partial = parseFloat($("#txtPartialAmount").val());
-            if (isNaN(partial) || partial <= 0 || partial > totalAmt) {
-                $("#txtPartialAmount").addClass("is-invalid");
-                return;
-            }
-            payAmount = partial;
-            $("#txtPartialAmount").removeClass("is-invalid");
-        }
-
-        // Get status IDs safely
-        const paidId = self.getStatusIdByName('Paid');
-        const partialId = self.getStatusIdByName('Partially Paid');
-
-        // Build payload
-        const payload = {
-            PaymentOrderId: self.CurrentPayOrder.Id,
-            OrderStatusId: isFull ? paidId : (partialId || paidId),
-            PaymentStatusId: paidId,
-            DepositeStatusId: self.CurrentPayOrder.DepositStatusId,
-            CreatedBy: self.ApplicationUser.Id,
-            Description: `Pay Now: ${isFull ? 'Full' : 'Partial'} Payment of ${self.formatCurrency(payAmount)}`
-        };
-
-        self.ProcesspaymentOrderDetailsAsync(payload, false);
-        $("#payNowModal").modal("hide");
-        self.CurrentPayOrder = null;
-    
-    });
-    // Cleanup on modal hide
-    $("#payNowModal").on("hidden.bs.modal", function () {
-        self.CurrentPayOrder = null;
-        $("#txtPartialAmount").removeClass("is-invalid").val("");
-        $("#chkFullAmount").prop("checked", true);
-        $("#partialAmountGroup").hide();
     });
 }
