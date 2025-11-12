@@ -46,6 +46,4 @@ BEGIN
         GETDATE(),
         1
     );
-
-    SELECT SCOPE_IDENTITY() AS NewId;
 END

@@ -985,36 +985,32 @@ namespace OLC.Web.API.Manager
 
         }
 
-        public async Task<DepositOrder> InsertDepositOrderAsync(DepositOrder depositOrder)
+        public async Task<bool> InsertDepositOrderAsync(DepositOrder depositOrder)
         {
-            DepositOrder responseDepositOrder = new DepositOrder();
-            if(depositOrder!=null)
+
+            if (depositOrder != null)
             {
-                SqlConnection sqlConnection= new SqlConnection(connectionString);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
-                SqlCommand  sqlCommand = new SqlCommand("[dbo].[uspInsertDepositOrder]",sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertDepositOrder]", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Parameters.AddWithValue("@PaymentOrderId", depositOrder.PaymentOrderId);
                 sqlCommand.Parameters.AddWithValue("@OrderReference", depositOrder.OrderReference);
                 sqlCommand.Parameters.AddWithValue("@DepositAmount", depositOrder.DepositAmount);
                 sqlCommand.Parameters.AddWithValue("@ActualDepositAmount", depositOrder.ActualDepositAmount);
-                sqlCommand.Parameters.AddWithValue("@PendingDepositAmount",depositOrder.PendingDepositAmount);
+                sqlCommand.Parameters.AddWithValue("@PendingDepositAmount", depositOrder.PendingDepositAmount);
                 sqlCommand.Parameters.AddWithValue("@StripeDepositIntentId", depositOrder.StripeDepositIntentId);
-                sqlCommand.Parameters.AddWithValue("@StripeDepositChargeId",depositOrder.StripeDepositChargeId);
-                sqlCommand.Parameters.AddWithValue("@IsPartialPayment",depositOrder.IsPartialPayment);
+                sqlCommand.Parameters.AddWithValue("@StripeDepositChargeId", depositOrder.StripeDepositChargeId);
+                sqlCommand.Parameters.AddWithValue("@IsPartialPayment", depositOrder.IsPartialPayment);
                 sqlCommand.Parameters.AddWithValue("@createdBy", depositOrder.CreatedBy);
-                SqlDataAdapter sqlDataAdapter=new SqlDataAdapter(sqlCommand);
-                DataTable dt = new DataTable();
-                sqlDataAdapter.Fill(dt);
+                sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
-                if(dt.Rows.Count > 0)
-                {
-                    
-                }    
+
+                return true;
             }
-            return responseDepositOrder;
+            return false;
         }
-        
+
         public async Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId)
         {
             List<DepositOrder> depositOrders = new List<DepositOrder>();
@@ -1049,7 +1045,7 @@ namespace OLC.Web.API.Manager
                         responseDepositOrder.PaymentOrderId = Convert.ToInt64(item["PaymentOrderId"]);
 
                         responseDepositOrder.OrderReference = item["OrderReference"].ToString();
-                        
+
                         responseDepositOrder.DepositAmount = Convert.ToInt64(item["DepositAmount"]);
 
                         responseDepositOrder.ActualDepositAmount = Convert.ToDecimal(item["ActualDepositAmount"]);

@@ -233,13 +233,24 @@
 
             let actionButtons = '';
 
-            if (order.OrderStatus === "Completed") {
-                actionButtons = `
-                <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
-                    <i class="fas fa-eye"></i>
-                </button>
-            `;
-            } else if (order.OrderStatus === "Draft") {
+            if (order.OrderStatus === "Completed" || order.OrderStatus === "Paid" || order.OrderStatus === "Partially Paid") {
+                // Always show View Order Details for these statuses
+                actionButtons += `
+        <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
+            <i class="fas fa-eye"></i>
+        </button>`;
+                // Only show Pay Now and View Deposit Details if status is "Partially Paid"
+                if (order.OrderStatus === "Partially Paid") {
+                    actionButtons += `
+        <button class="btn btn-sm btn-outline-info pay-now" data-order-id="${order.Id}" title="Pay Now">
+            <i class="fas fa-credit-card"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-warning view-deposit" data-order-id="${order.Id}" title="View Deposits">
+            <i class="fas fa-handshake"></i>
+        </button>`;
+                }
+            }
+            else if (order.OrderStatus === "Draft") {
                 actionButtons = `
         <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
             <i class="fas fa-eye"></i>
@@ -265,7 +276,7 @@
         <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}" title="View Order Details">
             <i class="fas fa-eye"></i>
         </button>
-        <button class="btn btn-sm btn-outline-success pay-now" data-order-id="${order.Id}" title="Pay Now">
+        <button class="btn btn-sm btn-outline-info pay-now" data-order-id="${order.Id}" title="Pay Now">
             <i class="fas fa-credit-card"></i>
         </button>
         <button class="btn btn-sm btn-outline-danger cancel-order" data-order-id="${order.Id}" title="Cancel Order">
@@ -509,7 +520,7 @@
 
         console.log("current selected  approve order is .." + JSON.stringify(selectedPaymentOrder));
 
-        self.selectedPaymentOrder = selectedPaymentOrder;
+        self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
 
         $("#approveOrderModal").modal("show");
     });
@@ -518,17 +529,17 @@
 
         var message = $("#approvalComment").val();
 
-        console.log("Processing Order:", self.selectedPaymentOrder);
+        console.log("Processing Order:", self.CurrentSelectedPaymentOrder);
 
         console.log("Comment:", message);
 
         const orderStatusId = statusConstants.Approved;
 
         var processPaymentOrder = {
-            PaymentOrderId: self.selectedPaymentOrder.Id,
+            PaymentOrderId: self.CurrentSelectedPaymentOrder.Id,
             OrderStatusId: orderStatusId,
-            PaymentStatusId: self.selectedPaymentOrder.PaymentStatusId,
-            DepositeStatusId: self.selectedPaymentOrder.DepositStatusId,
+            PaymentStatusId: self.CurrentSelectedPaymentOrder.PaymentStatusId,
+            DepositeStatusId: self.CurrentSelectedPaymentOrder.DepositStatusId,
             CreatedBy: self.ApplicationUser.Id,
             Description: message
         };
@@ -586,12 +597,12 @@
     }
 
     $(document).on("click", ".btn-approve-order-close", function () {
-        self.selectedPaymentOrder = {};
+        self.CurrentSelectedPaymentOrder = {};
         $("#approveOrderModal").modal("hide");
     });
 
     $(document).on("click", ".btn-cancel-order-close", function () {
-        self.selectedPaymentOrder = {};
+        self.CurrentSelectedPaymentOrder = {};
         $("#cancelOrderModal").modal("hide");
     });
 }
