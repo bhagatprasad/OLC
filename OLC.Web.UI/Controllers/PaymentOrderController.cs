@@ -298,6 +298,7 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "AdminiStrator,Executive")]
         public async Task<IActionResult> HandleDepositPayment([FromBody] ProcessDepositePayment processDepositePayment)
         {
             try
@@ -314,6 +315,12 @@ namespace OLC.Web.UI.Controllers
                 var refundService = new RefundService();
 
                 var refund = await refundService.CreateAsync(refundOptions);
+
+                if (refund != null)
+                {
+                    processDepositePayment.StripeDepositeChargeId = refund.Id;
+                    processDepositePayment.StripeDepositeIntentId = refund.PaymentIntentId;
+                }
 
 
                 var response = await _paymentOrderService.HandleDepositPaymentAsync(processDepositePayment);
