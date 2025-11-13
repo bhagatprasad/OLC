@@ -304,6 +304,54 @@ namespace OLC.Web.API.Manager
             }
             return serviceRequestRepliess;
         }
+
+        public async  Task<ServiceRequest> GetServiceRequestByUserIdAsync(long userId)
+        {
+            ServiceRequest serviceRequest = null;
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetServiceRequestByUserId]",sqlConnection);
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+            sqlCommand.Parameters.AddWithValue("@userId", userId);
+            SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+           DataTable dt=new DataTable();
+            da.Fill(dt);
+            sqlConnection.Close();
+            if (dt.Rows.Count > 0)
+            {
+                           
+                foreach (DataRow item in dt.Rows)
+                {
+
+                serviceRequest = new ServiceRequest();
+
+                serviceRequest.TicketId = Convert.ToInt64(item["TicketId"]);
+                serviceRequest.OrderId = item["OrderId"] != DBNull.Value ? Convert.ToInt64(item["OrderId"]) : null;
+                serviceRequest.UserId = item["UserId"] != DBNull.Value ? Convert.ToInt64(item["UserId"]) : null;
+                serviceRequest.Subject = item["Subject"] != DBNull.Value ? item["Subject"].ToString() : null;
+                serviceRequest.Message = item["Message"] != DBNull.Value ? item["Message"].ToString() : null;
+                serviceRequest.Category = item["Category"] != DBNull.Value ? item["Category"].ToString() : null;
+                serviceRequest.RequestReference = item["RequestReference"] != DBNull.Value ? item["RequestReference"].ToString() : null;
+                serviceRequest.Classification = item["Classification"] != DBNull.Value ? item["Classification"].ToString() : null;
+                serviceRequest.Priority = item["Priority"] != DBNull.Value ? item["Priority"].ToString() : null;
+                serviceRequest.StatusId = item["StatusId"] != DBNull.Value ? Convert.ToInt64(item["StatusId"]) : null;
+                serviceRequest.AssignTo = item["AssignTo"] != DBNull.Value ? Convert.ToInt64(item["AssignTo"]) : null;
+                serviceRequest.AssignBy = item["AssignBy"] != DBNull.Value ? Convert.ToInt64(item["AssignBy"]) : null;
+                serviceRequest.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+                serviceRequest.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+                serviceRequest.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+                serviceRequest.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+                serviceRequest.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+
+                }
+            }
+            return serviceRequest;
+
+        }
     }
     
 }
