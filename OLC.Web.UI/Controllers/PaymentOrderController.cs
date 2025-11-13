@@ -6,6 +6,7 @@ using OLC.Web.UI.Models;
 using OLC.Web.UI.Services;
 using Stripe;
 using Stripe.Checkout;
+using System;
 
 namespace OLC.Web.UI.Controllers
 {
@@ -309,7 +310,7 @@ namespace OLC.Web.UI.Controllers
                 var refundOptions = new RefundCreateOptions
                 {
                     Charge = processDepositePayment.StripePaymentChargeId,
-                    Amount = UitlityConverter.ConvertToCents(processDepositePayment.DepositeAmount),
+                    Amount = Convert.ToInt64(processDepositePayment.DepositeAmount)//UitlityConverter.ConvertToCents(processDepositePayment.DepositeAmount),
                 };
 
                 var refundService = new RefundService();
@@ -318,7 +319,7 @@ namespace OLC.Web.UI.Controllers
 
                 DepositOrder depositOrder = new DepositOrder()
                 {
-                    ActualDepositAmount = processDepositePayment.ActualDepositeAmount,
+                    ActualDepositeAmount = processDepositePayment.ActualDepositeAmount,
                     CreatedBy = processDepositePayment.ModifiedBy,
                     CreatedOn = DateTime.Now,
                     IsActive = true,
@@ -327,10 +328,10 @@ namespace OLC.Web.UI.Controllers
                     ModifiedOn = DateTime.Now,
                     OrderReference = processDepositePayment.OrderReference,
                     PaymentOrderId = processDepositePayment.PaymentOrderId,
-                    DepositAmount = processDepositePayment.DepositeAmount,
-                    PendingDepositAmount = processDepositePayment.PendingDepositeAmount,
-                    StripeDepositChargeId = refund.Id,
-                    StripeDepositIntentId = refund.PaymentIntentId
+                    DepositeAmount = processDepositePayment.DepositeAmount,
+                    PendingDepositeAmount = processDepositePayment.PendingDepositeAmount,
+                    StripeDepositeChargeId = refund.Id,
+                    StripeDepositeIntentId = refund.PaymentIntentId
 
                 };
 
@@ -346,6 +347,7 @@ namespace OLC.Web.UI.Controllers
             }
             catch (Exception ex)
             {
+                _notyfService.Error(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
