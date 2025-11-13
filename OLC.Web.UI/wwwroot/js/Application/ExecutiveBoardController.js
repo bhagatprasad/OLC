@@ -764,10 +764,10 @@
         self.CurrentSelectedPaymentOrder = order;
 
         if (self.CurrentSelectedPaymentOrder.PendingDepositeAmount) {
-            $("#txtTotalAmount").val(self.formatCurrency(self.CurrentSelectedPaymentOrder.PendingDepositeAmount));
+            $("#txtTotalAmount").val(self.CurrentSelectedPaymentOrder.PendingDepositeAmount);
         }
         else if (self.CurrentSelectedPaymentOrder.DepositeAmount == null && self.CurrentSelectedPaymentOrder.PendingDepositeAmount == null) {
-            $("#txtTotalAmount").val(self.formatCurrency(order.TotalAmountToDepositToCustomer));
+            $("#txtTotalAmount").val(order.TotalAmountToDepositToCustomer);
         }
         // Set Total Amount
         $("#chkFullAmount").prop("checked", true);
@@ -788,7 +788,7 @@
         var depositePayment = {
             PaymentOrderId: self.CurrentSelectedPaymentOrder.Id,
             OrderReference: depositeOrderReferance,
-            DepositeAmount: isFullPayment ? parseFloat(avilableAmount) : deposteAmount,
+            DepositeAmount: isFullPayment ? parseFloat(avilableAmount) : parseFloat(deposteAmount),
             ActualDepositeAmount: self.CurrentSelectedPaymentOrder.PendingDepositeAmount ? self.CurrentSelectedPaymentOrder.PendingDepositeAmount : self.CurrentSelectedPaymentOrder.TotalAmountToDepositToCustomer,
             PendingDepositeAmount: parseFloat(pendingAmount),
             IsPartialPayment: isFullPayment ? false : true,
@@ -808,7 +808,16 @@
             contentType: "application/json", 
             dataType: 'json',
             success: function (response) { 
-             console.log(response);
+                self.ExecutivePaymentOrders = [];
+                self.filteredPaymentOrders = [];
+                self.ExecutivePaymentOrders = response && response.data ? response.data : [];
+                self.filteredPaymentOrders = [...self.ExecutivePaymentOrders];
+                self.populateSummaryCards();
+                self.populatePaymentOrdersGrid();
+                self.initializeSearch();
+                $("#payNowModal").modal("hide");
+                $("#txtPartialAmount").val("");
+                $(".se-pre-con").hide();
             },
             error: function (error) {
                 console.log(error);
@@ -828,10 +837,10 @@
         if ($(this).is(":checked")) {
             $("#partialAmountGroup").hide();
             $("#txtPartialAmount").val("");
-            $("#txtPendingAmount").val(self.formatCurrency(0));
+            $("#txtPendingAmount").val(0);
         } else {
             $("#partialAmountGroup").show();
-            $("#txtPendingAmount").val(self.formatCurrency(total));
+            $("#txtPendingAmount").val(total);
         }
     });
    
@@ -839,7 +848,7 @@
         const total = parseFloat($("#txtTotalAmount").val().replace(/[$,]/g, '')) || 0;
         const partial = parseFloat($(this).val()) || 0;
         const pending = total - partial;
-        $("#txtPendingAmount").val(self.formatCurrency(pending > 0 ? pending : 0));
+        $("#txtPendingAmount").val(pending > 0 ? pending : 0);
     });
 
     // Clean up timers when needed

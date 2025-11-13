@@ -37,6 +37,17 @@ BEGIN
         po.[StripePaymentChargeId],
         po.[StripeDepositeIntentId],
         po.[StripeDepositeChargeId],
+        (
+            SELECT SUM([DepositeAmount])
+            FROM [dbo].[DepositeOrder]
+            WHERE [PaymentOrderId] = po.[Id]
+        ) AS TotalDepositeAmount,
+
+        (
+            SELECT MIN([PendingDepositeAmount])
+            FROM [dbo].[DepositeOrder] 
+            WHERE [PaymentOrderId] = po.[Id]
+        ) AS PendingDepositeAmount,
         po.[CreatedBy],
         po.[CreatedOn],
         po.[ModifiedBy],
