@@ -127,5 +127,21 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpGet]
+        [Route("GetServiceRequestByUserIdAsync/{userId}")]
+        public async Task<IActionResult> GetServiceRequestByUserId(long userId)
+        {
+            try
+            {
+                var response = await _serviceRequestManager.GetServiceRequestByUserIdAsync(userId);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     } 
 }
