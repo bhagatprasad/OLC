@@ -1002,39 +1002,22 @@ namespace OLC.Web.API.Manager
             if (depositOrder == null)
                 return false;
 
-            try
-            {
-                SqlConnection sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertDepositOrder]", sqlConnection);
-                sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@PaymentOrderId", depositOrder.PaymentOrderId);
-                sqlCommand.Parameters.AddWithValue("@OrderReference", depositOrder.OrderReference);
-                sqlCommand.Parameters.AddWithValue("@DepositAmount", depositOrder.DepositeAmount);
-                sqlCommand.Parameters.AddWithValue("@ActualDepositAmount", depositOrder.ActualDepositeAmount);
-                sqlCommand.Parameters.AddWithValue("@PendingDepositAmount", depositOrder.PendingDepositeAmount);
-                sqlCommand.Parameters.AddWithValue("@StripeDepositIntentId", depositOrder.StripeDepositeIntentId);
-                sqlCommand.Parameters.AddWithValue("@StripeDepositChargeId", depositOrder.StripeDepositeChargeId);
-                sqlCommand.Parameters.AddWithValue("@IsPartialPayment", depositOrder.IsPartialPayment);
-                sqlCommand.Parameters.AddWithValue("@createdBy", depositOrder.CreatedBy);
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
-
-                        // Corrected parameter name casing
-                        sqlCommand.Parameters.AddWithValue("@CreatedBy", depositOrder.CreatedBy ?? (object)DBNull.Value);
-
-                        int rowsAffected = await sqlCommand.ExecuteNonQueryAsync();
-
-                        return rowsAffected > 0;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log the exception
-                Console.WriteLine($"Error inserting deposit order: {ex.Message}");
-                return false;
-            }
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertDepositOrder]", sqlConnection);
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.Parameters.AddWithValue("@PaymentOrderId", depositOrder.PaymentOrderId);
+            sqlCommand.Parameters.AddWithValue("@OrderReference", depositOrder.OrderReference);
+            sqlCommand.Parameters.AddWithValue("@DepositAmount", depositOrder.DepositeAmount);
+            sqlCommand.Parameters.AddWithValue("@ActualDepositAmount", depositOrder.ActualDepositeAmount);
+            sqlCommand.Parameters.AddWithValue("@PendingDepositAmount", depositOrder.PendingDepositeAmount);
+            sqlCommand.Parameters.AddWithValue("@StripeDepositIntentId", depositOrder.StripeDepositeIntentId);
+            sqlCommand.Parameters.AddWithValue("@StripeDepositChargeId", depositOrder.StripeDepositeChargeId);
+            sqlCommand.Parameters.AddWithValue("@IsPartialPayment", depositOrder.IsPartialPayment);
+            sqlCommand.Parameters.AddWithValue("@CreatedBy", depositOrder.CreatedBy);
+            sqlCommand.ExecuteNonQuery();
+            sqlConnection.Close();
+            return true;
         }
         public async Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId)
         {
@@ -1067,12 +1050,12 @@ namespace OLC.Web.API.Manager
                                     responseDepositOrder.OrderReference = item["OrderReference"].ToString();
 
                                     // Corrected column names to match stored procedure
-                                    responseDepositOrder.DepositAmount = Convert.ToDecimal(item["DepositeAmount"]);
-                                    responseDepositOrder.ActualDepositAmount = Convert.ToDecimal(item["ActualDepositeAmount"]);
-                                    responseDepositOrder.PendingDepositAmount = Convert.ToDecimal(item["PendingDepositeAmount"]);
+                                    responseDepositOrder.DepositeAmount = Convert.ToDecimal(item["DepositeAmount"]);
+                                    responseDepositOrder.DepositeAmount = Convert.ToDecimal(item["ActualDepositeAmount"]);
+                                    responseDepositOrder.PendingDepositeAmount = Convert.ToDecimal(item["PendingDepositeAmount"]);
 
-                                    responseDepositOrder.StripeDepositIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? item["StripeDepositeIntentId"].ToString() : null;
-                                    responseDepositOrder.StripeDepositChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? item["StripeDepositeChargeId"].ToString() : null;
+                                    responseDepositOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? item["StripeDepositeIntentId"].ToString() : null;
+                                    responseDepositOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? item["StripeDepositeChargeId"].ToString() : null;
 
                                     responseDepositOrder.IsPartialPayment = Convert.ToInt64(item["IsPartialPayment"]);
                                     responseDepositOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
