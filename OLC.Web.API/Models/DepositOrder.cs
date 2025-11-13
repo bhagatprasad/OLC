@@ -5,11 +5,11 @@
         public long? Id { get; set; }
         public long? PaymentOrderId { get; set; }
         public string? OrderReference { get; set; }
-        public decimal? DepositAmount { get; set; }
-        public decimal? ActualDepositAmount { get; set; }
-        public decimal? PendingDepositAmount { get; set; }
-        public string? StripeDepositIntentId { get; set; }
-        public string? StripeDepositChargeId { get; set; }
+        public decimal? DepositeAmount { get; set; }
+        public decimal? ActualDepositeAmount { get; set; }
+        public decimal? PendingDepositeAmount { get; set; }
+        public string? StripeDepositeIntentId { get; set; }
+        public string? StripeDepositeChargeId { get; set; }
         public long? IsPartialPayment { get; set; }
         public long? CreatedBy { get; set; }
         public DateTimeOffset? CreatedOn { get; set; }

@@ -757,6 +757,10 @@ namespace OLC.Web.API.Manager
 
                 Upo.StripeDepositeChargeId = dr["StripeDepositeChargeId"] != DBNull.Value ? dr["StripeDepositeChargeId"].ToString() : null;  // Added null check
 
+                Upo.DepositeAmount = dr["TotalDepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["TotalDepositeAmount"]) : null;
+
+                Upo.PendingDepositeAmount = dr["PendingDepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PendingDepositeAmount"]) : null;
+
                 Upo.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt64(dr["CreatedBy"]) : null;
 
                 Upo.CreatedOn = dr["CreatedOn"] != DBNull.Value ? (DateTimeOffset)dr["CreatedOn"] : null;
@@ -807,6 +811,14 @@ namespace OLC.Web.API.Manager
                 if (paymentOrderHistory.Any())
                 {
                     paymentOrderDetails.paymentOrderHistory = paymentOrderHistory;
+                }
+            }
+            if (paymentOrderId > 0)
+            {
+                var depositeOrder = await GetDepositOrderByOrderIdAsync(paymentOrderId);
+                if (depositeOrder.Any())
+                {
+                    paymentOrderDetails.DepositeOrders = depositeOrder;
                 }
             }
 
@@ -996,11 +1008,11 @@ namespace OLC.Web.API.Manager
                 sqlCommand.CommandType = CommandType.StoredProcedure;
                 sqlCommand.Parameters.AddWithValue("@PaymentOrderId", depositOrder.PaymentOrderId);
                 sqlCommand.Parameters.AddWithValue("@OrderReference", depositOrder.OrderReference);
-                sqlCommand.Parameters.AddWithValue("@DepositAmount", depositOrder.DepositAmount);
-                sqlCommand.Parameters.AddWithValue("@ActualDepositAmount", depositOrder.ActualDepositAmount);
-                sqlCommand.Parameters.AddWithValue("@PendingDepositAmount", depositOrder.PendingDepositAmount);
-                sqlCommand.Parameters.AddWithValue("@StripeDepositIntentId", depositOrder.StripeDepositIntentId);
-                sqlCommand.Parameters.AddWithValue("@StripeDepositChargeId", depositOrder.StripeDepositChargeId);
+                sqlCommand.Parameters.AddWithValue("@DepositAmount", depositOrder.DepositeAmount);
+                sqlCommand.Parameters.AddWithValue("@ActualDepositAmount", depositOrder.ActualDepositeAmount);
+                sqlCommand.Parameters.AddWithValue("@PendingDepositAmount", depositOrder.PendingDepositeAmount);
+                sqlCommand.Parameters.AddWithValue("@StripeDepositIntentId", depositOrder.StripeDepositeIntentId);
+                sqlCommand.Parameters.AddWithValue("@StripeDepositChargeId", depositOrder.StripeDepositeChargeId);
                 sqlCommand.Parameters.AddWithValue("@IsPartialPayment", depositOrder.IsPartialPayment);
                 sqlCommand.Parameters.AddWithValue("@createdBy", depositOrder.CreatedBy);
                 sqlCommand.ExecuteNonQuery();
@@ -1046,15 +1058,15 @@ namespace OLC.Web.API.Manager
 
                         responseDepositOrder.OrderReference = item["OrderReference"].ToString();
 
-                        responseDepositOrder.DepositAmount = Convert.ToInt64(item["DepositAmount"]);
+                        responseDepositOrder.DepositeAmount = Convert.ToInt64(item["DepositeAmount"]);
 
-                        responseDepositOrder.ActualDepositAmount = Convert.ToDecimal(item["ActualDepositAmount"]);
+                        responseDepositOrder.ActualDepositeAmount = Convert.ToDecimal(item["ActualDepositeAmount"]);
 
-                        responseDepositOrder.PendingDepositAmount = Convert.ToDecimal(item["PendingDepositAmount"]);
+                        responseDepositOrder.PendingDepositeAmount = Convert.ToDecimal(item["PendingDepositeAmount"]);
 
-                        responseDepositOrder.StripeDepositIntentId = item["StripeDepositIntentId"] != DBNull.Value ? (item["StripeDepositIntentId"].ToString()) : null;
+                        responseDepositOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
 
-                        responseDepositOrder.StripeDepositChargeId = item["StripeDepositChargeId"] != DBNull.Value ? (item["StripeDepositChargeId"].ToString()) : null;
+                        responseDepositOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
 
                         responseDepositOrder.IsPartialPayment = Convert.ToInt64(item["IsPartialPayment"]);
 

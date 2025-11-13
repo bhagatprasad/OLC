@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetDepositOrdersByOrderId]
 	(
-	@Id     BIGINT
+	@paymentOrderId     BIGINT
 	)
 	AS
 
@@ -10,11 +10,11 @@
 	       [Id]
 		  ,[PaymentOrderId]
 		  ,[OrderReference]
-		  ,[DepositAmount]
-		  ,[ActualDepositAmount]
-		  ,[PendingDepositAmount]
-		  ,[StripeDepositIntentId]
-		  ,[StripeDepositChargeId]
+		  ,[DepositeAmount]
+		  ,[ActualDepositeAmount]
+		  ,[PendingDepositeAmount]
+		  ,[StripeDepositeIntentId]
+		  ,[StripeDepositeChargeId]
 		  ,[IsPartialPayment]
 		  ,[CreatedBy]
 		  ,[CreatedOn]
@@ -22,8 +22,8 @@
 		  ,[ModifiedOn]
 		  ,[IsActive]
 
-		  FROM [dbo].[DepositOrder]
+		  FROM [dbo].[DepositeOrder]
 
-		  WHERE Id = @Id;
+		  WHERE PaymentOrderId = @paymentOrderId;
 
 		  END

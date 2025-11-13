@@ -11,5 +11,6 @@
         public UserBillingAddress userBillingAddress { get; set; }
 
         public List<PaymentOrderHistory> paymentOrderHistory { get; set; }
+        public List<DepositOrder> DepositeOrders { get; set; }
     }
 }
