@@ -783,7 +783,7 @@
         var deposteAmount = $("#txtPartialAmount").val();
         var pendingAmount = $("#txtPendingAmount").val();
 
-        const depositeOrderReferance = self.generateOrderReference(self.ApplicationUser.Id, "deposit");
+        const depositeOrderReferance = generateOrderReference(self.ApplicationUser.Id, "deposit");
 
         var depositePayment = {
             PaymentOrderId: self.CurrentSelectedPaymentOrder.Id,
@@ -798,6 +798,23 @@
             ModifiedBy: self.ApplicationUser.Id
         };
         console.log(depositePayment);
+        $(".se-pre-con").show();
+
+        $.ajax({
+            type: "POST",
+            url: "/PaymentOrder/HandleDepositPayment", 
+            data: JSON.stringify(depositePayment),
+            cache: false,
+            contentType: "application/json", 
+            dataType: 'json',
+            success: function (response) { 
+             console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+            
+        });
     });
 
     $(document).on("click", "#btnClosePayNowModal", function () {
@@ -805,14 +822,24 @@
         $("#payNowModal").modal("hide");
     });
 
-    // Toggle Partial Amount Field
+
     $(document).on("change", "#chkFullAmount", function () {
+        const total = parseFloat($("#txtTotalAmount").val().replace(/[$,]/g, '')) || 0;
         if ($(this).is(":checked")) {
             $("#partialAmountGroup").hide();
             $("#txtPartialAmount").val("");
+            $("#txtPendingAmount").val(self.formatCurrency(0));
         } else {
             $("#partialAmountGroup").show();
+            $("#txtPendingAmount").val(self.formatCurrency(total));
         }
+    });
+   
+    $(document).on("input", "#txtPartialAmount", function () {
+        const total = parseFloat($("#txtTotalAmount").val().replace(/[$,]/g, '')) || 0;
+        const partial = parseFloat($(this).val()) || 0;
+        const pending = total - partial;
+        $("#txtPendingAmount").val(self.formatCurrency(pending > 0 ? pending : 0));
     });
 
     // Clean up timers when needed
