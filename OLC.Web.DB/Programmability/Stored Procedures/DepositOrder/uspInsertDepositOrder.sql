@@ -4,7 +4,7 @@
    @OrderReference NVARCHAR(100),  
    @DepositAmount DECIMAL(18,6),  
    @ActualDepositAmount DECIMAL(18,6),  
-   @PendingDepositAmount DECIMAL(18,6),  
+   @PendingDepositAmount DECIMAL(18,6), 
    @StripeDepositIntentId NVARCHAR(100),  
    @StripeDepositChargeId NVARCHAR(100),  
    @IsPartialPayment BIT,  
@@ -13,15 +13,18 @@
 AS  
 BEGIN  
     SET NOCOUNT ON;  
-     DECLARE   
+  
+    DECLARE   
         @OrderStatusId      BIGINT,  
         @PaymentStatusId    BIGINT,  
         @DepositStatusId    BIGINT,  
         @DepositDescription NVARCHAR(MAX),  
         @TotalDepositAmount DECIMAL(18,6),  
         @TotalAmountToDepositToCustomer DECIMAL(18,6),  
-        @PendingAmount DECIMAL(18,6);  
-          
+        @ComputedPending DECIMAL(18,6),
+        @InsertedId BIGINT;  
+  
+
     INSERT INTO [dbo].[DepositOrder]  
     (  
         PaymentOrderId,  
@@ -54,22 +57,34 @@ BEGIN
         GETDATE(),  
         1  
     );  
-      
- SELECT   
-        @TotalDepositAmount = SUM(DepositeAmount),   
-        @PendingAmount = MIN(PendingDepositeAmount)  
+
+    SET @InsertedId = SCOPE_IDENTITY();
+
+    SELECT   
+        @TotalDepositAmount = ISNULL(SUM(DepositeAmount),0)
     FROM [dbo].[DepositOrder]  
     WHERE PaymentOrderId = @PaymentOrderId;  
-  
+
     SELECT   
-        @TotalAmountToDepositToCustomer = TotalAmountToDepositToCustomer,  
+        @TotalAmountToDepositToCustomer = ISNULL(TotalAmountToDepositToCustomer,0),  
         @PaymentStatusId = PaymentStatusId  
     FROM [dbo].[PaymentOrder]  
     WHERE Id = @PaymentOrderId;  
-  
-    IF (@TotalDepositAmount = @TotalAmountToDepositToCustomer AND @PendingAmount = 0)  
+
+    SET @ComputedPending = @TotalAmountToDepositToCustomer - @TotalDepositAmount;
+
+    IF @ComputedPending < 0
+        SET @ComputedPending = 0;
+
+    UPDATE [dbo].[DepositOrder]
+    SET PendingDepositeAmount = @ComputedPending,
+        ModifiedOn = GETDATE(),
+        ModifiedBy = @CreatedBy
+    WHERE Id = @InsertedId;
+
+    IF (ABS(@TotalDepositAmount - @TotalAmountToDepositToCustomer) < 0.0001 AND @ComputedPending = 0)  
     BEGIN  
-        SET @OrderStatusId = 24;  
+        SET @OrderStatusId = 24;   
         SET @DepositStatusId = 24;  
         SET @DepositDescription = 'Fully Amount Deposited';  
     END  
@@ -79,6 +94,13 @@ BEGIN
         SET @DepositStatusId = 37;  
         SET @DepositDescription = 'Partially Amount Deposited';  
     END  
-  
-    EXEC [dbo].[uspProcessPaymentOrder]     @PaymentOrderId,  @OrderStatusId,   @PaymentStatusId,   @DepositStatusId,   @CreatedBy,        @DepositDescription 
-END
+
+    EXEC [dbo].[uspProcessPaymentOrder]     
+        @PaymentOrderId,  
+        @OrderStatusId,   
+        @PaymentStatusId,   
+        @DepositStatusId,   
+        @CreatedBy,        
+        @DepositDescription;  
+
+END;
