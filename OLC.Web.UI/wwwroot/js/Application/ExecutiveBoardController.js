@@ -868,14 +868,31 @@
             focus: true
         });
         console.log("View Deposit clicked............");
-
+        $('#depositOrderModal').modal("show");
         const paymentOrderId = $(this).data("order-id");
+        if (!paymentOrderId) {
+            alert("Missing data-order-id");
+            return;
+        }
+        const order = self.ExecutivePaymentOrders?.find(o => o.Id == paymentOrderId);
+        if (!order) {
+            alert("Order not found in list");
+            return;
+        }
+        self.CurrentSelectedPaymentOrder = order;
+
+        $("#viewDepositOrderRef").text(order.OrderReference || "N/A");
+       
+        const $tbody = $("#depositOrderTableBody").empty();
+
+        $(".se-pre-con").show();
+
         console.log("PaymentOrderId:", paymentOrderId);
         var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == paymentOrderId)[0];
 
         self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
-
-        $(".se-pre-con").show();
+       
+        
         $.ajax({
             type: "GET",
             url: "/PaymentOrder/GetDepositOrders",
@@ -891,5 +908,9 @@
                 console.log(error);
             }
         });
+    });
+    $(document).on("click", "#btnViewDepositModal", function () {
+        self.CurrentSelectedPaymentOrder = {};
+        $("#depositOrderModal").modal("hide");
     });
 }
