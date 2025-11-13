@@ -835,7 +835,7 @@
 
         const paymentOrderId = $(this).data("order-id");
         console.log("PaymentOrderId:", paymentOrderId);
-        var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == orderId)[0];
+        var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == paymentOrderId)[0];
 
         self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
 
@@ -855,8 +855,5 @@
                 console.log(error);
             }
         });
-
-
     });
-
 }
