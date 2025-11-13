@@ -45,6 +45,8 @@
                 }
             });
         };
+
+        
         function GetCardTypes() {
             $.ajax({
                 type: "GET",

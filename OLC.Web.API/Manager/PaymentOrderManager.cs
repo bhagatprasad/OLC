@@ -646,9 +646,9 @@ namespace OLC.Web.API.Manager
 
                 Upo.StripeDepositeChargeId = dr["StripeDepositeChargeId"] != DBNull.Value ? dr["StripeDepositeChargeId"].ToString() : null;  // Added null check
 
-                Upo.DepositeAmount = dr["TotalDepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["TotalDepositeAmount"]) : null;
+                Upo.DepositeAmount = dr["TotalDepositAmount"] != DBNull.Value ? Convert.ToDecimal(dr["TotalDepositAmount"]) : null;
 
-                Upo.PendingDepositeAmount = dr["PendingDepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PendingDepositeAmount"]) : null;
+                Upo.PendingDepositeAmount = dr["PendingDepositAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PendingDepositAmount"]) : null;
 
                 Upo.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt64(dr["CreatedBy"]) : null;
 
@@ -999,8 +999,10 @@ namespace OLC.Web.API.Manager
 
         public async Task<bool> InsertDepositOrderAsync(DepositOrder depositOrder)
         {
+            if (depositOrder == null)
+                return false;
 
-            if (depositOrder != null)
+            try
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
@@ -1018,73 +1020,158 @@ namespace OLC.Web.API.Manager
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
 
-                return true;
-            }
-            return false;
-        }
+                        // Corrected parameter name casing
+                        sqlCommand.Parameters.AddWithValue("@CreatedBy", depositOrder.CreatedBy ?? (object)DBNull.Value);
 
+                        int rowsAffected = await sqlCommand.ExecuteNonQueryAsync();
+
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error inserting deposit order: {ex.Message}");
+                return false;
+            }
+        }
         public async Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId)
         {
             List<DepositOrder> depositOrders = new List<DepositOrder>();
 
-            DepositOrder depositOrder = null;
-
-            SqlConnection conn = new SqlConnection(connectionString);
-            conn.Open();
-            SqlCommand cmd = new SqlCommand("[dbo].[uspGetDepositOrdersByOrderId]", conn);
-
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@paymentOrderId", paymentOrderId);
-
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
-
-            sqlDataAdapter.Fill(dt);
-
-            conn.Close();
-
-            if (dt.Rows.Count > 0)
+            try
             {
-                foreach (DataRow item in dt.Rows)
+                using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    DepositOrder responseDepositOrder = new DepositOrder();
+                    await conn.OpenAsync();
 
-                    if (item != null)
+                    using (SqlCommand cmd = new SqlCommand("[dbo].[uspGetDepositOrdersByOrderId]", conn))
                     {
-                        responseDepositOrder.Id = Convert.ToInt64(item["Id"]);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@PaymentOrderId", paymentOrderId);
 
-                        responseDepositOrder.PaymentOrderId = Convert.ToInt64(item["PaymentOrderId"]);
+                        using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            sqlDataAdapter.Fill(dt);
 
-                        responseDepositOrder.OrderReference = item["OrderReference"].ToString();
+                            if (dt.Rows.Count > 0)
+                            {
+                                foreach (DataRow item in dt.Rows)
+                                {
+                                    DepositOrder responseDepositOrder = new DepositOrder();
 
-                        responseDepositOrder.DepositeAmount = Convert.ToInt64(item["DepositeAmount"]);
+                                    responseDepositOrder.Id = Convert.ToInt64(item["Id"]);
+                                    responseDepositOrder.PaymentOrderId = Convert.ToInt64(item["PaymentOrderId"]);
+                                    responseDepositOrder.OrderReference = item["OrderReference"].ToString();
 
-                        responseDepositOrder.ActualDepositeAmount = Convert.ToDecimal(item["ActualDepositeAmount"]);
+                                    // Corrected column names to match stored procedure
+                                    responseDepositOrder.DepositAmount = Convert.ToDecimal(item["DepositeAmount"]);
+                                    responseDepositOrder.ActualDepositAmount = Convert.ToDecimal(item["ActualDepositeAmount"]);
+                                    responseDepositOrder.PendingDepositAmount = Convert.ToDecimal(item["PendingDepositeAmount"]);
 
-                        responseDepositOrder.PendingDepositeAmount = Convert.ToDecimal(item["PendingDepositeAmount"]);
+                                    responseDepositOrder.StripeDepositIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? item["StripeDepositeIntentId"].ToString() : null;
+                                    responseDepositOrder.StripeDepositChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? item["StripeDepositeChargeId"].ToString() : null;
 
-                        responseDepositOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? (item["StripeDepositeIntentId"].ToString()) : null;
+                                    responseDepositOrder.IsPartialPayment = Convert.ToInt64(item["IsPartialPayment"]);
+                                    responseDepositOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+                                    responseDepositOrder.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+                                    responseDepositOrder.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+                                    responseDepositOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+                                    responseDepositOrder.IsActive = item["IsActive"] != DBNull.Value ? Convert.ToBoolean(item["IsActive"]) : null;
 
-                        responseDepositOrder.StripeDepositeChargeId = item["StripeDepositeChargeId"] != DBNull.Value ? (item["StripeDepositeChargeId"].ToString()) : null;
-
-                        responseDepositOrder.IsPartialPayment = Convert.ToInt64(item["IsPartialPayment"]);
-
-                        responseDepositOrder.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
-
-                        responseDepositOrder.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
-
-                        responseDepositOrder.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
-
-                        responseDepositOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
-
-                        responseDepositOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                                    depositOrders.Add(responseDepositOrder);
+                                }
+                            }
+                        }
                     }
-
-                    depositOrders.Add(responseDepositOrder);
                 }
             }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Error retrieving deposit orders: {ex.Message}");
+                throw;
+            }
+
             return depositOrders;
         }
+
+        public async Task<ExecutivePaymentOrders> GetPaymentOrderDetailsAsync(long paymentOrderId)
+        {
+            ExecutivePaymentOrders Upo = new ExecutivePaymentOrders();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    await conn.OpenAsync();
+
+                    using (SqlCommand cmd = new SqlCommand("[dbo].[GetPaymentOrderDetails]", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@paymentOrderId", paymentOrderId);
+
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+
+                            foreach (DataRow dr in dt.Rows)
+                            {
+                                Upo.Id = dr["OrderId"] != DBNull.Value ? Convert.ToInt64(dr["OrderId"]) : (long?)null;
+                                Upo.OrderReference = dr["OrderReference"] != DBNull.Value ? dr["OrderReference"].ToString() : null;
+                                Upo.UserId = dr["UserId"] != DBNull.Value ? Convert.ToInt64(dr["UserId"]) : (long?)null;
+                                Upo.UserEmail = dr["UserEmail"] != DBNull.Value ? dr["UserEmail"].ToString() : null;
+                                Upo.UserPhone = dr["UserPhone"] != DBNull.Value ? dr["UserPhone"].ToString() : null;
+                                Upo.PaymentReasonId = dr["PaymentReasonId"] != DBNull.Value ? Convert.ToInt64(dr["PaymentReasonId"]) : (long?)null;
+                                Upo.PaymentReasonName = dr["PaymentReasonName"] != DBNull.Value ? dr["PaymentReasonName"].ToString() : null;
+                                Upo.Amount = dr["Amount"] != DBNull.Value ? Convert.ToDecimal(dr["Amount"]) : (decimal?)null;
+                                Upo.TransactionFeeId = dr["TransactionFeeId"] != DBNull.Value ? Convert.ToInt64(dr["TransactionFeeId"]) : (long?)null;
+                                Upo.TransactionFeeAmount = dr["TransactionFeeAmount"] != DBNull.Value ? dr["TransactionFeeAmount"].ToString() : null;
+                                Upo.PlatformFeeAmount = dr["PlatformFeeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PlatformFeeAmount"]) : (decimal?)null;
+                                Upo.FeeCollectionMethod = dr["FeeCollectionMethod"] != DBNull.Value ? dr["FeeCollectionMethod"].ToString() : null;
+                                Upo.TotalAmountToChargeCustomer = dr["TotalAmountToChargeCustomer"] != DBNull.Value ? Convert.ToDecimal(dr["TotalAmountToChargeCustomer"]) : (decimal?)null;
+                                Upo.TotalAmountToDepositToCustomer = dr["TotalAmountToDepositToCustomer"] != DBNull.Value ? Convert.ToDecimal(dr["TotalAmountToDepositToCustomer"]) : (decimal?)null;
+                                Upo.TotalPlatformFee = dr["TotalPlatformFee"] != DBNull.Value ? Convert.ToDecimal(dr["TotalPlatformFee"]) : (decimal?)null;
+                                Upo.Currency = dr["Currency"] != DBNull.Value ? dr["Currency"].ToString() : null;
+                                Upo.CreditCardId = dr["CreditCardId"] != DBNull.Value ? Convert.ToInt64(dr["CreditCardId"]) : (long?)null;
+                                Upo.CreditCardNumber = dr["CreditCardNumber"] != DBNull.Value ? dr["CreditCardNumber"].ToString() : null;
+                                Upo.BankAccountId = dr["BankAccountId"] != DBNull.Value ? Convert.ToInt64(dr["BankAccountId"]) : (long?)null;
+                                Upo.BankAccountNumber = dr["BankAccountNumber"] != DBNull.Value ? dr["BankAccountNumber"].ToString() : null;
+                                Upo.BillingAddressId = dr["BillingAddressId"] != DBNull.Value ? Convert.ToInt64(dr["BillingAddressId"]) : (long?)null;
+                                Upo.BillingAddress = dr["BillingAddress"] != DBNull.Value ? dr["BillingAddress"].ToString() : null;
+                                Upo.OrderStatusId = dr["OrderStatusId"] != DBNull.Value ? Convert.ToInt64(dr["OrderStatusId"]) : (long?)null;
+                                Upo.OrderStatus = dr["OrderStatus"] != DBNull.Value ? dr["OrderStatus"].ToString() : null;
+                                Upo.PaymentStatusId = dr["PaymentStatusId"] != DBNull.Value ? Convert.ToInt64(dr["PaymentStatusId"]) : (long?)null;
+                                Upo.PaymentStatus = dr["PaymentStatus"] != DBNull.Value ? dr["PaymentStatus"].ToString() : null;
+                                Upo.DepositStatusId = dr["DepositStatusId"] != DBNull.Value ? Convert.ToInt64(dr["DepositStatusId"]) : (long?)null;
+                                Upo.DepositStatus = dr["DepositStatus"] != DBNull.Value ? dr["DepositStatus"].ToString() : null;
+                                Upo.StripePaymentIntentId = dr["StripePaymentIntentId"] != DBNull.Value ? dr["StripePaymentIntentId"].ToString() : null;
+                                Upo.StripePaymentChargeId = dr["StripePaymentChargeId"] != DBNull.Value ? dr["StripePaymentChargeId"].ToString() : null;
+                                Upo.StripeDepositeIntentId = dr["StripeDepositIntentId"] != DBNull.Value ? dr["StripeDepositIntentId"].ToString() : null;
+                                Upo.StripeDepositeChargeId = dr["StripeDepositChargeId"] != DBNull.Value ? dr["StripeDepositChargeId"].ToString() : null;
+                                Upo.DepositeAmount = dr["TotalDepositAmount"] != DBNull.Value ? Convert.ToDecimal(dr["TotalDepositAmount"]) : (decimal?)null;  // Added mapping
+                                Upo.PendingDepositeAmount = dr["PendingDepositAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PendingDepositAmount"]) : (decimal?)null;  // Added mapping
+                                Upo.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt64(dr["CreatedBy"]) : (long?)null;
+                                Upo.CreatedOn = dr["CreatedOn"] != DBNull.Value ? (DateTimeOffset)dr["CreatedOn"] : (DateTimeOffset?)null;
+                                Upo.ModifiedBy = dr["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(dr["ModifiedBy"]) : (long?)null;
+                                Upo.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)dr["ModifiedOn"] : (DateTimeOffset?)null;
+                                Upo.IsActive = dr["IsActive"] != DBNull.Value ? (bool?)dr["IsActive"] : null;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception as needed (e.g., throw or return null)
+                    throw new Exception("Error retrieving payment order details: " + ex.Message);
+                }
+            }
+
+            return Upo;
+        }
+
     }
 }

@@ -84,7 +84,8 @@
     <Folder Include="Programmability\Stored Procedures\PaymentOrder" />
     <Folder Include="Programmability\Stored Procedures\PaymentOrderHistroy" />
     <Folder Include="Programmability\Stored Procedures\ServiceRequest" />
-    <Folder Include="Programmability\Stored Procedures\DepositeOrder" />
+    <Folder Include="Programmability\Stored Procedures\DepositOrder" />
+    <Folder Include="Programmability\Stored Procedures\ServiceRequestReplies" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -204,6 +205,12 @@
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetServiceRequestByTicketId.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetAllServiceRequests.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllExecutivePaymentOrderSum.sql" />
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspInsertDepositOrder.sql" />
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByOrderId.sql" />
+    <Build Include="Tables\ServiceRequestReplies.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspInsertServiceRequestReply.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspGetServiceRequestRepliesByTicketId.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\GetPaymentOrderDetails.sql" />
     <Build Include="Tables\DepositOrder.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Build>

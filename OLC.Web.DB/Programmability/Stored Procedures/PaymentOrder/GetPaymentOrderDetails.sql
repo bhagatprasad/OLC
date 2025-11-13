@@ -1,4 +1,7 @@
-﻿CREATE PROCEDURE [dbo].[uspGetExecutivePaymentOrders]
+﻿CREATE PROCEDURE [dbo].[GetPaymentOrderDetails]
+(
+    @paymentOrderId bigint
+)
 AS
 BEGIN
     SELECT
@@ -59,6 +62,5 @@ BEGIN
     LEFT JOIN [dbo].[STATUS] os ON po.[OrderStatusId] = os.[Id]
     LEFT JOIN [dbo].[STATUS] ps ON po.[PaymentStatusId] = ps.[Id]
     LEFT JOIN [dbo].[STATUS] ds ON po.[DepositStatusId] = ds.[Id]
-
-    ORDER BY po.ModifiedOn DESC
+    WHERE po.Id = @paymentOrderId
 END

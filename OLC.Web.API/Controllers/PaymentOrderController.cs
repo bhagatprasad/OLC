@@ -222,11 +222,26 @@ namespace OLC.Web.API.Controllers
 
         [HttpGet]
         [Route("GetDepositOrderByOrderIdAsync/{paymentOrderId}")]
-        public async Task<IActionResult> GetDepositOrderByOrderIdAsync(long paymentOrderId)
+        public async Task<IActionResult> GetDepositOrderByOrderAsync([FromQuery] long paymentOrderId)
         {
             try
             {
                 var response = await _paymentOrderManager.GetDepositOrderByOrderIdAsync(paymentOrderId);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [Route("GetPaymentOrderDetailsAsync/{paymentOrderId}")]
+        public async Task<IActionResult> GetPaymentOrderDetailsAsync(long paymentOrderId)
+        {
+            try
+            {
+                var response = await _paymentOrderManager.GetPaymentOrderDetailsAsync(paymentOrderId);
                 return Ok(response);
 
             }
