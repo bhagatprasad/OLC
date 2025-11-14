@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Submit a Ticket";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="container mt-5">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent px-0">
+            <li class="breadcrumb-item"><a href="/ServiceRequest/Index">User</a></li>
+            <li class="breadcrumb-item active">Submit a Ticket</li>
+        </ol>
+    </nav>
+
+    <h3 class="fw-bold mb-4">Departments</h3>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="department-card p-4 shadow-sm rounded d-flex flex-column">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="dept-icon rounded-circle d-flex align-items-center justify-content-center">
+                        TS
+                    </div>
+                    <h5 class="ms-3 fw-bold">Technical Support</h5>
+                </div>
+
+                <p class="text-muted">Queries related to support</p>
+
+                <a href="/ServiceRequest/Create?category=Technical"
+                   class="btn btn-danger btn-sm mt-auto w-50">
+                    Submit Ticket
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="department-card p-4 shadow-sm rounded d-flex flex-column">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="dept-icon rounded-circle d-flex align-items-center justify-content-center bg-success">
+                        SA
+                    </div>
+                    <h5 class="ms-3 fw-bold">Sales and Billing</h5>
+                </div>
+
+                <p class="text-muted">Sales and billing related queries go here</p>
+
+                <a href="/ServiceRequest/Create?category=Billing"
+                   class="btn btn-danger btn-sm mt-auto w-50">
+                    Submit Ticket
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<style>
+    .department-card {
+        background: #fff;
+        min-height: 220px;
+        transition: 0.2s;
+    }
+
+        .department-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+
+    .dept-icon {
+        width: 50px;
+        height: 50px;
+        background: #ff7237;
+        color: #fff;
+        font-weight: bold;
+        font-size: 18px;
+    }
+</style>

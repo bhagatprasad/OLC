@@ -1,0 +1,54 @@
+﻿@model OLC.Web.UI.Models.ServiceRequestModel
+
+@{
+    ViewData["Title"] = "Create Ticket";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="container mt-4">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent px-0">
+            <li class="breadcrumb-item"><a href="/ServiceRequest/Departments">Submit a Ticket</a></li>
+            <li class="breadcrumb-item active">Create Ticket</li>
+        </ol>
+    </nav>
+
+    <h3 class="fw-bold mb-4">Create a New Ticket</h3>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            @using (Html.BeginForm("SubmitTicket", "ServiceRequest", FormMethod.Post, new { id = "ticketForm" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Subject</label>
+                    @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", placeholder = "Enter ticket subject", required = "required" })
+                    @Html.ValidationMessageFor(m => m.Subject)
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Category</label>
+                    @Html.DropDownListFor(m => m.Category, new SelectList(Model.categories, "Name", "Name", Model.Category), new { @class = "form-select" })
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Priority</label>
+                    @Html.DropDownListFor(m => m.Priority, new SelectList(Model.priorities, "Name", "Name", Model.Priority), new { @class = "form-select" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Message</label>
+                    @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 5, placeholder = "Describe your issue" })
+                </div>
+
+                <div class="text-end">
+                    <a href="@Url.Action("Departments", "ServiceRequest")" class="btn btn-secondary me-2">Cancel</a>
+                    <button type="submit" class="btn btn-danger">Submit Ticket</button>
+                </div>
+            }
+
+        </div>
+    </div>

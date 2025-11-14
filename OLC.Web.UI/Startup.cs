@@ -82,6 +82,7 @@ namespace OLC.Web.UI
             services.AddScoped<ITransactionFeeService, TransactionFeeService>();
 
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IServiceRequest, ServiceRequestService>();
 
             services.AddSession(options =>
             {
