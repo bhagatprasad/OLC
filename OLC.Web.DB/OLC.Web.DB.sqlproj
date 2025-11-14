@@ -215,6 +215,7 @@
     </Build>
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByOrderId.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetServiceRequestByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetAllServiceRequestsWithReplies.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
