@@ -129,8 +129,8 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetServiceRequestByUserIdAsync/{userId}")]
-        public async Task<IActionResult> GetServiceRequestByUserId(long userId)
+        [Route("GetServiceRequestByUserAsync/{userId}")]
+        public async Task<IActionResult> GetServiceRequestByUserAsync(long userId)
         {
             try
             {

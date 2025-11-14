@@ -1,4 +1,5 @@
 ﻿function ServiceRequestController() {
+
     var self = this;
 
     self.ApplicationUser = {};
@@ -23,7 +24,7 @@
             cache: false,
             success: function (response) {
                 self.UserServiceRequest = response && response.data ? response.data : [];
-                loadServiceRequests(self.UserServiceRequest);
+                loadServiceRequests();
             },
             error: function (error) {
                 console.log(error);
@@ -31,10 +32,10 @@
         });
     }
 
-    function loadServiceRequests(serviceRequests) {
+    function loadServiceRequests() {
         $("#serviceRequestList").empty();
 
-        serviceRequests.forEach(req => {
+        self.UserServiceRequest.forEach(req => {
             const priorityClass =
                 req.priority === "High" ? "bg-danger" :
                     req.priority === "Medium" ? "bg-warning text-dark" :
@@ -44,17 +45,41 @@
             const statusClass = mapStatusClass(req.statusId);
 
             $("#serviceRequestList").append(`
-                <div class="ticket-card p-3 mb-3 border rounded shadow-sm" onclick="viewTicket(${req.ticketId})" style="cursor:pointer;">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <h6 class="fw-bold mb-0">${req.subject}</h6>
-                        <span class="badge ${priorityClass}">${req.priority ?? "Normal"}</span>
-                    </div>
-                    <p class="text-muted mb-0">
-                        <i class="fa-solid fa-headset me-1"></i>${req.category ?? "N/A"} • 
-                        <span class="badge ${statusClass}">${statusText}</span> • 
-                        ${formatDate(req.createdOn)}
-                    </p>
-                </div>
+                <tr>
+                <td>
+                ${req.TicketId}
+                </td>
+                 <td>
+                ${req.OrderId}
+                </td>
+                 <td>
+                ${req.UserId}
+                </td>
+                 <td>
+                ${req.Subject}
+                </td>
+                 <td>
+                ${req.Message}
+                </td>
+                 <td>
+                ${req.Category}
+                </td>
+                    <td>
+                ${req.OrderId}
+                </td>
+                 <td>
+                ${req.UserId}
+                </td>
+                 <td>
+                ${req.Subject}
+                </td>
+                 <td>
+                ${req.Message}
+                </td>
+                 <td>
+                ${req.Category}
+                </td>
+                </tr>
             `);
         });
     }
@@ -117,37 +142,5 @@
             case 4: return "bg-warning text-dark";
             default: return "bg-secondary";
         }
-    }
-
-    function submitTicket() {
-
-        var ticket = {
-            TicketId: $("#TicketId").val() || 0,
-            UserId: $("#UserId").val(),
-            Subject: $("#Subject").val(),
-            Category: $("#Category").val(),
-            Priority: $("#Priority").val(),
-            Message: $("#Message").val()
-        };
-
-        $.ajax({
-            url: '/ServiceRequest/InsertOrUpdateServiceRequest',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(ticket),
-            success: function (res) {
-                if (res === true) {
-                    alert("Ticket submitted successfully!");
-                    window.location.href = "ServiceRequest/Index";
-                }
-            },
-            error: function (err) {
-                alert("Error submitting ticket!");
-                console.log(err);
-            }
-        });
-
-
-
     }
 }
