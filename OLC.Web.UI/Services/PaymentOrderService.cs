@@ -72,8 +72,8 @@ namespace OLC.Web.UI.Services
 
         public async Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId)
         {
-            var url = Path.Combine("PaymentOrder/GetDepositOrderByOrderIdAsync", paymentOrderId.ToString());
-            return await _repositoryFactory.SendAsync<List<DepositOrder>>(HttpMethod.Get, url);
+           var url = Path.Combine("PaymentOrder/GetDepositOrderByOrderIdAsync", paymentOrderId.ToString());
+           return await _repositoryFactory.SendAsync<List<DepositOrder>>(HttpMethod.Get, url);
         }
 
         public async Task<bool> HandleDepositPaymentAsync(ProcessDepositePayment processDepositePayment)

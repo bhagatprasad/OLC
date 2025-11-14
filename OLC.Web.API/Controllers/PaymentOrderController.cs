@@ -222,12 +222,12 @@ namespace OLC.Web.API.Controllers
 
         [HttpGet]
         [Route("GetDepositOrderByOrderIdAsync/{paymentOrderId}")]
-        public async Task<IActionResult> GetDepositOrderByOrderAsync([FromQuery] long paymentOrderId)
+        public async Task<IActionResult> GetDepositOrderByOrderIdAsync(long paymentOrderId)
         {
             try
             {
                 var response = await _paymentOrderManager.GetDepositOrderByOrderIdAsync(paymentOrderId);
-                return Ok(response);
+                return Ok(new { data = response });
 
             }
             catch (Exception ex)

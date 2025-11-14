@@ -868,31 +868,79 @@
             focus: true
         });
         console.log("View Deposit clicked............");
-
+        $('#depositOrderModal').modal("show");
         const paymentOrderId = $(this).data("order-id");
-        console.log("PaymentOrderId:", paymentOrderId);
-        var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == orderId)[0];
+        if (!paymentOrderId) {
+            alert("Missing data-order-id");
+            return;
+        }
+        const order = self.ExecutivePaymentOrders?.find(o => o.Id == paymentOrderId);
+        if (!order) {
+            alert("Order not found in list");
+            return;
+        }
+        self.CurrentSelectedPaymentOrder = order;
 
-        self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
+        $("#viewDepositOrderRef").text(order.OrderReference || "N/A");
+       
+        const $tbody = $("#depositOrderTableBody").empty();
 
         $(".se-pre-con").show();
+
+        console.log("PaymentOrderId:", paymentOrderId);
+        var selectedPaymentOrder = self.ExecutivePaymentOrders.filter(x => x.Id == paymentOrderId)[0];
+
+        self.CurrentSelectedPaymentOrder = selectedPaymentOrder;
+       
+        
         $.ajax({
             type: "GET",
             url: "/PaymentOrder/GetDepositOrders",
-            data: { paymnentOrderId: self.CurrentSelectedPaymentOrder.Id },
+            data: { paymentOrderId: paymentOrderId },
             cache: false,
             success: function (response) {
-                console.log(response)
+                console.log("50 Records Response:",response);
                 self.DepositOrders = response && response.data ? response.data : [];
+
+                //
+
+                const deposits = response?.data || [];
+
+                if (deposits.length === 0) {
+                    $tbody.append(`
+                    <tr>
+                        <td colspan="9" class="text-center text-muted py-5 fs-5">
+                            No deposit records found
+                        </td>
+                    </tr>`);
+                } else {
+                    deposits.forEach((d, i) => {
+                        $tbody.append(`
+                        <tr class="align-middle">
+                            <td class="ps-4">${i + 1}</td>
+                            <!-- Show PaymentOrderId (the real ID) -->
+                            <td class="ps-4 fw-bold text-primary">${d.PaymentOrderId}</td>
+                            <!-- Show OrderReference (human readable) -->
+                            <td class="ps-4">${d.OrderReference || "N/A"}</td>
+                            <td class="ps-4 text-end">${Number(d.DepositeAmount || 0).toFixed(2)}</td>
+                            <td class="ps-4 text-end text-success fw-bold">${Number(d.ActualDepositeAmount || 0).toFixed(2)}</td>
+                            <td class="ps-4 text-end text-danger">${Number(d.PendingDepositeAmount || 0).toFixed(2)}</td>
+                            
+                        </tr>
+                    `);
+                    });
+                }
                 $(".se-pre-con").hide();
-                $('#depositOrderModal').modal("show");
             },
-            error: function (error) {
-                console.log(error);
-            }
+            error: function (xhr) {
+                console.error("Error:", xhr.responseText);
+                $tbody.append(`<tr><td colspan="9" class="text-danger text-center py-5">Failed to load data</td></tr>`);
+                $(".se-pre-con").hide();
+            },
         });
-
-
     });
-
+    //$(document).on("click", "#btnViewDepositModal", function () {
+    //    self.CurrentSelectedPaymentOrder = {};
+    //    $("#depositOrderModal").modal("hide");
+    //});
 }
