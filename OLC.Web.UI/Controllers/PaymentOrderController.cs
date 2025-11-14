@@ -353,11 +353,11 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDepositOrders(long paymnentOrderId)
+        public async Task<IActionResult> GetDepositOrders(long paymentOrderId)
         {
             try
             {
-                var response = await _paymentOrderService.GetDepositOrderByOrderIdAsync(paymnentOrderId);
+                var response = await _paymentOrderService.GetDepositOrderByOrderIdAsync(paymentOrderId);
                 return Json(new { data = response });
             }
             catch (Exception ex)
