@@ -227,7 +227,7 @@ namespace OLC.Web.API.Controllers
             try
             {
                 var response = await _paymentOrderManager.GetDepositOrderByOrderIdAsync(paymentOrderId);
-                return Ok(new { data = response });
+                return Ok(response);
 
             }
             catch (Exception ex)

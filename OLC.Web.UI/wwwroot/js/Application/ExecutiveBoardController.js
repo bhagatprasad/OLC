@@ -220,6 +220,17 @@
                 <button class="btn btn-sm btn-outline-warning view-deposit" data-order-id="${order.Id}" title="View Deposits">
                     <i class="fas fa-handshake"></i>
                 </button>`;
+            } else if (order.OrderStatus === "Paid") {
+                actionButtons += `
+                </button>
+                <button class="btn btn-sm btn-outline-warning view-deposit" data-order-id="${order.Id}" title="View Deposits">
+                    <i class="fas fa-handshake"></i>
+                </button>`;
+
+                mobileActionButtons += `
+                <button class="btn btn-sm btn-outline-warning view-deposit" data-order-id="${order.Id}" title="View Deposits">
+                    <i class="fas fa-handshake"></i>
+                </button>`;
             }
         }
         else if (order.OrderStatus === "Draft") {
@@ -899,48 +910,32 @@
             data: { paymentOrderId: paymentOrderId },
             cache: false,
             success: function (response) {
-                console.log("50 Records Response:",response);
+                console.log("Records Response:", response);
+
                 self.DepositOrders = response && response.data ? response.data : [];
 
-                //
-
-                const deposits = response?.data || [];
-
-                if (deposits.length === 0) {
-                    $tbody.append(`
-                    <tr>
-                        <td colspan="9" class="text-center text-muted py-5 fs-5">
-                            No deposit records found
-                        </td>
-                    </tr>`);
-                } else {
-                    deposits.forEach((d, i) => {
+                self.DepositOrders.forEach((d, i) => {
                         $tbody.append(`
                         <tr class="align-middle">
-                            <td class="ps-4">${i + 1}</td>
-                            <!-- Show PaymentOrderId (the real ID) -->
-                            <td class="ps-4 fw-bold text-primary">${d.PaymentOrderId}</td>
-                            <!-- Show OrderReference (human readable) -->
                             <td class="ps-4">${d.OrderReference || "N/A"}</td>
-                            <td class="ps-4 text-end">${Number(d.DepositeAmount || 0).toFixed(2)}</td>
                             <td class="ps-4 text-end text-success fw-bold">${Number(d.ActualDepositeAmount || 0).toFixed(2)}</td>
+                              <td class="ps-4 text-end">${Number(d.DepositeAmount || 0).toFixed(2)}</td>
                             <td class="ps-4 text-end text-danger">${Number(d.PendingDepositeAmount || 0).toFixed(2)}</td>
-                            
+                            <td class="ps-4 text-end text-danger">${d.StripeDepositeChargeId}</td>
                         </tr>
                     `);
                     });
-                }
                 $(".se-pre-con").hide();
             },
             error: function (xhr) {
                 console.error("Error:", xhr.responseText);
-                $tbody.append(`<tr><td colspan="9" class="text-danger text-center py-5">Failed to load data</td></tr>`);
                 $(".se-pre-con").hide();
             },
         });
     });
-    //$(document).on("click", "#btnViewDepositModal", function () {
-    //    self.CurrentSelectedPaymentOrder = {};
-    //    $("#depositOrderModal").modal("hide");
-    //});
+    $(document).on("click", "#btnCloseViewDepositModal", function () {
+        self.CurrentSelectedPaymentOrder = {};
+        self.DepositOrders = [];
+        $("#depositOrderModal").modal("hide");
+    });
 }
