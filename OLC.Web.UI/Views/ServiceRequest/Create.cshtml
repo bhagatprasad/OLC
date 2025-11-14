@@ -1,4 +1,6 @@
-﻿@{
+﻿@model OLC.Web.UI.Models.ServiceRequestModel
+
+@{
     ViewData["Title"] = "Create Ticket";
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
@@ -16,64 +18,37 @@
 
     <div class="card shadow-sm">
         <div class="card-body">
-
-            <form id="ticketForm">
-
-                <input type="hidden" id="UserId" value="@Model.UserId" />
-                <input type="hidden" id="TicketId" value="@Model.TicketId" />
+            @using (Html.BeginForm("SubmitTicket", "ServiceRequest", FormMethod.Post, new { id = "ticketForm" }))
+            {
+                @Html.AntiForgeryToken()
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Subject</label>
-                    <input type="text" class="form-control" id="Subject"
-                           placeholder="Enter ticket subject" required />
+                    @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", placeholder = "Enter ticket subject", required = "required" })
+                    @Html.ValidationMessageFor(m => m.Subject)
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Category</label>
-                    <select id="Category" class="form-select">
-                        <option value="">-- Select Category --</option>
-                        <option value="Technical"
-                                selected="@(Model.Category=="Technical")">Technical Support</option>
-                        <option value="Billing"
-                                selected="@(Model.Category=="Billing")">Sales & Billing</option>
-                        <option value="General"
-                                selected="@(Model.Category=="General")">General Inquiry</option>
-                    </select>
+                    @Html.DropDownListFor(m => m.Category, new SelectList(Model.categories, "Name", "Name", Model.Category), new { @class = "form-select" })
+
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Priority</label>
-                    <select id="Priority" class="form-select">
-                        <option value="Low">Low</option>
-                        <option value="Medium" selected>Medium</option>
-                        <option value="High">High</option>
-                        <option value="Urgent">Urgent</option>
-                    </select>
+                    @Html.DropDownListFor(m => m.Priority, new SelectList(Model.priorities, "Name", "Name", Model.Priority), new { @class = "form-select" })
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Message</label>
-                    <textarea id="Message" class="form-control" rows="5"
-                              placeholder="Describe your issue"></textarea>
+                    @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 5, placeholder = "Describe your issue" })
                 </div>
 
                 <div class="text-end">
-                    <a href="/ServiceRequest/Departments" class="btn btn-secondary me-2">Cancel</a>
-                    <button type="button" class="btn btn-danger" onclick="submitTicket()">Submit Ticket</button>
+                    <a href="@Url.Action("Departments", "ServiceRequest")" class="btn btn-secondary me-2">Cancel</a>
+                    <button type="submit" class="btn btn-danger">Submit Ticket</button>
                 </div>
-
-            </form>
+            }
 
         </div>
     </div>
-</div>
-
-<script src="~/js/jquery/jquery.min.js"></script>
-<script src="~/js/Application/ServiceRequestController.js"></script>
-
-<style>
-    .form-label {
-        margin-bottom: 6px;
-    }
-</style>
-

@@ -24,5 +24,5 @@ BEGIN
 	        [ModifiedOn],
 	        [IsActive]
     FROM [dbo].[ServiceRequest] 
-    WHERE UserId      =@userId
+    WHERE UserId      = @userId
 END

@@ -27,10 +27,10 @@ namespace OLC.Web.UI.Services
             return await _repositoryFactory.SendAsync<ServiceRequest>(HttpMethod.Get, url);
         }
 
-        public async Task<ServiceRequest> GetServiceRequestByUserId(long userId)
+        public async Task<List<ServiceRequest>> GetServiceRequestByUserId(long userId)
         {
-            var url = Path.Combine("ServiceRequest/GetServiceRequestByUserId", userId.ToString());
-            return await _repositoryFactory.SendAsync<ServiceRequest>(HttpMethod.Get, url);
+            var url = Path.Combine("ServiceRequest/GetServiceRequestByUserAsync", userId.ToString());
+            return await _repositoryFactory.SendAsync<List<ServiceRequest>>(HttpMethod.Get, url);
         }
 
         public async Task<bool> InsertServiceRequestAsync(ServiceRequest serviceRequest)

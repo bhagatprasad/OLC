@@ -2,7 +2,7 @@
 {
     public class ServiceRequest
     {
-        public long TicketId { get; set; }
+        public long? TicketId { get; set; }
         public long? OrderId { get; set; }
         public long? UserId { get; set; }
         public string? Subject { get; set; }

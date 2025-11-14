@@ -9,6 +9,6 @@ namespace OLC.Web.UI.Services
         Task<bool> InsertServiceRequestAsync(ServiceRequest serviceRequest);
         Task<bool> UpdateServiceRequestAsync(ServiceRequest serviceRequest);
         Task<bool> DeleteServiceRequestAsync(long ticketId);
-        Task<ServiceRequest> GetServiceRequestByUserId(long userId);
+        Task<List<ServiceRequest>> GetServiceRequestByUserId(long userId);
     }
 }
