@@ -1049,9 +1049,9 @@ namespace OLC.Web.API.Manager
                                     responseDepositOrder.PaymentOrderId = Convert.ToInt64(item["PaymentOrderId"]);
                                     responseDepositOrder.OrderReference = item["OrderReference"].ToString();
 
-                                    // Corrected column names to match stored procedure
+                                    // Corrected: Map to separate properties
                                     responseDepositOrder.DepositeAmount = Convert.ToDecimal(item["DepositeAmount"]);
-                                    responseDepositOrder.DepositeAmount = Convert.ToDecimal(item["ActualDepositeAmount"]);
+                                    responseDepositOrder.ActualDepositeAmount = Convert.ToDecimal(item["ActualDepositeAmount"]);
                                     responseDepositOrder.PendingDepositeAmount = Convert.ToDecimal(item["PendingDepositeAmount"]);
 
                                     responseDepositOrder.StripeDepositeIntentId = item["StripeDepositeIntentId"] != DBNull.Value ? item["StripeDepositeIntentId"].ToString() : null;

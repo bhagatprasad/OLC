@@ -39,13 +39,13 @@ BEGIN
         po.[StripeDepositeChargeId],
         (
             SELECT SUM([DepositeAmount])
-            FROM [dbo].[DepositeOrder]
+            FROM [dbo].[DepositOrder]
             WHERE [PaymentOrderId] = po.[Id]
         ) AS TotalDepositeAmount,
 
         (
             SELECT MIN([PendingDepositeAmount])
-            FROM [dbo].[DepositeOrder] 
+            FROM [dbo].[DepositOrder] 
             WHERE [PaymentOrderId] = po.[Id]
         ) AS PendingDepositeAmount,
         po.[CreatedBy],
