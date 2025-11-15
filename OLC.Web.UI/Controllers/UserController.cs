@@ -11,13 +11,16 @@ namespace OLC.Web.UI.Controllers
         private readonly IUserService _userService;
         private readonly INotyfService _notyfService;
         private readonly IAuthenticateService _authenticateService;
+        private readonly IUserKycService _userKycService;
         public UserController(IUserService userService,
             INotyfService notyfService,
-            IAuthenticateService authenticateService)
+            IAuthenticateService authenticateService,
+            IUserKycService userKycService )
         {
             _userService = userService;
             _notyfService = notyfService;
             _authenticateService = authenticateService;
+            _userKycService = userKycService;
         }
 
         [Authorize(Roles = ("Administrator"))]
@@ -61,6 +64,83 @@ namespace OLC.Web.UI.Controllers
             {
                 _notyfService.Error(ex.Message);
                 throw ex;
+            }
+        }
+        [HttpGet]
+        [Authorize(Roles = ("Administrator,Executive"))]
+        public async Task<IActionResult> GetUserKycByUSerId(long userId)
+        {
+            try
+            {
+                var response = await _userKycService.GetUserKycByUserIdAsync(userId);
+                return Json(new { data = response });
+
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+        [HttpGet]
+        [Authorize(Roles = ("Administrator,Executive"))]
+        public async Task<IActionResult> GetAllUsersKyc( )
+        {
+            try
+            {
+                var response = await _userKycService.GetAllUsersKycAsync();
+                return Json(new { data = response });
+
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+        [HttpPost]
+        [Authorize(Roles = ("Administrator,Executive"))]
+        public async Task<IActionResult> GetAllUsersKyc(UserKyc userKyc)
+        {
+            try
+            {
+                var response = await _userKycService.InsertUserKycAsync(userKyc);
+                return Json(new { data = response });
+
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> InsertAndUpdateUserKyc([FromBody] UserKyc userKyc)
+        {
+            try
+            {
+                bool isSaved = false;
+
+                if (userKyc != null)
+                {
+                    if (userKyc.Id > 0)
+                        isSaved = await _userKycService.ProcessUserKycAsync(userKyc);
+                    else
+                        isSaved = await _userKycService.InsertUserKycAsync(userKyc);
+
+                    _notyfService.Success("Successfully Inserted User Kyc");
+
+                    return Json(isSaved);
+                }
+
+                _notyfService.Error("Unable to Insert User Kyc");
+                return Json(isSaved);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
     }

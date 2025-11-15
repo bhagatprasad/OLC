@@ -1,0 +1,15 @@
+﻿CREATE TABLE [dbo].[UserKyc] (
+    [Id]                    bigint              NOT NULL PRIMARY KEY IDENTITY(1,1),
+    [UserId]                bigint              NOT NULL,
+    [KycStatus]             varchar(50)         NULL,
+    [KycLevel]              varchar(50)         NULL,
+    [SubmittedOn]           datetimeoffset      NULL,
+    [VerifiedOn]            datetimeoffset      NULL,
+    [VerifiedBy]            bigint              NULL,      
+    [RejectionReason]       nvarchar(500)       NULL,    
+    [CreatedBy]             Bigint              NULL,
+    [CreatedOn]             datetimeoffset      NULL,
+    [ModifiedBy]            Bigint              NULL,
+    [ModifiedOn]            datetimeoffset      NULL,
+    [IsActive]              bit                 NULL,
+);
