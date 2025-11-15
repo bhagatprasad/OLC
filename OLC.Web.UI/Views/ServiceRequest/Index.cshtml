@@ -14,9 +14,9 @@
                         </h1>
                     </div>
                     <div>
-                        <a type="button" class="btn btn-primary" id="addBankBtn" href="@Url.Action("Create", "ServiceRequest", null)">
+                        <button type="button" class="btn btn-primary" id="addServiceRequest">
                             <i class="fas fa-plus me-2"></i> Add Request
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,9 @@
             </div>
         </div>
     </div>
+    <partial name="Create.cshtml" />
 </div>
+
 <script src="~/js/jquery/jquery.min.js"></script>
 <script src="~/js/Application/ServiceRequestController.js"></script>
 

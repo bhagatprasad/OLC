@@ -100,17 +100,6 @@ namespace OLC.Web.UI.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Authorize(Roles = ("User"))]
-        //public IActionResult Create(string category)
-        //{
-        //    var model = new ServiceRequest
-        //    {
-        //        Category = category
-        //    };
-        //    return View(model);
-        //}
-
         [HttpPost]
         [Authorize(Roles = ("Administrator,Executive,User"))]
         public async Task<IActionResult> InsertOrUpdateServiceRequest([FromBody] ServiceRequest serviceRequest)
@@ -119,7 +108,7 @@ namespace OLC.Web.UI.Controllers
             {
                 bool isSucess = false;
 
-                if (serviceRequest.UserId > 0)
+                if (serviceRequest.TicketId > 0)
                     isSucess = await _serviceRequest.UpdateServiceRequestAsync(serviceRequest);
                 else
                     isSucess = await _serviceRequest.InsertServiceRequestAsync(serviceRequest);
