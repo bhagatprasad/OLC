@@ -1,54 +1,68 @@
-﻿@model OLC.Web.UI.Models.ServiceRequestModel
+﻿<form id="CreateTicketForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Create Ticket</h5>
+            <button type="button" class="close" id="closeSidebar">
+                <span>&times;</span>
+            </button>
+        </div>
 
-@{
-    ViewData["Title"] = "Create Ticket";
-    Layout = "~/Views/Shared/_UserLayout.cshtml";
-}
+        <div class="modal-body">
 
-<div class="container mt-4">
+            <div class="form-group">
+                <label>Subject</label>
+                <input type="text" id="Subject" class="form-control" required maxlength="150" />
+            </div>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent px-0">
-            <li class="breadcrumb-item"><a href="/ServiceRequest/Departments">Submit a Ticket</a></li>
-            <li class="breadcrumb-item active">Create Ticket</li>
-        </ol>
-    </nav>
+            <div class="form-group">
+                <label>Message</label>
+                <textarea id="Message" class="form-control" required></textarea>
+            </div>
 
-    <h3 class="fw-bold mb-4">Create a New Ticket</h3>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="Category" class="form-control" required>
+                    <option value="">-- Select Category --</option>
+                </select>
+            </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            @using (Html.BeginForm("SubmitTicket", "ServiceRequest", FormMethod.Post, new { id = "ticketForm" }))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Subject</label>
-                    @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", placeholder = "Enter ticket subject", required = "required" })
-                    @Html.ValidationMessageFor(m => m.Subject)
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Category</label>
-                    @Html.DropDownListFor(m => m.Category, new SelectList(Model.categories, "Name", "Name", Model.Category), new { @class = "form-select" })
-
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Priority</label>
-                    @Html.DropDownListFor(m => m.Priority, new SelectList(Model.priorities, "Name", "Name", Model.Priority), new { @class = "form-select" })
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Message</label>
-                    @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 5, placeholder = "Describe your issue" })
-                </div>
-
-                <div class="text-end">
-                    <a href="@Url.Action("Departments", "ServiceRequest")" class="btn btn-secondary me-2">Cancel</a>
-                    <button type="submit" class="btn btn-danger">Submit Ticket</button>
-                </div>
-            }
+            <div class="form-group">
+                <label>Priority</label>
+                <select id="Priority" class="form-control" required>
+                    <option value="">-- Select Priority --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Order Id</label>
+                <input type="number" id="OrderId" class="form-control" />
+            </div>
 
         </div>
+
+        <div class="modal-footer">
+            <button type="submit" id="btnSubmitTicket" class="btn btn-primary btn-block">
+                Submit Ticket
+            </button>
+        </div>
     </div>
+</form>
+
+<style>
+    .sidebar {
+        position: fixed;
+        right: -400px;
+        top: 0;
+        width: 400px;
+        height: 100%;
+        background: #fff;
+        border-left: 1px solid #ccc;
+        overflow-y: auto;
+        transition: right 0.3s ease-in-out;
+        padding: 15px;
+        z-index: 9999;
+    }
+
+        .sidebar.open {
+            right: 0 !important;
+        }
+</style>
