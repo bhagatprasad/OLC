@@ -93,8 +93,8 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpPost]
-        [Route("UploadeUserKycDocumenAsync")]
-        public async Task<IActionResult> UploadeUserKycDocumenAsync(UserKycDocument userKycDocument)
+        [Route("UploadeUserKycDocumentAsync")]
+        public async Task<IActionResult> UploadeUserKycDocumentAsync(UserKycDocument userKycDocument)
         {
             try
             {
@@ -108,8 +108,8 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpPost]
-        [Route("UpdateUserKycDocumenAsync")]
-        public async Task<IActionResult> UpdateUserKycDocumenAsync(UserKycDocument userKycDocument)
+        [Route("UpdateUserKycDocumentAsync")]
+        public async Task<IActionResult> UpdateUserKycDocumentAsync(UserKycDocument userKycDocument)
         {
             try
             {
