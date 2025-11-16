@@ -86,6 +86,7 @@
     <Folder Include="Programmability\Stored Procedures\ServiceRequest" />
     <Folder Include="Programmability\Stored Procedures\DepositOrder" />
     <Folder Include="Programmability\Stored Procedures\ServiceRequestReplies" />
+    <Folder Include="Programmability\Stored Procedures\UserKyc" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -215,6 +216,11 @@
     </Build>
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByOrderId.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetServiceRequestByUserId.sql" />
+    <Build Include="Tables\UserKyc.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspInsertUserKyc.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspGetAllUserKyc.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspGetUserkycByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspProcessUserKyc.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetAllServiceRequestsWithReplies.sql" />
   </ItemGroup>
   <ItemGroup>
