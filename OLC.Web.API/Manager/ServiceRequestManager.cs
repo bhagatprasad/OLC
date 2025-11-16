@@ -362,86 +362,79 @@ namespace OLC.Web.API.Manager
 
             List<ServiceRequestDetails> serviceRequestDetailss = new List<ServiceRequestDetails>();
 
-            ServiceRequestDetails serviceRequest = null;
+            ServiceRequestDetails serviceRequestt = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
 
-            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAllServiceRequestsWithReplies]", sqlConnection);
+            var serviceRequests = await GetAllServiceRequestsAsync();
+
+            if (serviceRequests.Any())
+            {
+                serviceRequestt= new ServiceRequestDetails();
+
+                foreach (var item in serviceRequests)
+                {
+                    serviceRequestt.ServiceRequest = item;
+
+                    var serviceRequestRepliess = await GetServiceRequestRepliesByTicketIdAsync(item.TicketId);
+
+                    if (serviceRequestRepliess.Any())
+                    {
+                        serviceRequestt.ServiceRequestReplies = serviceRequestRepliess;
+                    }
+
+                    serviceRequestDetailss.Add(serviceRequestt);
+                }
+            }
+
+            return serviceRequestDetailss;
+        }
+
+        public async Task<List<ServiceRequestReplies>> GetAllServiceRequestRepliesAsync()
+        {
+            List<ServiceRequestReplies> serviceRequestRepliess = new List<ServiceRequestReplies>();
+
+            ServiceRequestReplies getServiceRequestReplies = null;
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAllServiceRequestReplies]", connection);
+
             sqlCommand.CommandType = CommandType.StoredProcedure;
+                      
 
-
-            SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
             DataTable dt = new DataTable();
-            da.Fill(dt);
-            sqlConnection.Close();
+
+            sqlDataAdapter.Fill(dt);
+
+            connection.Close();
+
             if (dt.Rows.Count > 0)
             {
-
                 foreach (DataRow item in dt.Rows)
                 {
 
-                    serviceRequest = new ServiceRequestDetails();
+                    getServiceRequestReplies = new ServiceRequestReplies();
 
-                    serviceRequest.TicketId = Convert.ToInt64(item["TicketId"]);
+                    getServiceRequestReplies.Id = Convert.ToInt64(item["Id"]);
+                    getServiceRequestReplies.TicketId = item["TicketId"] != DBNull.Value ? Convert.ToInt64(item["TicketId"]) : null;
+                    getServiceRequestReplies.ReplierId = item["ReplierId"] != DBNull.Value ? Convert.ToInt64(item["ReplierId"]) : null;
+                    getServiceRequestReplies.Message = item["Message"] != DBNull.Value ? item["Message"].ToString() : null;
+                    getServiceRequestReplies.Status = item["Status"] != DBNull.Value ? item["Status"].ToString() : null;
+                    getServiceRequestReplies.IsInternal = item["IsInternal"] != DBNull.Value ? (bool?)item["IsInternal"] : null;
+                    getServiceRequestReplies.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+                    getServiceRequestReplies.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTime?)item["CreatedOn"] : null;
+                    getServiceRequestReplies.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+                    getServiceRequestReplies.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTime?)item["ModifiedOn"] : null;
+                    getServiceRequestReplies.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                    serviceRequestRepliess.Add(getServiceRequestReplies);
 
-                    serviceRequest.OrderId = item["OrderId"] != DBNull.Value ? Convert.ToInt64(item["OrderId"]) : null;
-
-                    serviceRequest.UserId = item["UserId"] != DBNull.Value ? Convert.ToInt64(item["UserId"]) : null;
-
-                    serviceRequest.Subject = item["Subject"] != DBNull.Value ? item["Subject"].ToString() : null;
-
-                    serviceRequest.RequestMessage = item["RequestMessage"] != DBNull.Value ? item["RequestMessage"].ToString() : null;
-
-                    serviceRequest.Category = item["Category"] != DBNull.Value ? item["Category"].ToString() : null;
-
-                    serviceRequest.RequestReference = item["RequestReference"] != DBNull.Value ? item["RequestReference"].ToString() : null;
-
-                    serviceRequest.Classification = item["Classification"] != DBNull.Value ? item["Classification"].ToString() : null;
-
-                    serviceRequest.Priority = item["Priority"] != DBNull.Value ? item["Priority"].ToString() : null;
-
-                    serviceRequest.StatusId = item["StatusId"] != DBNull.Value ? Convert.ToInt64(item["StatusId"]) : null;
-
-                    serviceRequest.AssignTo = item["AssignTo"] != DBNull.Value ? Convert.ToInt64(item["AssignTo"]) : null;
-
-                    serviceRequest.AssignBy = item["AssignBy"] != DBNull.Value ? Convert.ToInt64(item["AssignBy"]) : null;
-
-                    serviceRequest.AssignedOn = item["AssignedOn"] != DBNull.Value ? (DateTimeOffset?)item["AssignedOn"] : null;
-
-                    serviceRequest.RequestCreatedBy = item["RequestCreatedBy"] != DBNull.Value ? Convert.ToInt64(item["RequestCreatedBy"]) : null;
-
-                    serviceRequest.RequestCreatedOn = item["RequestCreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["RequestCreatedOn"] : null;
-
-                    serviceRequest.RequestModifiedBy = item["RequestModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["RequestModifiedBy"]) : null;
-
-                    serviceRequest.RequestModifiedOn = item["RequestModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["RequestModifiedOn"] : null;
-
-                    serviceRequest.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
-
-                    serviceRequest.ReplyId = item["ReplyId"] != DBNull.Value ? Convert.ToInt64(item["ReplyId"]) : null;
-
-                    serviceRequest.ReplierId = item["ReplierId"] != DBNull.Value ? Convert.ToInt64(item["ReplierId"]) : null;
-
-                    serviceRequest.ReplyMessage = item["ReplyMessage"] != DBNull.Value ? item["ReplyMessage"].ToString() : null;
-
-                    serviceRequest.ReplyStatus = item["ReplyStatus"] != DBNull.Value ? item["ReplyStatus"].ToString() : null;
-
-                    serviceRequest.IsInternal = item["IsInternal"] != DBNull.Value ? (bool?)item["IsInternal"] : null;
-
-                    serviceRequest.ReplyCreatedBy = item["ReplyCreatedBy"] != DBNull.Value ? Convert.ToInt64(item["ReplyCreatedBy"]) : null;
-
-                    serviceRequest.ReplyCreatedOn = item["ReplyCreatedOn"] != DBNull.Value ? (DateTime?)item["ReplyCreatedOn"] : null;
-
-                    serviceRequest.ReplyModifiedBy = item["ReplyModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ReplyModifiedBy"]) : null;
-
-                    serviceRequest.ReplyIsActive = item["ReplyIsActive"] != DBNull.Value ? (bool?)item["ReplyIsActive"] : null;
-
-                    serviceRequestDetailss.Add(serviceRequest);
                 }
             }
-            return serviceRequestDetailss;
+            return serviceRequestRepliess;
         }
     }
 }
