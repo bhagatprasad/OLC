@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
+using System.Runtime.InteropServices;
 
 namespace OLC.Web.API.Controllers
 {
@@ -11,10 +12,12 @@ namespace OLC.Web.API.Controllers
     {
         private readonly IUserManager _userManager;
         private readonly IUserKycManager _userKycManager;
-        public UserController(IUserManager userManager,IUserKycManager userKycManager)
+        private readonly IUserKycDocumentManager _userKycDocumentManager;
+        public UserController(IUserManager userManager,IUserKycManager userKycManager, IUserKycDocumentManager userKycDocumentManager)
         {
             _userManager = userManager;
-            _userKycManager = userKycManager; 
+            _userKycManager = userKycManager;
+            _userKycDocumentManager = userKycDocumentManager;
         }
         [HttpGet]
         [Route("GetUserAccountsAsync")]
@@ -89,6 +92,49 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpPost]
+        [Route("UploadeUserKycDocumenAsync")]
+        public async Task<IActionResult> UploadeUserKycDocumenAsync(UserKycDocument userKycDocument)
+        {
+            try
+            {
+                var response = await _userKycDocumentManager.UploadeUserKycDocumentAsync(userKycDocument);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
+        [HttpPost]
+        [Route("UpdateUserKycDocumenAsync")]
+        public async Task<IActionResult> UpdateUserKycDocumenAsync(UserKycDocument userKycDocument)
+        {
+            try
+            {
+                var response = await _userKycDocumentManager.UpdateUserKycDocumentAsync(userKycDocument);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllUsersKycDocuments")]
+        public async Task<IActionResult> GetAllUsersKycDocuments()
+        {
+            try
+            {
+                var response = await _userKycDocumentManager.GetAllUsersKycDocuments();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
