@@ -10,6 +10,7 @@
         public DateTimeOffset? ModifiedOn { get; set; }
         public long? ModifiedBy { get; set; }
         public bool? IsActive { get; set; }
+        //public int MyProperty { get; set; }
 
     }
 }
