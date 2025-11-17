@@ -291,7 +291,7 @@ namespace OLC.Web.API.Manager
                     getServiceRequestReplies.TicketId = item["TicketId"] != DBNull.Value ? Convert.ToInt64(item["TicketId"]) : null;
                     getServiceRequestReplies.ReplierId = item["ReplierId"] != DBNull.Value ? Convert.ToInt64(item["ReplierId"]) : null;
                     getServiceRequestReplies.Message = item["Message"] != DBNull.Value ? item["Message"].ToString() : null;
-                    getServiceRequestReplies.Message = item["Status"] != DBNull.Value ? item["Status"].ToString() : null;
+                    getServiceRequestReplies.Status = item["Status"] != DBNull.Value ? item["Status"].ToString() : null;
                     getServiceRequestReplies.IsInternal = item["IsInternal"] != DBNull.Value ? (bool?)item["IsInternal"] : null;
                     getServiceRequestReplies.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
                     getServiceRequestReplies.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTime?)item["CreatedOn"] : null;
@@ -355,6 +355,86 @@ namespace OLC.Web.API.Manager
             return serviceRequests;
 
         }
-    }
 
+        public async Task<List<ServiceRequestDetails>> GetAllServiceRequestsWithRepliesAsync()
+        {
+
+
+            List<ServiceRequestDetails> serviceRequestDetailss = new List<ServiceRequestDetails>();
+
+            ServiceRequestDetails serviceRequestt = null;
+
+
+            var serviceRequests = await GetAllServiceRequestsAsync();
+
+            if (serviceRequests.Any())
+            {
+                serviceRequestt= new ServiceRequestDetails();
+
+                foreach (var item in serviceRequests)
+                {
+                    serviceRequestt.ServiceRequest = item;
+
+                    var serviceRequestRepliess = await GetServiceRequestRepliesByTicketIdAsync(item.TicketId);
+
+                    if (serviceRequestRepliess.Any())
+                    {
+                        serviceRequestt.ServiceRequestReplies = serviceRequestRepliess;
+                    }
+
+                    serviceRequestDetailss.Add(serviceRequestt);
+                }
+            }
+
+            return serviceRequestDetailss;
+        }
+
+        public async Task<List<ServiceRequestReplies>> GetAllServiceRequestRepliesAsync()
+        {
+            List<ServiceRequestReplies> serviceRequestRepliess = new List<ServiceRequestReplies>();
+
+            ServiceRequestReplies getServiceRequestReplies = null;
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAllServiceRequestReplies]", connection);
+
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+                      
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+            DataTable dt = new DataTable();
+
+            sqlDataAdapter.Fill(dt);
+
+            connection.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+
+                    getServiceRequestReplies = new ServiceRequestReplies();
+
+                    getServiceRequestReplies.Id = Convert.ToInt64(item["Id"]);
+                    getServiceRequestReplies.TicketId = item["TicketId"] != DBNull.Value ? Convert.ToInt64(item["TicketId"]) : null;
+                    getServiceRequestReplies.ReplierId = item["ReplierId"] != DBNull.Value ? Convert.ToInt64(item["ReplierId"]) : null;
+                    getServiceRequestReplies.Message = item["Message"] != DBNull.Value ? item["Message"].ToString() : null;
+                    getServiceRequestReplies.Status = item["Status"] != DBNull.Value ? item["Status"].ToString() : null;
+                    getServiceRequestReplies.IsInternal = item["IsInternal"] != DBNull.Value ? (bool?)item["IsInternal"] : null;
+                    getServiceRequestReplies.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+                    getServiceRequestReplies.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTime?)item["CreatedOn"] : null;
+                    getServiceRequestReplies.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+                    getServiceRequestReplies.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTime?)item["ModifiedOn"] : null;
+                    getServiceRequestReplies.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                    serviceRequestRepliess.Add(getServiceRequestReplies);
+
+                }
+            }
+            return serviceRequestRepliess;
+        }
+    }
 }
