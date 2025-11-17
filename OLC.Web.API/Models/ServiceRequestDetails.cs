@@ -2,7 +2,12 @@
 {
     public class ServiceRequestDetails
     {
-            public ServiceRequest ServiceRequest { get; set; }
-            public List<ServiceRequestReplies> ServiceRequestReplies { get; set; }
+        public ServiceRequestDetails()
+        {
+            serviceRequest= new ServiceRequest();
+            serviceRequestReplies = new List<ServiceRequestReplies>();
+        }
+        public ServiceRequest serviceRequest { get; set; }
+        public List<ServiceRequestReplies> serviceRequestReplies { get; set; }
     }
 }

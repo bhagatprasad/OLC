@@ -1,4 +1,5 @@
 ﻿using OLC.Web.API.Models;
+using System.Collections.Immutable;
 using System.Data;
 using System.Data.SqlClient;
 using System.Net.Sockets;
@@ -358,37 +359,34 @@ namespace OLC.Web.API.Manager
 
         public async Task<List<ServiceRequestDetails>> GetAllServiceRequestsWithRepliesAsync()
         {
-
-
-            List<ServiceRequestDetails> serviceRequestDetailss = new List<ServiceRequestDetails>();
-
-            ServiceRequestDetails serviceRequestt = null;
-
+            List<ServiceRequestDetails> _serviceRequestDetailss = new List<ServiceRequestDetails>();
 
             var serviceRequests = await GetAllServiceRequestsAsync();
 
+            var serviceRequestRepliess = await GetAllServiceRequestRepliesAsync();
+
             if (serviceRequests.Any())
             {
-                serviceRequestt= new ServiceRequestDetails();
-
                 foreach (var item in serviceRequests)
                 {
-                    serviceRequestt.ServiceRequest = item;
-
-                    var serviceRequestRepliess = await GetServiceRequestRepliesByTicketIdAsync(item.TicketId);
+                    ServiceRequestDetails _serviceRequestt = new ServiceRequestDetails();
+                    _serviceRequestt.serviceRequest = item;
 
                     if (serviceRequestRepliess.Any())
                     {
-                        serviceRequestt.ServiceRequestReplies = serviceRequestRepliess;
-                    }
+                        var filteredReplies = serviceRequestRepliess.Where(x => x.TicketId == item.TicketId).ToList();
 
-                    serviceRequestDetailss.Add(serviceRequestt);
+                        if (filteredReplies.Any())
+                        {
+                            _serviceRequestt.serviceRequestReplies = filteredReplies;
+                        }
+                    }
+                    _serviceRequestDetailss.Add(_serviceRequestt);
                 }
             }
 
-            return serviceRequestDetailss;
+            return _serviceRequestDetailss;
         }
-
         public async Task<List<ServiceRequestReplies>> GetAllServiceRequestRepliesAsync()
         {
             List<ServiceRequestReplies> serviceRequestRepliess = new List<ServiceRequestReplies>();
@@ -402,7 +400,7 @@ namespace OLC.Web.API.Manager
             SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAllServiceRequestReplies]", connection);
 
             sqlCommand.CommandType = CommandType.StoredProcedure;
-                      
+
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
