@@ -62,7 +62,7 @@ namespace OLC.Web.API.Manager
             return false;
         }
 
-        public async Task<List<UserKycDocument>> GetAllUsersKycDocuments()
+        public async Task<List<UserKycDocument>> GetAllUsersKycDocumentsAsync()
         {
             List<UserKycDocument> getAllUsersDocuments = new List<UserKycDocument>();
 

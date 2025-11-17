@@ -1,8 +1,8 @@
-﻿using OLC.Web.API.Models;
+﻿using OLC.Web.UI.Models;
 
-namespace OLC.Web.API.Manager
+namespace OLC.Web.UI.Services
 {
-    public interface IUserKycDocumentManager
+    public interface IUserKycDocumentService
     {
         Task<bool> UploadeUserKycDocumentAsync(UserKycDocument userKycDocument);
         Task<bool> UpdateUserKycDocumentAsync(UserKycDocument userKycDocument);
