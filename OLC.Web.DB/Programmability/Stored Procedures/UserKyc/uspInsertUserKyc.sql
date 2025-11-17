@@ -40,6 +40,6 @@ BEGIN
         GETDATE(),
         @userId,
         GETDATE(),
-        0
+        1
     );
 END

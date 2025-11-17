@@ -128,7 +128,7 @@ namespace OLC.Web.API.Controllers
         {
             try
             {
-                var response = await _userKycDocumentManager.GetAllUsersKycDocuments();
+                var response = await _userKycDocumentManager.GetAllUsersKycDocumentsAsync();
                 return Ok(response);
             }
             catch (Exception ex)
