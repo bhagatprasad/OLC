@@ -434,5 +434,60 @@ namespace OLC.Web.API.Manager
             }
             return serviceRequestRepliess;
         }
+
+        public async Task<bool> CancelServiceRequestByTicketIdAsync(ServiceRequest serviceRequest)
+        {
+            if (serviceRequest != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspCancelServiceRequest]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@ticketId", serviceRequest.TicketId);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", serviceRequest.ModifiedBy);
+                sqlCommand.Parameters.AddWithValue("@statusId", serviceRequest.StatusId);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> AssingingServiceRequestAsync(ServiceRequest serviceRequest)
+        {
+            if (serviceRequest != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspAssigningServiceRequest]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@ticketId", serviceRequest.TicketId);
+                sqlCommand.Parameters.AddWithValue("@statusId", serviceRequest.StatusId);
+                sqlCommand.Parameters.AddWithValue("@assignTo", serviceRequest.AssignTo);
+                sqlCommand.Parameters.AddWithValue("@assignedBy", serviceRequest.AssignBy);
+                sqlCommand.Parameters.AddWithValue("@assignedOn", serviceRequest.AssignedOn);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", serviceRequest.ModifiedBy);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
     }
 }
