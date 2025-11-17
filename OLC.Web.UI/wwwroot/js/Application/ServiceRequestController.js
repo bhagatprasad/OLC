@@ -143,4 +143,89 @@
             default: return "bg-secondary";
         }
     }
+
+    
+
+    
+   
+
+    $(document).ready(function () {
+
+        const categories = [
+            "Technical Support",
+            "Billing Inquiry",
+            "Account Management",
+            "Feature Request",
+            "Bug Report"
+        ];
+
+        const priorities = [
+            "Low",
+            "Medium",
+            "High",
+            "Urgent",
+            "Critical"
+        ];
+
+        categories.forEach(c => {
+            $("#Category").append(`<option value="${c}">${c}</option>`);
+        });
+
+        priorities.forEach(p => {
+            $("#Priority").append(`<option value="${p}">${p}</option>`);
+           });
+
+    });
+
+
+    $(document).on("click", "#addServiceRequest", function () {
+        $('#sidebar').addClass('show');
+        $('body').append('<div class="modal-backdrop fade show"></div>');
+        console.log("Iam getting from add button click");
+    });
+
+    $(document).on("click", "#closeSidebar", function () {
+        $('#CreateTicketForm')[0].reset();
+        $('#sidebar').removeClass('show');
+        $('.modal-backdrop').remove();
+    });
+
+
+    $("#CreateTicketForm").on('submit',function (e) {
+        e.preventDefault();
+
+        var user = JSON.parse(localStorage.getItem("ApplicationUser")); 
+
+        var ticket = {
+            TicketId: 0,
+            OrderId: $("#OrderId").val() || null,
+            UserId: user?.Id || 0,
+            Subject: $("#Subject").val(),
+            Message: $("#Message").val(),
+            Category: $("#Category").val(),
+            Priority: $("#Priority").val(),
+            StatusId: 1, 
+            CreatedBy: user?.Id || 0,
+            CreatedOn: new Date().toISOString(),
+            IsActive: true
+        };
+
+        $.ajax({
+            url: '/ServiceRequest/InsertOrUpdateServiceRequest',
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify(ticket),
+            success: function () {
+                alert("Ticket created successfully!");
+                $("#CreateTicketForm")[0].reset();
+                $("#closeSidebar").click();
+                location.reload();
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                alert("Error creating ticket");
+            }
+        });
+
+    });
 }

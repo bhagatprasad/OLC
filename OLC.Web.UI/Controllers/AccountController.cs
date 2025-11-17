@@ -62,6 +62,7 @@ namespace OLC.Web.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp([FromBody] UserRegistration userRegistration)
         {
+            //this is the register mathod to register new users
             try
             {
                 if (userRegistration != null)
