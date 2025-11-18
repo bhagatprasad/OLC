@@ -230,6 +230,7 @@
     <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspGetAllServiceRequestReplies.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspCancelServiceRequest.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspAssigningServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspGetUserAccount.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

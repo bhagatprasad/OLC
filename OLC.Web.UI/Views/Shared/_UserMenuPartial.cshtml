@@ -1,5 +1,4 @@
-﻿
-<div class="header-row">
+﻿<div class="header-row">
     <div class="header-column justify-content-start">
         <!-- Logo
         ============================= -->
@@ -15,7 +14,7 @@
             <div id="header-nav" class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="active"><a href="@Url.Action("Index", "UserBoard", null)">Dashboard</a></li>
-                    <li><a href="@Url.Action("MakeNewPayment", "Transaction", null)">Send/Request</a></li>
+                    <li id="sendRequestLink" style="display: none;"><a href="@Url.Action("MakeNewPayment", "Transaction", null)">Send/Request</a></li>
                     <li><a href="@Url.Action("UserCreditCards", "CreditCard", null)">Cards</a></li>
                     <li><a href="@Url.Action("UserBankAccounts", "BankAccount", null)">Bank Acoount</a></li>
                     <li><a href="@Url.Action("UserBillingAddress", "BillingAddress", null)">Billing Address</a></li>
@@ -31,10 +30,25 @@
         ============================== -->
         <nav class="login-signup navbar navbar-expand">
             <ul class="navbar-nav">
-                <li><a href="@Url.Action("Profile","User",null)">Settings</a> </li>
-                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-outline-primary shadow-none d-none d-sm-block" href="@Url.Action("Logout","Account",null)">Sign out</a></li>
+                <li><a href="@Url.Action("Profile", "User", null)">Settings</a> </li>
+                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-outline-primary shadow-none d-none d-sm-block" href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
             </ul>
         </nav>
         <!-- Login & Signup Link end -->
     </div>
 </div>
+
+<script src="~/js/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Get user info from storage
+        var _appUserInfo = storageService.get('ApplicationUser');
+
+        // Check if KYC status is Verified and show the link
+        if (_appUserInfo && _appUserInfo.KycStatus === 'Verified') {
+            $('#sendRequestLink').show();
+        } else {
+            $('#sendRequestLink').hide();
+        }
+    });
+</script>
