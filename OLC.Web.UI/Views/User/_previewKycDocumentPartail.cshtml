@@ -1,0 +1,157 @@
+﻿<!-- KYC Approval Modal -->
+<div class="modal fade" id="prviewKycModal" tabindex="-1" aria-labelledby="prviewKycModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="prviewKycModalLabel">KYC Document Review</h5>
+                <button type="button" class="btn-close btn-view-card-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <div class="row g-0 h-100">
+                    <!-- Left Side: User Details -->
+                    <div class="col-md-6 border-end d-flex flex-column">
+                        <div class="p-4 flex-grow-1">
+                            <h6 class="mb-3 text-primary"><i class="fas fa-user-circle me-2"></i>User Details</h6>
+
+                            <div class="user-details">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">User ID</label>
+                                    <p class="text-muted" id="kycUserId">-</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">KYC Status</label>
+                                    <span class="badge" id="kycStatusBadge">-</span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">KYC Level</label>
+                                    <p class="text-muted" id="kycLevel">-</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Document Type</label>
+                                    <p class="text-muted" id="kycDocumentType">-</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Document Number</label>
+                                    <p class="text-muted" id="kycDocumentNumber">-</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Submitted On</label>
+                                    <p class="text-muted" id="kycSubmittedOn">-</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Verified On</label>
+                                    <p class="text-muted" id="kycVerifiedOn">-</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Verified By</label>
+                                    <p class="text-muted" id="kycVerifiedBy">-</p>
+                                </div>
+
+                                <div class="mb-3" id="rejectionReasonSection" style="display: none;">
+                                    <label class="form-label fw-bold text-danger">Previous Rejection Reason</label>
+                                    <p class="text-muted" id="kycRejectionReason">-</p>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Expiry Date</label>
+                                    <p class="text-muted" id="kycExpiryDate">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Document Preview -->
+                    <div class="col-md-6 d-flex flex-column">
+                        <div class="p-4 flex-grow-1 d-flex flex-column">
+                            <h6 class="mb-3 text-primary"><i class="fas fa-file-image me-2"></i>Document Preview</h6>
+
+                            <div class="document-preview-container text-center flex-grow-1 d-flex flex-column">
+                                <div id="documentPreview" class="flex-grow-1 mb-3 d-flex align-items-center justify-content-center"
+                                     style="background-color: #f8f9fa; border: 1px dashed #dee2e6; border-radius: 8px; min-height: 400px; max-height: 500px; overflow: hidden;">
+                                    <div class="placeholder-content">
+                                        <i class="fas fa-file-image fa-3x text-muted mb-2"></i>
+                                        <p class="text-muted">Document preview will appear here</p>
+                                    </div>
+                                </div>
+
+                                <div class="document-actions mt-auto pt-3 border-top">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm" id="zoomInBtn">
+                                            <i class="fas fa-search-plus"></i> Zoom In
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" id="zoomResetBtn">
+                                            <i class="fas fa-search"></i> Reset
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" id="zoomOutBtn">
+                                            <i class="fas fa-search-minus"></i> Zoom Out
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm" id="downloadDocumentBtn">
+                                            <i class="fas fa-download"></i> Download
+                                        </button>
+                                    </div>
+                                    <div class="mt-2">
+                                        <small class="text-muted">Zoom: <span id="zoomLevel">100%</span></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rejection Message Section (Hidden by default) -->
+                <div class="row g-0" id="rejectionMessageSection" style="display: none;">
+                    <div class="col-12">
+                        <div class="p-4 border-top">
+                            <h6 class="mb-3 text-danger"><i class="fas fa-comment me-2"></i>Rejection Reason</h6>
+                            <div class="mb-3">
+                                <label for="rejectionMessage" class="form-label">Please provide reason for rejection *</label>
+                                <textarea class="form-control" id="rejectionMessage" rows="3" placeholder="Enter the reason for rejecting this KYC document..." required></textarea>
+                                <div class="form-text">This message will be sent to the user.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="rejectKycBtn">
+                    <i class="fas fa-times me-2"></i>Reject
+                </button>
+                <button type="button" class="btn btn-success" id="approveKycBtn">
+                    <i class="fas fa-check me-2"></i>Approve
+                </button>
+                <button type="button" class="btn btn-primary" id="submitRejectionBtn" style="display: none;">
+                    <i class="fas fa-paper-plane me-2"></i>Submit Rejection
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .user-details p {
+        margin-bottom: 0.25rem;
+        padding: 0.5rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        border-left: 3px solid #007bff;
+    }
+
+    .document-preview-container {
+        min-height: 400px;
+    }
+
+    .modal-body .row {
+        min-height: 500px;
+    }
+
+    .border-end {
+        border-right: 1px solid #dee2e6 !important;
+    }
+</style>
