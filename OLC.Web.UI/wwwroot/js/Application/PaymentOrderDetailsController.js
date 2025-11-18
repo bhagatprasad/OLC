@@ -295,7 +295,7 @@
     self.generateDepositHistoryRows = function () {
         console.log("PaymentOrderDetails:", self.PaymentOrderDetails);
 
-        const history = self.PaymentOrderDetails?.depositOrderHistory;
+        const history = self.PaymentOrderDetails?.DepositeOrders;
 
         if (!history || history.length === 0) {
             return '<tr><td colspan="4" class="text-center text-muted py-4">No deposit records found</td></tr>';
