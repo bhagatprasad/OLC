@@ -195,7 +195,8 @@ const API_URLS = {
     GetTransactionTypesAsync: '/TransactionType/GetTransactionTypes',
     GetCountriesListAsync: '/Country/GetCountriesList',
     PlacePaymentOrderAsync: '/PaymentOrder/PlacePaymentOrder',
-    CreatePortalUserAsync:'/User/CreatePortalUser'
+    CreatePortalUserAsync: '/User/CreatePortalUser',
+    InsertAndUpdateUserKycAsync: '/User/InsertAndUpdateUserKyc'
 };
 function addCommonProperties(data) {
     var appuser = storageService.get("ApplicationUser");
