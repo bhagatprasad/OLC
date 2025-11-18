@@ -34,8 +34,8 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpPost]
-        [Route("InserUserKycAsync")]
-        public async Task<IActionResult> InserUserKycAsync(UserKyc userKyc)
+        [Route("InsertUserKycAsync")]
+        public async Task<IActionResult> InsertUserKycAsync(UserKyc userKyc)
         {
             try
             {

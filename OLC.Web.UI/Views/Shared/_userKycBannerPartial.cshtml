@@ -1,0 +1,66 @@
+﻿<!-- KYC Incomplete Modal -->
+<div class="modal fade" id="kycModal" tabindex="-1" aria-labelledby="kycModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center px-4 pb-4 pt-0">
+                <!-- Warning Icon -->
+                <div class="kyc-modal-icon mb-3">
+                    <i class="fas fa-exclamation-triangle fa-3x text-warning"></i>
+                </div>
+
+                <!-- Title -->
+                <h4 class="modal-title mb-3" id="kycModalLabel">KYC Verification Required</h4>
+
+                <!-- Message -->
+                <p class="text-muted mb-4">
+                    Your Know Your Customer (KYC) verification is not completed.
+                    Please complete the verification process to access all features of your account.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="d-grid gap-2 d-md-flex justify-content-center">
+                    <a href="/kyc/complete" class="btn btn-primary px-4">
+                        <i class="fas fa-user-check me-2"></i>Complete KYC Now
+                    </a>
+                    <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Remind Me Later
+                    </button>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="mt-4">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        KYC helps us ensure the security of your account and transactions
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Get user info from storage
+        var _appUserInfo = storageService.get('ApplicationUser');
+
+        // Check if user info exists and KYC status is Pending or InProgress
+        if (_appUserInfo &&
+            (_appUserInfo.KycStatus === 'Pending' || _appUserInfo.KycStatus === 'InProgress') &&
+            !sessionStorage.getItem('kycModalShown')) {
+
+            // Show modal after a short delay
+            setTimeout(function() {
+                $('#kycModal').modal('show');
+            }, 1000);
+
+            // Set flag when modal is closed
+            $('#kycModal').on('hidden.bs.modal', function () {
+                sessionStorage.setItem('kycModalShown', 'true');
+            });
+        }
+    });
+</script>
