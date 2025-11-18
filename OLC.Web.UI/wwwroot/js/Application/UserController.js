@@ -414,7 +414,7 @@
             successCallback: function (response) {
                 self.CurrentSelectedUser = {};
                 $("#initKycModal").modal("hide");
-                self.init(); 
+                GetUserAccounts();
                 $(".se-pre-con").hide();
             },
             errorCallback: function (error) {
@@ -423,6 +423,27 @@
             }
         });
     });
+
+    function GetUserAccounts() {
+        $.ajax({
+            type: "GET",
+            url: "/User/GetUserAccounts",
+            cache: false,
+            success: function (response) {
+                self.usersList = response && response.data ? response.data : [];
+                self.filteredUsersList = [...self.usersList];
+                genarateDropdown("RoleId", self.dropDownRolesList, "Id", "Name");
+                self.populateSummaryCards();
+                self.populateUserAccountsGrid();
+                self.initializeSearch();
+                self.initializeEventHandlers();
+                $(".se-pre-con").hide();
+
+            }, error: function (error) {
+                console.log(error);
+            }
+        });
+    };
     // Create new user
     self.createUser = function () {
         $(".se-pre-con").show();
@@ -442,7 +463,7 @@
             type: 'POST',
             successCallback: function (response) {
                 self.hideAddUserForm();
-                self.init(); // Reload the user data
+                GetUserAccounts();
                 $(".se-pre-con").hide();
             },
             errorCallback: function (error) {

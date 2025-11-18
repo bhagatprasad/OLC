@@ -16,7 +16,7 @@ namespace OLC.Web.UI.Controllers
         public UserController(IUserService userService,
             INotyfService notyfService,
             IAuthenticateService authenticateService,
-            IUserKycService userKycService , IUserKycDocumentService userKycDocumentService)
+            IUserKycService userKycService, IUserKycDocumentService userKycDocumentService)
         {
             _userService = userService;
             _notyfService = notyfService;
@@ -86,7 +86,7 @@ namespace OLC.Web.UI.Controllers
         }
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive"))]
-        public async Task<IActionResult> GetAllUsersKyc( )
+        public async Task<IActionResult> GetAllUsersKyc()
         {
             try
             {
@@ -100,7 +100,7 @@ namespace OLC.Web.UI.Controllers
                 throw ex;
             }
         }
-       
+
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> InsertAndUpdateUserKyc([FromBody] UserKyc userKyc)
@@ -172,6 +172,63 @@ namespace OLC.Web.UI.Controllers
             }
             catch (Exception ex)
             {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpPost]
+        [Authorize(Roles = "Administrator,Executive,User")]
+        public async Task<IActionResult> UploadAndUpdateUserKycDocument([FromBody] KycDocument kycDocument)
+        {
+            try
+            {
+                bool isSaved = false;
+
+                UserKycDocument userKycDocument = new UserKycDocument();
+
+
+
+                if (userKycDocument != null && !string.IsNullOrEmpty(kycDocument.DocumentFileData))
+                {
+
+
+                    // Convert base64 string to byte array
+                    byte[] documentBytes = Convert.FromBase64String(kycDocument.DocumentFileData);
+
+                    userKycDocument.DocumentNumber = kycDocument.DocumentNumber;
+                    userKycDocument.DocumentType = kycDocument.DocumentType;
+                    userKycDocument.DocumentFileData = documentBytes;
+                    userKycDocument.ExpiryDate = DateTime.Now.AddDays(360);
+                    userKycDocument.VerificationStatus = "Pending";
+                    userKycDocument.CreatedBy = kycDocument.UserId;
+                    userKycDocument.CreatedOn = DateTime.Now;
+                    userKycDocument.ModifiedBy = kycDocument.UserId;
+                    userKycDocument.ModifiedOn = DateTime.Now;
+                    userKycDocument.IsActive = true;
+                    userKycDocument.RejectionReason = "";
+                    userKycDocument.UserId = kycDocument.UserId.Value;
+                    isSaved = await _userKycDocumentService.UploadeUserKycDocumentAsync(userKycDocument);
+
+                    if (isSaved)
+                    {
+                        _notyfService.Success("Successfully uploaded user KYC document");
+                        var applicationUser = await _userService.GetUserAccountAsync(kycDocument.UserId.Value);
+                        return Json(new { data = applicationUser });
+                    }
+
+                    return Json(isSaved);
+                }
+
+                _notyfService.Error("Unable to upload user KYC document - invalid data");
+                return Json(isSaved);
+            }
+            catch (FormatException ex)
+            {
+                _notyfService.Error("Invalid base64 format for document");
+                return StatusCode(StatusCodes.Status400BadRequest, "Invalid document format");
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error("Error uploading KYC document");
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }

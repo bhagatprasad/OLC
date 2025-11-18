@@ -47,7 +47,7 @@ namespace OLC.Web.API.Manager
                 sqlCommand.Parameters.AddWithValue("@userId", userKycDocument.UserId);
                 sqlCommand.Parameters.AddWithValue("@documentType", userKycDocument.DocumentType);
                 sqlCommand.Parameters.AddWithValue("@documentNumber", userKycDocument.DocumentNumber);
-                sqlCommand.Parameters.AddWithValue("@documentFilePath", userKycDocument.DocumentFilePath);
+                sqlCommand.Parameters.AddWithValue("@documentFilePath", string.Empty);
                 sqlCommand.Parameters.Add("@documentFileData", SqlDbType.VarBinary).Value = userKycDocument.DocumentFileData == null ? DBNull.Value : userKycDocument.DocumentFileData;
                 sqlCommand.Parameters.AddWithValue("@verificationStatus", userKycDocument.VerificationStatus);
                 sqlCommand.Parameters.AddWithValue("@verifiedOn", userKycDocument.VerifiedOn);

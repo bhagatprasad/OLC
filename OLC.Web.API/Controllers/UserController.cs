@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
-using System.Runtime.InteropServices;
 
 namespace OLC.Web.API.Controllers
 {
@@ -26,6 +24,20 @@ namespace OLC.Web.API.Controllers
             try
             {
                 var response = await _userManager.GetUserAccountsAsync();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [Route("GetUserAccountAsync/{userId}")]
+        public async Task<IActionResult> GetUserAccountAsync(long userId)
+        {
+            try
+            {
+                var response = await _userManager.GetUserAccountAsync(userId);
                 return Ok(response);
             }
             catch (Exception ex)
