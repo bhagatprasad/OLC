@@ -10,6 +10,16 @@ namespace OLC.Web.UI.Services
             _repositoryFactory = repositoryFactory;
         }
 
+        public async Task<bool> AssingingServiceRequestAsync(ServiceRequest serviceRequest)
+        {
+            return await _repositoryFactory.SendAsync<ServiceRequest, bool>(HttpMethod.Post, "ServiceRequest/AssingingServiceRequestAsync", serviceRequest);
+        }
+
+        public async Task<bool> CancelServiceRequestByTicketIdAsync(ServiceRequest serviceRequest)
+        {
+            return await _repositoryFactory.SendAsync<ServiceRequest, bool>(HttpMethod.Post, "ServiceRequest/AssingingServiceRequestAsync", serviceRequest);
+        }
+
         public async Task<bool> DeleteServiceRequestAsync(long ticketId)
         {
             var url = Path.Combine("ServiceRequest/DeleteServiceRequestAsync", ticketId.ToString());

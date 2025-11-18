@@ -125,12 +125,44 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = ("User"))]
+        [Authorize(Roles = ("Administrator,Executive"))]
         public async Task<IActionResult> GetServiceRequestByUserId(long userId)
         {
             try
             {
                 var response = await _serviceRequest.GetServiceRequestByUserId(userId);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ("Administrator,Executive"))]
+        public async Task<IActionResult> AssingingServiceRequestAsync(ServiceRequest serviceRequest)
+        {
+            try
+            {
+                var response = await _serviceRequest.AssingingServiceRequestAsync(serviceRequest);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = ("Administrator,Executive"))]
+        public async Task<IActionResult> CancelServiceRequestByTicketIdAsync(ServiceRequest serviceRequest)
+        {
+            try
+            {
+                var response = await _serviceRequest.CancelServiceRequestByTicketIdAsync(serviceRequest);
                 return Json(new { data = response });
             }
             catch (Exception ex)
