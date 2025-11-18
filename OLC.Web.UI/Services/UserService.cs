@@ -20,5 +20,11 @@ namespace OLC.Web.UI.Services
         {
             return await _repositoryFactory.SendAsync<List<UserAccount>>(HttpMethod.Get, "User/GetUserAccountsAsync");
         }
+
+        public async Task<PreviewUserKycDocument> PreviewUserKycDocumentAsync(long userId)
+        {
+            var url = Path.Combine("User/PreviewUserKycDocumentAsync", userId.ToString());
+            return await _repositoryFactory.SendAsync<PreviewUserKycDocument>(HttpMethod.Get, url);
+        }
     }
 }

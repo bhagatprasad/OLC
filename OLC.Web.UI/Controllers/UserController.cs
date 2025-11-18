@@ -232,5 +232,20 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> PreviewUserKycDocument(long userId)
+        {
+            try
+            {
+                var response = await _userService.PreviewUserKycDocumentAsync(userId);
+                return Json(new { data = response });
+
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
     }
 }
