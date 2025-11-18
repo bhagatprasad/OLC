@@ -17,9 +17,9 @@
         public string Name { get; set; }
     }
 
-    public class Priority
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-    }
+    //public class Priority
+    //{
+    //    public long id { get; set; }
+    //    public string name { get; set; }
+    //}
 }
