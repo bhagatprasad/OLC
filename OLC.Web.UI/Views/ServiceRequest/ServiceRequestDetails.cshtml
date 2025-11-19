@@ -1,0 +1,94 @@
+﻿@inject IHttpContextAccessor _contextAccessor;
+@using Newtonsoft.Json;
+@using OLC.Web.UI.Models;
+
+@{
+    ViewData["Title"] = "Service Request Details";
+
+    Layout = "";
+
+    var currentUser = _contextAccessor.HttpContext.Session.GetString("ApplicationUser");
+
+    if (!string.IsNullOrEmpty(currentUser))
+    {
+        var appUser = JsonConvert.DeserializeObject<ApplicationUser>(currentUser);
+
+        if (appUser.RoleId == 1)
+        {
+            Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        }
+        else if (appUser.RoleId == 3)
+        {
+            Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_UserLayout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+    }
+}
+
+<div class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="h4 fw-bold text-primary mb-1">Service Request Details</h1>
+                    <p class="text-muted small mb-0">View complete information for the selected request</p>
+                </div>
+
+                <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="window.print()">
+                        <i class="fas fa-print me-1"></i> Print
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="serviceRequestCardsContainer" class="row g-3">
+
+        <div class="col-12 text-center py-5">
+            <div class="spinner-border text-primary"></div>
+            <p class="mt-2 text-muted">Loading service request details...</p>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .info-card {
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+
+    .status-badge {
+        font-size: .75rem;
+        padding: 4px 10px;
+    }
+
+    .table-responsive {
+        font-size: .875rem;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+</style>
+
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/ServiceRequestDetailsController.js"></script>
+
+<script>
+    $(function () {
+        const ctrl = new ServiceRequestDetailsController();
+        ctrl.init();
+    });
+</script>
