@@ -6,7 +6,7 @@
 
         // Check if user info exists and KYC status is Pending or InProgress (NOT Submitted)
         if (_appUserInfo &&
-            (_appUserInfo.KycStatus === 'Pending' || _appUserInfo.KycStatus === 'In Progress') &&
+            (_appUserInfo.KycStatus === 'In Progress') &&
             _appUserInfo.KycStatus !== 'Submitted' && // Explicitly exclude Submitted status
             !sessionStorage.getItem('kycModalShown')) {
 
