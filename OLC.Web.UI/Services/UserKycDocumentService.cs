@@ -22,7 +22,7 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> UploadeUserKycDocumentAsync(UserKycDocument userKycDocument)
         {
-            return await _repositoryFactory.SendAsync<UserKycDocument, bool>(HttpMethod.Post, "User/UploadeUserKycDocumentAsync");
+            return await _repositoryFactory.SendAsync<UserKycDocument, bool>(HttpMethod.Post, "User/UploadeUserKycDocumentAsync", userKycDocument);
         }
     }
 }

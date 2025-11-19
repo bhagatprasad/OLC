@@ -37,7 +37,7 @@ BEGIN
         @documentNumber,
         @documentFilePath,
         @documentFileData,
-        'Pending',
+        'SUBMITTED',
         @verifiedOn,
         @verifiedBy,
         @rejectionReason,
@@ -48,4 +48,14 @@ BEGIN
         GETDATE(),
         1
     );
+
+    IF EXISTS (SELECT 1 FROM [UserKyc] WHERE UserId = @userId AND IsActive = 1)
+    BEGIN
+        UPDATE [UserKyc] 
+        SET KycStatus = 'SUBMITTED', 
+            ModifiedOn = GETDATE(), 
+            ModifiedBy = @userId 
+        WHERE UserId = @userId 
+        AND IsActive = 1;
+    END
 END
