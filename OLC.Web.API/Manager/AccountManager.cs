@@ -8,9 +8,11 @@ namespace OLC.Web.API.Manager
     public class AccountManager : IAccountManager
     {
         private readonly string connectionString;
-        public AccountManager(IConfiguration configuration)
+        private readonly IUserManager _userManager;
+        public AccountManager(IConfiguration configuration, IUserManager userManager)
         {
             connectionString = configuration.GetConnectionString("DefaultConnection");
+            _userManager = userManager;
         }
 
         public async Task<AuthResponse> AuthenticateUserAsync(UserAuthentication userAuthentication)
@@ -113,6 +115,22 @@ namespace OLC.Web.API.Manager
 
 
             var user = await GetUserDetailsByUserName(authResponse.Email);
+
+            if (user != null)
+            {
+                var userAccounts = await _userManager.GetUserAccountsAsync();
+
+                if (userAccounts.Any())
+                {
+                    var userAccount = userAccounts.Where(x => x.Id == user.Id).FirstOrDefault();
+
+                    if (userAccount != null)
+                    {
+                        applicationUser.KycStatus = userAccount.KycStatus;
+                    }
+                }
+
+            }
 
             if (user != null)
             {

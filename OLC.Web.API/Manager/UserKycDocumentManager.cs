@@ -47,7 +47,7 @@ namespace OLC.Web.API.Manager
                 sqlCommand.Parameters.AddWithValue("@userId", userKycDocument.UserId);
                 sqlCommand.Parameters.AddWithValue("@documentType", userKycDocument.DocumentType);
                 sqlCommand.Parameters.AddWithValue("@documentNumber", userKycDocument.DocumentNumber);
-                sqlCommand.Parameters.AddWithValue("@documentFilePath", userKycDocument.DocumentFilePath);
+                sqlCommand.Parameters.AddWithValue("@documentFilePath", string.Empty);
                 sqlCommand.Parameters.Add("@documentFileData", SqlDbType.VarBinary).Value = userKycDocument.DocumentFileData == null ? DBNull.Value : userKycDocument.DocumentFileData;
                 sqlCommand.Parameters.AddWithValue("@verificationStatus", userKycDocument.VerificationStatus);
                 sqlCommand.Parameters.AddWithValue("@verifiedOn", userKycDocument.VerifiedOn);
@@ -126,6 +126,68 @@ namespace OLC.Web.API.Manager
                 }
             }
             return getAllUsersDocuments;
+        }
+
+        public async Task<UserKycDocument> GetUserKycDocumentByUserAsync(long userId)
+        {
+            UserKycDocument userKycDocument = new UserKycDocument();
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetUserKycDocumentByUser]", connection);
+
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.Parameters.AddWithValue("@userId", userId);
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+            DataTable dt = new DataTable();
+
+            sqlDataAdapter.Fill(dt);
+
+            connection.Close();
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow reader in dt.Rows)
+                {
+                    userKycDocument = new UserKycDocument();
+
+                    userKycDocument.Id = Convert.ToInt64(reader["Id"]);
+
+                    userKycDocument.UserId = Convert.ToInt64(reader["UserId"]);
+
+                    userKycDocument.DocumentType = reader["DocumentType"] != DBNull.Value ? reader["DocumentType"].ToString() : null;
+
+                    userKycDocument.DocumentNumber = reader["DocumentNumber"] != DBNull.Value ? reader["DocumentNumber"].ToString() : null;
+
+                    userKycDocument.DocumentFilePath = reader["DocumentFilePath"] != DBNull.Value ? reader["DocumentFilePath"].ToString() : null;
+
+                    userKycDocument.DocumentFileData = reader["DocumentFileData"] != DBNull.Value ? (byte[])reader["DocumentFileData"] : null;
+
+                    userKycDocument.VerificationStatus = reader["VerificationStatus"] != DBNull.Value ? reader["VerificationStatus"].ToString() : null;
+
+                    userKycDocument.VerifiedOn = reader["VerifiedOn"] != DBNull.Value ? (DateTimeOffset?)reader["VerifiedOn"] : null;
+
+                    userKycDocument.VerifiedBy = reader["VerifiedBy"] != DBNull.Value ? Convert.ToInt64(reader["VerifiedBy"]) : (long?)null;
+
+                    userKycDocument.RejectionReason = reader["RejectionReason"] != DBNull.Value ? reader["RejectionReason"].ToString() : null;
+
+                    userKycDocument.ExpiryDate = reader["ExpiryDate"] != DBNull.Value ? (DateTime?)reader["ExpiryDate"] : null;
+
+                    userKycDocument.CreatedBy = reader["CreatedBy"] != DBNull.Value ? Convert.ToInt64(reader["CreatedBy"]) : (long?)null;
+
+                    userKycDocument.CreatedOn = reader["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)reader["CreatedOn"] : null;
+
+                    userKycDocument.ModifiedBy = reader["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(reader["ModifiedBy"]) : (long?)null;
+
+                    userKycDocument.ModifiedOn = reader["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)reader["ModifiedOn"] : null;
+
+                    userKycDocument.IsActive = reader["IsActive"] != DBNull.Value ? (bool?)reader["IsActive"] : null;
+                }
+            }
+            return userKycDocument;
         }
     } 
 }

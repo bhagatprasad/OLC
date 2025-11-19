@@ -1,0 +1,96 @@
+﻿<!-- KYC Submitted Status Modal -->
+<div class="modal fade" id="kycSubmittedModal" tabindex="-1" aria-labelledby="kycSubmittedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" id="kycSubmittedModalLabel">KYC Under Review</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body text-center px-4 pb-4 pt-0">
+
+                <!-- Status Icon -->
+                <div class="kyc-modal-icon mb-3">
+                    <i class="fas fa-clock fa-3x text-info"></i>
+                </div>
+
+                <!-- Message -->
+                <h5 class="text-info mb-3">KYC Verification Submitted</h5>
+                <p class="text-muted mb-4">
+                    Your KYC documents have been successfully submitted and are currently under review by our administration team.
+                    This process typically takes 24-48 hours.
+                </p>
+
+                <!-- Restrictions Notice -->
+                <div class="alert alert-warning mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <span>
+                            <strong>Payment Restrictions:</strong> You will not be able to make payments until your KYC verification is complete.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Next Steps -->
+                <div class="card bg-light mb-4">
+                    <div class="card-body text-start">
+                        <h6 class="card-title">What happens next?</h6>
+                        <ul class="small mb-0 ps-3">
+                            <li>Our team will verify your submitted documents</li>
+                            <li>You'll receive a notification once verification is complete</li>
+                            <li>Payment features will be automatically enabled upon successful verification</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-grid gap-2 d-md-flex justify-content-center">
+                    <button type="button" class="btn btn-primary px-4 btn-close" data-bs-dismiss="modal">
+                        <i class="fas fa-check me-2"></i>Understood
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary px-4" id="contactSupportBtn">
+                        <i class="fas fa-headset me-2"></i>Contact Support
+                    </button>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="mt-4">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        If you have any questions, please contact our support team
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // Check if KYC status is "SUBMITTED" and show modal
+        var _appUserInfo = storageService.get('ApplicationUser');
+
+        if (_appUserInfo && _appUserInfo.KycStatus === 'SUBMITTED' && !sessionStorage.getItem('kycSubmittedModalShown')) {
+            // Show modal after a short delay
+            setTimeout(function () {
+                $('#kycSubmittedModal').modal({ backdrop: 'static', keyboard: false });
+                $('#kycSubmittedModal').modal('show');
+            }, 1000);
+
+            // Set flag when modal is closed
+            $('#kycSubmittedModal').on('hidden.bs.modal', function () {
+                sessionStorage.setItem('kycSubmittedModalShown', 'true');
+            });
+
+            $('.btn-close').on('click', function () {
+                sessionStorage.setItem('kycSubmittedModalShown', 'true');
+                $('#kycSubmittedModal').modal('hide');
+            });
+        }
+
+        // Contact Support button handler
+        $('#contactSupportBtn').on('click', function () {
+            // Redirect to support page or open support contact form
+            window.location.href = '/Support/Contact'; // Update with your support URL
+        });
+    });
+</script>

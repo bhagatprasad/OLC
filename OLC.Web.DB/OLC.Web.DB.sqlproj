@@ -88,6 +88,7 @@
     <Folder Include="Programmability\Stored Procedures\ServiceRequestReplies" />
     <Folder Include="Programmability\Stored Procedures\UserKyc" />
     <Folder Include="Programmability\Stored Procedures\UserKycDocument" />
+    <Folder Include="Programmability\Stored Procedures\Priority" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -230,6 +231,14 @@
     <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspGetAllServiceRequestReplies.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspCancelServiceRequest.sql" />
     <Build Include="Programmability\Stored Procedures\ServiceRequest\uspAssigningServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspGetUserAccount.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKycDocument\uspGetUserKycDocumentByUser.sql" />
+    <Build Include="Tables\Priority.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspInsertPriority.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspGetPriority.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspGetPriorityById.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspUpdatePriority.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspDeletePriority.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

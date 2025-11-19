@@ -2,8 +2,8 @@
 {
     public class UserKyc
     {
-        public long Id { get; set; }
-        public long UserId { get; set; }
+        public long? Id { get; set; }
+        public long? UserId { get; set; }
         public string? KycStatus { get; set; }
         public string? KycLevel { get; set; }
         public DateTimeOffset? SubmittedOn { get; set; }

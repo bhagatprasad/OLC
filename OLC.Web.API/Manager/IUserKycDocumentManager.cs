@@ -7,5 +7,6 @@ namespace OLC.Web.API.Manager
         Task<bool> UploadeUserKycDocumentAsync(UserKycDocument userKycDocument);
         Task<bool> UpdateUserKycDocumentAsync(UserKycDocument userKycDocument);
         Task<List<UserKycDocument>> GetAllUsersKycDocumentsAsync();
+        Task<UserKycDocument> GetUserKycDocumentByUserAsync(long userId);
     }
 }

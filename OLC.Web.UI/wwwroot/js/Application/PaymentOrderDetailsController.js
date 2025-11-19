@@ -9,6 +9,7 @@
     self.CoreCountries = [];
     self.CoreStates = [];
     self.CoreCities = [];
+    self.DepositOrderDetails = {};
 
     actions.push("/PaymentOrder/GetExecutivePaymentOrderDetails");
     actions.push("/Status/GetStatuses");
@@ -56,6 +57,7 @@
             self.CoreCountries = responses[2][0] && responses[2][0].data ? responses[2][0].data : [];
             self.CoreStates = responses[3][0] && responses[3][0].data ? responses[3][0].data : [];
             self.CoreCities = responses[4][0] && responses[4][0].data ? responses[4][0].data : [];
+         
 
             self.renderAllCards();
             $(".se-pre-con").hide();
@@ -65,7 +67,7 @@
             $(".se-pre-con").hide();
         });
     }
-
+    //////////////////////////
     self.renderAllCards = function () {
         const container = document.getElementById("paymentCardsContainer");
         if (!container) return;
@@ -75,7 +77,8 @@
             self.generateCreditCardCard(),
             self.generateBankAccountCard(),
             self.generateBillingAddressCard(),
-            self.generatePaymentHistoryCard()
+            self.generatePaymentHistoryCard(),
+            self.generateDepositOrderCard(),
         ].join('');
 
         container.innerHTML = cardsHTML;
@@ -219,6 +222,57 @@
         `;
     }
 
+       
+    self.generateDepositOrderCard = function () {
+        const depositHistoryRows = self.generateDepositHistoryRows();
+
+        return `
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card payment-card">
+                    <div class="card-header bg-info text-white">
+                        <i class="fas fa-credit-card me-2"></i>
+                        <h5 class="mb-0">Deposit Order</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive" style="max-height: 400px;">
+                            <table class="table table-sm card-table mb-0">
+                                <thead class="table-light sticky-top">
+                                    <tr>
+                                        <th class="ps-3">OrderReference</th>
+                                        <th class="text-end">Actual Amount</th>
+                                        <th class="text-end">Deposited Amount</th>
+                                        <th class="text-end pe-3">Pending Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="depositOrderHistory">
+                                    ${depositHistoryRows}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    //if (!self.PaymentOrder || !self.PaymentOrder.depositOrderHistory) {
+    //    self.PaymentOrder = self.PaymentOrder || {};
+    //    self.PaymentOrder.depositOrderHistory = [
+    //        {
+    //            OrderReference: "ORD‑2025‑001",
+    //            ActualAmount: 15000,
+    //            DepositedAmount: 9000,
+    //            PendingAmount: 6000
+    //        },
+    //        {
+    //            OrderReference: "ORD‑2025‑002",
+    //            ActualAmount: 8000,
+    //            DepositedAmount: 8000,
+    //            PendingAmount: 0
+    //        }
+    //    ];
+    //}
+
     self.generateHistoryRows = function () {
         if (!self.PaymentOrderDetails.paymentOrderHistory || self.PaymentOrderDetails.paymentOrderHistory.length === 0) {
             return '<tr><td colspan="6" class="text-center text-muted py-4">No history records found</td></tr>';
@@ -236,7 +290,26 @@
                 </tr>
             `;
         }).join('');
-    }
+    };
+ 
+    self.generateDepositHistoryRows = function () {
+        console.log("PaymentOrderDetails:", self.PaymentOrderDetails);
+
+        const history = self.PaymentOrderDetails?.DepositeOrders;
+
+        if (!history || history.length === 0) {
+            return '<tr><td colspan="4" class="text-center text-muted py-4">No deposit records found</td></tr>';
+        }
+
+        return history.map(item => `
+        <tr>
+            <td class="ps-3">${item.OrderReference || '--'}</td>
+            <td>${item.ActualDepositeAmount != null ? item.ActualDepositeAmount : '--'}</td>
+            <td>${item.DepositeAmount != null ? item.DepositeAmount : '--'}</td>
+            <td>${item.PendingDepositeAmount != null ? item.PendingDepositeAmount : '--'}</td>
+        </tr>
+    `).join('');
+    };
 
     self.bindAllCardData = function () {
         const data = self.PaymentOrderDetails;
@@ -251,6 +324,8 @@
         const city = data.userBillingAddress && data.userBillingAddress.CityId
             ? self.CoreCities.find(x => x.Id == data.userBillingAddress.CityId)
             : {};
+        
+            
 
         // Helper functions
         const setText = (selector, value, fallback = '--') => {
@@ -322,6 +397,13 @@
         setText("#addressState", state?.Name);
         setText("#addressCountry", country?.Name);
         setText("#addressPinCode", data.userBillingAddress?.PinCode);
+
+        //DepositOrderInformation
+        setText("#orderReference", data.depositOrder?.OrderReference);
+        setText("#actualAmount", data.depositOrder?.ActualAmount);
+        setText("#depositedAmount", data.depositOrder?.depositedAmount);
+        setText("#pendingAmount", data.depositOrder?.pendingAmount);
+ 
     };
 
     self.showErrorState = function (message) {

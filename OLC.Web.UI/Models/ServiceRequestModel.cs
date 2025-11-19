@@ -16,10 +16,4 @@
         public long Id { get; set; }
         public string Name { get; set; }
     }
-
-    public class Priority
-    {
-        public long Id { get; set; }
-        public string Name { get; set; }
-    }
 }

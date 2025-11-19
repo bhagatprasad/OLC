@@ -12,6 +12,7 @@
         public bool? IsBlocked { get; set; }
         public bool? IsApproved { get; set; }
         public long? ApprovedBy { get; set; }
+        public string? KycStatus { get; set; }
         public DateTimeOffset? ApprovedOn { get; set; }
         public long? CreatedBy { get; set; }
         public DateTimeOffset? CreatedOn { get; set; }

@@ -1,4 +1,8 @@
-﻿CREATE PROCEDURE [dbo].[uspGetUserAccounts]
+﻿CREATE PROCEDURE [dbo].[uspGetUserAccount]
+( 
+ @userId bigint
+)
+
 AS
 
 BEGIN
@@ -25,5 +29,5 @@ BEGIN
 FROM [dbo].[User] usr 
 LEFT JOIN 
      [dbo].[UserKyc] usrkyc ON usr.Id = usrkyc.UserId
-ORDER BY usr.ModifiedOn DESC; 
+WHERE usr.Id = @userId
 END
