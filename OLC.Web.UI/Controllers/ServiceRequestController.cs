@@ -70,7 +70,7 @@ namespace OLC.Web.UI.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = ("User"))]
+        [Authorize(Roles = ("Administrator,Executive,User"))]
         public async Task<IActionResult> GetAllServiceRequests()
         {
             try
@@ -86,7 +86,7 @@ namespace OLC.Web.UI.Controllers
         }
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive,User"))]
-        public async Task<IActionResult> GetServiceRequestByIdAsync(long ticketId)
+        public async Task<IActionResult> GetServiceRequestByTicketId(long ticketId)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = ("Administrator,Executive"))]
+        [Authorize(Roles = ("Administrator,Executive,User"))]
         public async Task<IActionResult> GetServiceRequestByUserId(long userId)
         {
             try
@@ -156,8 +156,14 @@ namespace OLC.Web.UI.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult ServiceRequestDetails(long ticketId)
+        {
+            return View();
+        }
+
         [HttpPost]
-        [Authorize(Roles = ("Administrator,Executive"))]
+        [Authorize(Roles = ("Administrator,Executive,User"))]
         public async Task<IActionResult> CancelServiceRequestByTicketIdAsync(ServiceRequest serviceRequest)
         {
             try

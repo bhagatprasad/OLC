@@ -91,46 +91,17 @@
                 <td>${req.Classification || ''}</td>
                 <td><span class="${priorityClass}">${req.Priority}</span></td>
                 <td><span class="${statusClass}">${statusText}</span></td>
+                <td><button class="btn btn-success btn-sm viewRequest" data-id="${req.TicketId}"><i class="fa fa-eye"></i></button>
+                <button class="btn btn-danger btn-sm cancelRequest" data-id="${req.TicketId}"><i class="fa fa-ban"></i></button></td>
             </tr>
         `);
             });
         }
 
-
-        window.viewTicket = function (ticketId) {
-            $.ajax({
-                url: `/ServiceRequest/GetServiceRequestByIdAsync/${ticketId}`,
-                type: 'GET',
-                dataType: 'json',
-                success: function (req) {
-                    if (!req) return;
-
-                    const details = `
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Ticket ID:</strong> ${req.ticketId}</p>
-                            <p><strong>Subject:</strong> ${req.subject}</p>
-                            <p><strong>Category:</strong> ${req.category}</p>
-                            <p><strong>Priority:</strong> ${req.priority}</p>
-                            <p><strong>Status:</strong> ${mapStatus(req.statusId)}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Created On:</strong> ${formatDate(req.createdOn)}</p>
-                            <p><strong>Modified On:</strong> ${formatDate(req.modifiedOn)}</p>
-                            <p><strong>Assigned To:</strong> ${req.assignTo ?? 'N/A'}</p>
-                            <p><strong>Request Reference:</strong> ${req.requestReference ?? 'N/A'}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <p><strong>Message:</strong></p>
-                    <p class="text-muted">${req.message ?? "No message provided."}</p>
-                `;
-
-                    $("#ticketDetails").html(details);
-                    new bootstrap.Modal(document.getElementById('ticketModal')).show();
-                }
-            });
-        };
+        $(document).on("click", ".viewRequest", function () {
+            var id = $(this).data("id");
+            window.location.href = `/ServiceRequest/ServiceRequestDetails?ticketId=${id}`;
+        });
 
         function formatDate(date) {
             if (!date) return "N/A";
@@ -208,5 +179,83 @@
 
         });
 
+        ////$(document).on("click", ".viewRequest", function () {
+        ////    let id = $(this).data("id");
+
+        ////    $.ajax({
+        ////        url: `/ServiceRequest/ServiceRequestDetails?ticketId = ${ id }`,
+        ////        type: 'GET',
+        ////        success: function (data) {
+        ////            $("#Subject").val(data.subject);
+        ////            $("#Message").val(data.message);
+        ////            $("#Category").val(data.category);
+        ////            $("#Priority").val(data.priority);
+        ////            $("#OrderId").val(data.orderId);
+
+        ////            $("#sidebar").addClass("open");
+        ////            $("body").append('<div class="modal-backdrop fade show"></div>');
+        ////        }
+        ////    })
+        ////});
+        ////self.GetServiceRequestDetails = function (ticketId) {
+        ////    $.ajax({
+        ////        url: `/ServiceRequest/GetServiceRequestByIdAsync?ticketId=${ticketId}`,
+        ////        type: 'GET',
+        ////        success: function (data) {
+
+        ////            $("#serviceRequestCardsContainer").html(`
+        ////                 <div class="col-12 col-md-6 col-lg-4">
+        ////                    <div class="card payment-card">
+        ////                        <div class="card-header bg-primary text-white d-flex align-items-center">
+        ////                             <i class="fas fa-ticket-alt me-2"></i>
+        ////                            <h5 class="mb-0 flex-grow-1">Service Request Details</h5>
+        ////                            <span class="badge bg-light text-dark">${data.status ?? 'Open'}</span>
+        ////                        </div>
+
+        ////                    <div class="card-body p-0">
+        ////                        <table class="table card-table">
+        ////                        <tbody>
+        ////                            <tr>
+        ////                                <td class="fw-semibold text-muted">Subject</td>
+        ////                                    <td>${data.subject ?? '--'}</td>
+        ////                            </tr>
+        ////                            <tr>
+        ////                                <td class="fw-semibold text-muted">Message</td>
+        ////                                <td>${data.message ?? '--'}</td>
+        ////                            </tr>
+        ////                            <tr>
+        ////                                <td class="fw-semibold text-muted">Category</td>
+        ////                                <td>${data.category ?? '--'}</td>
+        ////                            </tr>
+        ////                            <tr>
+        ////                                <td class="fw-semibold text-muted">Priority</td>
+        ////                                <td>${data.priority ?? '--'}</td>
+        ////                            </tr>
+        ////                            <tr>
+        ////                                <td class="fw-semibold text-muted">Order ID</td>
+        ////                                <td>${data.orderId ?? '--'}</td>
+        ////                            </tr>
+        ////                            <tr>
+        ////                                <td class="fw-semibold text-muted">Classification</td>
+        ////                                <td>${data.classification ?? '--'}</td>
+        ////                            </tr>
+        ////                            <tr>
+        ////                                <td class="fw-semibold text-muted">Created</td>
+        ////                                <td>${data.createdOn ?? '--'}</td>
+        ////                            </tr>
+        ////                            <tr>
+        ////                                <td class="fw-semibold text-muted">Updated</td>
+        ////                                <td>${data.modifiedOn ?? '--'}</td>
+        ////                            </tr>
+        ////                        </tbody>
+        ////                    </table>
+        ////                </div>
+        ////            </div>
+        ////        </div>
+        ////            `);
+        ////        }
+        ////    });
+        ////};
+       
     };
 }
