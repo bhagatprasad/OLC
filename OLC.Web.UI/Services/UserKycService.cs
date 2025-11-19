@@ -24,7 +24,7 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> InsertUserKycAsync(UserKyc userKyc)
         {
-            return await _repositoryFactory.SendAsync<UserKyc, bool>(HttpMethod.Get, "User/InsertUserKycAsync", userKyc);
+            return await _repositoryFactory.SendAsync<UserKyc, bool>(HttpMethod.Post, "User/InsertUserKycAsync", userKyc);
         }
 
         public async Task<bool> ProcessUserKycAsync(UserKyc userKyc)

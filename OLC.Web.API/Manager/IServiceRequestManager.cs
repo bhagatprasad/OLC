@@ -12,6 +12,9 @@ namespace OLC.Web.API.Manager
         Task<bool>InsertServiceRequestRepliesAsync(ServiceRequestReplies serviceRequestReplies);
         Task<List<ServiceRequestReplies>> GetServiceRequestRepliesByTicketIdAsync(long ticketId);
         Task<List<ServiceRequest>> GetServiceRequestByUserIdAsync(long userId);
-
+        Task<List<ServiceRequestDetails>> GetAllServiceRequestsWithRepliesAsync();
+        Task<List<ServiceRequestReplies>> GetAllServiceRequestRepliesAsync();
+        Task<bool> CancelServiceRequestByTicketIdAsync(ServiceRequest serviceRequest);
+        Task<bool> AssingingServiceRequestAsync(ServiceRequest serviceRequest);
     }
 }

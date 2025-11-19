@@ -1,4 +1,5 @@
 ﻿using OLC.Web.API.Models;
+using System.Collections.Immutable;
 using System.Data;
 using System.Data.SqlClient;
 using System.Net.Sockets;
@@ -291,7 +292,7 @@ namespace OLC.Web.API.Manager
                     getServiceRequestReplies.TicketId = item["TicketId"] != DBNull.Value ? Convert.ToInt64(item["TicketId"]) : null;
                     getServiceRequestReplies.ReplierId = item["ReplierId"] != DBNull.Value ? Convert.ToInt64(item["ReplierId"]) : null;
                     getServiceRequestReplies.Message = item["Message"] != DBNull.Value ? item["Message"].ToString() : null;
-                    getServiceRequestReplies.Message = item["Status"] != DBNull.Value ? item["Status"].ToString() : null;
+                    getServiceRequestReplies.Status = item["Status"] != DBNull.Value ? item["Status"].ToString() : null;
                     getServiceRequestReplies.IsInternal = item["IsInternal"] != DBNull.Value ? (bool?)item["IsInternal"] : null;
                     getServiceRequestReplies.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
                     getServiceRequestReplies.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTime?)item["CreatedOn"] : null;
@@ -355,6 +356,138 @@ namespace OLC.Web.API.Manager
             return serviceRequests;
 
         }
-    }
 
+        public async Task<List<ServiceRequestDetails>> GetAllServiceRequestsWithRepliesAsync()
+        {
+            List<ServiceRequestDetails> _serviceRequestDetailss = new List<ServiceRequestDetails>();
+
+            var serviceRequests = await GetAllServiceRequestsAsync();
+
+            var serviceRequestRepliess = await GetAllServiceRequestRepliesAsync();
+
+            if (serviceRequests.Any())
+            {
+                foreach (var item in serviceRequests)
+                {
+                    ServiceRequestDetails _serviceRequestt = new ServiceRequestDetails();
+                    _serviceRequestt.serviceRequest = item;
+
+                    if (serviceRequestRepliess.Any())
+                    {
+                        var filteredReplies = serviceRequestRepliess.Where(x => x.TicketId == item.TicketId).ToList();
+
+                        if (filteredReplies.Any())
+                        {
+                            _serviceRequestt.serviceRequestReplies = filteredReplies;
+                        }
+                    }
+                    _serviceRequestDetailss.Add(_serviceRequestt);
+                }
+            }
+
+            return _serviceRequestDetailss;
+        }
+        public async Task<List<ServiceRequestReplies>> GetAllServiceRequestRepliesAsync()
+        {
+            List<ServiceRequestReplies> serviceRequestRepliess = new List<ServiceRequestReplies>();
+
+            ServiceRequestReplies getServiceRequestReplies = null;
+
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAllServiceRequestReplies]", connection);
+
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+            DataTable dt = new DataTable();
+
+            sqlDataAdapter.Fill(dt);
+
+            connection.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+
+                    getServiceRequestReplies = new ServiceRequestReplies();
+
+                    getServiceRequestReplies.Id = Convert.ToInt64(item["Id"]);
+                    getServiceRequestReplies.TicketId = item["TicketId"] != DBNull.Value ? Convert.ToInt64(item["TicketId"]) : null;
+                    getServiceRequestReplies.ReplierId = item["ReplierId"] != DBNull.Value ? Convert.ToInt64(item["ReplierId"]) : null;
+                    getServiceRequestReplies.Message = item["Message"] != DBNull.Value ? item["Message"].ToString() : null;
+                    getServiceRequestReplies.Status = item["Status"] != DBNull.Value ? item["Status"].ToString() : null;
+                    getServiceRequestReplies.IsInternal = item["IsInternal"] != DBNull.Value ? (bool?)item["IsInternal"] : null;
+                    getServiceRequestReplies.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+                    getServiceRequestReplies.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTime?)item["CreatedOn"] : null;
+                    getServiceRequestReplies.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+                    getServiceRequestReplies.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTime?)item["ModifiedOn"] : null;
+                    getServiceRequestReplies.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+                    serviceRequestRepliess.Add(getServiceRequestReplies);
+
+                }
+            }
+            return serviceRequestRepliess;
+        }
+
+        public async Task<bool> CancelServiceRequestByTicketIdAsync(ServiceRequest serviceRequest)
+        {
+            if (serviceRequest != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspCancelServiceRequest]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@ticketId", serviceRequest.TicketId);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", serviceRequest.ModifiedBy);
+                sqlCommand.Parameters.AddWithValue("@statusId", serviceRequest.StatusId);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> AssingingServiceRequestAsync(ServiceRequest serviceRequest)
+        {
+            if (serviceRequest != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspAssigningServiceRequest]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@ticketId", serviceRequest.TicketId);
+                sqlCommand.Parameters.AddWithValue("@statusId", serviceRequest.StatusId);
+                sqlCommand.Parameters.AddWithValue("@assignTo", serviceRequest.AssignTo);
+                sqlCommand.Parameters.AddWithValue("@assignedBy", serviceRequest.AssignBy);
+                sqlCommand.Parameters.AddWithValue("@assignedOn", serviceRequest.AssignedOn);
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", serviceRequest.ModifiedBy);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
+    }
 }

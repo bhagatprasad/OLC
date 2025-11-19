@@ -47,6 +47,7 @@ namespace OLC.Web.API.Manager
                                 userAccount.IsApproved = item["IsApproved"] != DBNull.Value ? (bool?)item["IsApproved"] : null;
                                 userAccount.ApprovedBy = item["ApprovedBy"] != DBNull.Value ? Convert.ToInt64(item["ApprovedBy"]) : null;
                                 userAccount.ApprovedOn = item["ApprovedOn"] != DBNull.Value ? (DateTimeOffset?)item["ApprovedOn"] : null;
+                                userAccount.KycStatus = item["KycStatus"] != DBNull.Value ? item["KycStatus"].ToString() : null;
                                 userAccount.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
                                 userAccount.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
                                 userAccount.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
