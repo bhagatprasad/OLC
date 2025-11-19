@@ -42,6 +42,7 @@ namespace OLC.Web.API
             services.AddScoped<IUserKycManager,UserKycManager>();
             services.AddScoped<IUserKycDocumentManager, UserKycDocumentManager>();
             services.AddScoped<IPriorityManager, PriorityManager>();
+            services.AddScoped<IVerifyUserKycManager, VerifyUserKycManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 

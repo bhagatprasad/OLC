@@ -85,6 +85,7 @@ namespace OLC.Web.UI
             services.AddScoped<IServiceRequest, ServiceRequestService>();
             services.AddScoped<IUserKycService, UserKycService>();
             services.AddScoped<IUserKycDocumentService, UserKycDocumentService>();
+            services.AddScoped<IVerifyUserKycService,VerifyUserKycService>();
 
             services.AddSession(options =>
             {
