@@ -91,46 +91,17 @@
                 <td>${req.Classification || ''}</td>
                 <td><span class="${priorityClass}">${req.Priority}</span></td>
                 <td><span class="${statusClass}">${statusText}</span></td>
+                <td><button class="btn btn-success btn-sm viewRequest" data-id="${req.TicketId}"><i class="fa fa-eye"></i></button>
+                <button class="btn btn-danger btn-sm cancelRequest" data-id="${req.TicketId}"><i class="fa fa-ban"></i></button></td>
             </tr>
         `);
             });
         }
 
-
-        window.viewTicket = function (ticketId) {
-            $.ajax({
-                url: `/ServiceRequest/GetServiceRequestByIdAsync/${ticketId}`,
-                type: 'GET',
-                dataType: 'json',
-                success: function (req) {
-                    if (!req) return;
-
-                    const details = `
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Ticket ID:</strong> ${req.ticketId}</p>
-                            <p><strong>Subject:</strong> ${req.subject}</p>
-                            <p><strong>Category:</strong> ${req.category}</p>
-                            <p><strong>Priority:</strong> ${req.priority}</p>
-                            <p><strong>Status:</strong> ${mapStatus(req.statusId)}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Created On:</strong> ${formatDate(req.createdOn)}</p>
-                            <p><strong>Modified On:</strong> ${formatDate(req.modifiedOn)}</p>
-                            <p><strong>Assigned To:</strong> ${req.assignTo ?? 'N/A'}</p>
-                            <p><strong>Request Reference:</strong> ${req.requestReference ?? 'N/A'}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <p><strong>Message:</strong></p>
-                    <p class="text-muted">${req.message ?? "No message provided."}</p>
-                `;
-
-                    $("#ticketDetails").html(details);
-                    new bootstrap.Modal(document.getElementById('ticketModal')).show();
-                }
-            });
-        };
+        $(document).on("click", ".viewRequest", function () {
+            var id = $(this).data("id");
+            window.location.href = `/ServiceRequest/ServiceRequestDetails?ticketId=${id}`;
+        });
 
         function formatDate(date) {
             if (!date) return "N/A";
