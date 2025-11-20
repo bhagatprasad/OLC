@@ -11,11 +11,11 @@ namespace OLC.Web.UI.Controllers
     [Authorize(Roles = ("Administrator,Executive,User"))]
     public class ServiceRequestController : Controller
     {
-        private readonly IServiceRequest _serviceRequest;
+        private readonly IServiceRequestService _serviceRequest;
         private readonly INotyfService _notyfService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ApplicationUser _applicationUser;
-        public ServiceRequestController(IServiceRequest serviceRequest, INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
+        public ServiceRequestController(IServiceRequestService serviceRequest, INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
         {
             _serviceRequest = serviceRequest;
             _notyfService = notyfService;
@@ -140,6 +140,23 @@ namespace OLC.Web.UI.Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize(Roles = ("Administrator,Executive,User"))]
+        public async Task<IActionResult> GetServiceRequestWithReplies(long ticketId)
+        {
+            try
+            {
+                var response = await _serviceRequest.GetServiceRequestWithRepliesAsync(ticketId);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+
+
         [HttpPost]
         [Authorize(Roles = ("Administrator,Executive"))]
         public async Task<IActionResult> AssingingServiceRequestAsync(ServiceRequest serviceRequest)
@@ -169,6 +186,20 @@ namespace OLC.Web.UI.Controllers
             try
             {
                 var response = await _serviceRequest.CancelServiceRequestByTicketIdAsync(serviceRequest);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> InsertServiceRequestReply([FromBody] ServiceRequestReplies serviceRequestReplies)
+        {
+            try
+            {
+                var response = await _serviceRequest.InsertServiceRequestRepliesAsync(serviceRequestReplies);
                 return Json(new { data = response });
             }
             catch (Exception ex)
