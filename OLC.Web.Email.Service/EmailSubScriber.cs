@@ -1,24 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Linq;
+﻿using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OLC.Web.Email.Service
 {
     public class EmailSubScriber : IEmailSubScriber
     {
+        private readonly string _smtpServcer;
+        private readonly int _smtpPort;
+        private readonly string _senderEmail;
+        private readonly string _appPassword;
+        public EmailSubScriber(IOptions<EmailConfig> emailConfig)
+        {
+            var coreConfigValue = emailConfig.Value;
+            _smtpServcer = coreConfigValue.SmtpServer;
+            _smtpPort= coreConfigValue.SmtpPort;
+            _senderEmail= coreConfigValue.SenderEmail;
+            _appPassword= coreConfigValue.AppPassword;
+        }
         public bool SendEmailAsync(EmailRequest emailRequest)
         {
             try
             {
-                var smtp = new SmtpClient("smtp.gmail.com")
+                var smtp = new SmtpClient(_smtpServcer)
                 {
-                    Port = 587,
-                    Credentials = new NetworkCredential("Company.", "bgyl djba qqvs fssj"),
+                    Port = _smtpPort,
+                    Credentials = new NetworkCredential(_senderEmail, _appPassword),
                     EnableSsl = true
                 };
 
@@ -28,11 +35,8 @@ namespace OLC.Web.Email.Service
                     emailRequest.Subject,
                     emailRequest.Body
                 );
-
-
+                
                 smtp.Send(message);
-
-                Console.WriteLine("Email Sent Successfully!");
 
                 return true;
             }
