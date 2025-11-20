@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Twilio;
-using Twilio.Base;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OLC.Web.Sms.Service
 {
@@ -23,36 +21,26 @@ namespace OLC.Web.Sms.Service
         {
             string accountSid = _accountSid;
             string authToken = _authToken;
-            string fromNumber = _fromNumber;  
+            string fromNumber = _fromNumber;
 
-          
             TwilioClient.Init(accountSid, authToken);
-
-      
-            string input = Console.ReadLine();
-            List<string> phoneNumbers = new List<string>(input.Split(','));
-            string message = Console.ReadLine();
 
             List<string> sids = new List<string>();
 
-            foreach (var number in phoneNumbers)
+            foreach (var number in smsRequest.CustomerPhoneNumbers)
             {
                 var trimmed = number.Trim();
 
                 var msg = MessageResource.Create(
-                    body: message,
+                    body: smsRequest.Message,
                     from: new PhoneNumber(fromNumber),
                     to: new PhoneNumber(trimmed)
                 );
-
-                Console.WriteLine($"SMS Sent To: {trimmed} | SID: {msg.Sid}");
+              
                 sids.Add(msg.Sid);
             }
             return true;
-
-           
-            Console.ReadLine();
         }
     }
-    
+
 }

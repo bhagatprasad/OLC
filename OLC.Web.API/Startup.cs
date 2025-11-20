@@ -65,10 +65,10 @@ namespace OLC.Web.API
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder
-                        .WithOrigins("http://localhost:5227") // Specific allowed origin
+                        .WithOrigins("http://localhost:5227")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials() // If you need credentials/cookies
+                        .AllowCredentials()
                 );
             });
 
