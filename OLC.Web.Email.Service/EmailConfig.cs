@@ -1,4 +1,4 @@
-﻿namespace OLC.Web.API.Helpers
+﻿namespace OLC.Web.Email.Service
 {
     public class EmailConfig
     {

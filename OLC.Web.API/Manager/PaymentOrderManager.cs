@@ -1,8 +1,8 @@
-﻿
-using OLC.Web.API.Models;
+﻿using OLC.Web.API.Models;
+using OLC.Web.Email.Service;
+using OLC.Web.Email.Service.Templates;
 using System.Data;
 using System.Data.SqlClient;
-using System.Xml.Linq;
 
 namespace OLC.Web.API.Manager
 {
@@ -12,12 +12,18 @@ namespace OLC.Web.API.Manager
         private readonly IUserBankAccountManager _userBankAccountManager;
         private readonly ICreditCardManager _creditCardManager;
         private readonly IBillingAddressManager _billingAddressManager;
-        public PaymentOrderManager(IConfiguration configuration, IUserBankAccountManager userBankAccountManager, ICreditCardManager creditCardManager, IBillingAddressManager billingAddressManager)
+        private readonly IEmailSubScriber _emailSubScriber;
+        public PaymentOrderManager(IConfiguration configuration,
+            IUserBankAccountManager userBankAccountManager,
+            ICreditCardManager creditCardManager,
+            IBillingAddressManager billingAddressManager,
+            IEmailSubScriber emailSubScriber)
         {
             connectionString = configuration.GetConnectionString("DefaultConnection");
             _userBankAccountManager = userBankAccountManager;
             _creditCardManager = creditCardManager;
             _billingAddressManager = billingAddressManager;
+            _emailSubScriber = emailSubScriber;
         }
 
         public async Task<PaymentOrder> InsertPaymentOrderAsync(PaymentOrder paymentOrder)
@@ -92,6 +98,19 @@ namespace OLC.Web.API.Manager
 
                 }
             }
+
+            //if(responsePaymentOrder != null)
+            //{
+            //    EmailRequest emailRequest = new EmailRequest()
+            //    {
+            //        Body = PlacePaymentOrderTemaplate.ComposeEmailAsync(paymentOrder.OrderReference, "Order Placed", "Paid", "Pending"),
+            //        Subject= EmailSubjectConstants.OrderPlacedSubjected,
+            //        ToEmail=
+
+            //    };
+
+            //    _emailSubScriber.SendEmailAsync(emailRequest);
+            //}
 
             return responsePaymentOrder;
         }

@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using OLC.Web.API.Helpers;
 using OLC.Web.API.Manager;
+using OLC.Web.Email.Service;
 
 namespace OLC.Web.API
 {
@@ -44,6 +43,9 @@ namespace OLC.Web.API
             services.AddScoped<IUserKycManager,UserKycManager>();
             services.AddScoped<IUserKycDocumentManager, UserKycDocumentManager>();
             services.AddScoped<IPriorityManager, PriorityManager>();
+            
+            //init email service
+            services.AddScoped<IEmailSubScriber, EmailSubScriber>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 
