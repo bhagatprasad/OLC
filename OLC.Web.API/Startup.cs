@@ -1,5 +1,7 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using OLC.Web.API.Helpers;
 using OLC.Web.API.Manager;
 
 namespace OLC.Web.API
@@ -44,6 +46,10 @@ namespace OLC.Web.API
             services.AddScoped<IPriorityManager, PriorityManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
+
+            var emailConfig = _configuration.GetSection("EmailConfig");
+
+            services.Configure<EmailConfig>(emailConfig);
 
             services.AddCors(options =>
             {
