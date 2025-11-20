@@ -158,6 +158,21 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpGet]
+        [Route("GetServiceRequestWithRepliesAsync/{ticketId}")]
+        public async Task<IActionResult> GetServiceRequestWithRepliesAsync(long ticketId)
+        {
+            try
+            {
+                var response = await _serviceRequestManager.GetServiceRequestWithRepliesAsync(ticketId);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
         [HttpGet]
         [Route("GetAllServiceRequestRepliesAsync")]
