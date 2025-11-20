@@ -1,5 +1,6 @@
 ﻿using OLC.Web.API.Helpers;
 using OLC.Web.API.Models;
+using OLC.Web.Sms.Service;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -9,10 +10,14 @@ namespace OLC.Web.API.Manager
     {
         private readonly string connectionString;
         private readonly IUserManager _userManager;
-        public AccountManager(IConfiguration configuration, IUserManager userManager)
+        private readonly ISmsSubscriber _smsSubscriber;
+        public AccountManager(IConfiguration configuration,
+            IUserManager userManager,
+            ISmsSubscriber smsSubscriber)
         {
             connectionString = configuration.GetConnectionString("DefaultConnection");
             _userManager = userManager;
+            _smsSubscriber = smsSubscriber;
         }
 
         public async Task<AuthResponse> AuthenticateUserAsync(UserAuthentication userAuthentication)
@@ -36,6 +41,17 @@ namespace OLC.Web.API.Manager
             {
                 if (user.IsBlocked.Value == true)
                 {
+
+                    _smsSubscriber.SendSmsAsync(new SmsRequest()
+                    {
+                        Message = $"Dealer {user.FirstName}, we have observed that you are trying to login to our application, Since your account is blocked your are unable to login , please contact admin to unblock admin@portal.com",
+                        CustomerPhoneNumbers = new List<string>()
+                        {
+                            user.Phone
+                        }
+                    });
+
+
                     authResponse.Email = string.Empty;
                     authResponse.StatusMessage = "User blocked, Please contact admin";
                     authResponse.StatusCode = 1000;
