@@ -76,7 +76,7 @@
         let conversationHTML = `
             <div class="card" style="width:100%;">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">💬 Service Request Conversation #${serviceRequest.TicketId}</h5>
+                    <h5 class="mb-0">💬 Service Request Conversation #${serviceRequest.RequestReference}</h5>
                 </div>
                 <div class="card-body p-0">
                     <div class="conversation-timeline">
