@@ -892,34 +892,33 @@
 
     // Approve button handler
     $('#approveKycBtn').on('click', function () {
+        console.log("you clicked aprove button");
         submitKycDecision('Verified');
     });
 
     // Submit KYC decision to server
-    function submitKycDecision(decision, rejectionReason = null) {
-
+    function submitKycDecision(status, rejectionReason = "") {
+        $(".se-pre-con").show();
         console.log(JSON.stringify(self.PreviewUserKycDocument));
 
-
         const requestData = {
-            userId: currentKycData.UserId,
-            decision: decision,
-            rejectionReason: rejectionReason,
-            verifiedBy: currentUserId
+            UserKycId: self.PreviewUserKycDocument.userKyc.Id,
+            UserKycDocumentId: self.PreviewUserKycDocument.userKycDocument.Id,
+            Status: status,
+            RejectedReason: rejectionReason,
+            ModifiedBy: self.ApplicationUser.Id
         };
 
         $.ajax({
-            url: '/Admin/UpdateKycStatus',
+            url: '/User/VerifyUserKycDocument',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(requestData),
             success: function (response) {
-                if (response.success) {
-                    $('#initKycModal').modal('hide');
-                    GetUserAccounts();
-                } else {
-                    alert('Failed to update KYC status: ' + response.message);
-                }
+                console.log(response.data);
+                $('#rejectionMessage').val()
+                $('#prviewKycModal').modal('hide');
+                GetUserAccounts();
             },
             error: function (xhr, status, error) {
                 alert('Error updating KYC status: ' + error);
