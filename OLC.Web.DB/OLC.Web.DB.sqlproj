@@ -89,7 +89,6 @@
     <Folder Include="Programmability\Stored Procedures\UserKyc" />
     <Folder Include="Programmability\Stored Procedures\UserKycDocument" />
     <Folder Include="Programmability\Stored Procedures\Priority" />
-    <Folder Include="Programmability\Stored Procedures\VerifyUserKyc" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -240,8 +239,6 @@
     <Build Include="Programmability\Stored Procedures\Priority\uspGetPriorityById.sql" />
     <Build Include="Programmability\Stored Procedures\Priority\uspUpdatePriority.sql" />
     <Build Include="Programmability\Stored Procedures\Priority\uspDeletePriority.sql" />
-    <Build Include="Tables\VerifyUserKyc.sql" />
-    <Build Include="Programmability\Stored Procedures\VerifyUserKyc\uspProcessVerifyUserKyc.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
