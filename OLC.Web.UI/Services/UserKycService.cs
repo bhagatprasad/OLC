@@ -29,7 +29,12 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> ProcessUserKycAsync(UserKyc userKyc)
         {
-            return await _repositoryFactory.SendAsync<UserKyc, bool>(HttpMethod.Get, "User/ProcessUserKycAsync", userKyc);
+            return await _repositoryFactory.SendAsync<UserKyc, bool>(HttpMethod.Post, "User/ProcessUserKycAsync", userKyc);
+        }
+
+        public async Task<bool> VerifyUserKycAsync(VerifyUserKyc verifyUserKyc)
+        {
+            return await _repositoryFactory.SendAsync<VerifyUserKyc, bool>(HttpMethod.Post, "User/VerifyUserDocumentKyc", verifyUserKyc);
         }
     }
 }

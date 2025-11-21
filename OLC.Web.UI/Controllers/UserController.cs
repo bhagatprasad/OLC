@@ -247,5 +247,22 @@ namespace OLC.Web.UI.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> VerifyUserKycDocument([FromBody] VerifyUserKyc verifyUserKyc)
+        {
+            try
+            {
+                var response = await _userKycService.VerifyUserKycAsync(verifyUserKyc);
+                return Json(new { data = response });
+
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
     }
 }
