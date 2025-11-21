@@ -892,18 +892,20 @@
 
     // Approve button handler
     $('#approveKycBtn').on('click', function () {
-        if (confirm('Are you sure you want to approve this KYC document?')) {
-            submitKycDecision('Approved');
-        }
+        submitKycDecision('Verified');
     });
 
     // Submit KYC decision to server
     function submitKycDecision(decision, rejectionReason = null) {
+
+        console.log(JSON.stringify(self.PreviewUserKycDocument));
+
+
         const requestData = {
             userId: currentKycData.UserId,
             decision: decision,
             rejectionReason: rejectionReason,
-            verifiedBy: currentUserId // You need to set this from your session
+            verifiedBy: currentUserId
         };
 
         $.ajax({
@@ -913,10 +915,8 @@
             data: JSON.stringify(requestData),
             success: function (response) {
                 if (response.success) {
-                    alert(`KYC ${decision.toLowerCase()} successfully!`);
                     $('#initKycModal').modal('hide');
-                    // Refresh the page or update UI as needed
-                    location.reload();
+                    GetUserAccounts();
                 } else {
                     alert('Failed to update KYC status: ' + response.message);
                 }

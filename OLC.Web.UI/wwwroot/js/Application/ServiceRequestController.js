@@ -70,31 +70,145 @@
         }
 
         function loadServiceRequests() {
-            $("#serviceRequestList").empty();
+            const container = $("#serviceRequestList");
+            container.empty();
 
-            self.UserServiceRequest.forEach(req => {
-                const priorityClass =
-                    req.Priority === "High" ? "bg-danger" :
-                        req.Priority === "Medium" ? "bg-warning text-dark" :
-                            "bg-secondary";
+            // Create responsive container
+            container.html(`
+        <div class="table-responsive d-none d-md-block">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Ticket Referance</th>
+                        <th>Order ID</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Category</th>
+                        <th>Classification</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="serviceRequestTableBody"></tbody>
+            </table>
+        </div>
+        <div class="row d-md-none" id="serviceRequestCards"></div>
+    `);
 
+            const tableBody = $("#serviceRequestTableBody");
+            const cardsContainer = $("#serviceRequestCards");
+
+            self.UserServiceRequest.forEach((req, index) => {
+                const priorityClass = getPriorityClass(req.Priority);
                 const statusText = mapStatus(req.StatusId);
                 const statusClass = mapStatusClass(req.StatusId);
 
-                $("#serviceRequestList").append(`
-            <tr>
-                <td>${req.TicketId}</td>
+                // Alternate row class for table
+                const rowClass = index % 2 === 0 ? '' : 'table-active';
+
+                // Table row (desktop)
+                tableBody.append(`
+            <tr class="${rowClass}">
+                <td>${req.RequestReference}</td>
                 <td>${req.OrderId}</td>
                 <td>${req.Subject}</td>
-                <td>${req.Message}</td>
+                <td class="text-truncate" style="max-width: 200px;" title="${req.Message}">${req.Message}</td>
                 <td>${req.Category}</td>
                 <td>${req.Classification || ''}</td>
-                <td><span class="${priorityClass}">${req.Priority}</span></td>
-                <td><span class="${statusClass}">${statusText}</span></td>
-                <td><button class="btn btn-success btn-sm viewRequest" data-id="${req.TicketId}"><i class="fa fa-eye"></i></button>
-                <button class="btn btn-danger btn-sm cancelRequest" data-id="${req.TicketId}"><i class="fa fa-ban"></i></button></td>
+                <td><span class="badge ${priorityClass}">${req.Priority}</span></td>
+                <td><span class="badge ${statusClass}">${statusText}</span></td>
+                <td>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-success viewRequest" data-id="${req.TicketId}" title="View Details">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <button class="btn btn-danger cancelRequest" data-id="${req.TicketId}" title="Cancel Request">
+                            <i class="fa fa-ban"></i>
+                        </button>
+                    </div>
+                </td>
             </tr>
         `);
+
+                cardsContainer.append(`
+            <div class="col-12 mb-3">
+                <div class="card service-request-card ${index % 2 === 0 ? 'border-primary' : 'border-secondary'}">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <strong>Ticket #${req.RequestReference}</strong>
+                        <span class="badge ${priorityClass}">${req.Priority}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="text-muted">Order ID:</small>
+                                <p class="mb-1">${req.OrderId}</p>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Category:</small>
+                                <p class="mb-1">${req.Category}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <small class="text-muted">Subject:</small>
+                                <p class="mb-1 fw-bold">${req.Subject}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <small class="text-muted">Message:</small>
+                                <p class="mb-1 text-truncate">${req.Message}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <small class="text-muted">Classification:</small>
+                                <p class="mb-1">${req.Classification || 'N/A'}</p>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">Status:</small>
+                                <p class="mb-1"><span class="badge ${statusClass}">${statusText}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group w-100">
+                            <button class="btn btn-success viewRequest" data-id="${req.TicketId}">
+                                <i class="fa fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-danger cancelRequest" data-id="${req.TicketId}">
+                                <i class="fa fa-ban"></i> Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+            });
+
+            attachEventHandlers();
+        }
+        function getPriorityClass(priority) {
+            switch (priority?.toLowerCase()) {
+                case 'high': return 'bg-danger';
+                case 'medium': return 'bg-warning text-dark';
+                case 'low': return 'bg-secondary';
+                default: return 'bg-light text-dark';
+            }
+        }
+        function attachEventHandlers() {
+            $(".viewRequest").off('click').on('click', function () {
+                const ticketId = $(this).data('id');
+                viewServiceRequest(ticketId);
+            });
+
+            $(".cancelRequest").off('click').on('click', function () {
+                const ticketId = $(this).data('id');
+                cancelServiceRequest(ticketId);
             });
         }
 
@@ -107,27 +221,6 @@
             if (!date) return "N/A";
             return new Date(date).toLocaleString();
         }
-
-        function mapStatus(statusId) {
-            switch (statusId) {
-                case 1: return "Open";
-                case 2: return "In Progress";
-                case 3: return "Closed";
-                case 4: return "Waiting for Customer";
-                default: return "Unknown";
-            }
-        }
-
-        function mapStatusClass(statusId) {
-            switch (statusId) {
-                case 1: return "bg-primary";
-                case 2: return "bg-info text-dark";
-                case 3: return "bg-success";
-                case 4: return "bg-warning text-dark";
-                default: return "bg-secondary";
-            }
-        }
-
         $(document).on("click", "#addServiceRequest", function () {
             $('#sidebar').addClass('show');
             $('body').append('<div class="modal-backdrop fade show"></div>');

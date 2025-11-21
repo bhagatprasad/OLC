@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
 
@@ -151,6 +150,21 @@ namespace OLC.Web.API.Controllers
             try
             {
                 var response = await _serviceRequestManager.GetAllServiceRequestsWithRepliesAsync();
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [Route("GetServiceRequestWithRepliesAsync/{ticketId}")]
+        public async Task<IActionResult> GetServiceRequestWithRepliesAsync(long ticketId)
+        {
+            try
+            {
+                var response = await _serviceRequestManager.GetServiceRequestWithRepliesAsync(ticketId);
                 return Ok(response);
 
             }

@@ -1,8 +1,6 @@
 ﻿using OLC.Web.API.Models;
-using System.Collections.Immutable;
 using System.Data;
 using System.Data.SqlClient;
-using System.Net.Sockets;
 
 namespace OLC.Web.API.Manager
 {
@@ -488,6 +486,26 @@ namespace OLC.Web.API.Manager
                 return true;
             }
             return false;
+        }
+
+        public async Task<ServiceRequestDetails> GetServiceRequestWithRepliesAsync(long ticketId)
+        {
+            ServiceRequestDetails _serviceRequest = new ServiceRequestDetails();
+
+            var serviceRequest = await GetServiceRequestByIdAsync(ticketId);
+
+
+            if (serviceRequest != null)
+            {
+                _serviceRequest.serviceRequest = serviceRequest;
+
+                var serviceRequestReplies = await GetServiceRequestRepliesByTicketIdAsync(ticketId);
+                if (serviceRequestReplies.Any())
+                {
+                    _serviceRequest.serviceRequestReplies = serviceRequestReplies;
+                }
+            }
+            return _serviceRequest;
         }
     }
 }
