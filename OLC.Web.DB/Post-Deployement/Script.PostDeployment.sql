@@ -57,3 +57,6 @@ Post-Deployment Script Template
 
 -- Include seed data for SeedUsers
 :r .\SeedUsers.sql
+
+-- Include seed data for SeedUsers
+:r .\SeedRewardConfiguration.sql
