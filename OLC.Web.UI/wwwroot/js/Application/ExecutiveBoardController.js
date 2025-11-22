@@ -232,6 +232,17 @@
                     <i class="fas fa-handshake"></i>
                 </button>`;
             }
+            // DOWNLOAD INVOICE
+            if (order.OrderStatus === "Paid") {
+                actionButtons += `
+                <button class="btn btn-sm btn-danger download-invoice" data-order-id="${order.Id}" title="Download Invoice">
+                    <i class="fas fa-file-pdf"></i>
+                </button>`;
+                mobileActionButtons += `
+                 <button class="btn btn-sm btn-danger download-invoice" data-order-id="${order.Id}" title="Download Invoice">
+                    <i class="fas fa-file-pdf"></i>
+                </button>`;
+            }
         }
         else if (order.OrderStatus === "Draft") {
             actionButtons = `
@@ -938,4 +949,89 @@
         self.DepositOrders = [];
         $("#depositOrderModal").modal("hide");
     });
+
+    // Download Invoice - Only for Paid orders
+    $(document).on("click", ".download-invoice", function () {
+        const orderId = $(this).data("order-id");
+        const order = self.ExecutivePaymentOrders.find(o => o.Id == orderId);
+        if (order) {
+            self.generateInvoicePDF(order);
+        }
+    });
+    self.generateInvoicePDF = function (order) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.addImage("/images/logo.png", "PNG", 14, 8, 48, 18);                
+        doc.setFontSize(11); doc.setFont("helvetica", "normal");
+        doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 195, 20, { align: "right" });               
+        doc.setFontSize(32); doc.setFont("helvetica", "bold");
+        doc.text("INVOICE", 105, 38, { align: "center" }); 
+       
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "normal");
+        doc.text(`Invoice No: ${order.OrderReference}`, 14, 48);
+        doc.setFont("helvetica", "bold");
+        doc.text("Status: Paid", 14, 55);
+
+        // Bill To
+        doc.setFontSize(12); doc.setFont("helvetica", "bold"); doc.text("Bill To:", 14, 68);    
+        doc.setFont("helvetica", "normal"); doc.setFontSize(11);        
+        doc.text([order.UserFullName || "Customer", order.UserEmail || "N/A", order.UserPhone || "N/A"], 14, 76);
+
+        // Table 
+        doc.autoTable({
+            startY: 92,
+            head: [["Description", "Amount"]],
+            body: [
+                ["Original Amount", self.formatCurrency(order.Amount)],
+                ["Charge Amount", self.formatCurrency(order.TotalAmountToChargeCustomer)],
+                ["Total Deposit to Customer", self.formatCurrency(order.TotalAmountToDepositToCustomer)],
+                ["Amount Paid", self.formatCurrency(order.TotalAmountToDepositToCustomer)],
+                ["Pending Amount", "$0.00"],
+                ["Payment Status", "Paid"]
+            ],
+            theme: 'grid',
+            headStyles: { fillColor: [220, 53, 69], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 11 },
+            bodyStyles: { fontSize: 10, cellPadding: 5 },
+            columnStyles: { 0: { cellWidth: 105 }, 1: { halign: 'right', fontStyle: 'bold' } },
+            margin: { left: 14, right: 14 }
+        });
+
+        const baseY = doc.lastAutoTable.finalY + 14;
+
+        // Payment Information
+        doc.setFontSize(12); doc.setFont("helvetica", "bold");
+        doc.text("Payment Information", 14, baseY);
+
+        doc.setFontSize(10); doc.setFont("helvetica", "normal");
+        doc.text("Please make payment to the following bank account:", 14, baseY + 7);
+        doc.setFont("helvetica", "bold"); doc.text("Bank Name      :", 14, baseY + 15); doc.setFont("helvetica", "normal"); doc.text("ICICI Bank", 55, baseY + 15);
+        doc.setFont("helvetica", "bold"); doc.text("Account Name   :", 14, baseY + 21); doc.setFont("helvetica", "normal"); doc.text("Betalen Payments Pvt Ltd", 55, baseY + 21);
+        doc.setFont("helvetica", "bold"); doc.text("Account Number :", 14, baseY + 27); doc.setFont("helvetica", "normal"); doc.text("678999922445", 55, baseY + 27);
+        doc.setFont("helvetica", "bold"); doc.text("IFSC Code      :", 14, baseY + 33); doc.setFont("helvetica", "normal"); doc.text("ICIC00016", 55, baseY + 33);
+        doc.setFont("helvetica", "bold"); doc.text("Branch         :", 14, baseY + 39); doc.setFont("helvetica", "normal"); doc.text("Andheri East, Mumbai", 55, baseY + 39);
+
+        // Deposit Information 
+        doc.setFontSize(12); doc.setFont("helvetica", "bold");
+        doc.text("Deposit Information", 120, baseY);
+
+        doc.setFontSize(10); doc.setFont("helvetica", "normal");
+        doc.text("Amount will be deposited to customer via:", 120, baseY + 7);
+        doc.setFont("helvetica", "bold"); doc.text("Bank Name      :", 120, baseY + 15); doc.setFont("helvetica", "normal"); doc.text(order.BankName || "Customer's Bank", 158, baseY + 15);
+        doc.setFont("helvetica", "bold"); doc.text("Account Holder :", 120, baseY + 21); doc.setFont("helvetica", "normal"); doc.text(order.AccountHolderName || "Customer", 158, baseY + 21);
+        doc.setFont("helvetica", "bold"); doc.text("Account Number :", 120, baseY + 27); doc.setFont("helvetica", "normal"); doc.text(order.BankAccountNumber ? `****${order.BankAccountNumber.slice(-4)}` : "N/A", 158, baseY + 27);
+        doc.setFont("helvetica", "bold"); doc.text("IFSC Code      :", 120, baseY + 33); doc.setFont("helvetica", "normal"); doc.text(order.IFSCCode || "N/A", 158, baseY + 33);
+        doc.setFont("helvetica", "bold"); doc.text("Total Deposit  :", 120, baseY + 39); doc.setFont("helvetica", "normal"); doc.text(self.formatCurrency(order.TotalAmountToDepositToCustomer), 158, baseY + 39);
+
+        // Footer
+        const h = doc.internal.pageSize.height;
+        doc.setFontSize(11); doc.setTextColor(100);
+        doc.text("Thank you for your business!", 14, h - 26);
+        doc.setFont("helvetica", "italic");
+        doc.text("Betalen - Secure Global Payments", 14, h - 12);
+        doc.text("support@betalen.in | www.betalen.in", 14, h - 22);
+
+        doc.save(`Invoice_${order.OrderReference}.pdf`);
+    };
 }
