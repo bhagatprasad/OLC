@@ -11,6 +11,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "OLC.Web.DB", "OLC.Web.DB\OL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OLC.Web.Email.Service", "OLC.Web.Email.Service\OLC.Web.Email.Service.csproj", "{8ADA5515-AAB9-4165-A158-C14D709E5CF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OLC.Web.Sms.Service", "OLC.Web.Sms.Service\OLC.Web.Sms.Service.csproj", "{8FA0C129-D530-4BD4-ADED-3713D8FFCC16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{8ADA5515-AAB9-4165-A158-C14D709E5CF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ADA5515-AAB9-4165-A158-C14D709E5CF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ADA5515-AAB9-4165-A158-C14D709E5CF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA0C129-D530-4BD4-ADED-3713D8FFCC16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA0C129-D530-4BD4-ADED-3713D8FFCC16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA0C129-D530-4BD4-ADED-3713D8FFCC16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA0C129-D530-4BD4-ADED-3713D8FFCC16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,5 +8,6 @@ namespace OLC.Web.UI.Services
         Task<bool> ProcessUserKycAsync(UserKyc userKyc);
         Task<UserKyc> GetUserKycByUserIdAsync(long userId);
         Task<List<UserKyc>> GetAllUsersKycAsync();
+        Task<bool> VerifyUserKycAsync(VerifyUserKyc verifyUserKyc);
     }
 }

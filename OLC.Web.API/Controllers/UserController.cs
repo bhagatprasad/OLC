@@ -158,15 +158,29 @@ namespace OLC.Web.API.Controllers
                 PreviewUserKycDocument previewUserKycDocument = new PreviewUserKycDocument();
 
                 var userKyc = await _userKycManager.GetUserKycByUserIdAsync(userId);
-                
+
                 var userKycDocument = await _userKycDocumentManager.GetUserKycDocumentByUserAsync(userId);
-               
+
                 if (userKyc != null)
                     previewUserKycDocument.userKyc = userKyc;
                 if (userKycDocument != null)
                     previewUserKycDocument.userKycDocument = userKycDocument;
 
                 return Ok(previewUserKycDocument);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpPost]
+        [Route("VerifyUserDocumentKyc")]
+        public async Task<IActionResult> VerifyUserDocumentKycAsync(VerifyUserKyc verifyUserKyc)
+        {
+            try
+            {
+                var response = await _userKycManager.VerifyUserKycAsync(verifyUserKyc);
+                return Ok(response);
             }
             catch (Exception ex)
             {

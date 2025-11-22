@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OLC.Web.Email.Service\OLC.Web.Email.Service.csproj" />
+    <ProjectReference Include="..\OLC.Web.Sms.Service\OLC.Web.Sms.Service.csproj" />
   </ItemGroup>
 
 </Project>

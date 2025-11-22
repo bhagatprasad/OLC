@@ -892,34 +892,33 @@
 
     // Approve button handler
     $('#approveKycBtn').on('click', function () {
-        if (confirm('Are you sure you want to approve this KYC document?')) {
-            submitKycDecision('Approved');
-        }
+        console.log("you clicked aprove button");
+        submitKycDecision('Verified');
     });
 
     // Submit KYC decision to server
-    function submitKycDecision(decision, rejectionReason = null) {
+    function submitKycDecision(status, rejectionReason = "") {
+        $(".se-pre-con").show();
+        console.log(JSON.stringify(self.PreviewUserKycDocument));
+
         const requestData = {
-            userId: currentKycData.UserId,
-            decision: decision,
-            rejectionReason: rejectionReason,
-            verifiedBy: currentUserId // You need to set this from your session
+            UserKycId: self.PreviewUserKycDocument.userKyc.Id,
+            UserKycDocumentId: self.PreviewUserKycDocument.userKycDocument.Id,
+            Status: status,
+            RejectedReason: rejectionReason,
+            ModifiedBy: self.ApplicationUser.Id
         };
 
         $.ajax({
-            url: '/Admin/UpdateKycStatus',
+            url: '/User/VerifyUserKycDocument',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(requestData),
             success: function (response) {
-                if (response.success) {
-                    alert(`KYC ${decision.toLowerCase()} successfully!`);
-                    $('#initKycModal').modal('hide');
-                    // Refresh the page or update UI as needed
-                    location.reload();
-                } else {
-                    alert('Failed to update KYC status: ' + response.message);
-                }
+                console.log(response.data);
+                $('#rejectionMessage').val()
+                $('#prviewKycModal').modal('hide');
+                GetUserAccounts();
             },
             error: function (xhr, status, error) {
                 alert('Error updating KYC status: ' + error);

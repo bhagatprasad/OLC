@@ -98,7 +98,7 @@ namespace OLC.Web.API.Manager
                     getuserKyc.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : (long?)null;
                     getuserKyc.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
                     getuserKyc.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
-                  
+
                 }
             }
             return getuserKyc;
@@ -178,6 +178,37 @@ namespace OLC.Web.API.Manager
 
             return false;
         }
+
+        public async Task<bool> VerifyUserKycAsync(VerifyUserKyc verifyUserKyc)
+        {
+            if (verifyUserKyc != null)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspVerifyUserKyc]", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.AddWithValue("@userKycId", verifyUserKyc.UserKycId);
+
+                sqlCommand.Parameters.AddWithValue("@userKycDocumentId", verifyUserKyc.UserKycDocumentId);
+
+                sqlCommand.Parameters.AddWithValue("@status", verifyUserKyc.Status);
+
+                sqlCommand.Parameters.AddWithValue("@modifiedBy", verifyUserKyc.ModifiedBy);
+
+                sqlCommand.Parameters.AddWithValue("@rejectedReason", verifyUserKyc.RejectedReason);
+
+                sqlCommand.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
     }
-    
+
 }

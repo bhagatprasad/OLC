@@ -1003,3 +1003,64 @@ const statusMap = {
         class: slaClass
     };
 };
+function mapStatus(statusId) {
+    switch (statusId) {
+        case 1: return "Pending";
+        case 2: return "In Progress";
+        case 3: return "Active";
+        case 4: return "Inactive";
+        case 5: return "Approved";
+        case 6: return "Rejected";
+        case 7: return "Completed";
+        case 8: return "Cancelled";
+        case 9: return "Draft";
+        case 10: return "Submitted";
+        case 11: return "Under Review";
+        case 12: return "Processing";
+        case 13: return "Processed";
+        case 14: return "Failed";
+        case 15: return "Success";
+        case 16: return "Expired";
+        case 17: return "Suspended";
+        case 18: return "Archived";
+        case 19: return "Deleted";
+        case 20: return "Locked";
+        case 21: return "Unlocked";
+        case 22: return "Verified";
+        case 23: return "Unverified";
+        case 24: return "Paid";
+        case 25: return "Unpaid";
+        case 26: return "Open";
+        case 27: return "Closed";
+        case 28: return "Resolved";
+        case 29: return "New";
+        case 30: return "On Hold";
+        case 31: return "Awaiting Approval";
+        case 32: return "Awaiting Payment";
+        case 33: return "Shipped";
+        case 34: return "Delivered";
+        case 35: return "Returned";
+        case 36: return "Refunded";
+        case 37: return "Partially Paid";
+        case 38: return "Overdue";
+        case 39: return "Blocked";
+        case 40: return "Enabled";
+        case 41: return "Disabled";
+        case 42: return "Payment Received";
+        case 43: return "Payment Deposited";
+        default: return "Unknown";
+    }
+}
+function mapStatusClass(statusId) {
+    switch (statusId) {
+        case 1: return "bg-warning text-dark"; // Pending
+        case 2: return "bg-info"; // In Progress
+        case 3: return "bg-success"; // Active
+        case 4: return "bg-secondary"; // Inactive
+        case 5: return "bg-success"; // Approved
+        case 6: return "bg-danger"; // Rejected
+        case 7: return "bg-success"; // Completed
+        case 8: return "bg-danger"; // Cancelled
+        default: return "bg-light text-dark";
+    }
+}

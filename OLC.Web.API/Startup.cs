@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using OLC.Web.API.Manager;
 using OLC.Web.Email.Service;
+using Microsoft.Extensions.Options;
+using OLC.Web.Sms.Service;
 
 namespace OLC.Web.API
 {
@@ -46,6 +48,8 @@ namespace OLC.Web.API
             
             //init email service
             services.AddScoped<IEmailSubScriber, EmailSubScriber>();
+            //init sms service
+            services.AddScoped<ISmsSubscriber, SmsSubscriber>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 
@@ -53,14 +57,18 @@ namespace OLC.Web.API
 
             services.Configure<EmailConfig>(emailConfig);
 
+            var smsConfig = _configuration.GetSection("SmsConfig");
+
+            services.Configure<SmsConfig>(smsConfig);
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
                     builder => builder
-                        .WithOrigins("http://localhost:5227") // Specific allowed origin
+                        .WithOrigins("http://localhost:5227")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
-                        .AllowCredentials() // If you need credentials/cookies
+                        .AllowCredentials()
                 );
             });
 
