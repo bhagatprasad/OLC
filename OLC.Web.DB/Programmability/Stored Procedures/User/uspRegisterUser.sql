@@ -76,6 +76,9 @@ BEGIN
         
         -- Return success with new UserId
         SELECT SCOPE_IDENTITY() AS UserId;
+
+        exec [dbo].[uspSaveUserWallet] UserId;
+
         RETURN 1; -- Success
 
     END TRY
