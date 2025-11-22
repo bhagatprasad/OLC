@@ -1,19 +1,19 @@
 ﻿namespace OLC.Web.Email.Service.Templates
 {
-    public static class PlacePaymentOrderTemaplate
+    public class KycSuccessTemplate
     {
-        public static string ComposeEmailAsync(string username, string orderReference, string orderStatus, string paymentStatus, string depositStatus)
+        public static string ComposeEmailAsync(string username, string kycId, string verificationDate, string remarks)
         {
             return $@"
 <div style='
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #4b79a1, #283e51);
+    background: linear-gradient(135deg, #0f4c75, #3282b8);
     padding: 30px;
     border-radius: 20px;
     color: white;
 '>
     <div style='
-        background: rgba(0, 0, 0, 0.40);
+        background: rgba(255, 255, 255, 0.08);
         padding: 30px;
         border-radius: 15px;
         border: 1px solid rgba(255,255,255,0.18);
@@ -25,10 +25,10 @@
             margin-top: 0;
             text-align:center;
             text-shadow: 1px 1px 5px #000;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.25);
         '>
-            Order Placed Successfully 🎉
+            KYC Verification Successful ✔️
         </h2>
 
         <p style='
@@ -36,16 +36,12 @@
             margin-top: 20px;
             line-height: 1.6;
         '>
-            Hi <strong style='color:#ffe27a;'>{username}</strong>,
+            Hello <strong style='color:#ffd369;'>{username}</strong>,
         </p>
 
-        <p style='
-            font-size: 17px;
-            line-height: 1.6;
-        '>
-            We're excited to let you know that your order 
-            <strong style='color:#ffe27a;'>{orderReference}</strong>  
-            has been placed successfully!
+        <p style='font-size: 17px; line-height: 1.6;'>
+            We are pleased to inform you that your KYC verification has been 
+            <strong style='color:#ffd369;'>successfully completed</strong>.
         </p>
 
         <div style='
@@ -59,18 +55,18 @@
         '>
 
             <p style='font-size: 16px; margin:6px 0;'>
-                <strong style='color:#fff;'>Order Reference:</strong> 
-                <span style='color:#ffe27a;'>{orderReference}</span>
+                <strong style='color:#fff;'>KYC Reference ID:</strong>
+                <span style='color:#ffd369;'>{kycId}</span>
             </p>
 
             <p style='font-size: 16px; margin:6px 0;'>
-                <strong style='color:#fff;'>Order Status:</strong> 
-                <span style='color:#ffe27a;'>Placed</span>
+                <strong style='color:#fff;'>Verified On:</strong>
+                <span style='color:#ffd369;'>{verificationDate}</span>
             </p>
 
             <p style='font-size: 16px; margin:6px 0;'>
-                <strong style='color:#fff;'>Payment Status:</strong> 
-                <span style='color:#ffe27a;'>{paymentStatus}</span>
+                <strong style='color:#fff;'>Remarks:</strong>
+                <span style='color:#ffd369;'>{remarks}</span>
             </p>
 
         </div>
@@ -79,15 +75,15 @@
             font-size: 16px;
             line-height: 1.6;
         '>
-            Our team is preparing everything, and you will receive more updates as your order moves through the process.
+            You can now enjoy uninterrupted access to all features of our platform.
+            If you need any assistance, feel free to reach out to our support team.
         </p>
 
         <p style='
             font-size: 16px;
             margin-top: 15px;
         '>
-            Thank you for choosing our service.  
-            We’re thrilled to serve you!
+            Thank you for completing your verification with us.
         </p>
 
         <p style='
