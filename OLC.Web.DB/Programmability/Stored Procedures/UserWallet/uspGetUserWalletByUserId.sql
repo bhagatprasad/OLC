@@ -24,6 +24,4 @@ BEGIN
         [dbo].[UserWallet]
     WHERE 
         [UserId] = @UserId
-    ORDER BY 
-        [Id] DESC;
 END
