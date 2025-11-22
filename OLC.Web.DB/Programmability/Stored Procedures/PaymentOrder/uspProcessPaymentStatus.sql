@@ -1,5 +1,4 @@
-﻿-- Create or Alter the procedure for processing payment status
-CREATE  PROCEDURE [dbo].[uspProcessPaymentStatus]
+﻿CREATE  PROCEDURE [dbo].[uspProcessPaymentStatus]
 (
     @paymentOrderId     bigint = NULL,
     @sessionId          nvarchar(255) = NULL,
@@ -14,31 +13,53 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Assuming this procedure updates the PaymentOrder table with the provided statuses
-    -- and inserts a history record. Adjust logic as needed based on your requirements.
+    DECLARE @depositAmount DECIMAL(18,6);
+    DECLARE @orderExists BIT = 0;
 
     IF @paymentOrderId IS NOT NULL
     BEGIN
-        -- Update PaymentOrder with the provided statuses and additional fields
-        UPDATE PaymentOrder
-        SET
-            OrderStatusId = @orderStatusId,
-            PaymentStatusId = @paymentStatusId,
-            StripePaymentIntentId = @paymentIntentId,  -- Assuming this maps to PaymentIntentId
-            StripePaymentChargeId = @sessionId,
-            ModifiedBy = @userId,  -- Or pass a createdBy if available
-            ModifiedOn = GETDATE()
-        WHERE Id = @paymentOrderId;
+        BEGIN TRY
+            -- Check if payment order exists and get deposit amount
+            SELECT 
+                @depositAmount = TotalAmountToDepositToCustomer,
+                @orderExists = 1
+            FROM PaymentOrder 
+            WHERE Id = @paymentOrderId;
 
-        -- Insert payment order history
-        EXEC [dbo].[uspInsertPaymentOrderHistory] @paymentOrderId, @orderStatusId, @description, @userId;  -- Adjust createdBy if available
+            IF @orderExists = 0
+            BEGIN
+                RAISERROR('Payment order with ID %d not found.', 16, 1, @paymentOrderId);
+                RETURN;
+            END
 
-        -- Optionally, retrieve the updated payment order
-        EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId;
+            -- Update PaymentOrder
+            UPDATE PaymentOrder
+            SET
+                OrderStatusId = @orderStatusId,
+                PaymentStatusId = @paymentStatusId,
+                StripePaymentIntentId = @paymentIntentId,
+                StripePaymentChargeId = @sessionId,
+                ModifiedBy = @userId,
+                ModifiedOn = GETDATE()
+            WHERE Id = @paymentOrderId;
+
+            -- Insert payment order history
+            EXEC [dbo].[uspInsertPaymentOrderHistory] @paymentOrderId, @orderStatusId, @description, @userId;
+
+            -- Insert transaction reward with deposit amount
+            EXEC [dbo].[uspInsertTransactionReward] @paymentOrderId, @userId, @depositAmount;
+
+            -- Retrieve the updated payment order
+            EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId;
+
+        END TRY
+        BEGIN CATCH
+            DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+            RAISERROR('Error processing payment status: %s', 16, 1, @ErrorMessage);
+        END CATCH
     END
     ELSE
     BEGIN
-        -- Handle case where PaymentOrderId is NULL, perhaps log or return an error
         RAISERROR('PaymentOrderId cannot be NULL.', 16, 1);
     END
 END
