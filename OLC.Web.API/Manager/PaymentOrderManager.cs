@@ -108,8 +108,8 @@ namespace OLC.Web.API.Manager
             //    EmailRequest emailRequest = new EmailRequest()
             //    {
             //        Body = PlacePaymentOrderTemaplate.ComposeEmailAsync(paymentOrder.OrderReference, "Order Placed", "Paid", "Pending"),
-            //        Subject= EmailSubjectConstants.OrderPlacedSubjected,
-            //        ToEmail=
+            //        Subject= EmailSubjectConstants.OrderPlacedSubjected,paymentorder.OrderReference
+            //        ToEmail=user.email
 
             //    };
 
