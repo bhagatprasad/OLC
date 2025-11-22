@@ -89,6 +89,7 @@
     <Folder Include="Programmability\Stored Procedures\UserKyc" />
     <Folder Include="Programmability\Stored Procedures\UserKycDocument" />
     <Folder Include="Programmability\Stored Procedures\Priority" />
+    <Folder Include="Programmability\Stored Procedures\UserWallet" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -240,6 +241,10 @@
     <Build Include="Programmability\Stored Procedures\Priority\uspUpdatePriority.sql" />
     <Build Include="Programmability\Stored Procedures\Priority\uspDeletePriority.sql" />
     <Build Include="Programmability\Stored Procedures\UserKyc\uspVerifyUserKyc.sql" />
+    <Build Include="Tables\RewardConfiguration.sql" />
+    <Build Include="Tables\UserWallet.sql" />
+    <Build Include="Tables\TransactionReward.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspSaveUserWallet.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
@@ -268,5 +273,7 @@
     <None Include="Post-Deployement\SeedBillingAddress.sql" />
     <None Include="Post-Deployement\SeedUserCreditCards.sql" />
     <None Include="Post-Deployement\SeedPaymentOrders.sql" />
+    <None Include="Post-Deployement\SeedRewardConfiguration.sql" />
+    <None Include="Post-Deployement\SeedUserWallet.sql" />
   </ItemGroup>
 </Project>
