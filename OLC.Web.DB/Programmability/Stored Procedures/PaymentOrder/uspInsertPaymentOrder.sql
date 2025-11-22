@@ -22,6 +22,7 @@
     ,@stripeDepositIntentId				nvarchar(255) = NULL
     ,@stripeDepositeChargeId			nvarchar(255) = NULL
     ,@createdBy							bigint = NULL
+    
 )
 AS
 BEGIN
