@@ -1,19 +1,19 @@
 ﻿namespace OLC.Web.Email.Service.Templates
 {
-    public static class PlacePaymentOrderTemaplate
+    public class KycRejectedTemplate
     {
-        public static string ComposeEmailAsync(string username, string orderReference, string orderStatus, string paymentStatus, string depositStatus)
+        public static string ComposeEmailAsync(string username, string kycId, string rejectedReason, string supportEmail, string reapplyUrl)
         {
             return $@"
 <div style='
     font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #4b79a1, #283e51);
+    background: linear-gradient(135deg, #4A6CF7, #6A5ACD);
     padding: 30px;
     border-radius: 20px;
     color: white;
 '>
     <div style='
-        background: rgba(0, 0, 0, 0.40);
+        background: rgba(0, 0, 0, 0.35);
         padding: 30px;
         border-radius: 15px;
         border: 1px solid rgba(255,255,255,0.18);
@@ -25,10 +25,10 @@
             margin-top: 0;
             text-align:center;
             text-shadow: 1px 1px 5px #000;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
             border-bottom: 1px solid rgba(255,255,255,0.25);
         '>
-            Order Placed Successfully 🎉
+            KYC Verification Failed ❌
         </h2>
 
         <p style='
@@ -36,16 +36,13 @@
             margin-top: 20px;
             line-height: 1.6;
         '>
-            Hi <strong style='color:#ffe27a;'>{username}</strong>,
+            Hello <strong style='color:#ffe27a;'>{username}</strong>,
         </p>
 
-        <p style='
-            font-size: 17px;
-            line-height: 1.6;
-        '>
-            We're excited to let you know that your order 
-            <strong style='color:#ffe27a;'>{orderReference}</strong>  
-            has been placed successfully!
+        <p style='font-size: 17px; line-height: 1.6;'>
+            We regret to inform you that your KYC verification 
+            (<strong style='color:#ffe27a;'>{kycId}</strong>)  
+            has been <strong style='color:#ffe27a;'>rejected</strong>.
         </p>
 
         <div style='
@@ -59,18 +56,8 @@
         '>
 
             <p style='font-size: 16px; margin:6px 0;'>
-                <strong style='color:#fff;'>Order Reference:</strong> 
-                <span style='color:#ffe27a;'>{orderReference}</span>
-            </p>
-
-            <p style='font-size: 16px; margin:6px 0;'>
-                <strong style='color:#fff;'>Order Status:</strong> 
-                <span style='color:#ffe27a;'>Placed</span>
-            </p>
-
-            <p style='font-size: 16px; margin:6px 0;'>
-                <strong style='color:#fff;'>Payment Status:</strong> 
-                <span style='color:#ffe27a;'>{paymentStatus}</span>
+                <strong style='color:#fff;'>Reason for Rejection:</strong>
+                <span style='color:#ffe27a;'>{rejectedReason}</span>
             </p>
 
         </div>
@@ -79,15 +66,29 @@
             font-size: 16px;
             line-height: 1.6;
         '>
-            Our team is preparing everything, and you will receive more updates as your order moves through the process.
+            Please review the issue and upload your corrected documents again.
+            You may re-submit your KYC by clicking the button below.
         </p>
+
+        <div style='text-align:center; margin-top: 20px;'>
+            <a href='{reapplyUrl}' style='
+                background:#ffe27a;
+                color:#000;
+                padding:12px 20px;
+                border-radius:8px;
+                text-decoration:none;
+                font-weight:bold;
+            '>
+                Re-Submit KYC
+            </a>
+        </div>
 
         <p style='
             font-size: 16px;
-            margin-top: 15px;
+            margin-top: 20px;
         '>
-            Thank you for choosing our service.  
-            We’re thrilled to serve you!
+            If you need help or have questions, feel free to contact our support team at  
+            <a href='mailto:{supportEmail}' style='color:#ffe27a;'>{supportEmail}</a>.
         </p>
 
         <p style='
@@ -106,3 +107,4 @@
         }
     }
 }
+

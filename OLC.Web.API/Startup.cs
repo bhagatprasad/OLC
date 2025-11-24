@@ -50,6 +50,7 @@ namespace OLC.Web.API
             services.AddScoped<IEmailSubScriber, EmailSubScriber>();
             //init sms service
             services.AddScoped<ISmsSubscriber, SmsSubscriber>();
+            services.AddScoped<IUserWalletManager, UserWalletManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 

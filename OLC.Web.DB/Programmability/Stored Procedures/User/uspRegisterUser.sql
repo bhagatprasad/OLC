@@ -71,13 +71,15 @@ BEGIN
             1,       -- IsActive
             0
         );
+        DECLARE @newUserId BIGINT;
 
+        SET @newUserId = SCOPE_IDENTITY();
+        EXEC dbo.uspSaveUserWallet 
+            @UserId = @newUserId
         COMMIT TRANSACTION;
         
         -- Return success with new UserId
         SELECT SCOPE_IDENTITY() AS UserId;
-
-        exec [dbo].[uspSaveUserWallet] UserId;
 
         RETURN 1; -- Success
 
