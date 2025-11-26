@@ -89,6 +89,7 @@ namespace OLC.Web.UI
 
             services.AddScoped<IUserKycDocumentService, UserKycDocumentService>();
 
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
