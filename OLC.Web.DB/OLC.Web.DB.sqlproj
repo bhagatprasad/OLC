@@ -90,6 +90,7 @@
     <Folder Include="Programmability\Stored Procedures\UserKycDocument" />
     <Folder Include="Programmability\Stored Procedures\Priority" />
     <Folder Include="Programmability\Stored Procedures\UserWallet" />
+    <Folder Include="Programmability\Stored Procedures\RewardConfiguration" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -245,6 +246,11 @@
     <Build Include="Tables\UserWallet.sql" />
     <Build Include="Tables\TransactionReward.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspSaveUserWallet.sql" />
+    <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspSaveRewardConfiguration.sql" />
+    <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspUpdateRewardConfiguration.sql" />
+    <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspDeleteRewardConfiguration.sql" />
+    <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspGetRewardConfigurationDetailsById.sql" />
+    <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspGetAllRewardConfigurations.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

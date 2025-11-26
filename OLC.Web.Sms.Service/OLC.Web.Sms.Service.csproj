@@ -11,4 +11,8 @@
     <PackageReference Include="Twilio" Version="7.13.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Templates\" />
+  </ItemGroup>
+
 </Project>
