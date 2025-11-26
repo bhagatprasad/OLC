@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="https://betalen.in/">
+    <meta name="title" content="Money Transfer and Online Payments,Make Utility Payments, Collect Customer Payments, Send GST Invoices,
+            Make Business Payments | Betalen.in">
+    <meta name="description" content="Money Transfer and Online Payments,Pay with Credit Card anytime, anywhere & anyone">
+    <meta name="keywords" content="Money Transfer and Online Payments,Pay with credit card, Pay rent with credit card, Indias number 1 rent payment website, pay small office home office merchant, credit card payment, kampey.com, kampey, online rent payment, India pay rent, India leading rent payment website, credit card to bank transfer, Betalen.in, credit card offers, visa credit card, best credit cards, visa, apply for credit card, pay rent online, credit card rent, best credit card solution, balance transfer, visa mastercard, best credit card rewards, mastercard, credit card, India, New Delhi, Kolkata, Mumbai, Bangalore, Hyderabad, Pune, Chennai, Jaipur, Gurgaon, Pay housing society maintenance with credit card, Pay interior designer with credit card">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="vary" content="*">
+    <meta name="robots" content="index,follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Money Transfer and Online Payments,Make Utility Payments, Collect Customer Payments, Send GST Invoices,
+            Make Business Payments | Betalen.in">
+    <meta property="og:description" content="Pay with Credit Card anytime, anywhere & anyone">
+    <meta property="og:url" content="https://betalen.in/">
+    <meta property="og:site_name" content="Betalen">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description" content="Pay with Credit Card anytime, anywhere & anyone">
+    <meta name="twitter:title" content="Money Transfer and Online Payments,Make Utility Payments, Collect Customer Payments, Send GST Invoices, Make Business Payments | Betalen.in">
+    <title>Money Transfer and Online Payments,Make Utility Payments , Collect Customer Payments, Send GST Invoices, Make Business Payments | Betalen.in</title>
+    <!-- Web Fonts
+    ============================================= -->
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i' type='text/css'>
+
+    <!-- Stylesheet
+    ============================================= -->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/bootstrap/css/bootstrap.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/font-awesome/css/all.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/owl.carousel/assets/owl.carousel.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/stylesheet.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/cardstyles.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/sidebar.css")" />
+    <meta name="google-site-verification" content="FitzGggKmZe67Gk8Wqkb_TIDche2ZocBgksrxxsyWWw" />
+    <link rel="icon" href="@Url.Content("/favicon.ico")" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-222783232-1">
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-222783232-1');
+    </script>
+</head>
+
+<body>
+    <!-- Loading Spinner -->
+    <div class="se-pre-con" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <!-- Preloader End -->
+
+    <!-- Document Wrapper
+    ============================================= -->
+    <div id="main-wrapper">
+        <!-- Header
+        ============================================= -->
+        <header id="header">
+            <div class="container-fluid">
+                <partial name="~/Views/Shared/_UserMenuPartial.cshtml" />
+            </div>
+        </header>
+        <!-- Header End -->
+        <!-- Content
+        ============================================= -->
+        <div id="content" class="py-4">
+            <div class="container-fluid">
+                <!-- Content
+                ============================================= -->
+                <div id="content" class="py-4">
+                    <div class="container-fluid">
+                        <div class="row">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Content end -->
+        <!-- Footer
+        ============================================= -->
+        <partial name="~/Views/Shared/_UserFooterPartial.cshtml" />
+        <!-- Footer end -->
+        <partial name="~/Views/Shared/_userKycBannerPartial.cshtml" />
+        <partial name="~/Views/Shared/_userKycSubmittedPartial.cshtml" />
+        <partial name="~/Views/Shared/_userKycRejectedPartial.cshtml" />
+    </div>
+    <!-- Document Wrapper end -->
+    <!-- Back to Top
+    ============================================= -->
+    <a id="back-to-top" data-toggle="tooltip" title="Back to Top" href="javascript:void(0)"><i class="fa fa-chevron-up"></i></a>
+
+
+    <!-- Script -->
+    <script src="@Url.Content("~/js/jquery/jquery.min.js")" asp-append-version="true" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/bootstrap/js/bootstrap.bundle.js")" asp-append-version="true" type="text/javascript"></script>
+    @*<script src="~/vendor/bootstrap/js/bootstrap.js"></script>*@
+    <script src="@Url.Content("~/js/owl.carousel/owl.carousel.min.js")" asp-append-version="true" type="text/javascript"></script>
+    <script src="~/js/Application/CommonController.js"></script>
+    <script src="~/js/Application/StorageService.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="~/js/theme.js"></script>
+    @await Component.InvokeAsync("Notyf")
+    <script>
+        $(window).on('load', function () {
+            $(".se-pre-con").hide();
+        });
+
+        $(document).ajaxStart(function () {
+            $(".se-pre-con").show();
+        });
+
+        $(document).ajaxComplete(function () {
+            $(".se-pre-con").hide();
+        });
+    </script>
+</body>
+
+</html>

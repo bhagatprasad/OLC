@@ -1,0 +1,116 @@
+﻿<form id="AddEditUserCreditCardForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Add/Edit Credit Card</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="Cardholdername">Card holder name</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="Cardholdername" maxlength="30" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="Cardnumber">Card number</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class='fa fa-id-card'></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="Cardnumber" maxlength="18" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Expirymonth">Expiry month</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class='fas fa-calendar-alt'></i></span>
+                    </div>
+                    <select class="form-control form-select" id="Expirymonth" required>
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ExpiryYear">Expiry Year</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class='fas fa-calendar-alt'></i></span>
+                    </div>
+                    <select class="form-control form-select" id="ExpiryYear" required>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        <option value="2031">2031</option>
+                        <option value="2032">2032</option>
+                        <option value="2033">2033</option>
+                        <option value="2034">2034</option>
+                        <option value="2035">2035</option>
+                        <option value="2036">2036</option>
+                        <option value="2037">2037</option>
+                        <option value="2038">2038</option>
+                        <option value="2039">2039</option>
+                        <option value="2040">2040</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="CardType">Card type</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class='fas fa-money-check'></i></span>
+                    </div>
+                    <select class="form-control form-select" id="CardType" required></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="IssuingBank">Issuing Bank</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class='fa fa-institution'></i></span>
+                    </div>
+                    <select class="form-control form-select" id="IssuingBank" required></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="CVV">CVV</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                    </div>
+                    <input type="password" id="CVV" class="form-control" placeholder="578" required maxlength="4" />
+                    <div class="input-group-prepend">
+                        <div class="input-group-text toggle-password"><i class="fa fa-eye-slash" id="eye"></i></div>
+                        @* <span class="input-group-text" style="background-color: #fff !important; border: 1px solid #ced4da !important;"></span> *@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" id="btnsubmit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+    </div>
+</form>

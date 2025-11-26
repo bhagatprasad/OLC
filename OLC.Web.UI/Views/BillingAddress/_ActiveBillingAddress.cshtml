@@ -1,0 +1,198 @@
+﻿    <!-- Modal -->
+<div class="modal fade" id="activateBillingAddress" tabindex="-1" aria-labelledby="billingAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="billingAddressModalLabel">Are you sure do you want to activate this billing address ?</h5>
+                <button type="button" class="btn-close btn-view-card-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding:0">
+                <div class="billing-address">
+                    <i class="fas fa-microchip chip-icon"></i>
+                    <form id="billingAddressForm">
+                        <div class="mb-3">
+                            <label for="ActivateAddressLineOne" class="form-label"><i class="fas fa-credit-card"></i> Address Line One</label>
+                            <input type="text" class="form-control" id="ActivateAddressLineOne" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ActivateAddressLineTwo" class="form-label"><i class="fas fa-user"></i> Address Line Two</label>
+                            <input type="text" class="form-control" id="ActivateAddressLineTwo" placeholder="John Doe">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ActivateAddressLineThree" class="form-label"><i class="fas fa-user"></i> Address Line Three</label>
+                            <input type="text" class="form-control" id="ActivateAddressLineThree" placeholder="John Doe">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ActivateLocation" class="form-label"><i class="fas fa-user"></i> Location </label>
+                            <input type="text" class="form-control" id="ActivateLocation" placeholder="John Doe">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Country" class="form-label"><i class="fas fa-calendar-alt"></i> Country </label>
+                                    <select class="form-control form-select" id="Country" required>
+                                       
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="State" class="form-label"><i class="fas fa-calendar-alt"></i> State </label>
+                                    <select class="form-control form-select" id="State" required>
+                                        <option value="">-- Select State --</option>
+                                        <option value="AP">Andhra Pradesh</option>
+                                        <option value="AR">Arunachal Pradesh</option>
+                                        <option value="AS">Assam</option>
+                                        <option value="BR">Bihar</option>
+                                        <option value="CG">Chhattisgarh</option>
+                                        <option value="GA">Goa</option>
+                                        <option value="GJ">Gujarat</option>
+                                        <option value="HR">Haryana</option>
+                                        <option value="HP">Himachal Pradesh</option>
+                                        <option value="JH">Jharkhand</option>
+                                        <option value="KA">Karnataka</option>
+                                        <option value="KL">Kerala</option>
+                                        <option value="MP">Madhya Pradesh</option>
+                                        <option value="MH">Maharashtra</option>
+                                        <option value="MN">Manipur</option>
+                                        <option value="ML">Meghalaya</option>
+                                        <option value="MZ">Mizoram</option>
+                                        <option value="NL">Nagaland</option>
+                                        <option value="OD">Odisha</option>
+                                        <option value="PB">Punjab</option>
+                                        <option value="RJ">Rajasthan</option>
+                                        <option value="SK">Sikkim</option>
+                                        <option value="TN">Tamil Nadu</option>
+                                        <option value="TS">Telangana</option>
+                                        <option value="TR">Tripura</option>
+                                        <option value="UP">Uttar Pradesh</option>
+                                        <option value="UK">Uttarakhand</option>
+                                        <option value="WB">West Bengal</option>
+                                        <option value="AN">Andaman and Nicobar Islands</option>
+                                        <option value="CH">Chandigarh</option>
+                                        <option value="DN">Dadra and Nagar Haveli and Daman and Diu</option>
+                                        <option value="DL">Delhi</option>
+                                        <option value="JK">Jammu and Kashmir</option>
+                                        <option value="LA">Ladakh</option>
+                                        <option value="LD">Lakshadweep</option>
+                                        <option value="PY">Puducherry</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="City" class="form-label"><i class="fas fa-calendar-alt"></i> City</label>
+                                        <select class="form-control form-select" id="City" required>
+                                            <option value="">-- Select City --</option>
+                                            <option value="Mumbai">Mumbai</option>
+                                            <option value="Delhi">Delhi</option>
+                                            <option value="Bengaluru">Bengaluru</option>
+                                            <option value="Hyderabad">Hyderabad</option>
+                                            <option value="Chennai">Chennai</option>
+                                            <option value="Kolkata">Kolkata</option>
+                                            <option value="Pune">Pune</option>
+                                            <option value="Ahmedabad">Ahmedabad</option>
+                                            <option value="Jaipur">Jaipur</option>
+                                            <option value="Surat">Surat</option>
+                                            <option value="Lucknow">Lucknow</option>
+                                            <option value="Kanpur">Kanpur</option>
+                                            <option value="Nagpur">Nagpur</option>
+                                            <option value="Indore">Indore</option>
+                                            <option value="Bhopal">Bhopal</option>
+                                            <option value="Patna">Patna</option>
+                                            <option value="Vadodara">Vadodara</option>
+                                            <option value="Coimbatore">Coimbatore</option>
+                                            <option value="Visakhapatnam">Visakhapatnam</option>
+                                            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                                            <option value="Chandigarh">Chandigarh</option>
+                                            <option value="Mysuru">Mysuru</option>
+                                            <option value="Gurugram">Gurugram</option>
+                                            <option value="Noida">Noida</option>
+                                            <option value="Vijayawada">Vijayawada</option>
+                                            <option value="Madurai">Madurai</option>
+                                            <option value="Raipur">Raipur</option>
+                                            <option value="Ranchi">Ranchi</option>
+                                            <option value="Bhubaneswar">Bhubaneswar</option>
+                                            <option value="Dehradun">Dehradun</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="PinCode" class="form-label"><i class="fas fa-lock"></i> PinCode</label>
+                            <input type="text" class="form-control" id="PinCode" placeholder="123" maxlength="4">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-view-card-close" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="activateBillingAddressBtn">Yes Activate Biiling Address!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .credit-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        padding: 20px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .credit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat center;
+            background-size: cover;
+            opacity: 0.1;
+        }
+
+        .credit-card .form-control {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 5px;
+        }
+
+            .credit-card .form-control::placeholder {
+                color: rgba(255,255,255,0.7);
+            }
+
+        .credit-card .form-select {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 5px;
+        }
+
+            .credit-card .form-select option {
+                background: #667eea;
+                color: white;
+            }
+
+    .chip-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        color: gold;
+    }
+</style>
+
+

@@ -1,0 +1,153 @@
+﻿@{
+
+    ViewData["Title"] = "Request Money-Request your payment on anytime, anywhere in the world.";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="container-fluid">
+    <!-- Page Header with Button -->
+    <div class="card">
+        <div class="card-header">
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-5">
+                <!-- Total Payments Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Total Payments</h5>
+                                    <h2 class="fw-bold text-primary" id="totalPayments">$0</h2>
+                                </div>
+                                <div class="card-icon bg-primary text-white">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                            </div>
+                            <p class="card-text text-success">
+                                <i class="fas fa-arrow-up"></i> <span id="totalPaymentsChange">0%</span> from last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transfers Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Transfers</h5>
+                                    <h2 class="fw-bold text-success" id="totalTransfers">$0</h2>
+                                </div>
+                                <div class="card-icon bg-success text-white">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </div>
+                            </div>
+                            <p class="card-text text-success">
+                                <i class="fas fa-arrow-up"></i> <span id="transfersChange">0%</span> from last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cancelled Payments Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Cancelled</h5>
+                                    <h2 class="fw-bold text-warning" id="totalCancelled">$0</h2>
+                                </div>
+                                <div class="card-icon bg-warning text-white">
+                                    <i class="fas fa-ban"></i>
+                                </div>
+                            </div>
+                            <p class="card-text text-danger">
+                                <i class="fas fa-arrow-down"></i> <span id="cancelledChange">0%</span> from last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Failed Payments Card -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Failed</h5>
+                                    <h2 class="fw-bold text-danger" id="totalFailed">$0</h2>
+                                </div>
+                                <div class="card-icon bg-danger text-white">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                            </div>
+                            <p class="card-text text-danger">
+                                <i class="fas fa-arrow-up"></i> <span id="failedChange">0%</span> from last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Payment Orders -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-credit-card me-2"></i>My Payment Orders
+                            </h5>
+                            <div class="input-group" style="max-width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search orders..." id="orderSearch">
+                                <span class="input-group-text bg-primary text-white">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Desktop Table View (hidden on mobile) -->
+                        <div class="card-body p-0 d-none d-lg-block">
+                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                                <table class="table table-hover mb-0" id="paymentOrdersTable">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                                        <tr>
+                                            <th scope="col">Order Reference</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">Charge Amount</th>
+                                            <th scope="col">Deposit Amount</th>
+                                            <th scope="col">Credit Card</th>
+                                            <th scope="col">Bank Account</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Created Date</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="paymentOrdersBody">
+                                        <!-- Data will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Card View (hidden on desktop) -->
+                        <div class="card-body p-0 d-lg-none" id="mobilePaymentOrdersCards">
+                            <!-- Payment order cards will be populated here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/UserBoardController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new UserBoardController();
+        ctrl.init();
+    });
+</script>

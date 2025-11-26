@@ -1,0 +1,102 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="activateAddressType" tabindex="-1" aria-labelledby="addressTypeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addressTypeModalLabel">Are you sure you want to activate this address type?</h5>
+                <button type="button" class="btn-close btn-view-addresstype-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" style="padding:0">
+                <div class="address-type">
+                    <i class="fas fa-map-marker-alt chip-icon"></i>  
+                    <form id="addressTypeForm">
+                        <div class="mb-3">
+                            <label for="ActivateName" class="form-label">
+                                <i class="fas fa-list-alt"></i> Name
+                            </label>
+                            <input type="text" class="form-control" id="ActivateName" placeholder="e.g., Home" maxlength="50" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ActivateCode" class="form-label">
+                                <i class="fas fa-barcode"></i> Code
+                            </label>
+                            <input type="text" class="form-control" id="ActivateCode" placeholder="e.g., HOME" maxlength="20" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="ActivateStatus" class="form-label">
+                                <i class="fas fa-toggle-on"></i> Status
+                            </label>
+                            <select class="form-select" id="ActivateStatus" disabled>
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-view-type-close" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="activateAddressTypeBtn">Yes Activate!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .address-type {
+        background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%); /* Changed gradient to green for address theme */
+        border-radius: 15px;
+        padding: 20px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .address-type::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat center;
+            background-size: cover;
+            opacity: 0.1;
+        }
+
+        .address-type .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 5px;
+        }
+
+            .address-type .form-control::placeholder {
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+        .address-type .form-select {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 5px;
+        }
+
+            .address-type .form-select option {
+                background: #00b09b;
+                color: white;
+            }
+
+    .chip-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        color: gold;
+    }
+</style>

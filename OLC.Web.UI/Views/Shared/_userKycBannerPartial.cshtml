@@ -1,0 +1,123 @@
+﻿<!-- KYC Document Upload Modal -->
+<div class="modal fade" id="kycModal" tabindex="-1" aria-labelledby="kycModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title" id="kycModalLabel">KYC Verification Required</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body text-center px-4 pb-4 pt-0">
+
+                <!-- Step 1: Initial Warning -->
+                <div id="kycWarningStep">
+                    <!-- Warning Icon -->
+                    <div class="kyc-modal-icon mb-3">
+                        <i class="fas fa-exclamation-triangle fa-3x text-warning"></i>
+                    </div>
+
+                    <!-- Message -->
+                    <p class="text-muted mb-4">
+                        Your Know Your Customer (KYC) verification is not completed.
+                        Please complete the verification process to access all features of your account.
+                    </p>
+
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-2 d-md-flex justify-content-center">
+                        <button type="button" class="btn btn-primary px-4" id="startKycBtn">
+                            <i class="fas fa-user-check me-2"></i>Complete KYC Now
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i>Remind Me Later
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Document Upload Form -->
+                <div id="kycUploadStep" style="display: none;">
+                    <!-- Document Icon -->
+                    <div class="kyc-modal-icon mb-3">
+                        <i class="fas fa-file-upload fa-3x text-primary"></i>
+                    </div>
+
+                    <h5 class="mb-4">Upload KYC Documents</h5>
+
+                    <form id="kycUploadForm" enctype="multipart/form-data">
+                        <!-- Document Type -->
+                        <div class="mb-3 text-start">
+                            <label for="documentType" class="form-label">Document Type *</label>
+                            <select class="form-select" id="documentType" name="DocumentType" required>
+                                <option value="">Select Document Type</option>
+                                <option value="Passport">Passport</option>
+                                <option value="DrivingLicense">Driving License</option>
+                                <option value="NationalID">National ID</option>
+                                <option value="VoterID">Voter ID</option>
+                                <option value="PANCard">PAN Card</option>
+                            </select>
+                        </div>
+
+                        <!-- Document Number -->
+                        <div class="mb-3 text-start">
+                            <label for="documentNumber" class="form-label">Document Number *</label>
+                            <input type="text" class="form-control" id="documentNumber" name="DocumentNumber" required placeholder="Enter document number">
+                        </div>
+
+                        <!-- File Upload -->
+                        <div class="mb-4 text-start">
+                            <label for="documentFile" class="form-label">Upload Document *</label>
+                            <input type="file" class="form-control" id="documentFile" name="DocumentFile" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+                            <div class="form-text">Supported formats: PDF, JPG, PNG, DOC (Max: 5MB)</div>
+                        </div>
+
+                        <!-- Upload Progress -->
+                        <div class="mb-3" id="uploadProgress" style="display: none;">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <small class="text-muted mt-1">Uploading document...</small>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-center">
+                            <button type="submit" class="btn btn-success px-4" id="uploadKycBtn">
+                                <i class="fas fa-upload me-2"></i>Upload Document
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary px-4" id="backToWarningBtn">
+                                <i class="fas fa-arrow-left me-2"></i>Back
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="mt-4">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        KYC helps us ensure the security of your account and transactions
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/UserKycDocumentController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new UserKycDocumentController();
+        ctrl.init();
+    });
+</script>
+<style>
+    .kyc-modal-icon {
+        animation: pulse 2s infinite;
+    }
+    .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .progress-bar {
+        transition: width 0.3s ease;
+    }
+</style>

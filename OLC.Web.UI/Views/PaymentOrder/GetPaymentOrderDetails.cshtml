@@ -1,0 +1,114 @@
+﻿@inject IHttpContextAccessor _contextAccessor;
+@using Newtonsoft.Json;
+@using OLC.Web.UI.Models;
+
+@{
+    ViewData["Title"] = "Payment Details";
+
+    Layout = "";
+
+    var currentApplicationUser = _contextAccessor.HttpContext.Session.GetString("ApplicationUser");
+
+    if (!string.IsNullOrEmpty(currentApplicationUser))
+    {
+        var applicationUser = JsonConvert.DeserializeObject<ApplicationUser>(currentApplicationUser);
+
+        if (applicationUser.RoleId == 1)
+        {
+            Layout = "~/Views/Shared/_AdminLayout.cshtml";
+        }
+        else if (applicationUser.RoleId == 3)
+        {
+            Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+        }
+        else
+        {
+            Layout = "~/Views/Shared/_UserLayout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+    }
+}
+
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="card mb-3">
+        <div class="card-header bg-light">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-8">
+                    <div class="d-flex flex-column flex-md-row align-items-md-center">
+                        <div class="mb-2 mb-md-0 me-md-3">
+                            <h1 class="h4 fw-bold text-primary mb-1">Payment Details</h1>
+                            <p class="text-muted small mb-0">View details for the selected payment order</p>
+                        </div>
+                        <!-- Quick Status Badge for Mobile -->
+                        <div class="d-md-none">
+                            <span id="quickStatus" class="badge bg-secondary">--</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="d-flex justify-content-md-end gap-2">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i>
+                            <span class="d-none d-sm-inline">Print</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Cards Container -->
+    <div id="paymentCardsContainer" class="row g-3">
+        <!-- Cards will be dynamically generated here -->
+        <div class="col-12 text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading payment details...</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .loading-text {
+        margin-top: 15px;
+        font-size: 1.1rem;
+        color: #0d6efd;
+    }
+
+    .info-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        }
+
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.35em 0.65em;
+    }
+
+    .table-responsive-sm {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+</style>
+
+<!-- JS and Controller -->
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/PaymentOrderDetailsController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new PaymentOrderDetailsController();
+        ctrl.init();
+    });
+</script>

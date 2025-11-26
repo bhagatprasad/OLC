@@ -1,0 +1,79 @@
+﻿
+<div class="header-row">
+    <div class="header-column justify-content-start">
+        <!-- Logo
+        ============================= -->
+        <div class="logo"> <a class="d-flex" href="@Url.Action("Index", "AdminBaord", null)" title="Betalen"><img src="~/images/logo.png" alt=" Betalen" /></a> </div>
+        <!-- Logo end -->
+        <!-- Collapse Button
+        ============================== -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header-nav"> <span></span> <span></span> <span></span> </button>
+        <!-- Collapse Button end -->
+        <!-- Primary Navigation
+        ============================== -->
+        <nav class="primary-menu navbar navbar-expand-lg">
+            <div id="header-nav" class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="active"><a href="@Url.Action("Index", "AdminBaord", null)">Dashboard</a></li>
+                    <li><a href="@Url.Action("AdminTransactions", "Transaction", null)">Transactions</a></li>
+                    <li><a href="@Url.Action("Index", "User", null)">Users</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#">Core Libraries</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Pyaments</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "AccountType", null)">Account Types</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Bank", null)">Banks</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "CardType", null)">Card Types</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "AddressType", null)">Address Types</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Status", null)">Status</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "TransactionType", null)">Transaction Types</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Location</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Country", null)">Country</a></li>
+                                    <li><a class="dropdown-item" href="feature-navigation-dropdown-dark.html">State</a></li>
+                                    <li><a class="dropdown-item" href="feature-navigation-dropdown-primary.html">City</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Access</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Role", null)">Role</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Others</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="feature-page-header-left-alignment.html">Payment Reasons</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-center-alignment.html">Center Alignment</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-light.html">Light Version</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-dark.html">Dark Version</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-primary.html">Primary Version</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-custom-background.html">Custom Background</a></li>
+                                    <li><a class="dropdown-item" href="feature-page-header-custom-background-with-transparent-header.html">Custom Background 2</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="@Url.Action("UserHelp", "Help", null)">Help</a></li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Primary Navigation end -->
+    </div>
+    <div class="header-column justify-content-end">
+        <!-- Login & Signup Link
+        ============================== -->
+        <nav class="login-signup navbar navbar-expand">
+            <ul class="navbar-nav">
+                <li><a href="@Url.Action("Profile", "User", null)">Settings</a> </li>
+                <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-outline-primary shadow-none d-none d-sm-block" href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
+            </ul>
+        </nav>
+        <!-- Login & Signup Link end -->
+    </div>
+</div>

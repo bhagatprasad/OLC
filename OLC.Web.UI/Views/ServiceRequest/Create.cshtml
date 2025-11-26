@@ -1,0 +1,90 @@
+﻿<form id="CreateTicketForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Create Ticket</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+           
+            <!-- Subject -->
+            <div class="form-group">
+                <label for="Subject">Subject</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-tag"></i></span>
+                    </div>
+                    <input type="text" id="Subject" class="form-control" required maxlength="150" placeholder="Enter ticket subject">
+                </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group">
+                <label for="Message">Message</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-comment"></i></span>
+                    </div>
+                    <textarea id="Message" class="form-control" required placeholder="Enter your message"></textarea>
+                </div>
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+                <label for="Category">Category</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-list"></i></span>
+                    </div>
+                    <select id="Category" class="form-control" required>
+                        <option value="">-- Select Category --</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Priority -->
+            <div class="form-group">
+                <label for="Priority">Priority</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-exclamation-triangle"></i></span>
+                    </div>
+                    <select id="Priority" class="form-control" required>
+                        <option value="">-- Select Priority --</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Classification -->
+            <div class="form-group">
+                <label for="Classification">Classification</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-exclamation-triangle"></i></span>
+                    </div>
+                    <select id="Classification" class="form-control" required>
+                        <option value="">-- Select Classification --</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Order Id -->
+            <div class="form-group">
+                <label for="OrderId">Order Id</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-hashtag"></i></span>
+                    </div>
+                    <input type="number" id="OrderId" class="form-control" placeholder="Enter order ID">
+                </div>
+            </div>
+           
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" id="btnSubmitTicket" class="btn btn-primary btn-block">
+                Submit Ticket
+            </button>
+        </div>
+    </div>
+</form>

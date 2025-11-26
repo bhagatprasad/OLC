@@ -1,0 +1,80 @@
+﻿@{
+
+    ViewData["Title"] = "Request Money-Request your payment on anytime, anywhere in the world.";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="container-fluid">
+    <!-- Page Header with Button -->
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center border-bottom pb-3">
+                    <div>
+                        <h1 class="h3 fw-bold text-primary">Bank Accounts</h1>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" id="addBankAccountBtn">
+                            <i class="fas fa-plus me-2"></i> Add Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Bank Accounts Grid -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-university me-2"></i>All Bank Accounts
+                            </h5>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <!-- Desktop Table View (hidden on mobile) -->
+                            <div class="table-responsive d-none d-lg-block">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Account Holder Name</th>
+                                            <th scope="col">Last Four Digits</th>
+                                            <th scope="col">Bank Name</th>
+                                            <th scope="col">Account Type</th>
+                                            <th scope="col">Currency</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="userBankAccountsBody">
+                                        <!-- Bank accounts will be loaded here dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Mobile Card View (hidden on desktop) -->
+                            <div class="d-lg-none" id="mobileBankAccountsCards">
+                                <!-- Bootstrap cards will be populated here dynamically -->
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="_AddEditUserBankAccount.cshtml" />
+    <partial name="_ViewUserBankAccount.cshtml" />
+    <partial name="_DeleteUserBankAccount.cshtml" />
+    @* <partial name="_ActiveUserBankAccount.cshtml" /> *@
+</div>
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/UserBankAccountController.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var ctrl = new UserBankAccountController();
+        ctrl.init();
+    });
+</script>
+

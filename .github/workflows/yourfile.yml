@@ -1,0 +1,53 @@
+name: Deploy to Plesk via FTP
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    types: [closed]
+    branches: [ master ]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Publish OLC.Web.UI (MVC Project) with Production config
+      run: |
+        dotnet publish OLC.Web.UI/OLC.Web.UI.csproj --configuration Release --output ./publish/mvc -p:EnvironmentName=Production
+
+    - name: Publish OLC.Web.API (API Project) with Production config
+      run: |
+        dotnet publish OLC.Web.API/OLC.Web.API.csproj --configuration Release --output ./publish/api -p:EnvironmentName=Production
+
+    - name: Deploy MVC to Subdomain via FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./publish/mvc/
+        server-dir: ${{ secrets.FTP_MVC_PATH }}/
+        dangerous-clean-slate: true
+
+    - name: Deploy API to Subdomain via FTP
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./publish/api/
+        server-dir: ${{ secrets.FTP_API_PATH }}/
+        dangerous-clean-slate: true

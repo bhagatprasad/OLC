@@ -1,0 +1,43 @@
+﻿namespace OLC.Web.API.Models
+{
+    public class UserPaymentOrder
+    {
+        public long? Id { get; set; }
+        public string? OrderReference { get; set; }
+        public long? UserId { get; set; }
+        public long? PaymentReasonId { get; set; }
+        public string? PaymentReasonName { get; set; }
+        public decimal? Amount { get; set; }
+        public long? TransactionFeeId { get; set; }
+        public string? TransactionFeeAmount { get; set; }
+        public decimal? PlatformFeeAmount { get; set; }
+        public string? FeeCollectionMethod { get; set; }
+        public decimal? TotalAmountToChargeCustomer { get; set; }
+        public decimal? TotalAmountToDepositToCustomer { get; set; }
+        public decimal? TotalPlatformFee { get; set; }
+        public string? Currency { get; set; }
+        public long? CreditCardId { get; set; }
+        public string? CreditCardNumber { get; set; }
+        public long? BankAccountId { get; set; }
+        public string? BankAccountNumber { get; set; }
+        public long? BillingAddressId { get; set; }
+        public string? BillingAddress { get; set; }
+        public long? OrderStatusId { get; set; }
+        public string OrderStatus { get; set; }
+        public long? PaymentStatusId { get; set; }
+        public string PaymentStatus { get; set; }
+        public long? DepositStatusId { get; set; }
+        public string DepositStatus { get; set; }
+        public string StripePaymentIntentId { get; set; }
+        public string StripePaymentChargeId { get; set; }
+        public string StripeDepositeIntentId { get; set; }
+        public string StripeDepositeChargeId { get; set; }
+        public decimal? DepositeAmount { get; set; }
+        public decimal? PendingDepositeAmount { get; set; }
+        public long? CreatedBy { get; set; }
+        public DateTimeOffset? CreatedOn { get; set; }
+        public long? ModifiedBy { get; set; }
+        public DateTimeOffset? ModifiedOn { get; set; }
+        public bool? IsActive { get; set; }
+    }
+}

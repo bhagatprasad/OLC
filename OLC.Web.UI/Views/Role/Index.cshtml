@@ -1,0 +1,77 @@
+﻿@model List<OLC.Web.UI.Models.Role>
+@{
+    ViewData["Title"] = "Roles - Manage different role categories for users.";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 fw-bold text-primary">
+                            Roles
+                        </h1>
+                    </div>
+                    <div>
+                        <a class="btn btn-primary" id="addAccountTypeBtn" href="@Url.Action("Create","Role",null)">
+                            <i class="fas fa-plus me-2"></i> Add role
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-database me-2"></i> All Roles
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Desktop Table View -->
+                            <div class="table-responsive d-none d-lg-block" style="max-height: 600px; overflow-y: auto;">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1; background-color: #f8f9fa;">
+                                        <tr>
+                                            <th scope="col">Role ID</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Code</th>
+                                            <th scope="col">Created On</th>
+                                            <th scope="col">Modified On</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="accountTypesBody">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Id</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Code</td>
+                                                <td>@item.CreatedOn</td>
+                                                <td>@item.ModifiedOn</td>
+                                                <td>@item.IsActive</td>
+                                                <td>
+                                                    <a href="@Url.Action("Edit","Role",new {roleId= item.Id},null)">Edit</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Mobile Card View -->
+                            <div class="d-lg-none" id="mobileAccountTypesCards">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+@OLC.Web.API_HostAddress = http://localhost:5090
+
+GET {{OLC.Web.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

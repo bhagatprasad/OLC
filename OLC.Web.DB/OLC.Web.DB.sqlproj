@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>OLC.Web.DB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{26fd21ab-15c2-47b6-ad8d-77c8ad78bace}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>OLC.Web.DB</RootNamespace>
+    <AssemblyName>OLC.Web.DB</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Programmability" />
+    <Folder Include="Programmability\Stored Procedures" />
+    <Folder Include="Programmability\Functions" />
+    <Folder Include="Programmability\Database Triggers" />
+    <Folder Include="Programmability\Types" />
+    <Folder Include="Pre-Compare" />
+    <Folder Include="Pre-Deployement" />
+    <Folder Include="Post-Deployement" />
+    <Folder Include="Programmability\Stored Procedures\Role" />
+    <Folder Include="Programmability\Stored Procedures\Cities" />
+    <Folder Include="Programmability\Stored Procedures\States" />
+    <Folder Include="Programmability\Stored Procedures\Countries" />
+    <Folder Include="Programmability\Stored Procedures\User" />
+    <Folder Include="Programmability\Stored Procedures\PaymentReason" />
+    <Folder Include="Programmability\Stored Procedures\UserBillingAddress" />
+    <Folder Include="Programmability\Stored Procedures\UserCreditCards" />
+    <Folder Include="Programmability\Stored Procedures\UserBankAccount" />
+    <Folder Include="Programmability\Stored Procedures\Status" />
+    <Folder Include="Programmability\Stored Procedures\AccountTypes" />
+    <Folder Include="Programmability\Stored Procedures\CardTypes" />
+    <Folder Include="Programmability\Stored Procedures\TransactionTypes" />
+    <Folder Include="Programmability\Stored Procedures\AddressType" />
+    <Folder Include="Programmability\Stored Procedures\Bank" />
+    <Folder Include="Programmability\Stored Procedures\TransactionFee" />
+    <Folder Include="Programmability\Stored Procedures\PaymentOrder" />
+    <Folder Include="Programmability\Stored Procedures\PaymentOrderHistroy" />
+    <Folder Include="Programmability\Stored Procedures\ServiceRequest" />
+    <Folder Include="Programmability\Stored Procedures\DepositOrder" />
+    <Folder Include="Programmability\Stored Procedures\ServiceRequestReplies" />
+    <Folder Include="Programmability\Stored Procedures\UserKyc" />
+    <Folder Include="Programmability\Stored Procedures\UserKycDocument" />
+    <Folder Include="Programmability\Stored Procedures\Priority" />
+    <Folder Include="Programmability\Stored Procedures\UserWallet" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Role.sql" />
+    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\TransactionType.sql" />
+    <Build Include="Tables\UserCreditCard.sql" />
+    <Build Include="Tables\UserBankAccount.sql" />
+    <Build Include="Tables\UserBillingAddress.sql" />
+    <Build Include="Tables\Country.sql" />
+    <Build Include="Tables\City.sql" />
+    <Build Include="Tables\State.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspGetRoles.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspGetStates.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspGetCountries.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspGetRolesById.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspInsertRoles.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspUpdateRoles.sql" />
+    <Build Include="Programmability\Stored Procedures\Role\uspDeleteRoles.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspGetStateByState.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspGetCountryById.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspInsertCountries.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspUpdateCountries.sql" />
+    <Build Include="Programmability\Stored Procedures\Countries\uspDeleteCountry.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspRegisterUser.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspGetUserByUserName.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspResetPassword.sql" />
+    <Build Include="Tables\PaymentReason.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentReason\uspGetPaymentReasons.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspSaveUserBillingAddress.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspGetUserCreditCards.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspInsertUserCreditCards.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspDeleteUserCreditCard.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspUpdateUserCreditCard.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspChangePassword.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspGetUserCreditCardByCardId.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspRegisterExternalUser.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspInsertUserBankAccount.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGetUserBankAccountByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspUpdateUserBankAccount.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspDeleteUserBankAccount.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGetUserBankAccountById.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspGetAllUserBankAccounts.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspUpdateUserBillingAddress.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspGetAllUserBellingAddress.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspGetByUserIdUserBellingAddress.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspGetByUserBellingAddress.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspDeleteUserBellingAddress.sql" />
+    <Build Include="Tables\Status.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\uspGetStatuses.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\uspGetStatusById.sql" />
+    <Build Include="Programmability\Stored Procedures\Status\uspInsertStatus.sql" />
+    <Build Include="Tables\AccountType.sql" />
+    <Build Include="Programmability\Stored Procedures\AccountTypes\uspInsertAccountType.sql" />
+    <Build Include="Programmability\Stored Procedures\AccountTypes\uspDeleteAccountType.sql" />
+    <Build Include="Programmability\Stored Procedures\AccountTypes\uspUpdateAccountType.sql" />
+    <Build Include="Programmability\Stored Procedures\AccountTypes\uspGetAccountTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\AccountTypes\uspGetAccountTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspGetUserAccounts.sql" />
+    <Build Include="Tables\CardType.sql" />
+    <Build Include="Programmability\Stored Procedures\CardTypes\uspInsertCardType.sql" />
+    <Build Include="Programmability\Stored Procedures\CardTypes\uspUpdateCardType.sql" />
+    <Build Include="Programmability\Stored Procedures\CardTypes\uspDeleteCardType.sql" />
+    <Build Include="Programmability\Stored Procedures\CardTypes\uspGetCardTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\CardTypes\uspGetCardTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspGetAllTransactionTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspGetTransactionTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspInsertTransationTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspUpdateTransationTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspDeleteTransationTypes.sql" />
+    <Build Include="Tables\AddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspInsertAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspUpdateAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspDeleteAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspGetAddressType.sql" />
+    <Build Include="Tables\Bank.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspDeleteBank.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspGetBanks.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspGetBankById.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspInsertBank.sql" />
+    <Build Include="Programmability\Stored Procedures\Bank\uspUpdateBank.sql" />
+    <Build Include="Programmability\Stored Procedures\States\uspGetSatesByCountry.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCitiesByCountry.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCitiesByState.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCityById.sql" />
+    <Build Include="Programmability\Stored Procedures\Cities\uspGetCities.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionFee\uspGetTransactionFeeById.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionFee\uspGetAllTransactionFeesDetails.sql" />
+    <Build Include="Tables\TransactionFee.sql" />
+    <Build Include="Programmability\Stored Procedures\UserCreditCards\uspActivateUserCreditCard.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionFee\uspInsertTransactionFee.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionFee\uspUpdateTransactionFee.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionFee\uspDeleteTransactionFee.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBankAccount\uspActivateUserBankAccount.sql" />
+    <Build Include="Programmability\Stored Procedures\UserBillingAddress\uspActivateUserBillingAddress.sql" />
+    <Build Include="Tables\PaymentOrder.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspInsertPaymentOrder.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPaymentOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPayamentOrdersByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrderHistroy\uspGetPaymentOrderHistory.sql" />
+    <Build Include="Tables\PaymentOrderHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrderHistroy\uspInsertPaymentOrderHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetPaymentOrderById.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspProcessPaymentOrder.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspProcessPaymentStatus.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetUserPaymentOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllUserPaymentOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\AddressType\uspActiveAddressType.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionTypes\uspActiveTransactionTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetails.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetExecutivePaymentOrderDetailsFilter.sql" />
+    <Build Include="Tables\ServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspInsertServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspUpdateServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspDeleteServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetServiceRequestByTicketId.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetAllServiceRequests.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetAllExecutivePaymentOrderSum.sql" />
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspInsertDepositOrder.sql" />
+    <Build Include="Tables\ServiceRequestReplies.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspInsertServiceRequestReply.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspGetServiceRequestRepliesByTicketId.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\GetPaymentOrderDetails.sql" />
+    <Build Include="Tables\DepositOrder.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Build>
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByOrderId.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetServiceRequestByUserId.sql" />
+    <Build Include="Tables\UserKyc.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspInsertUserKyc.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspGetAllUserKyc.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspGetUserkycByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspProcessUserKyc.sql" />
+    <Build Include="Tables\UserKycDocument.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKycDocument\uspUploadeUserKycDocument.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKycDocument\uspUpdateUserKycDocument.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKycDocument\uspGetAllUsersKycDocuments.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspGetAllServiceRequestsWithReplies.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequestReplies\uspGetAllServiceRequestReplies.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspCancelServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\ServiceRequest\uspAssigningServiceRequest.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspGetUserAccount.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKycDocument\uspGetUserKycDocumentByUser.sql" />
+    <Build Include="Tables\Priority.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspInsertPriority.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspGetPriority.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspGetPriorityById.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspUpdatePriority.sql" />
+    <Build Include="Programmability\Stored Procedures\Priority\uspDeletePriority.sql" />
+    <Build Include="Programmability\Stored Procedures\UserKyc\uspVerifyUserKyc.sql" />
+    <Build Include="Tables\RewardConfiguration.sql" />
+    <Build Include="Tables\UserWallet.sql" />
+    <Build Include="Tables\TransactionReward.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspSaveUserWallet.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Programmability\Functions\fnGetUsers.sql" />
+    <None Include="Programmability\Database Triggers\tgGetUser.sql" />
+    <None Include="Programmability\Types\tpGetUsers.sql" />
+    <None Include="Pre-Compare\Pre-Compare.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Pre-Deployement\Script.PreDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Post-Deployement\Script.PostDeployment.sql" />
+    <None Include="Post-Deployement\SeedRole.sql" />
+    <None Include="Post-Deployement\SeedPaymentReason.sql" />
+    <None Include="Post-Deployement\SeedAccountType.sql" />
+    <None Include="Post-Deployement\SeedAddressType.sql" />
+    <None Include="Post-Deployement\SeedCardType.sql" />
+    <None Include="Post-Deployement\SeedStatus.sql" />
+    <None Include="Post-Deployement\SeedTransactionType.sql" />
+    <None Include="Post-Deployement\SeedCountry.sql" />
+    <None Include="Post-Deployement\SeedStates.sql" />
+    <None Include="Post-Deployement\SeedCities.sql" />
+    <None Include="Post-Deployement\SeedBanks.sql" />
+    <None Include="Post-Deployement\SeedUsers.sql" />
+    <None Include="Post-Deployement\SeedUserBankAccount.sql" />
+    <None Include="Post-Deployement\SeedBillingAddress.sql" />
+    <None Include="Post-Deployement\SeedUserCreditCards.sql" />
+    <None Include="Post-Deployement\SeedPaymentOrders.sql" />
+    <None Include="Post-Deployement\SeedRewardConfiguration.sql" />
+    <None Include="Post-Deployement\SeedUserWallet.sql" />
+  </ItemGroup>
+</Project>
