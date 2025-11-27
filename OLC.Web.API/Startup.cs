@@ -51,6 +51,7 @@ namespace OLC.Web.API
             //init sms service
             services.AddScoped<ISmsSubscriber, SmsSubscriber>();
             services.AddScoped<IUserWalletManager, UserWalletManager>();
+            services.AddScoped<ITransactionRewardManager, TransactionRewardManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 

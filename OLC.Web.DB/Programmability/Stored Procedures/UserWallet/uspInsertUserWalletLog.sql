@@ -1,11 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[uspInsertUserWalletLog]
 (
-    @WalletId BIGINT,
-    @UserId BIGINT,
-    @Amount DECIMAL(18,6),
-    @TransactionType NVARCHAR(20),  -- e.g., 'Credit' or 'Debit'
-    @Description NVARCHAR(255) = NULL,
-    @ReferenceId NVARCHAR(20) = NULL
+    @WalletId              BIGINT,
+    @UserId                BIGINT,
+    @Amount                DECIMAL(18,6),
+    @TransactionType       NVARCHAR(20),  -- e.g., 'Credit' or 'Debit'
+    @Description           NVARCHAR(255) = NULL,
+    @ReferenceId           NVARCHAR(20) = NULL
 )
 AS
 BEGIN

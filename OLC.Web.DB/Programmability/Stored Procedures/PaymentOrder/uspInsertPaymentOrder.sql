@@ -29,6 +29,7 @@ BEGIN
     SET NOCOUNT ON;
 
     DECLARE @PaymentOrderId BIGINT;
+    DECLARE @TransactionAmount DECIMAL(18,6);
 
     INSERT INTO PaymentOrder (
         OrderReference,
@@ -92,6 +93,10 @@ BEGIN
 
     EXEC [dbo].[uspGetPaymentOrderById] @PaymentOrderId;
 
-    -- Optionally, return the inserted Id if needed
+    EXEC [dbo].[uspInsertTransactionReward]
+    @PaymentOrderId ,
+    @UserId,
+    @TransactionAmount
+
     SELECT @PaymentOrderId AS Id;
 END
