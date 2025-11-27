@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[uspUpdateRewardConfiguration]
+﻿CREATE PROCEDURE [dbo].[uspUpdateRewardConfiguration]  
 (  
     @Id                          BIGINT,  
     @RewardName                  NVARCHAR(100),  
