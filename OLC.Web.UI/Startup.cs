@@ -87,6 +87,8 @@ namespace OLC.Web.UI
             services.AddScoped<IUserKycService, UserKycService>();
 
             services.AddScoped<IUserKycDocumentService, UserKycDocumentService>();
+            services.AddScoped<IRewardConfigurationServices, RewardConfigurationServices>();
+
 
             services.AddSession(options =>
             {
