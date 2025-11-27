@@ -1,11 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[uspUpdateUserWalletBalance]
 (
-    @WalletId BIGINT,
-    @RewardAmount DECIMAL(18,6),
-    @ModifiedBy BIGINT,
-    @TransactionType NVARCHAR(20) = 'Credit',
-    @Description NVARCHAR(255) = NULL,
-    @ReferenceId NVARCHAR(20) = NULL
+    @WalletId           BIGINT,
+    @RewardAmount       DECIMAL(18,6),
+    @ModifiedBy         BIGINT,
+    @TransactionType    NVARCHAR(20) = 'Credit',
+    @Description        NVARCHAR(255) = NULL,
+    @ReferenceId        NVARCHAR(20) = NULL
 )
 AS
 BEGIN

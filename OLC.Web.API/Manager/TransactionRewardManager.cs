@@ -93,7 +93,7 @@ namespace OLC.Web.API.Manager
 
             sqlCommand.CommandType = CommandType.StoredProcedure;
 
-            sqlCommand.Parameters.AddWithValue("UserId",userId);
+            sqlCommand.Parameters.AddWithValue("@UserId",userId);
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
