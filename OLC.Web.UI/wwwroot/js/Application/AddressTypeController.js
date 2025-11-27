@@ -138,7 +138,7 @@
             var selectedAddressType = self.AddressTypes.filter(x => x.Id === typeId)[0];
             console.log("current selected address type is .." + JSON.stringify(selectedAddressType));
             self.CurrentSelectedAddressType = selectedAddressType;
-
+            
 
             $("#DeleteName").val(self.CurrentSelectedAddressType.Name);
             $("#DeleteCode").val(self.CurrentSelectedAddressType.Code);

@@ -1,0 +1,110 @@
+﻿<form id="AddEditRewardConfigurationForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Add/Edit Reward Configuration</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Reward Name -->
+            <div class="form-group">
+                <label for="RewardName">RewardName</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-list-alt"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="RewardName" maxlength="50" placeholder="Enter Reward Name" required>
+                </div>
+            </div>
+
+            <!-- Reward Type -->
+            <div class="form-group">
+                <label for="RewardType">RewardType</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="RewardType" maxlength="20" placeholder="Enter Reward Type" required>
+                </div>
+            </div>
+
+            <!--Reward Value -->
+            <div class="form-group">
+                <label for="RewardValue">RewardValue</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="RewardValue" maxlength="20" placeholder="Enter address type code" required>
+                </div>
+            </div>
+
+            <!--MinTransaction Amount  -->
+            <div class="form-group">
+                <label for="MinTransactionAmount">MinTransaction Amount</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="MinTransactionAmount" maxlength="20" placeholder="Enter address type code" required>
+                </div>
+            </div>
+
+            <!--MaxReward-->
+              <div class="form-group">
+                <label for="MaxReward">Max Reward</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="MaxReward" maxlength="20" placeholder="Enter address type code" required>
+                </div>
+            </div>
+
+            <!--ValidFrom-->
+            <div class="form-group">
+                <label for="ValidFrom">Valid From</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="ValidFrom" maxlength="20" placeholder="Enter address type code" required>
+                </div>
+            </div>
+
+            <!-- ValidTo -->
+            <div class="form-group">
+                <label for="ValidTo">Valid To</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="ValidTo" maxlength="20" placeholder="Enter address type code" required>
+                </div>
+            </div>
+
+
+            <!-- IsActive -->
+            <div class="form-group">
+                <label for="IsActive">Status</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-toggle-on"></i></span>
+                    </div>
+                    <select class="form-control form-select" id="IsActive" required>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+    </div>
+</form>
+
+

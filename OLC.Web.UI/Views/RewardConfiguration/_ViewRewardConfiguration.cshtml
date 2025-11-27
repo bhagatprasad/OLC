@@ -1,0 +1,143 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="viewRewardConfiguration" tabindex="-1" aria-labelledby="rewardConfigurationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="rewardConfigurationModalLabel">
+                    <i class="fas fa-list"></i> Reward Configuration Information
+                </h5>
+                <button type="button" class="btn-close btn-view-rewardconfiguration-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <form id="rewardConfigurationForm">
+                    <div class="mb-3">
+                        <label for="ViewRewardName" class="form-label">
+                            <i class="fas fa-font"></i> RewardName
+                        </label>
+                        <input type="text" class="form-control" id="ViewRewardName" placeholder="e.g., Home" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ViewRewardType" class="form-label">
+                            <i class="fas fa-code"></i> RewardType
+                        </label>
+                        <input type="text" class="form-control" id="ViewRewardType" placeholder="e.g., HOME" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ViewRewardValue" class="form-label">
+                            <i class="fas fa-cab"></i> RewardValue
+                        </label>
+                        <input type="text" class="form-control" id="ViewRewardValue" placeholder="e.g., HOME" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ViewMinTransactionAmount" class="form-label">
+                            <i class="fas fa-calculator"></i> MinTransactionAmount
+                        </label>
+                        <input type="text" class="form-control" id="ViewMinTransactionAmount" placeholder="e.g., HOME" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ViewMaxReward" class="form-control">
+                            <i class="fas fa-calendar"></i> MaxReward
+                        </label>
+                        <input type="text" class="form-control" id="ViewMinReward" placeholder="e.g., HOME" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ViewValidFrom" class="form-control">
+                            <i class="fas fa-calendar-alt"></i> ValidFrom
+                        </label>
+                        <input type="text" class="form-control" id="ViewValidFrom" placeholder="e.g., HOME" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ViewValidTo" class="form-control">
+                            <i class="fas fa-calendar-day"></i>
+                        </label>
+                        <input type="text" class="form-control" id="ViewValidTo" placeholder="e.g., HOME" readonly>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ViewCreatedBy" class="form-label">
+                                <i class="fas fa-user-cog"></i> Created By
+                            </label>
+                            <input type="text" class="form-control" id="ViewCreatedBy" readonly>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="ViewCreatedOn" class="form-label">
+                                <i class="fas fa-calendar-plus"></i> Created On
+                            </label>
+                            <input type="text" class="form-control" id="ViewCreatedOn" readonly>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ViewModifiedBy" class="form-label">
+                                <i class="fas fa-user-edit"></i> Modified By
+                            </label>
+                            <input type="text" class="form-control" id="ViewModifiedBy" readonly>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="ViewModifiedOn" class="form-label">
+                                <i class="fas fa-calendar-check"></i> Modified On
+                            </label>
+                            <input type="text" class="form-control" id="ViewModifiedOn" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="ViewIsActive" disabled>
+                        <label class="form-check-label" for="ViewIsActive">
+                            <i class="fas fa-toggle-on"></i> Active
+                        </label>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #viewRewardConfiguration .modal-content {
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    #viewRewardConfiguration .form-control {
+        border-radius: 6px;
+        border: 1px solid #ced4da;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    #viewRewardConfiguration .form-label {
+        font-weight: 500;
+    }
+
+    #viewRewardConfiguration .modal-header {
+        background: linear-gradient(135deg, #007bff, #6610f2);
+        color: white;
+        border-bottom: none;
+    }
+
+    #viewRewardConfiguration .btn-primary {
+        background: linear-gradient(135deg, #007bff, #6610f2);
+        border: none;
+    }
+
+        #viewRewardConfiguration .btn-primary:hover {
+            background: linear-gradient(135deg, #0056b3, #520dc2);
+        }
+
+    #viewRewardConfiguration .form-check-input:checked {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+</style>
