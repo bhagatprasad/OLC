@@ -62,11 +62,59 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("UpdateUserWalletBalanceAsync")]
-        public async Task<IActionResult> UpdateUserWalletBalanceAsync(UserWallet userWallet)
+        public async Task<IActionResult> UpdateUserWalletBalanceAsync(UserWalletLog userWalletLog)
         {
             try
             {
-                var response = await _userWalletManager.UpdateUserWalletBalanceAsync(userWallet);
+                var response = await _userWalletManager.UpdateUserWalletBalanceAsync(userWalletLog);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Route("InserUserWalletLogAsync")]
+        public async Task<IActionResult> InserUserWalletLogAsync(UserWalletLog userWalletLog)
+        {
+            try
+            {
+                var response = await _userWalletManager.InsertUserWalletLogAsyn(userWalletLog);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllUsersWalletlogAsync")]
+        public async Task<IActionResult> GetAllUsersWalletlogAsync()
+        {
+            try
+            {
+                var response = await _userWalletManager.GetAllUsersWalletlogAsync();
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetUserWalletlogByUserIdAsync/{userId}")]
+        public async Task<IActionResult> GetUserWalletlogByUserIdAsync(long userId)
+        {
+            try
+            {
+                var response = await _userWalletManager.GetAllUserWalletlogByUserIdAsync(userId);
                 return Ok(response);
 
             }
