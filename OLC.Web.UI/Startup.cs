@@ -91,6 +91,7 @@ namespace OLC.Web.UI
             
             services.AddScoped<IRewardConfigurationService, RewardConfigurationService>();
 
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
