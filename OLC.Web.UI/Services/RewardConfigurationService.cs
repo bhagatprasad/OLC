@@ -1,4 +1,5 @@
-﻿using OLC.Web.UI.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using OLC.Web.UI.Models;
 
 namespace OLC.Web.UI.Services
 {
@@ -11,10 +12,17 @@ namespace OLC.Web.UI.Services
             _repositoryFactory = repositoryFactory;
         }
 
+        [HttpDelete]
         public async Task<bool> DeleteRewardConfigurationAsync(long id)
         {
-            var url = Path.Combine("RewardConfiguration/DeleteRewardConfigurationAsync", id.ToString());
+            var url = Path.Combine("api/RewardConfiguration/DeleteRewardConfigurationAsync", id.ToString());
             return await _repositoryFactory.SendAsync<bool>(HttpMethod.Delete, url);
+        }
+
+        [HttpGet]
+        public async Task<List<RewardConfiguration>> GetAllRewardConfigurationsAsync()
+        {
+            return await _repositoryFactory.SendAsync<List<RewardConfiguration>>(HttpMethod.Get, "api/RewardConfiguration/GetAllRewardConfigurationsAsync");
         }
 
         public async Task<RewardConfiguration> GetRewardConfigurationByIdAsync(long id)
@@ -23,14 +31,9 @@ namespace OLC.Web.UI.Services
             return await _repositoryFactory.SendAsync<RewardConfiguration>(HttpMethod.Get, url);
         }
 
-        public async Task<List<RewardConfiguration>> GetRewardConfigurationsAsync()
+        public async Task<bool> SaveRewardConfigurationAsync(RewardConfiguration rewardConfiguration)
         {
-            return await _repositoryFactory.SendAsync<List<RewardConfiguration>>(HttpMethod.Get, "RewardConfiguration/GetRewardConfigurationsAsync");
-        }
-
-        public async Task<bool> InsertRewardConfigurationAsync(RewardConfiguration rewardConfiguration)
-        {
-            return await _repositoryFactory.SendAsync<RewardConfiguration, bool>(HttpMethod.Post, "RewardConfiguration/InsertRewardConfigurationAsync");
+            return await _repositoryFactory.SendAsync<RewardConfiguration, bool>(HttpMethod.Post, "RewardConfiguration/SaveRewardConfigurationAsync");
         }
 
         public async Task<bool> UpdateRewardConfigurationAsync(RewardConfiguration rewardConfiguration)

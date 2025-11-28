@@ -4,9 +4,9 @@ namespace OLC.Web.UI.Services
 {
     public interface IRewardConfigurationService
     {
-        Task<List<RewardConfiguration>> GetRewardConfigurationsAsync();
+        Task<List<RewardConfiguration>> GetAllRewardConfigurationsAsync();
         Task<RewardConfiguration> GetRewardConfigurationByIdAsync(long id);
-        Task<bool> InsertRewardConfigurationAsync(RewardConfiguration rewardConfiguration);
+        Task<bool> SaveRewardConfigurationAsync(RewardConfiguration rewardConfiguration);
         Task<bool> UpdateRewardConfigurationAsync(RewardConfiguration rewardConfiguration);
         Task<bool> DeleteRewardConfigurationAsync(long id);
     }
