@@ -232,8 +232,8 @@
                     <i class="fas fa-handshake"></i>
                 </button>`;
             }
-            // DOWNLOAD INVOICE
-            if (order.OrderStatus === "Paid") {
+            // Download Invoice for Paid, Partially Paid, Completed
+            if (order.OrderStatus === "Paid" || order.OrderStatus === "Partially Paid" || order.OrderStatus === "Completed") {
                 actionButtons += `
                 <button class="btn btn-sm btn-danger download-invoice" data-order-id="${order.Id}" title="Download Invoice">
                     <i class="fas fa-file-pdf"></i>
@@ -972,7 +972,7 @@
         doc.setFont("helvetica", "normal");
         doc.text(`Invoice No: ${order.OrderReference}`, 14, 48);
         doc.setFont("helvetica", "bold");
-        doc.text("Status: Paid", 14, 55);
+        doc.text(`Status: ${order.OrderStatus}`, 14, 55);
 
         // Bill To
         doc.setFontSize(12); doc.setFont("helvetica", "bold"); doc.text("Bill To:", 14, 68);    
@@ -980,6 +980,7 @@
         doc.text([order.UserFullName || "Customer", order.UserEmail || "N/A", order.UserPhone || "N/A"], 14, 76);
 
         // Table 
+        const pendingAmount = self.formatCurrency(order.PendingDepositeAmount || 0);
         doc.autoTable({
             startY: 92,
             head: [["Description", "Amount"]],
@@ -988,8 +989,8 @@
                 ["Charge Amount", self.formatCurrency(order.TotalAmountToChargeCustomer)],
                 ["Total Deposit to Customer", self.formatCurrency(order.TotalAmountToDepositToCustomer)],
                 ["Amount Paid", self.formatCurrency(order.TotalAmountToDepositToCustomer)],
-                ["Pending Amount", "$0.00"],
-                ["Payment Status", "Paid"]
+                ["Pending Amount", pendingAmount],
+                ["Payment Status", order.PaymentStatus || order.OrderStatus]
             ],
             theme: 'grid',
             headStyles: { fillColor: [220, 53, 69], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 11 },
