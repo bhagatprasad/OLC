@@ -93,10 +93,5 @@ BEGIN
 
     EXEC [dbo].[uspGetPaymentOrderById] @PaymentOrderId;
 
-    EXEC [dbo].[uspInsertTransactionReward]
-    @PaymentOrderId ,
-    @UserId,
-    @TransactionAmount
-
     SELECT @PaymentOrderId AS Id;
 END
