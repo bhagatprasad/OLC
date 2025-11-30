@@ -264,5 +264,11 @@ namespace OLC.Web.UI.Controllers
                 throw ex;
             }
         }
+        [HttpGet]
+        [Authorize(Roles = "Administrator,Executive,User")]
+        public IActionResult Profile()
+        {
+            return View("~/Views/Shared/_userProfileSettingsPartial.cshtml");
+        }
     }
 }
