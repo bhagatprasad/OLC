@@ -11,8 +11,10 @@ namespace OLC.Web.API.Manager
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
+
         public async Task<bool> DeleteRewardConfigurationAsync(long Id)
         {
+
             if (Id > 0)
             {
                 SqlConnection sqlConnection = new SqlConnection(_connectionString);

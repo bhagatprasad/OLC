@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[uspSaveRewardConfiguration]      
 (      
+    
     @RewardName                 NVARCHAR(100),      
     @RewardType                 NVARCHAR(20),      
     @RewardValue                DECIMAL(18,6),      
@@ -20,6 +21,7 @@ AS
       
  INSERT INTO [dbo].[RewardConfiguration]      
 (                            
+                               
         RewardName,      
         RewardType,      
         RewardValue,      

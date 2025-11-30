@@ -256,9 +256,14 @@
     <Build Include="Tables\UserWalletLog.sql" />
     <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspSaveRewardConfiguration.sql" />
     <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspUpdateRewardConfiguration.sql" />
-    <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspGetAllRewardConfigurations.sql" />
     <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspGetRewardConfigurationDetailsById.sql" />
+    <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspGetAllRewardConfigurations.sql" />
     <Build Include="Programmability\Stored Procedures\RewardConfiguration\uspDeleteRewardConfiguration.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionReward\uspGetAllTransactionRewards.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionReward\uspGetTransactionRewardsByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionReward\uspGetTransactionRewardByPaymentOrderId.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllUsersWalletlog.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletlogByUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

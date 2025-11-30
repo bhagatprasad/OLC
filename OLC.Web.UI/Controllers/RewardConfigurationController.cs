@@ -9,11 +9,8 @@ using System.Diagnostics.Eventing.Reader;
 
 namespace OLC.Web.UI.Controllers
 {
-    [Route("RewardConfiguration")]
-    [Authorize(Roles ="Administrator,Executive,User")]
     public class RewardConfigurationController : Controller
     {
-        private readonly IRewardConfigurationService _rewardConfigurationService;
         private readonly INotyfService _notyfService;
 
         public RewardConfigurationController(IRewardConfigurationService rewardConfigurationService, INotyfService notyfService)
@@ -64,18 +61,8 @@ namespace OLC.Web.UI.Controllers
                     else
                         isSaved = await _rewardConfigurationService.SaveRewardConfigurationAsync(rewardConfiguration);
 
-                    _notyfService.Success("Successfully saved Reward Configuration");
-
-                    return Json(isSaved);
-                }
-
-                _notyfService.Error("Unable to save Reward Configuration");
-                return Json(isSaved);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
+        {
+        }
         }
 
 

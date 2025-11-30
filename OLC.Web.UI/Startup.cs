@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Newtonsoft.Json.Serialization;
 using OLC.Web.UI.Helper;
 using OLC.Web.UI.Services;
-using Stripe;
 
 namespace OLC.Web.UI
 {
@@ -90,6 +89,8 @@ namespace OLC.Web.UI
             services.AddScoped<IUserKycDocumentService, UserKycDocumentService>();
             
             services.AddScoped<IRewardConfigurationService, RewardConfigurationService>();
+
+            services.AddScoped<IRewardConfigurationServices, RewardConfigurationServices>();
 
 
             services.AddSession(options =>

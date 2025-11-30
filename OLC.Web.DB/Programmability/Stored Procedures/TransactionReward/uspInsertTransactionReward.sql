@@ -22,6 +22,9 @@ BEGIN
     DECLARE @CreatedOn DATETIMEOFFSET = @CreditedOn;
     DECLARE @ModifiedOn DATETIMEOFFSET = @CreditedOn;
     DECLARE @ModifiedBy BIGINT = @UserId;
+    DECLARE @ReferanceNumber varchar(max);
+    
+    SET @ReferanceNumber = NEWID();
 
     SELECT @CreditedToWalletId = [Id]
     FROM [dbo].[UserWallet]
@@ -70,5 +73,5 @@ BEGIN
         @ModifiedBy
     );
 
-    exec [dbo].[uspUpdateUserWalletBalance] @RewardConfigurationId,@RewardAmount,@UserId
+    exec [dbo].[uspUpdateUserWalletBalance] @CreditedToWalletId,@RewardAmount,@UserId,'Credit','Rawards balance credited', @ReferanceNumber
 END
