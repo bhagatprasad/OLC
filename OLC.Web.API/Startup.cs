@@ -53,6 +53,7 @@ namespace OLC.Web.API
             services.AddScoped<ISmsSubscriber, SmsSubscriber>();
             services.AddScoped<IUserWalletManager, UserWalletManager>();
             services.AddScoped<ITransactionRewardManager, TransactionRewardManager>();
+            services.AddScoped<IDepositOrderManager, DepositOrderManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 

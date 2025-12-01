@@ -31,7 +31,7 @@ namespace OLC.Web.UI.Controllers
         {
             try
             {
-                var response = await _accountTypeService.GetAccountTypeAsync(); 
+                var response = await _accountTypeService.GetAccountTypeAsync();
                 return Json(new { data = response });
             }
             catch (Exception ex)
