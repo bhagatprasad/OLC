@@ -33,12 +33,12 @@ namespace OLC.Web.UI.Services
 
         public async Task<bool> SaveRewardConfigurationAsync(RewardConfiguration rewardConfiguration)
         {
-            return await _repositoryFactory.SendAsync<RewardConfiguration, bool>(HttpMethod.Post, "RewardConfiguration/SaveRewardConfigurationAsync");
+            return await _repositoryFactory.SendAsync<RewardConfiguration, bool>(HttpMethod.Post, "RewardConfiguration/SaveRewardConfigurationAsync", rewardConfiguration);
         }
 
         public async Task<bool> UpdateRewardConfigurationAsync(RewardConfiguration rewardConfiguration)
         {
-            return await _repositoryFactory.SendAsync<RewardConfiguration, bool>(HttpMethod.Post, "RewardConfiguration/UpdateRewardConfigurationAsync");
+            return await _repositoryFactory.SendAsync<RewardConfiguration, bool>(HttpMethod.Post, "RewardConfiguration/UpdateRewardConfigurationAsync", rewardConfiguration);
         }
     }
 }
