@@ -265,10 +265,17 @@
                             <button class="btn btn-outline-info copy-order" data-order-ref="${order.OrderReference}" title="Copy Reference">
                             <i class="fas fa-copy"></i>
                             </button>
+                            ${ (order.OrderStatus === "Partially Paid" || order.OrderStatus === "Paid") ? `
+                                <button class="btn btn-outline-warning view-deposit" 
+                                        data-order-id="${order.Id}" title="View Deposits">
+                                    <i class="fas fa-handshake"></i>
+                                </button>
+                            ` : '' }
+
                                ${self.isInvoiceDownloadAllowed(order) ?
-                                                    `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
-                            <i class="fas fa-file-pdf"></i>
-                            </button>`
+                                   `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
+                                       <i class="fas fa-file-pdf"></i>
+                                    </button>`
                                                     : ''
                                }
                         </div>
@@ -330,6 +337,12 @@
                             <button class="btn btn-sm btn-outline-info copy-order" data-order-ref="${order.OrderReference}">
                                 <i class="fas fa-copy me-1"></i>Copy Ref
                             </button>
+                             ${ (order.OrderStatus === "Partially Paid" || order.OrderStatus === "Paid") ? `
+                                    <button class="btn btn-sm btn-outline-warning view-deposit" 
+                                            data-order-id="${order.Id}">
+                                        <i class="fas fa-handshake me-1"></i>Deposits
+                                    </button>
+                             ` : '' }
                            ${self.isInvoiceDownloadAllowed(order) ?
                                 `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
                                   <i class="fas fa-file-pdf"></i>
@@ -658,6 +671,95 @@
     $(document).on("click", "#makeNewPayment", function () {
         window.location.href = "/Transaction/MakeNewPayment";
     });
+
+   
+    // VIEW DEPOSITS CLICK
+   
+    $(document).on("click", ".view-deposit", function () {
+
+        console.log("UserBoard View Deposit clicked...");
+
+        $("#depositOrderModal").modal({
+            backdrop: "static",
+            keyboard: false
+        });
+        $("#depositOrderModal").modal("show");
+
+        const paymentOrderId = $(this).data("order-id");
+
+        if (!paymentOrderId) {
+            alert("Missing data-order-id");
+            return;
+        }
+
+        console.log("Clicked PaymentOrderId:", paymentOrderId);
+
+        const order = self.UserPaymentOrders?.find(o => o.Id == paymentOrderId);
+
+        if (!order) {
+            console.error("UserPaymentOrders:", self.UserPaymentOrders);
+            alert("Order not found in user list");
+            return;
+        }
+
+        self.CurrentSelectedPaymentOrder = order;
+
+        $("#viewDepositOrderRef").text(order.OrderReference || "N/A");
+
+        const $tbody = $("#depositOrderTableBody").empty();
+
+        $(".se-pre-con").show();
+
+        $.ajax({
+            type: "GET",
+            url: "/PaymentOrder/GetDepositOrders",
+            data: { paymentOrderId: paymentOrderId },
+            cache: false,
+            success: function (response) {
+                console.log("Deposit Records Response:", response);
+
+                self.DepositOrders = response && response.data ? response.data : [];
+
+                if (self.DepositOrders.length === 0) {
+                    $tbody.append(`
+                    <tr>
+                        <td class="text-center py-3" colspan="5">
+                            No deposit records found.
+                        </td>
+                    </tr>
+                `);
+                    $(".se-pre-con").hide();
+                    return;
+                }
+
+                // Append table rows
+                self.DepositOrders.forEach(d => {
+                    $tbody.append(`
+                    <tr class="align-middle">
+                        <td class="ps-4">${d.OrderReference || "N/A"}</td>
+                        <td class="ps-4 text-end text-success fw-bold">${Number(d.ActualDepositeAmount || 0).toFixed(2)}</td>
+                        <td class="ps-4 text-end">${Number(d.DepositeAmount || 0).toFixed(2)}</td>
+                        <td class="ps-4 text-end text-danger">${Number(d.PendingDepositeAmount || 0).toFixed(2)}</td>
+                        <td class="ps-4 text-end text-danger">${d.StripeDepositeChargeId || ""}</td>
+                    </tr>
+                `);
+                });
+
+                $(".se-pre-con").hide();
+            },
+            error: function (xhr) {
+                console.error("Error fetching deposits:", xhr.responseText);
+                $(".se-pre-con").hide();
+            }
+        });
+    });
+
+    $(document).on("click", "#btnCloseViewDepositModal", function () {
+        self.CurrentSelectedPaymentOrder = {};
+        self.DepositOrders = [];
+        $("#depositOrderModal").modal("hide");
+    });
+
        
     //Download Invoice   
     $(document).on("click", ".download-invoice", function () {
