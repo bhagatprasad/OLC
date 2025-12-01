@@ -8,6 +8,7 @@
         public decimal? RewardValue { get; set; }
         public decimal? MinimumTransactionAmount { get; set; }
         public decimal? MaximumReward { get; set; }
+        public bool? IsActive { get; set; }
         public DateTimeOffset? ValidFrom { get; set; }
         public DateTimeOffset? ValidTo { get; set; }
         public long? CreatedBy { get; set; }
