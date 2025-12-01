@@ -22,7 +22,7 @@ namespace OLC.Web.UI.Services
         [HttpGet]
         public async Task<List<RewardConfiguration>> GetAllRewardConfigurationsAsync()
         {
-            return await _repositoryFactory.SendAsync<List<RewardConfiguration>>(HttpMethod.Get, "api/RewardConfiguration/GetAllRewardConfigurationsAsync");
+            return await _repositoryFactory.SendAsync<List<RewardConfiguration>>(HttpMethod.Get, "RewardConfiguration/GetAllRewardConfigurationsAsync");
         }
 
         public async Task<RewardConfiguration> GetRewardConfigurationByIdAsync(long id)

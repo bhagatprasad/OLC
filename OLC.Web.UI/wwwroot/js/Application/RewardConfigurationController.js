@@ -17,16 +17,18 @@
             $.ajax({
                 type: "GET",
                 url: "/RewardConfiguration/GetRewardConfigurations",
+                data: { Id: self.ApplicationUser.Id },
                 cache: false,
+                dataType: "json", 
+                contentType: "application/json",
 
                 success: function (response) {
                     console.log("Data received:", response);
                     self.RewardConfigurations = response && response.data ? response.data : [];
                     loadRewardConfigurations();
                 },
-                error: function (xhr,status,error) {
-                    console.log("AJAX error:", error);
-                    alert("Failed to load data: " + err);
+                error: function (error) {
+                    console.log(error);
                 }
             });
         }
@@ -42,71 +44,71 @@
         }
 
         function loadRewardConfigurations() {
-            const tbody = $('#rewardConfigurationBody').empty();
-            const mobileContainer = $('#mobileRewardConfigurationCards');
+            const tbody = $('#rewardConfigurationsBody');
+            const cardsContainer = $('#mobileRewardConfigurationsCards');
             tbody.empty();
-            mobileContainer.empty();
+            cardsContainer.empty();
 
             if (self.RewardConfigurations.length > 0) {
                 self.RewardConfigurations.forEach(function (type) {
                     const statusBudge = getStatusBadge(type);
+
                     const actionButtons = type.IsActive
                         ? `<button class="btn btn-sm btn-outline-warning edit-type" data-type-id="${type.Id}"><i class="fas fa-edit"></i></button>
-                           <button class="btn btn-sm btn-outline-danger delete-type" data-type-id="${type.Id}"><i class="fas fa-trash"></i></button>
-                           `
+                          <button class="btn btn-sm btn-outline-danger delete-type" data-type-id="${type.Id}"><i class="fas fa-trash"></i></button>
+                          `
                         : `<button class="btn btn-sm btn-outline-warning edit-type" data-type-id="${type.Id}"><i class="fas fa-edit"></i></button>
-                        `;
+                       `;
+
+                    //Desktop Row
                     const row =
                         `<tr>
-                                <td>#${type.Id}</td>
-                                <td>${type.RewardName || ''}</td>
-                                <td>${type.RewardType || ''}</td>
-                                <td>${type.RewardValue || ''}</td>  
-                                <td>${type.MinimumTransactionAmount || ''}</td>
-                                <td>${type.MaximumReward || ''}</td>  
-                                <td>${type.IsActive}</td>  
-                                <td>${formatDate(type.ValidFrom)}</td>
-                                <td>${formatDate(type.ValidTo)}</td>
-                                <td>${formatDate(type.CreatedOn)}</td>
-                                <td>${formatDate(type.ModifiedOn)}</td>
-                                <td>${statusBudge}</td>
-                                <td>${actionButtons}</td>
-                            </tr>`;
+                               <td>#${type.Id}</td>
+                               <td>${type.RewardName || ''}</td>
+                               <td>${type.RewardType || ''}</td>
+                               <td>${type.RewardValue || ''}</td>  
+                               <td>${type.MinimumTransactionAmount || ''}</td>
+                               <td>${type.MaximumReward || ''}</td>  
+                               <td>${statusBudge}</td> <!-- Status badge -->
+                               <td>${formatDate(type.ValidFrom)}</td>
+                               <td>${formatDate(type.ValidTo)}</td>
+                               <td>${formatDate(type.CreatedOn)}</td>
+                               <td>${formatDate(type.ModifiedOn)}</td>
+                               <td>${actionButtons}</td>
+                           </tr>`;
                     tbody.append(row);
 
                     //Mobile Card -Now Works!
-                    const cardHtml = `
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <p><strong>ID:</strong> #${type.Id}</p>
-                                    <p><strong>Name:</strong> ${type.RewardName || ''}</p>
-                                    <p><strong>Type:</strong> ${type.RewardType || ''}</p>
-                                    <p><strong>Value:</strong> ${type.RewardValue || ''}</p>
-                                    <p><strong>Min Amount:</strong> ${type.MinimumTransactionAmount || ''}</p>
-                                    <p><strong>Max Reward:</strong> ${type.MaximumReward || ''}</p>
-                                    <p><strong>Status:</strong> ${type.IsActive ? 'Active' : 'Inactive'}</p>
-                                    <p><strong>ValidFrom:</strong> ${type.ValidFrom ? new Date(type.ValidFrom).toLocaleDateString() : ''}</p>
-                                    <p><strong>ValidTo:</strong> ${type.ValidTo ? new Date(type.ValidTo).toLocaleDateString() : ''}</p>
-                                    <p><strong>Status:</strong> ${statusBudge}</p>
-                                    <p><strong>Created:</strong> ${formatDate(type.CreatedOn)}</p>
-                                    <p><strong>Modified:</strong> ${formatDate(type.ModifiedOn)}</p>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between">
-                                ${actionButtons}</div>
-                            </div>`;
-                    mobileContainer.append(cardHtml);
+                    const typeHtml = `
+                           <div class="card mb-3">
+                               <div class="card-body">
+                                   <p><strong>ID:</strong> #${type.Id}</p>
+                                   <p><strong>Name:</strong> ${type.RewardName || ''}</p>
+                                   <p><strong>Type:</strong> ${type.RewardType || ''}</p>
+                                   <p><strong>Value:</strong> ${type.RewardValue || ''}</p>
+                                   <p><strong>Min Amount:</strong> ${type.MinimumTransactionAmount || ''}</p>
+                                   <p><strong>Max Reward:</strong> ${type.MaximumReward || ''}</p>
+                                   <p><strong>Status:</strong> ${type.IsActive ? 'Active' : 'Inactive'}</p>
+                                   <p><strong>ValidFrom:</strong> ${type.ValidFrom ? new Date(type.ValidFrom).toLocaleDateString() : ''}</p>
+                                   <p><strong>ValidTo:</strong> ${type.ValidTo ? new Date(type.ValidTo).toLocaleDateString() : ''}</p>
+                                   <p><strong>Created:</strong> ${formatDate(type.CreatedOn)}</p>
+                                   <p><strong>Modified:</strong> ${formatDate(type.ModifiedOn)}</p>
+                               </div>
+                               <div class="card-footer d-flex justify-content-between">
+                               ${actionButtons}</div>
+                           </div>`;
+                    cardsContainer.append(typeHtml);
                 });
-            } 
+            }
         }
-
+      
         $(document).on("click", ".activate-type", function () {
             var typeId = $(this).data("type-id");
             console.log(typeId);
         });
 
         //Add Edit
-        $(document).on("click", "#addRewardConfigurationBtn", function () {
-            self.currentSelectedRewardConfiguration = null;
+        $(document).on("click", "#addRewardConfigurationBtn", function () {            
             $('#sidebar').addClass('show');
             $('body').append('<div class="modal-backdrop fade show"></div>');
             console.log("iam getting from add button click");
@@ -152,7 +154,7 @@
 
             $("#DeleteRewardName").val(self.currentSelectedRewardConfiguration.RewardName);
             $("#DeleteRewardType").val(self.currentSelectedRewardConfiguration.RewardType);
-            $("#DeleteStatus").val(self.currentSelectedRewardConfiguration.IsActive ? "true" : false);
+            $("#DeleteStatus").val(self.currentSelectedRewardConfiguration.IsActive ? "true" : "false");
 
             $("#deleteRewardConfiguration").modal("show");
         });
@@ -182,7 +184,7 @@
         //View
         $(document).on("click", ".view-type", function () {
             console.log("hiiiii.....");
-            var typeId = parseInt($(this).data("rewardConfiguration-id"));
+            var typeId = parseInt($(this).data("type-id"));
             var selectedRewardConfiguration = self.RewardConfigurations.filter(x => x.Id === typeId)[0];
             console.log("current selected reward Configuration is..." + JSON.stringify(selectedRewardConfiguration));
             self.currentSelectedRewardConfiguration = selectedRewardConfiguration;
@@ -210,7 +212,7 @@
                 Id: self.currentSelectedRewardConfiguration ? self.currentSelectedRewardConfiguration.Id : 0,
                 RewardName: rewardName,
                 RewardType: rewardType,
-                RewardValue: $("#RewardValue").val(),  // ← FIXED
+                RewardValue: $("#RewardValue").val(),  
                 MinimumTransactionAmount: $("#MinTransactionAmount").val(),
                 MaximumReward: $("#MaxReward").val(),
                 ValidFrom: $("#ValidFrom").val(),
@@ -231,7 +233,7 @@
 
                 success: function (response) {
                     console.log(response);
-                    self.currentSelectedRewardConfiguration = null,
+                    self.currentSelectedRewardConfiguration = null;
                         $('#AddEditRewardConfigurationForm')[0].reset();
                     $('#sidebar').removeClass('show');
                     $('.modal-backdrop').remove();
@@ -268,15 +270,15 @@
 
             $.ajax({
                 type: "POST",
-                url: "/RewardConfiguration/ActivateRewardConfiguration",
-                data: Json.stringify(self.currentSelectedRewardConfiguration),
+                url: "/RewardConfiguration/SaveRewardConfiguration",
+                data: JSON.stringify(self.currentSelectedRewardConfiguration),
                 cache: false,
                 contentType: 'application/json',
 
                 success: function (response) {
                     console.log(response);
-                    self.currentSelectedRewardConfiguration = null,
-                        $("#activateRewardConfiguration").modal("hide"),
+                    self.currentSelectedRewardConfiguration = null;
+                    $("#activateRewardConfiguration").modal("hide");
                         GetRewardConfigurations();
                 },
                 error: function (error) {
