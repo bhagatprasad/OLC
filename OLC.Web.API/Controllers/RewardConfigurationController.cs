@@ -47,7 +47,7 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("SaveRewardConfigurationAsync")]
-        public async Task<IActionResult> SaveRewardConfiguration([FromBody]RewardConfiguration rewardConfiguration)
+        public async Task<IActionResult> SaveRewardConfiguration(RewardConfiguration rewardConfiguration)
         {
             try
             {

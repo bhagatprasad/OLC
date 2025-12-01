@@ -10,7 +10,7 @@
         <div class="modal-body">
             <!-- Reward Name -->
             <div class="form-group">
-                <label for="RewardName">RewardName</label>
+                <label for="RewardName">Title</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-list-alt"></i></span>
@@ -21,67 +21,77 @@
 
             <!-- Reward Type -->
             <div class="form-group">
-                <label for="RewardType">RewardType</label>
+                <label for="RewardType">Reward Type</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-barcode"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="RewardType" maxlength="20" placeholder="Enter Reward Type" required>
+                    <select class="form-control" id="RewardType" required>
+                        <option value="" disabled selected>Select Reward Type</option>
+                        <option value="DiwaliDhamaka">DiwaliDhamaka</option>
+                        <option value="fixed">fixed</option>
+                        <option value="FLAT">FLAT</option>
+                        <option value="Percentage">Percentage</option>
+                        <option value="tiered">tiered</option>
+                    </select>
                 </div>
             </div>
 
-            <!--Reward Value -->
+            <!-- Reward Value -->
             <div class="form-group">
-                <label for="RewardValue">RewardValue</label>
+                <label for="RewardValue">Reward Value</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="RewardValue" maxlength="20" placeholder="Enter address type code" required>
+                    <input type="number" class="form-control" id="RewardValue" placeholder="Enter reward value" min="0" step="0.01" required>
                 </div>
+                <small class="form-text text-muted">Enter the reward amount or percentage</small>
             </div>
 
-            <!--MinTransaction Amount  -->
+            <!-- Minimum Transaction Amount -->
             <div class="form-group">
-                <label for="MinTransactionAmount">MinTransaction Amount</label>
+                <label for="MinTransactionAmount">Minimum Transaction Amount</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="MinTransactionAmount" maxlength="20" placeholder="Enter address type code" required>
+                    <input type="number" class="form-control" id="MinTransactionAmount" placeholder="Enter minimum transaction amount" min="0" step="0.01" required>
                 </div>
+                <small class="form-text text-muted">Minimum amount required to qualify for reward</small>
             </div>
 
-            <!--MaxReward-->
-              <div class="form-group">
-                <label for="MaxReward">Max Reward</label>
+            <!-- Maximum Reward Amount -->
+            <div class="form-group">
+                <label for="MaxReward">Maximum Reward Amount</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="MaxReward" maxlength="20" placeholder="Enter address type code" required>
+                    <input type="number" class="form-control" id="MaxReward" placeholder="Enter maximum reward amount" min="0" step="0.01" required>
                 </div>
+                <small class="form-text text-muted">Maximum reward that can be earned (caps the reward)</small>
             </div>
 
-            <!--ValidFrom-->
+            <!-- Valid From -->
             <div class="form-group">
                 <label for="ValidFrom">Valid From</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="ValidFrom" maxlength="20" placeholder="Enter address type code" required>
+                    <input type="date" class="form-control" id="ValidFrom" required>
                 </div>
             </div>
 
-            <!-- ValidTo -->
+            <!-- Valid To -->
             <div class="form-group">
                 <label for="ValidTo">Valid To</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                     </div>
-                    <input type="text" class="form-control" id="ValidTo" maxlength="20" placeholder="Enter address type code" required>
+                    <input type="date" class="form-control" id="ValidTo" required>
                 </div>
             </div>
 
