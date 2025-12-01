@@ -87,7 +87,6 @@
         
         }
 
-
         $(document).on("click", ".activate-type", function () {
             var typeId = $(this).data("type-id");
             console.log(typeId);
@@ -138,7 +137,7 @@
             var selectedAddressType = self.AddressTypes.filter(x => x.Id === typeId)[0];
             console.log("current selected address type is .." + JSON.stringify(selectedAddressType));
             self.CurrentSelectedAddressType = selectedAddressType;
-
+            
 
             $("#DeleteName").val(self.CurrentSelectedAddressType.Name);
             $("#DeleteCode").val(self.CurrentSelectedAddressType.Code);
@@ -227,7 +226,7 @@
                    
             });
         });
-
+         
 
         // Activate
         $(document).on("click", ".activate-type", function () {
@@ -247,7 +246,7 @@
             $("#activateAddressType").modal("show");
         });
 
-        $(document).on("click", "#activateAddressTypeBtn", function () {
+        $(document).on("click", "# activateAddressTypeBtn", function () {
             self.CurrentSelectedAddressType.ModifiedBy = self.ApplicationUser.Id;
             console.log("Active button yes clicked....................");
             $.ajax({

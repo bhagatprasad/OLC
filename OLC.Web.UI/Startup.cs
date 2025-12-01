@@ -87,6 +87,9 @@ namespace OLC.Web.UI
             services.AddScoped<IUserKycService, UserKycService>();
 
             services.AddScoped<IUserKycDocumentService, UserKycDocumentService>();
+            
+            services.AddScoped<IRewardConfigurationService, RewardConfigurationService>();
+
             services.AddScoped<IRewardConfigurationServices, RewardConfigurationServices>();
 
 

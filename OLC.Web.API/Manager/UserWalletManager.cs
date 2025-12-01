@@ -307,7 +307,7 @@ namespace OLC.Web.API.Manager
 
                 sqlConnection.Open();
 
-                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateUSerWalletBalance]", sqlConnection);
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateUserWalletBalance]", sqlConnection);
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
 

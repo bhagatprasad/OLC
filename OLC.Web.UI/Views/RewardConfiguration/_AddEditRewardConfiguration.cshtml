@@ -1,0 +1,120 @@
+﻿<form id="AddEditRewardConfigurationForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Add/Edit Reward Configuration</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Reward Name -->
+            <div class="form-group">
+                <label for="RewardName">Title</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-list-alt"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="RewardName" maxlength="50" placeholder="Enter Reward Name" required>
+                </div>
+            </div>
+
+            <!-- Reward Type -->
+            <div class="form-group">
+                <label for="RewardType">Reward Type</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                    </div>
+                    <select class="form-control" id="RewardType" required>
+                        <option value="" disabled selected>Select Reward Type</option>
+                        <option value="DiwaliDhamaka">DiwaliDhamaka</option>
+                        <option value="fixed">fixed</option>
+                        <option value="FLAT">FLAT</option>
+                        <option value="Percentage">Percentage</option>
+                        <option value="tiered">tiered</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Reward Value -->
+            <div class="form-group">
+                <label for="RewardValue">Reward Value</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control" id="RewardValue" placeholder="Enter reward value" min="0" step="0.01" required>
+                </div>
+                <small class="form-text text-muted">Enter the reward amount or percentage</small>
+            </div>
+
+            <!-- Minimum Transaction Amount -->
+            <div class="form-group">
+                <label for="MinTransactionAmount">Minimum Transaction Amount</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control" id="MinTransactionAmount" placeholder="Enter minimum transaction amount" min="0" step="0.01" required>
+                </div>
+                <small class="form-text text-muted">Minimum amount required to qualify for reward</small>
+            </div>
+
+            <!-- Maximum Reward Amount -->
+            <div class="form-group">
+                <label for="MaxReward">Maximum Reward Amount</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
+                    </div>
+                    <input type="number" class="form-control" id="MaxReward" placeholder="Enter maximum reward amount" min="0" step="0.01" required>
+                </div>
+                <small class="form-text text-muted">Maximum reward that can be earned (caps the reward)</small>
+            </div>
+
+            <!-- Valid From -->
+            <div class="form-group">
+                <label for="ValidFrom">Valid From</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    <input type="date" class="form-control" id="ValidFrom" required>
+                </div>
+            </div>
+
+            <!-- Valid To -->
+            <div class="form-group">
+                <label for="ValidTo">Valid To</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    <input type="date" class="form-control" id="ValidTo" required>
+                </div>
+            </div>
+
+
+            <!-- IsActive -->
+            <div class="form-group">
+                <label for="IsActive">Status</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-toggle-on"></i></span>
+                    </div>
+                    <select class="form-control form-select" id="IsActive" required>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+    </div>
+</form>
+
+

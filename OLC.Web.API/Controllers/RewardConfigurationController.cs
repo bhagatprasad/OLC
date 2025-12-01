@@ -22,7 +22,6 @@ namespace OLC.Web.API.Controllers
             {
                 var response = await _rewardConfigurationManager.GetRewardConfigurationsByIdAsync(Id);
                 return Ok(response);
-
             }
             catch (Exception ex)
             {
@@ -39,7 +38,6 @@ namespace OLC.Web.API.Controllers
             {
                 var response = await _rewardConfigurationManager.GetAllRewardConfigurationsAsync();
                 return Ok(response);
-
             }
             catch (Exception ex)
             {
