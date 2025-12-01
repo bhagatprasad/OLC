@@ -1,0 +1,46 @@
+﻿<div class="modal fade" id="depositOrderModal" tabindex="-1"
+     aria-labelledby="depositOrderLabel" aria-hidden="true"
+     data-bs-backdrop="static" data-bs-keyboard="false">
+
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content shadow-lg">
+
+            <!-- Header -->
+            <div class="modal-header border-0 pb-4 pt-4 px-5 d-flex justify-content-between align-items-center">
+                <h4 class="modal-title fw-bold text-primary mb-0" id="viewDepositOrderRef"> </h4>
+                <button type="button" id="btnCloseViewDepositModal" class="btn-close btn-close-lg me-2" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body p-0" style="max-height: 70vh; overflow-y: auto;">
+
+                <div class="px-4 pt-3">
+                    <div class="table-responsive">
+
+                        <table class="table table-striped table-hover align-middle mb-0">
+                            <thead class="table-primary text-dark fw-semibold fs-5">
+                                <tr>
+                                    <th class="ps-5 py-3">Order Reference</th>
+                                    <th class="ps-5 py-3">Actual Amount</th>
+                                    <th class="ps-5 py-3">Deposited Amount</th>
+                                    <th class="ps-5 py-3">Pending Amount</th>
+                                    <th class="ps-5 py-3">StripeDepositIntentId</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="depositOrderTableBody" class="fs-6">
+                               
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer"></div>
+
+        </div>
+    </div>
+
+</div>
