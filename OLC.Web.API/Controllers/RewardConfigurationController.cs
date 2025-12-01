@@ -22,7 +22,6 @@ namespace OLC.Web.API.Controllers
             {
                 var response = await _rewardConfigurationManager.GetRewardConfigurationsByIdAsync(Id);
                 return Ok(response);
-
             }
             catch (Exception ex)
             {
@@ -39,7 +38,6 @@ namespace OLC.Web.API.Controllers
             {
                 var response = await _rewardConfigurationManager.GetAllRewardConfigurationsAsync();
                 return Ok(response);
-
             }
             catch (Exception ex)
             {
@@ -49,7 +47,7 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("SaveRewardConfigurationAsync")]
-        public async Task<IActionResult> SaveRewardConfiguration(RewardConfiguration rewardConfiguration)
+        public async Task<IActionResult> SaveRewardConfiguration([FromBody]RewardConfiguration rewardConfiguration)
         {
             try
             {
