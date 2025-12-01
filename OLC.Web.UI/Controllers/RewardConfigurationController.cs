@@ -7,7 +7,6 @@ using OLC.Web.UI.Services;
 
 namespace OLC.Web.UI.Controllers
 {
-    [Route("RewardConfiguration")]
     [Authorize(Roles = "Administrator,Executive,User")]
     public class RewardConfigurationController : Controller
     {
@@ -20,13 +19,13 @@ namespace OLC.Web.UI.Controllers
             _notyfService = notyfService;
         }
 
-        public IActionResult RewardConfigurations()
+        public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator,Executive")]
+        [Authorize(Roles = "Administrator,Executive,User")]
         public async Task<IActionResult> GetRewardConfigurations()
         {
             try

@@ -69,11 +69,9 @@
                                <td>${type.RewardValue || ''}</td>  
                                <td>${type.MinimumTransactionAmount || ''}</td>
                                <td>${type.MaximumReward || ''}</td>  
-                               <td>${statusBudge}</td> <!-- Status badge -->
+                               <td>${statusBudge}</td>
                                <td>${formatDate(type.ValidFrom)}</td>
                                <td>${formatDate(type.ValidTo)}</td>
-                               <td>${formatDate(type.CreatedOn)}</td>
-                               <td>${formatDate(type.ModifiedOn)}</td>
                                <td>${actionButtons}</td>
                            </tr>`;
                     tbody.append(row);
