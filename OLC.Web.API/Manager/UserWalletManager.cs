@@ -332,5 +332,9 @@ namespace OLC.Web.API.Manager
             return false;
         }
 
+        public Task<bool> UpdateUserWalletBalanceAsync(UserWallet userWallet)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
