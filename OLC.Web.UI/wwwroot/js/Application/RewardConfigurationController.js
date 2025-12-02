@@ -5,6 +5,7 @@
     self.currentSelectedRewardConfiguration = null;
 
     self.init = function () {
+        $(".se-pre-con").show();
         var appUserInfo = storageService.get('ApplicationUser');
         console.log(appUserInfo);
         if (appUserInfo) {
@@ -19,13 +20,14 @@
                 url: "/RewardConfiguration/GetRewardConfigurations",
                 data: { Id: self.ApplicationUser.Id },
                 cache: false,
-                dataType: "json", 
+                dataType: "json",
                 contentType: "application/json",
 
                 success: function (response) {
                     console.log("Data received:", response);
                     self.RewardConfigurations = response && response.data ? response.data : [];
                     loadRewardConfigurations();
+
                 },
                 error: function (error) {
                     console.log(error);
@@ -98,15 +100,17 @@
                     cardsContainer.append(typeHtml);
                 });
             }
+
+            $(".se-pre-con").hide();
         }
-      
+
         $(document).on("click", ".activate-type", function () {
             var typeId = $(this).data("type-id");
             console.log(typeId);
         });
 
         //Add Edit
-        $(document).on("click", "#addRewardConfigurationBtn", function () {            
+        $(document).on("click", "#addRewardConfigurationBtn", function () {
             $('#sidebar').addClass('show');
             $('body').append('<div class="modal-backdrop fade show"></div>');
             console.log("iam getting from add button click");
@@ -124,9 +128,21 @@
             console.log("current selected rewardConfiguration is .." + JSON.stringify(selectedRewardConfiguration));
             self.currentSelectedRewardConfiguration = selectedRewardConfiguration;
 
+            // Populate form fields
             $("#RewardName").val(self.currentSelectedRewardConfiguration.RewardName);
             $("#RewardType").val(self.currentSelectedRewardConfiguration.RewardType);
             $("#RewardValue").val(self.currentSelectedRewardConfiguration.RewardValue);
+            $("#MaxReward").val(self.currentSelectedRewardConfiguration.MaximumReward); // Fixed: MaxReward → MaximumReward
+            $("#MinTransactionAmount").val(self.currentSelectedRewardConfiguration.MinimumTransactionAmount); // Fixed: MinTransactionAmount → MinimumTransactionAmount
+
+            // Format dates for date inputs (YYYY-MM-DD format)
+            var validFromDate = new Date(self.currentSelectedRewardConfiguration.ValidFrom).toISOString().split('T')[0];
+            var validToDate = new Date(self.currentSelectedRewardConfiguration.ValidTo).toISOString().split('T')[0];
+
+            $("#ValidFrom").val(validFromDate);
+            $("#ValidTo").val(validToDate);
+
+            // Set IsActive dropdown
             $("#IsActive").val(self.currentSelectedRewardConfiguration.IsActive ? "true" : "false");
 
             $('#sidebar').addClass('show');
@@ -199,27 +215,29 @@
         });
 
         $('#AddEditRewardConfigurationForm').on('submit', function (e) {
+            $(".se-pre-con").show();
+
             e.preventDefault();
-            showLoader();
-            var rewardName = $("#RewardName").val();
-            var rewardType = $("#RewardType").val();
-            var isActive = $("#IsActive").val() === "true";
-            console.log(rewardName);
 
             var rewardConfiguration = {
                 Id: self.currentSelectedRewardConfiguration ? self.currentSelectedRewardConfiguration.Id : 0,
-                RewardName: rewardName,
-                RewardType: rewardType,
-                RewardValue: $("#RewardValue").val(),  
-                MinimumTransactionAmount: $("#MinTransactionAmount").val(),
-                MaximumReward: $("#MaxReward").val(),
-                ValidFrom: $("#ValidFrom").val(),
-                ValidTo: $("#ValidTo").val(),
+                RewardName: $("#RewardName").val(),
+                RewardType: $("#RewardType").val(),
+                RewardValue: parseFloat($("#RewardValue").val()),
+                MinimumTransactionAmount: parseFloat($("#MinTransactionAmount").val()),
+                MaximumReward: parseFloat($("#MaxReward").val()),
+                ValidFrom: new Date($("#ValidFrom").val()),
+                ValidTo: new Date($("#ValidTo").val()),
                 CreatedBy: self.ApplicationUser.Id,
+                CreatedOn: new Date(),
                 ModifiedBy: self.ApplicationUser.Id,
-                IsActive: isActive
+                ModifiedOn: new Date(),
+                IsActive: $("#IsActive").val() === "true" ? true : false
             };
+
             console.log("rewardConfiguration...." + JSON.stringify(rewardConfiguration));
+
+           
 
             $.ajax({
                 type: "POST",
@@ -232,7 +250,7 @@
                 success: function (response) {
                     console.log(response);
                     self.currentSelectedRewardConfiguration = null;
-                        $('#AddEditRewardConfigurationForm')[0].reset();
+                    $('#AddEditRewardConfigurationForm')[0].reset();
                     $('#sidebar').removeClass('show');
                     $('.modal-backdrop').remove();
                     GetRewardConfigurations();
@@ -277,7 +295,7 @@
                     console.log(response);
                     self.currentSelectedRewardConfiguration = null;
                     $("#activateRewardConfiguration").modal("hide");
-                        GetRewardConfigurations();
+                    GetRewardConfigurations();
                 },
                 error: function (error) {
                     console.log(error);

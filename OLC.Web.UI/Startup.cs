@@ -92,6 +92,10 @@ namespace OLC.Web.UI
 
             services.AddScoped<IRewardConfigurationServices, RewardConfigurationServices>();
 
+            services.AddScoped<ITransactionRewardService, TransactionRewardService>();
+
+            services.AddScoped<IDepositOrdereService, DepositOrderService>();
+
 
             services.AddSession(options =>
             {

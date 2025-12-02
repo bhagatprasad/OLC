@@ -16,10 +16,12 @@ namespace OLC.Web.UI.Controllers
     {
         private readonly IPaymentOrderService _paymentOrderService;
         private readonly INotyfService _notyfService;
-        public PaymentOrderController(IPaymentOrderService paymentOrderService, INotyfService notyfService)
+        private readonly IDepositOrdereService _depositOrdereService;
+        public PaymentOrderController(IPaymentOrderService paymentOrderService, INotyfService notyfService,IDepositOrdereService depositOrdereService)
         {
             _paymentOrderService = paymentOrderService;
             _notyfService = notyfService;
+            _depositOrdereService = depositOrdereService;
         }
 
         [HttpGet]
@@ -335,7 +337,7 @@ namespace OLC.Web.UI.Controllers
 
                 };
 
-                var response = await _paymentOrderService.InsertDepositOrderAsync(depositOrder);
+                var response = await _depositOrdereService.InsertDepositOrderAsync(depositOrder);
 
                 if (response)
                 {
@@ -348,20 +350,6 @@ namespace OLC.Web.UI.Controllers
             catch (Exception ex)
             {
                 _notyfService.Error(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetDepositOrders(long paymentOrderId)
-        {
-            try
-            {
-                var response = await _paymentOrderService.GetDepositOrderByOrderIdAsync(paymentOrderId);
-                return Json(new { data = response });
-            }
-            catch (Exception ex)
-            {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
