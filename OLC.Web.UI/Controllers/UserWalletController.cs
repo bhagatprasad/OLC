@@ -1,10 +1,10 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OLC.Web.UI.Models;
 using OLC.Web.UI.Services;
 namespace OLC.Web.UI.Controllers
 {
+    [Authorize(Roles = ("Administrator,Executive,User"))]
     public class UserWalletController : Controller
     {
         private readonly IUserWalletService _userWalletService;
@@ -15,15 +15,15 @@ namespace OLC.Web.UI.Controllers
             _notyfService = notyfService;
         }
 
-        [Authorize(Roles = ("Administrator"))]
-        public IActionResult UserWallet()
+        [Authorize(Roles = ("Administrator,Executive"))]
+        public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive"))]
-        public async Task<IActionResult> GetAllUserWalletsAsync()
+        public async Task<IActionResult> GetAllUserWallets()
         {
             try
             {
@@ -39,7 +39,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive"))]
-        public async Task<IActionResult> GetAllUsersWalletlogAsync()
+        public async Task<IActionResult> GetAllUsersWalletlog()
         {
             try
             {
@@ -54,8 +54,8 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = ("Administrator,Executive"))]
-        public async Task<IActionResult> GetAllUserWalletlogByUserIdAsync(long userId)
+        [Authorize(Roles = ("Administrator,Executive,User"))]
+        public async Task<IActionResult> GetAllUserWalletlogByUser(long userId)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace OLC.Web.UI.Controllers
         }
         [HttpGet]
         [Authorize(Roles = ("Administrator,Executive,User"))]
-        public async Task<IActionResult> GetUserWalletByUserIdAsync(long userId)
+        public async Task<IActionResult> GetUserWallet(long userId)
         {
             try
             {

@@ -96,6 +96,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<IDepositOrdereService, DepositOrderService>();
 
+            services.AddScoped<IUserWalletService, UserWalletService>();
+
 
             services.AddSession(options =>
             {
