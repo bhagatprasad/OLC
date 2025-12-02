@@ -38,5 +38,10 @@ namespace OLC.Web.UI.Services
         {
             return await _repositoryFactory.SendAsync<ResetPassword, bool>(HttpMethod.Post, "Account/ResetPasswordAsync", resetPassword);
         }
+
+        public async Task<bool> ChangePasswordAsync(ChangePassword changePassword)
+        {
+            return await _repositoryFactory.SendAsync<ChangePassword, bool>(HttpMethod.Post, "Account/ChangePasswordAsync", changePassword);
+        }
     }
 }

@@ -327,6 +327,22 @@ namespace OLC.Web.UI.Controllers
         {
             return View();
         }
-       
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePassword changePassword)
+        {
+            try
+            {
+                var responce = await _authenticateService.ChangePasswordAsync(changePassword);
+                if (responce)
+                    _notyfService.Success("Successfully changed password");
+                return Json(new { data = responce });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }
     }
 }
