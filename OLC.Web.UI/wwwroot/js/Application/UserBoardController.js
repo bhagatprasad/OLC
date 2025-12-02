@@ -196,7 +196,7 @@
         const paymentStatus = (self.getStatusName(order.PaymentStatusId) || '').trim().toLowerCase();
         return allowed.includes(orderStatus);
     };
-    
+
     // Render orders to the grid
     self.renderOrders = function (orders, clearExisting = false) {
         const tbody = $('#paymentOrdersBody');
@@ -244,9 +244,15 @@
                     <td>
                         <strong class="text-primary">${order.OrderReference || 'N/A'}</strong>
                     </td>
-                    <td class="fw-bold">${self.formatCurrency(order.Amount, order.Currency)}</td>
+                  
                     <td>${self.formatCurrency(order.TotalAmountToChargeCustomer, order.Currency)}</td>
                     <td>${self.formatCurrency(order.TotalAmountToDepositToCustomer, order.Currency)}</td>
+                    <td>${self.formatCurrency(order.DepositeAmount, order.Currency)}</td>
+                    <td>${self.formatCurrency(order.PendingDepositeAmount, order.Currency)}</td>
+                     <td>
+                        <strong class="text-primary"> <small class="text-muted">${order.TransactionFeeAmount}</small> <br>
+                       ${self.formatCurrency(order.PlatformFeeAmount, order.Currency)}</strong>
+                    </td>
                     <td>
                         <small class="text-muted">${creditCardDisplay}</small>
                         ${order.CreditCardNumber ? '<br><small class="text-success"><i class="fas fa-credit-card me-1"></i>Card</small>' : ''}
@@ -262,22 +268,19 @@
                             <button class="btn btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
                             <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn btn-outline-info copy-order" data-order-ref="${order.OrderReference}" title="Copy Reference">
-                            <i class="fas fa-copy"></i>
-                            </button>
-                            ${ (order.OrderStatus === "Partially Paid" || order.OrderStatus === "Paid") ? `
+                            ${(order.OrderStatus === "Partially Paid" || order.OrderStatus === "Paid") ? `
                                 <button class="btn btn-outline-warning view-deposit" 
                                         data-order-id="${order.Id}" title="View Deposits">
                                     <i class="fas fa-handshake"></i>
                                 </button>
-                            ` : '' }
+                            ` : ''}
 
                                ${self.isInvoiceDownloadAllowed(order) ?
-                                   `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
+                        `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
                                        <i class="fas fa-file-pdf"></i>
                                     </button>`
-                                                    : ''
-                               }
+                        : ''
+                    }
                         </div>
                     </td>
                 `;
@@ -334,21 +337,18 @@
                             <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}">
                                 <i class="fas fa-eye me-1"></i>Details
                             </button>
-                            <button class="btn btn-sm btn-outline-info copy-order" data-order-ref="${order.OrderReference}">
-                                <i class="fas fa-copy me-1"></i>Copy Ref
-                            </button>
-                             ${ (order.OrderStatus === "Partially Paid" || order.OrderStatus === "Paid") ? `
+                             ${(order.OrderStatus === "Partially Paid" || order.OrderStatus === "Paid") ? `
                                     <button class="btn btn-sm btn-outline-warning view-deposit" 
                                             data-order-id="${order.Id}">
                                         <i class="fas fa-handshake me-1"></i>Deposits
                                     </button>
-                             ` : '' }
+                             ` : ''}
                            ${self.isInvoiceDownloadAllowed(order) ?
-                                `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
+                        `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
                                   <i class="fas fa-file-pdf"></i>
                                 </button>`
-                                : ''
-                           }
+                        : ''
+                    }
 
                         </div>
                     </div>
@@ -672,9 +672,9 @@
         window.location.href = "/Transaction/MakeNewPayment";
     });
 
-   
+
     // VIEW DEPOSITS CLICK
-   
+
     $(document).on("click", ".view-deposit", function () {
 
         console.log("UserBoard View Deposit clicked...");
@@ -712,7 +712,7 @@
 
         $.ajax({
             type: "GET",
-            url: "/PaymentOrder/GetDepositOrders",
+            url: "/DepositOrder/GetDepositOrders",
             data: { paymentOrderId: paymentOrderId },
             cache: false,
             success: function (response) {
@@ -760,7 +760,7 @@
         $("#depositOrderModal").modal("hide");
     });
 
-       
+
     //Download Invoice   
     $(document).on("click", ".download-invoice", function () {
         const orderId = $(this).data("order-id");
