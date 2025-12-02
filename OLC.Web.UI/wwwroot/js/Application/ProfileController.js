@@ -46,31 +46,24 @@
 
     self.loadWalletData = function () {
         var _appUserInfo = storageService.get('ApplicationUser');
-        self.loadStaticWalletData();
-        //if (_appUserInfo && _appUserInfo.Id) {
-        //    // Load single wallet data for user
-        //    $.ajax({
-        //        url: '/Wallet/GetUserWallet',
-        //        type: 'GET',
-        //        data: { userId: _appUserInfo.Id },
-        //        success: function (response) {
-        //            if (response && response.success) {
-        //                self.bindWalletData(response.data);
-        //            } else {
-        //                // Show static wallet data if API fails
-        //                self.loadStaticWalletData();
-        //            }
-        //        },
-        //        error: function (xhr, status, error) {
-        //            console.error('Error loading wallet data:', error);
-        //            // Show static wallet data
-        //            self.loadStaticWalletData();
-        //        }
-        //    });
-        //} else {
-        //    // Show static wallet data if no user info
-        //    self.loadStaticWalletData();
-        //}
+        if (_appUserInfo && _appUserInfo.Id) {
+            // Load single wallet data for user
+            $.ajax({
+                url: '/UserWallet/GetUserWallet',
+                type: 'GET',
+                data: { userId: _appUserInfo.Id },
+                success: function (response) {
+                    if (response && response.data) {
+                        self.bindWalletData(response.data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading wallet data:', error);
+                    // Show static wallet data
+                    self.loadStaticWalletData();
+                }
+            });
+        }
     };
 
     self.loadStaticWalletData = function () {

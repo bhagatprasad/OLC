@@ -45,6 +45,9 @@ namespace OLC.Web.UI.Services
             return _repositoryFactory.SendAsync<UserWalletLog, bool>(HttpMethod.Post, "UserWallet/UpdateUserWalletBalanceAsync", userWalletLog);
         }
 
-       
+        public Task<bool> UpdateUserWalletBalanceAsync(UserWallet userWallet)
+        {
+            return _repositoryFactory.SendAsync<UserWallet, bool>(HttpMethod.Post, "UserWallet/UpdateUserWalletBalanceAsync", userWallet);
+        }
     }
 }
