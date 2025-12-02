@@ -26,5 +26,10 @@ namespace OLC.Web.UI.Services
             var url = Path.Combine("User/PreviewUserKycDocumentAsync", userId.ToString());
             return await _repositoryFactory.SendAsync<PreviewUserKycDocument>(HttpMethod.Get, url);
         }
+
+        public async Task<bool> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
+        {
+            return await _repositoryFactory.SendAsync<UserPersonalInformation, bool>(HttpMethod.Post, "UserPersonalInformation/UpdateUserPersonalInformationAsync", userPersonalInformation);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
+using Twilio.Types;
 
 namespace OLC.Web.API.Manager
 {
@@ -110,6 +111,27 @@ namespace OLC.Web.API.Manager
             }
 
             return userAccounts;
+        }
+
+        public async Task<bool> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
+        {
+            if (userPersonalInformation != null)
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateUserPersonalInformation]", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@Id", userPersonalInformation.Id);
+                sqlCommand.Parameters.AddWithValue("@FirstName", userPersonalInformation.FirstName);
+                sqlCommand.Parameters.AddWithValue("@LastName", userPersonalInformation.LastName);
+                sqlCommand.Parameters.AddWithValue("@Email", userPersonalInformation.Email);
+                sqlCommand.Parameters.AddWithValue("@Phone", userPersonalInformation.Phone);
+
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+                return true;
+            }
+            return false;
         }
     }
 }

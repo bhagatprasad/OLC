@@ -7,5 +7,6 @@ namespace OLC.Web.UI.Services
         Task<List<UserAccount>> GetUserAccountsAsync();
         Task<ApplicationUser> GetUserAccountAsync(long userId);
         Task<PreviewUserKycDocument> PreviewUserKycDocumentAsync(long userId);
+        Task<bool>UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation);
     }
 }

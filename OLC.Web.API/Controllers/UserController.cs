@@ -187,5 +187,20 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpPost]
+        [Route("UpdateUserPersonalInformationAsync")]
+        public async Task<IActionResult> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
+        {
+            try
+            {
+                var response = await _userManager.UpdateUserPersonalInformationAsync(userPersonalInformation);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
     }
 }
