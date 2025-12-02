@@ -917,7 +917,7 @@
         
         $.ajax({
             type: "GET",
-            url: "/PaymentOrder/GetDepositOrders",
+            url: "/DepositOrder/GetDepositOrders",
             data: { paymentOrderId: paymentOrderId },
             cache: false,
             success: function (response) {
