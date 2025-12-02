@@ -264,6 +264,8 @@
     <Build Include="Programmability\Stored Procedures\TransactionReward\uspGetTransactionRewardByPaymentOrderId.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllUsersWalletlog.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletlogByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetAllDepositOrders.sql" />
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

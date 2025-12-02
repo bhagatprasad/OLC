@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging.Console;
-using OLC.Web.API.Models;
+﻿using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
 
