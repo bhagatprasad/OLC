@@ -26,7 +26,7 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator,Executive")]
+        [Authorize(Roles = "Administrator,Executive,User")]
         public async Task<IActionResult> GetDepositOrders(long paymentOrderId)
         {
             try
