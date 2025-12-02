@@ -1,10 +1,10 @@
-﻿using OLC.Web.API.Models;
+﻿using OLC.Web.UI.Models;
 
-namespace OLC.Web.API.Manager
+namespace OLC.Web.UI.Services
 {
-    public interface IUserWalletManager
+    public interface IUserWalletService
     {
-        Task<bool> SaveUserWalletAsync (UserWallet userWallet); 
+        Task<bool> SaveUserWalletAsync(UserWallet userWallet);
         Task<bool> UpdateUserWalletBalanceAsync(UserWallet userWallet);
         Task<UserWallet> GetUserWalletByUserIdAsync(long userId);
         Task<List<UserWallet>> GetAllUserWalletsAsync();
