@@ -33,8 +33,10 @@ namespace OLC.Web.API.Manager
             _depositOrderManager = depositOrderManager;
         }
 
+
         public async Task<PaymentOrder> InsertPaymentOrderAsync(PaymentOrder paymentOrder)
         {
+
             PaymentOrder responsePaymentOrder = new PaymentOrder();
 
             if (paymentOrder != null)
@@ -105,14 +107,18 @@ namespace OLC.Web.API.Manager
 
                 }
             }
-
-            //if(responsePaymentOrder != null)
+            
+            //if (responsePaymentOrder != null)
             //{
+            //    User user = new User();
+            //    AuthResponse authResponse = new AuthResponse();
+
             //    EmailRequest emailRequest = new EmailRequest()
             //    {
-            //        Body = PlacePaymentOrderTemaplate.ComposeEmailAsync(paymentOrder.OrderReference, "Order Placed", "Paid", "Pending"),
-            //        Subject= EmailSubjectConstants.OrderPlacedSubjected,paymentorder.OrderReference
-            //        ToEmail=user.email
+            //        Body = PlacePaymentOrderTemaplate.ComposeEmailAsync(user.FirstName, paymentOrder.OrderReference, "Order Placed", "Paid", "Pending"),
+            //        Subject = EmailSubjectConstants.OrderPlacedSubjected,
+            //        FromEmail = "betalentech@gmail.com",
+            //        ToEmail = "vamshigogu68@gmail.com"
 
             //    };
 
@@ -124,7 +130,7 @@ namespace OLC.Web.API.Manager
             //    Message=$"Thankyou for choosing us , with order referance {paymentOrder.OrderReference},succesfully placed,will process your payment asap ",
             //    CustomerPhoneNumbers= new List<string>()
             //    {
-                    
+
             //    }
             //})
 
