@@ -29,7 +29,12 @@ namespace OLC.Web.UI.Services
 
         public async Task<ApplicationUser> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
         {
-            return await _repositoryFactory.SendAsync<UserPersonalInformation, ApplicationUser>(HttpMethod.Post, "User/UpdateUserPersonalInformationAsync", userPersonalInformation);
+            return await _repositoryFactory.SendAsync<UserPersonalInformation, ApplicationUser>(
+                HttpMethod.Post,
+                "User/UpdateUserPersonalInformation",  
+                userPersonalInformation
+            );
         }
+
     }
 }

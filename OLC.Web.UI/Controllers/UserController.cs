@@ -273,7 +273,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator,Executive,User")]
-        public async Task<IActionResult> UpdateUserPersonalInformation(UserPersonalInformation userPersonalInformation)
+        public async Task<IActionResult> UpdateUserPersonalInformation([FromBody] UserPersonalInformation userPersonalInformation)
         {
             try
             {
