@@ -302,5 +302,6 @@
     <None Include="Post-Deployement\SeedPaymentOrders.sql" />
     <None Include="Post-Deployement\SeedRewardConfiguration.sql" />
     <None Include="Post-Deployement\SeedUserWallet.sql" />
+    <None Include="Post-Deployement\SeedCryptocurrency.sql" />
   </ItemGroup>
 </Project>
