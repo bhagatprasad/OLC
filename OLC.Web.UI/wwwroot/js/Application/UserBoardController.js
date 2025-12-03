@@ -190,6 +190,12 @@
         tbody.empty();
         cardsContainer.empty();
     };
+    self.isInvoiceDownloadAllowed = function (order) {
+        const allowed = ['paid', 'partially paid', 'completed'];
+        const orderStatus = (self.getStatusName(order.OrderStatusId) || '').trim().toLowerCase();
+        const paymentStatus = (self.getStatusName(order.PaymentStatusId) || '').trim().toLowerCase();
+        return allowed.includes(orderStatus);
+    };
 
     // Render orders to the grid
     self.renderOrders = function (orders, clearExisting = false) {
@@ -238,9 +244,15 @@
                     <td>
                         <strong class="text-primary">${order.OrderReference || 'N/A'}</strong>
                     </td>
-                    <td class="fw-bold">${self.formatCurrency(order.Amount, order.Currency)}</td>
+                  
                     <td>${self.formatCurrency(order.TotalAmountToChargeCustomer, order.Currency)}</td>
                     <td>${self.formatCurrency(order.TotalAmountToDepositToCustomer, order.Currency)}</td>
+                    <td>${self.formatCurrency(order.DepositeAmount, order.Currency)}</td>
+                    <td>${self.formatCurrency(order.PendingDepositeAmount, order.Currency)}</td>
+                     <td>
+                        <strong class="text-primary"> <small class="text-muted">${order.TransactionFeeAmount}</small> <br>
+                       ${self.formatCurrency(order.PlatformFeeAmount, order.Currency)}</strong>
+                    </td>
                     <td>
                         <small class="text-muted">${creditCardDisplay}</small>
                         ${order.CreditCardNumber ? '<br><small class="text-success"><i class="fas fa-credit-card me-1"></i>Card</small>' : ''}
@@ -254,11 +266,21 @@
                     <td>
                         <div class="btn-group btn-group-sm">
                             <button class="btn btn-outline-primary view-order" data-order-id="${order.Id}" title="View Details">
-                                <i class="fas fa-eye"></i>
+                            <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn btn-outline-info copy-order" data-order-ref="${order.OrderReference}" title="Copy Reference">
-                                <i class="fas fa-copy"></i>
-                            </button>
+                            ${(order.OrderStatus === "Partially Paid" || order.OrderStatus === "Paid") ? `
+                                <button class="btn btn-outline-warning view-deposit" 
+                                        data-order-id="${order.Id}" title="View Deposits">
+                                    <i class="fas fa-handshake"></i>
+                                </button>
+                            ` : ''}
+
+                               ${self.isInvoiceDownloadAllowed(order) ?
+                        `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
+                                       <i class="fas fa-file-pdf"></i>
+                                    </button>`
+                        : ''
+                    }
                         </div>
                     </td>
                 `;
@@ -315,9 +337,19 @@
                             <button class="btn btn-sm btn-outline-primary view-order" data-order-id="${order.Id}">
                                 <i class="fas fa-eye me-1"></i>Details
                             </button>
-                            <button class="btn btn-sm btn-outline-info copy-order" data-order-ref="${order.OrderReference}">
-                                <i class="fas fa-copy me-1"></i>Copy Ref
-                            </button>
+                             ${(order.OrderStatus === "Partially Paid" || order.OrderStatus === "Paid") ? `
+                                    <button class="btn btn-sm btn-outline-warning view-deposit" 
+                                            data-order-id="${order.Id}">
+                                        <i class="fas fa-handshake me-1"></i>Deposits
+                                    </button>
+                             ` : ''}
+                           ${self.isInvoiceDownloadAllowed(order) ?
+                        `<button class="btn btn-outline-danger download-invoice btn-sm" data-order-id="${order.Id}" title="Download Invoice">
+                                  <i class="fas fa-file-pdf"></i>
+                                </button>`
+                        : ''
+                    }
+
                         </div>
                     </div>
                 `;
@@ -546,7 +578,7 @@
     self.formatCurrency = function (amount, currency) {
         if (!amount) return '$0.00';
         const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount;
-        const currencySymbol = currency === 'INR' ? '₹' : '$';
+        const currencySymbol = '$';
         return currencySymbol + numAmount.toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
@@ -639,4 +671,184 @@
     $(document).on("click", "#makeNewPayment", function () {
         window.location.href = "/Transaction/MakeNewPayment";
     });
+
+
+    // VIEW DEPOSITS CLICK
+
+    $(document).on("click", ".view-deposit", function () {
+
+        console.log("UserBoard View Deposit clicked...");
+
+        $("#depositOrderModal").modal({
+            backdrop: "static",
+            keyboard: false
+        });
+        $("#depositOrderModal").modal("show");
+
+        const paymentOrderId = $(this).data("order-id");
+
+        if (!paymentOrderId) {
+            alert("Missing data-order-id");
+            return;
+        }
+
+        console.log("Clicked PaymentOrderId:", paymentOrderId);
+
+        const order = self.UserPaymentOrders?.find(o => o.Id == paymentOrderId);
+
+        if (!order) {
+            console.error("UserPaymentOrders:", self.UserPaymentOrders);
+            alert("Order not found in user list");
+            return;
+        }
+
+        self.CurrentSelectedPaymentOrder = order;
+
+        $("#viewDepositOrderRef").text(order.OrderReference || "N/A");
+
+        const $tbody = $("#depositOrderTableBody").empty();
+
+        $(".se-pre-con").show();
+
+        $.ajax({
+            type: "GET",
+            url: "/DepositOrder/GetDepositOrders",
+            data: { paymentOrderId: paymentOrderId },
+            cache: false,
+            success: function (response) {
+                console.log("Deposit Records Response:", response);
+
+                self.DepositOrders = response && response.data ? response.data : [];
+
+                if (self.DepositOrders.length === 0) {
+                    $tbody.append(`
+                    <tr>
+                        <td class="text-center py-3" colspan="5">
+                            No deposit records found.
+                        </td>
+                    </tr>
+                `);
+                    $(".se-pre-con").hide();
+                    return;
+                }
+
+                // Append table rows
+                self.DepositOrders.forEach(d => {
+                    $tbody.append(`
+                    <tr class="align-middle">
+                        <td class="ps-4">${d.OrderReference || "N/A"}</td>
+                        <td class="ps-4 text-end text-success fw-bold">${Number(d.ActualDepositeAmount || 0).toFixed(2)}</td>
+                        <td class="ps-4 text-end">${Number(d.DepositeAmount || 0).toFixed(2)}</td>
+                        <td class="ps-4 text-end text-danger">${Number(d.PendingDepositeAmount || 0).toFixed(2)}</td>
+                        <td class="ps-4 text-end text-danger">${d.StripeDepositeChargeId || ""}</td>
+                    </tr>
+                `);
+                });
+
+                $(".se-pre-con").hide();
+            },
+            error: function (xhr) {
+                console.error("Error fetching deposits:", xhr.responseText);
+                $(".se-pre-con").hide();
+            }
+        });
+    });
+
+    $(document).on("click", "#btnCloseViewDepositModal", function () {
+        self.CurrentSelectedPaymentOrder = {};
+        self.DepositOrders = [];
+        $("#depositOrderModal").modal("hide");
+    });
+
+
+    //Download Invoice   
+    $(document).on("click", ".download-invoice", function () {
+        const orderId = $(this).data("order-id");
+        const order = self.UserPaymentOrders.find(o => o.Id == orderId);
+        if (order) self.generateInvoicePDF(order);
+    });
+
+    self.generateInvoicePDF = function (order) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Header 
+        doc.addImage("/images/logo.png", "PNG", 14, 8, 48, 18);
+        doc.setFontSize(11);
+        doc.text(`Date: ${new Date().toLocaleDateString('en-GB')}`, 195, 20, { align: "right" });
+        doc.setFontSize(32); doc.setFont("helvetica", "bold");
+        doc.text("INVOICE", 105, 38, { align: "center" });
+
+        doc.setFontSize(11); doc.setFont("helvetica", "normal");
+        doc.text(`Invoice No: ${order.OrderReference}`, 14, 48);
+        doc.setFont("helvetica", "bold");
+        doc.text(`Status: ${self.getStatusName(order.OrderStatusId) || self.getStatusName(order.PaymentStatusId) || 'Paid'}`, 14, 55);
+
+        // Bill To
+        doc.setFontSize(12); doc.setFont("helvetica", "bold"); doc.text("Bill To:", 14, 68);
+        doc.setFontSize(11); doc.setFont("helvetica", "normal");
+        doc.text([
+            order.UserFullName || self.ApplicationUser.FullName || "Customer",
+            order.UserEmail || self.ApplicationUser.Email || "N/A",
+            order.UserPhone || self.ApplicationUser.Phone || "N/A"
+        ], 14, 76);
+
+
+        const pendingAmount = self.formatCurrency(order.PendingDepositeAmount || 0);
+        doc.autoTable({
+            startY: 92,
+            head: [["Description", "Amount"]],
+            body: [
+                ["Original Amount", self.formatCurrency(order.Amount || 0)],
+                ["Charge Amount", self.formatCurrency(order.TotalAmountToChargeCustomer || 0)],
+                ["Total Deposit to Customer", self.formatCurrency(order.TotalAmountToDepositToCustomer || 0)],
+                ["Amount Paid", self.formatCurrency(order.TotalAmountToDepositToCustomer || order.Amount || 0)],
+                ["Pending Amount", pendingAmount],
+                ["Payment Status", order.PaymentStatus || order.OrderStatus]
+            ],
+            theme: 'grid',
+            headStyles: { fillColor: [220, 53, 69], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 11 },
+            bodyStyles: { fontSize: 10, cellPadding: 5 },
+            columnStyles: {
+                0: { cellWidth: 120 },  // wider description
+                1: { cellWidth: 60, halign: 'right', fontStyle: 'bold' }  // FIXED width amount column
+            },
+            tableWidth: 'auto',
+            margin: { left: 14, right: 14 }
+        });
+
+
+        const baseY = doc.lastAutoTable.finalY + 14;
+
+        // Payment & Deposit Info
+        doc.setFontSize(12); doc.setFont("helvetica", "bold");
+        doc.text("Payment Information", 14, baseY);
+        doc.setFontSize(10); doc.setFont("helvetica", "normal");
+        doc.text("Please make payment to the following bank account:", 14, baseY + 7);
+        doc.setFont("helvetica", "bold"); doc.text("Bank Name      :", 14, baseY + 15); doc.setFont("helvetica", "normal"); doc.text("ICICI Bank", 55, baseY + 15);
+        doc.setFont("helvetica", "bold"); doc.text("Account Name   :", 14, baseY + 21); doc.setFont("helvetica", "normal"); doc.text("Betalen Payments Pvt Ltd", 55, baseY + 21);
+        doc.setFont("helvetica", "bold"); doc.text("Account Number :", 14, baseY + 27); doc.setFont("helvetica", "normal"); doc.text("678999922445", 55, baseY + 27);
+        doc.setFont("helvetica", "bold"); doc.text("IFSC Code      :", 14, baseY + 33); doc.setFont("helvetica", "normal"); doc.text("ICIC00016", 55, baseY + 33);
+        doc.setFont("helvetica", "bold"); doc.text("Branch         :", 14, baseY + 39); doc.setFont("helvetica", "normal"); doc.text("Andheri East, Mumbai", 55, baseY + 39);
+
+        doc.setFontSize(12); doc.setFont("helvetica", "bold");
+        doc.text("Deposit Information", 120, baseY);
+        doc.setFontSize(10); doc.setFont("helvetica", "normal");
+        doc.text("Amount will be deposited to customer via:", 120, baseY + 7);
+        doc.setFont("helvetica", "bold"); doc.text("Bank Name      :", 120, baseY + 15); doc.setFont("helvetica", "normal"); doc.text(order.BankName || "Customer's Bank", 158, baseY + 15);
+        doc.setFont("helvetica", "bold"); doc.text("Account Holder :", 120, baseY + 21); doc.setFont("helvetica", "normal"); doc.text(order.AccountHolderName || "Customer", 158, baseY + 21);
+        doc.setFont("helvetica", "bold"); doc.text("Account Number :", 120, baseY + 27); doc.setFont("helvetica", "normal"); doc.text(order.BankAccountNumber ? `****${order.BankAccountNumber.slice(-4)}` : "N/A", 158, baseY + 27);
+        doc.setFont("helvetica", "bold"); doc.text("IFSC Code      :", 120, baseY + 33); doc.setFont("helvetica", "normal"); doc.text(order.IFSCCode || "N/A", 158, baseY + 33);
+        doc.setFont("helvetica", "bold"); doc.text("Total Deposit  :", 120, baseY + 39); doc.setFont("helvetica", "normal"); doc.text(self.formatCurrency(order.TotalAmountToDepositToCustomer), 158, baseY + 39);
+
+        // Footer
+        const h = doc.internal.pageSize.height;
+        doc.setFontSize(11); doc.setTextColor(100);
+        doc.text("Thank you for your business!", 14, h - 26);
+        doc.setFont("helvetica", "italic");
+        doc.text("Betalen - Secure Global Payments", 14, h - 12);
+        doc.text("support@betalen.in | www.betalen.in", 14, h - 22);
+
+        doc.save(`Invoice_${order.OrderReference}.pdf`);
+    };
 }

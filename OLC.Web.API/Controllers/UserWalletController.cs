@@ -62,11 +62,11 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("UpdateUserWalletBalanceAsync")]
-        public async Task<IActionResult> UpdateUserWalletBalanceAsync(UserWalletLog userWalletLog)
+        public async Task<IActionResult> UpdateUserWalletBalanceAsync(UserWallet userWallet)
         {
             try
             {
-                var response = await _userWalletManager.UpdateUserWalletBalanceAsync(userWalletLog);
+                var response = await _userWalletManager.UpdateUserWalletBalanceAsync(userWallet);
                 return Ok(response);
 
             }

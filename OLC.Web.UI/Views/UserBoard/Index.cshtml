@@ -114,9 +114,11 @@
                                     <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
                                         <tr>
                                             <th scope="col">Order Reference</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Charge Amount</th>
+                                            <th scope="col">Charged Amount</th>
                                             <th scope="col">Deposit Amount</th>
+                                            <th scope="col">Receved Amount</th>
+                                            <th scope="col">Pending Amount</th>
+                                            <th scope="col">Plotform Fee</th>
                                             <th scope="col">Credit Card</th>
                                             <th scope="col">Bank Account</th>
                                             <th scope="col">Status</th>
@@ -140,10 +142,13 @@
             </div>
         </div>
     </div>
+    <partial name="~/Views/ExecutiveBoard/_DepositOrder.cshtml" />
 </div>
 
 
 <script src="~/js/jquery/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="~/js/Application/UserBoardController.js"></script>
 <script type="text/javascript">
     $(function () {

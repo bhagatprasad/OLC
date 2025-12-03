@@ -204,37 +204,6 @@ namespace OLC.Web.API.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("InsertDepositOrderAsync")]
-        public async Task<IActionResult> InsertDepositOrderAsync([FromBody] DepositOrder depositOrder)
-        {
-            try
-            {
-                var response = await _paymentOrderManager.InsertDepositOrderAsync(depositOrder);
-                return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
-
-        [HttpGet]
-        [Route("GetDepositOrderByOrderIdAsync/{paymentOrderId}")]
-        public async Task<IActionResult> GetDepositOrderByOrderIdAsync(long paymentOrderId)
-        {
-            try
-            {
-                var response = await _paymentOrderManager.GetDepositOrderByOrderIdAsync(paymentOrderId);
-                return Ok(response);
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-        }
         [HttpGet]
         [Route("GetPaymentOrderDetailsAsync/{paymentOrderId}")]
         public async Task<IActionResult> GetPaymentOrderDetailsAsync(long paymentOrderId)

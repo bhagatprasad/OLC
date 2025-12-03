@@ -1,6 +1,8 @@
 ﻿function ProfileController() {
     var self = this;
 
+    self.ApplictionUser = {};
+
     self.init = function () {
         self.loadUserProfile();
         self.loadWalletData();
@@ -8,69 +10,42 @@
     };
 
     self.loadUserProfile = function () {
-        var _appUserInfo = storageService.get('ApplicationUser');
-        self.loadStaticProfileData();
-        //if (_appUserInfo && _appUserInfo.Id) {
-        //    // Load profile data
-        //    $.ajax({
-        //        url: '/User/GetUserProfile',
-        //        type: 'GET',
-        //        data: { userId: _appUserInfo.Id },
-        //        success: function (response) {
-        //            if (response && response.success) {
-        //                self.bindProfileData(response.data);
-        //            }
-        //        },
-        //        error: function (xhr, status, error) {
-        //            console.error('Error loading profile data:', error);
-        //            // Load static profile data if API fails
-        //            self.loadStaticProfileData();
-        //        }
-        //    });
-        //} else {
-        //    // Load static profile data if no user info
-        //    self.loadStaticProfileData();
-        //}
+        self.ApplictionUser = storageService.get('ApplicationUser');
+        self.loadStaticProfileData(self.ApplictionUser);
+      
     };
 
-    self.loadStaticProfileData = function () {
+    self.loadStaticProfileData = function (applicationUser) {
         // Static profile data
         var staticProfileData = {
-            FirstName: 'John',
-            LastName: 'Doe',
-            Email: 'john.doe@example.com',
-            Phone: '+91 9876543210'
+            FirstName: applicationUser.FirstName,
+            LastName: applicationUser.LastName,
+            Email: applicationUser.Email,
+            Phone: applicationUser.Phone
         };
         self.bindProfileData(staticProfileData);
     };
 
     self.loadWalletData = function () {
-        var _appUserInfo = storageService.get('ApplicationUser');
-        self.loadStaticWalletData();
-        //if (_appUserInfo && _appUserInfo.Id) {
-        //    // Load single wallet data for user
-        //    $.ajax({
-        //        url: '/Wallet/GetUserWallet',
-        //        type: 'GET',
-        //        data: { userId: _appUserInfo.Id },
-        //        success: function (response) {
-        //            if (response && response.success) {
-        //                self.bindWalletData(response.data);
-        //            } else {
-        //                // Show static wallet data if API fails
-        //                self.loadStaticWalletData();
-        //            }
-        //        },
-        //        error: function (xhr, status, error) {
-        //            console.error('Error loading wallet data:', error);
-        //            // Show static wallet data
-        //            self.loadStaticWalletData();
-        //        }
-        //    });
-        //} else {
-        //    // Show static wallet data if no user info
-        //    self.loadStaticWalletData();
-        //}
+       
+        if (self.ApplictionUser && self.ApplictionUser.Id) {
+            // Load single wallet data for user
+            $.ajax({
+                url: '/UserWallet/GetUserWallet',
+                type: 'GET',
+                data: { userId: self.ApplictionUser.Id },
+                success: function (response) {
+                    if (response && response.data) {
+                        self.bindWalletData(response.data);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading wallet data:', error);
+                    // Show static wallet data
+                    self.loadStaticWalletData();
+                }
+            });
+        }
     };
 
     self.loadStaticWalletData = function () {
@@ -190,9 +165,9 @@
     };
 
     self.updateProfile = function () {
-        var _appUserInfo = storageService.get('ApplicationUser');
+        var _appUserInfo = self.ApplictionUser;
         var profileData = {
-            Id: _appUserInfo ? _appUserInfo.Id : 1, // Fallback ID for static data
+            Id: _appUserInfo.Id, // Fallback ID for static data
             FirstName: $('#firstName').val(),
             LastName: $('#lastName').val(),
             Email: $('#email').val(),
@@ -222,7 +197,7 @@
     };
 
     self.changePassword = function () {
-        var _appUserInfo = storageService.get('ApplicationUser');
+        var _appUserInfo = self.ApplictionUser;
         var passwordData = {
             UserId: _appUserInfo ? _appUserInfo.Id : 1, // Fallback ID for static data
             CurrentPassword: $('#currentPassword').val(),

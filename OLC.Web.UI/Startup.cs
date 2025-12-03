@@ -92,6 +92,14 @@ namespace OLC.Web.UI
 
             services.AddScoped<IRewardConfigurationServices, RewardConfigurationServices>();
 
+            services.AddScoped<ITransactionRewardService, TransactionRewardService>();
+
+            services.AddScoped<IDepositOrdereService, DepositOrderService>();
+
+            services.AddScoped<IUserWalletService, UserWalletService>();
+
+            services.AddScoped<ICryptocurrencyService, CryptocurrencyService>();
+
             services.AddScoped<IWalletTypeService, WalletTypeService>();
 
 
