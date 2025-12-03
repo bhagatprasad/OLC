@@ -270,5 +270,21 @@ namespace OLC.Web.UI.Controllers
         {
             return View("~/Views/Shared/_userProfileSettingsPartial.cshtml");
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator,Executive,User")]
+        public async Task<IActionResult> UpdateUserPersonalInformation(UserPersonalInformation userPersonalInformation)
+        {
+            try
+            {
+                var response = await _userService.UpdateUserPersonalInformationAsync(userPersonalInformation);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw ex;
+            }
+        }   
     }
 }
