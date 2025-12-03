@@ -272,6 +272,7 @@
     <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspInsertCryptocurrency.sql" />
     <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspGetCryptocurrencyById.sql" />
     <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspUpdateCryptocurrency.sql" />
+    <Build Include="Programmability\Stored Procedures\User\uspUpdateUserPersonalInformation.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
