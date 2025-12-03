@@ -6,6 +6,6 @@ namespace OLC.Web.API.Manager
     {
         Task<List<UserAccount>> GetUserAccountsAsync();
         Task<ApplicationUser> GetUserAccountAsync(long userId);
-        Task<bool>UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation);
+        Task<ApplicationUser> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation);
     }
 }

@@ -270,8 +270,9 @@ namespace OLC.Web.UI.Controllers
         {
             return View("~/Views/Shared/_userProfileSettingsPartial.cshtml");
         }
+
         [HttpPost]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Administrator,Executive,User")]
         public async Task<IActionResult> UpdateUserPersonalInformation(UserPersonalInformation userPersonalInformation)
         {
             try

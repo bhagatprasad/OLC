@@ -27,9 +27,9 @@ namespace OLC.Web.UI.Services
             return await _repositoryFactory.SendAsync<PreviewUserKycDocument>(HttpMethod.Get, url);
         }
 
-        public async Task<bool> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
+        public async Task<ApplicationUser> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
         {
-            return await _repositoryFactory.SendAsync<UserPersonalInformation, bool>(HttpMethod.Post, "UserPersonalInformation/UpdateUserPersonalInformationAsync", userPersonalInformation);
+            return await _repositoryFactory.SendAsync<UserPersonalInformation, ApplicationUser>(HttpMethod.Post, "User/UpdateUserPersonalInformationAsync", userPersonalInformation);
         }
     }
 }

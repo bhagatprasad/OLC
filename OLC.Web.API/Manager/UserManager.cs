@@ -113,8 +113,10 @@ namespace OLC.Web.API.Manager
             return userAccounts;
         }
 
-        public async Task<bool> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
+        public async Task<ApplicationUser> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
         {
+            ApplicationUser applicationUser = new ApplicationUser();
+
             if (userPersonalInformation != null)
             {
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -126,12 +128,12 @@ namespace OLC.Web.API.Manager
                 sqlCommand.Parameters.AddWithValue("@LastName", userPersonalInformation.LastName);
                 sqlCommand.Parameters.AddWithValue("@Email", userPersonalInformation.Email);
                 sqlCommand.Parameters.AddWithValue("@Phone", userPersonalInformation.Phone);
-
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
-                return true;
+
+                applicationUser = await GetUserAccountAsync(userPersonalInformation.Id);
             }
-            return false;
+            return applicationUser;
         }
     }
 }
