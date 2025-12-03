@@ -93,6 +93,7 @@
     <Folder Include="Programmability\Stored Procedures\TransactionReward" />
     <Folder Include="Programmability\Stored Procedures\RewardConfiguration" />
     <Folder Include="Programmability\Stored Procedures\Cryptocurrency" />
+    <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -273,6 +274,10 @@
     <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspGetCryptocurrencyById.sql" />
     <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspUpdateCryptocurrency.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspUpdateUserPersonalInformation.sql" />
+    <Build Include="Tables\UserLoginHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserLoginHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserActivityToday.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetUserLoginActivityByUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
