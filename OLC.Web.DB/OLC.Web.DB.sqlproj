@@ -92,6 +92,7 @@
     <Folder Include="Programmability\Stored Procedures\UserWallet" />
     <Folder Include="Programmability\Stored Procedures\TransactionReward" />
     <Folder Include="Programmability\Stored Procedures\RewardConfiguration" />
+    <Folder Include="Programmability\Stored Procedures\Cryptocurrency" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -266,6 +267,11 @@
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletlogByUserId.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetAllDepositOrders.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetDepositOrdersByUserId.sql" />
+    <Build Include="Tables\Cryptocurrency.sql" />
+    <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspGetAllCryptocurrency.sql" />
+    <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspInsertCryptocurrency.sql" />
+    <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspGetCryptocurrencyById.sql" />
+    <Build Include="Programmability\Stored Procedures\Cryptocurrency\uspUpdateCryptocurrency.sql" />
     <Build Include="Programmability\Stored Procedures\User\uspUpdateUserPersonalInformation.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -297,5 +303,6 @@
     <None Include="Post-Deployement\SeedPaymentOrders.sql" />
     <None Include="Post-Deployement\SeedRewardConfiguration.sql" />
     <None Include="Post-Deployement\SeedUserWallet.sql" />
+    <None Include="Post-Deployement\SeedCryptocurrency.sql" />
   </ItemGroup>
 </Project>

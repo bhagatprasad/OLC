@@ -60,3 +60,6 @@ Post-Deployment Script Template
 
 -- Include seed data for SeedUsers
 :r .\SeedRewardConfiguration.sql
+
+-- Include seed data for SeedCryptocurrency
+:r .\SeedCryptocurrency.sql
