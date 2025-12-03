@@ -92,6 +92,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<IRewardConfigurationServices, RewardConfigurationServices>();
 
+            services.AddScoped<IWalletTypeService, WalletTypeService>();
+
 
             services.AddSession(options =>
             {

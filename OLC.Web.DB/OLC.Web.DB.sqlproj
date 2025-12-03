@@ -92,6 +92,7 @@
     <Folder Include="Programmability\Stored Procedures\UserWallet" />
     <Folder Include="Programmability\Stored Procedures\TransactionReward" />
     <Folder Include="Programmability\Stored Procedures\RewardConfiguration" />
+    <Folder Include="Programmability\Stored Procedures\WalletType" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -264,6 +265,12 @@
     <Build Include="Programmability\Stored Procedures\TransactionReward\uspGetTransactionRewardByPaymentOrderId.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllUsersWalletlog.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletlogByUserId.sql" />
+    <Build Include="Tables\WalletType.sql" />
+    <Build Include="Programmability\Stored Procedures\WalletType\uspGetWalletTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\WalletType\uspGetWalletTypesById.sql" />
+    <Build Include="Programmability\Stored Procedures\WalletType\uspUpdateWalletTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\WalletType\uspDeleteWalletTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\WalletType\uspInsertWalletTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
@@ -294,5 +301,6 @@
     <None Include="Post-Deployement\SeedPaymentOrders.sql" />
     <None Include="Post-Deployement\SeedRewardConfiguration.sql" />
     <None Include="Post-Deployement\SeedUserWallet.sql" />
+    <None Include="Post-Deployement\SeedWalletTypes.sql" />
   </ItemGroup>
 </Project>

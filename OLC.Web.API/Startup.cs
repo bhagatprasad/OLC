@@ -46,14 +46,14 @@ namespace OLC.Web.API
             services.AddScoped<IUserKycDocumentManager, UserKycDocumentManager>();
             services.AddScoped<IPriorityManager, PriorityManager>();
             services.AddScoped<IRewardConfigurationManager, RewardConfigurationManager>();
-
+            services.AddScoped<IWalletTypeManager, WalletTypeManager>();
             //init email service
             services.AddScoped<IEmailSubScriber, EmailSubScriber>();
             //init sms service
             services.AddScoped<ISmsSubscriber, SmsSubscriber>();
             services.AddScoped<IUserWalletManager, UserWalletManager>();
             services.AddScoped<ITransactionRewardManager, TransactionRewardManager>();
-
+            
             services.AddMvc().AddXmlSerializerFormatters();
 
             var emailConfig = _configuration.GetSection("EmailConfig");
