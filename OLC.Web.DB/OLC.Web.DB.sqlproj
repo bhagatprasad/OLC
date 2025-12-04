@@ -93,6 +93,7 @@
     <Folder Include="Programmability\Stored Procedures\TransactionReward" />
     <Folder Include="Programmability\Stored Procedures\RewardConfiguration" />
     <Folder Include="Programmability\Stored Procedures\Cryptocurrency" />
+    <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
     <Folder Include="Programmability\Stored Procedures\WalletType" />
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +281,10 @@
     <Build Include="Programmability\Stored Procedures\WalletType\uspUpdateWalletTypes.sql" />
     <Build Include="Programmability\Stored Procedures\WalletType\uspDeleteWalletTypes.sql" />
     <Build Include="Programmability\Stored Procedures\WalletType\uspInsertWalletTypes.sql" />
+    <Build Include="Tables\UserLoginHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserLoginHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserActivityToday.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetUserLoginActivityByUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
