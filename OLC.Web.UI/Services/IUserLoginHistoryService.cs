@@ -5,6 +5,6 @@ namespace OLC.Web.UI.Services
     {
         Task<List<UserLogInHistory>> GetAllUserLoginHistoryAsync();
         Task<List<UserLogInHistory>> GetAllUserActivityTodayAsync();
-        Task<UserLogInHistory> GetUserLoginActivityByUserIdAsync(long userId);
+        Task<List<UserLogInHistory>> GetUserLoginActivityByUserIdAsync(long userId);
     }
 }

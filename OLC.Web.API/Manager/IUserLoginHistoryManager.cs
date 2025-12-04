@@ -10,6 +10,6 @@ namespace OLC.Web.API.Manager
     {
         Task<List<UserLoginHistory>> GetAllUserLoginHistoryAsync();
         Task<List<UserLoginHistory>> GetAllUserActivityTodayAsync();
-        Task<UserLoginHistory>GetUserLoginActivityByUserIdAsync(long userId);
+        Task<List<UserLoginHistory>>GetUserLoginActivityByUserIdAsync(long userId);
     }
 }

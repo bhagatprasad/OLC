@@ -25,10 +25,10 @@ namespace OLC.Web.UI.Services
             return await _repositoryFactory.SendAsync<List<UserLogInHistory>>(HttpMethod.Get, url);
         }
 
-        public async Task<UserLogInHistory> GetUserLoginActivityByUserIdAsync(long userId)
+        public async Task<List<UserLogInHistory>> GetUserLoginActivityByUserIdAsync(long userId)
         {
             var url = Path.Combine("UserLogInHistory/GetAllUserLoginHistoryAsync",userId.ToString());
-            return await _repositoryFactory.SendAsync<UserLogInHistory>(HttpMethod.Get, url);
+            return await _repositoryFactory.SendAsync<List<UserLogInHistory>>(HttpMethod.Get, url);
         }
     }
 }

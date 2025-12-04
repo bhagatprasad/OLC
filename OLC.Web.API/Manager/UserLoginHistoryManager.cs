@@ -104,9 +104,11 @@ namespace OLC.Web.API.Manager
 
         }
 
-        public async Task<UserLoginHistory> GetUserLoginActivityByUserIdAsync(long userId)
+        public async Task<List<UserLoginHistory>> GetUserLoginActivityByUserIdAsync(long userId)
         {
+            List<UserLoginHistory> userLoginHistories = new List<UserLoginHistory>();
             UserLoginHistory userLoginHistory = null;
+
             SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
 
@@ -145,10 +147,11 @@ namespace OLC.Web.API.Manager
                     userLoginHistory.TotalFailures15Min = Convert.ToInt32(item["TotalFailures15Min"]);
                     userLoginHistory.WasBlocked = Convert.ToBoolean(item["WasBlocked"]);
                     userLoginHistory.CreatedOn = (DateTimeOffset)item["CreatedOn"];
+                    userLoginHistories.Add(userLoginHistory);
                 }
                 
             }
-            return userLoginHistory;
+            return userLoginHistories;
 
         }
     }
