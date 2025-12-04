@@ -285,6 +285,7 @@
     <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserLoginHistory.sql" />
     <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserActivityToday.sql" />
     <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetUserLoginActivityByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletDetailsByUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
