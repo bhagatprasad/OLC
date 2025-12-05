@@ -82,7 +82,24 @@ namespace OLC.Web.UI.Controllers
                 _notyfService.Error(ex.Message);
                 throw ex;
             }
-        }        
+        }
 
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator,Executive,User")]
+        public async Task<IActionResult> GetUserWalletDetailsByUserId(long userId)
+        {
+            try
+            {
+                var response = await _userWalletService.GetUserWalletDetailsByUserIdAsync(userId);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw;
+            }
+
+        }
     }
 }
