@@ -2,6 +2,7 @@
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
 
+
 namespace OLC.Web.API.Controllers
 {
     [Route("api/[controller]")]
@@ -123,5 +124,22 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+            [HttpGet]
+            [Route("GetUserWalletDetailsByUserIdAsync/{userId}")]
+
+            public async Task<IActionResult> GetUserWalletDetailsByUserIdAsync(long userId)
+            {
+                try
+                {
+
+                    var result = await _userWalletManager.uspGetUserWalletDetailsByUserIdAsync(userId);
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+            }
+          
     }
 }
