@@ -1,21 +1,21 @@
 ﻿<!-- Modal -->
-<div class="modal fade" id="deleteWalletType" tabindex="-1" aria-labelledby="walletTypeModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteBlockChain" tabindex="-1" aria-labelledby="blockChainModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="walletTypeModalLabel">Are you sure you want to delete this Wallet Type?</h5>
+                <h5 class="modal-title" id="blockChainModalLabel">Are you sure you want to delete this Block Chain?</h5>
                 <button type="button" class="btn-close btn-view-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <div class="modal-body" style="padding:0">
-                <div class="wallet-type-card">
+                <div class="block-chain-card">
                     <i class="fas fa-cogs chip-icon"></i>
-                    <form id="walletTypeForm">
+                    <form id="blockChainForm">
                         <div class="mb-3">
-                            <label for="DeleteWalletName" class="form-label">
+                            <label for="DeleteBlockChainName" class="form-label">
                                 <i class="fas fa-list-alt"></i> Name
                             </label>
-                            <input type="text" class="form-control" id="DeleteWalletName" placeholder="Savings, Current, etc." maxlength="50" readonly>
+                            <input type="text" class="form-control" id="DeleteBlockChainName" placeholder="Savings, Current, etc." maxlength="50" readonly>
                         </div>
 
                         <div class="mb-3">
@@ -40,14 +40,14 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-view-type-close" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="deleteWalletTypeBtn">Delete</button>
+                <button type="button" class="btn btn-primary" id="deleteBlockChainBtn">Delete</button>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .wallet-type-card {
+    .block-chain-card {
         background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
         border-radius: 15px;
         padding: 20px;
@@ -57,7 +57,7 @@
         overflow: hidden;
     }
 
-        .wallet-type-card::before {
+        .block-chain-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -69,25 +69,25 @@
             opacity: 0.1;
         }
 
-        .wallet-type-card .form-control {
+        .block-chain-card .form-control {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
             border-radius: 5px;
         }
 
-        .wallet-type-card .form-control::placeholder {
+        .block-chain-card .form-control::placeholder {
                 color: rgba(255, 255, 255, 0.7);
             }
 
-        .wallet-type-card .form-select {
+        .block-chain-card .form-select {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
             border-radius: 5px;
         }
 
-            .wallet-type-card .form-select option {
+            .block-chain-card .form-select option {
                 background: #00b09b;
                 color: white;
             }

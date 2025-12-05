@@ -55,6 +55,7 @@ namespace OLC.Web.API
             services.AddScoped<ITransactionRewardManager, TransactionRewardManager>();
             services.AddScoped<IDepositOrderManager, DepositOrderManager>();
             services.AddScoped<ICryptocurrencyManager, CryptocurrencyManager>();
+            services.AddScoped<IBlockChainManager, BlockChainManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 

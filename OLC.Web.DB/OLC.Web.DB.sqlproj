@@ -94,6 +94,7 @@
     <Folder Include="Programmability\Stored Procedures\RewardConfiguration" />
     <Folder Include="Programmability\Stored Procedures\Cryptocurrency" />
     <Folder Include="Programmability\Stored Procedures\WalletType" />
+    <Folder Include="Programmability\Stored Procedures\BlockChains" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -280,6 +281,12 @@
     <Build Include="Programmability\Stored Procedures\WalletType\uspUpdateWalletTypes.sql" />
     <Build Include="Programmability\Stored Procedures\WalletType\uspDeleteWalletTypes.sql" />
     <Build Include="Programmability\Stored Procedures\WalletType\uspInsertWalletTypes.sql" />
+    <Build Include="Tables\BlockChain.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspGetAllBlockChains.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspGetBlockChainById.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspInsertBlockChain.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspUpdateBlockChain.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspDeleteBlockChain.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
