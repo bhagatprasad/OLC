@@ -93,6 +93,7 @@
     <Folder Include="Programmability\Stored Procedures\TransactionReward" />
     <Folder Include="Programmability\Stored Procedures\RewardConfiguration" />
     <Folder Include="Programmability\Stored Procedures\Cryptocurrency" />
+    <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
     <Folder Include="Programmability\Stored Procedures\WalletType" />
     <Folder Include="Programmability\Stored Procedures\BlockChains" />
   </ItemGroup>

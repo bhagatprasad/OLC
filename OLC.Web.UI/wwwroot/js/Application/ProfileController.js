@@ -165,58 +165,98 @@
     };
 
     self.updateProfile = function () {
+
         var _appUserInfo = self.ApplictionUser;
+
         var profileData = {
-            Id: _appUserInfo.Id, // Fallback ID for static data
+            Id: _appUserInfo.Id,
             FirstName: $('#firstName').val(),
             LastName: $('#lastName').val(),
             Email: $('#email').val(),
             Phone: $('#phone').val()
         };
 
-        // For demo purposes - simulate API call
-        console.log('Updating profile:', profileData);
+        console.log("Sending Update Profile Request:", profileData);
 
-        // Simulate API call with timeout
-        setTimeout(function () {
-            // Update stored user info if available
-            if (_appUserInfo) {
-                _appUserInfo.FirstName = profileData.FirstName;
-                _appUserInfo.LastName = profileData.LastName;
-                _appUserInfo.Email = profileData.Email;
-                _appUserInfo.Phone = profileData.Phone;
-                storageService.set('ApplicationUser', _appUserInfo);
+        $.ajax({
+            url: "/User/UpdateUserPersonalInformation",
+            type: "POST",
+            data: JSON.stringify(profileData),
+            contentType: "application/json",
+
+            success: function (response) {
+
+               
+                console.log("RAW RESPONSE:", JSON.stringify(response));
+
+                if (response && response.data) {
+
+                    var updatedUser = response.data;
+
+                    _appUserInfo.FirstName = updatedUser.firstName;
+                    _appUserInfo.LastName = updatedUser.lastName;
+                    _appUserInfo.Email = updatedUser.email;
+                    _appUserInfo.Phone = updatedUser.phone;
+
+                    storageService.set('ApplicationUser', updatedUser);
+                    self.ApplictionUser = updatedUser;
+
+                    self.loadUserProfile();
+
+                    alert("Profile updated successfully!");
+                }
+                else {
+                    alert("Failed to update profile.");
+                }
+            },
+
+            error: function (xhr) {
+                console.error("Error updating profile:", xhr.responseText);
+                alert("Error occurred while updating profile.");
             }
-
-            // Show success message
-            alert('Profile updated successfully!');
-
-            // Remove validation styles
-            $('#profileForm').removeClass('was-validated');
-        }, 1000);
+        });
     };
+
+    
 
     self.changePassword = function () {
+
         var _appUserInfo = self.ApplictionUser;
+
         var passwordData = {
-            UserId: _appUserInfo ? _appUserInfo.Id : 1, // Fallback ID for static data
-            CurrentPassword: $('#currentPassword').val(),
-            NewPassword: $('#newPassword').val()
+            UserId: _appUserInfo ? _appUserInfo.Id : 0,
+            Password: $("#newPassword").val(),
+            ConformPassword: $("#confirmPassword").val()
         };
 
-        // For demo purposes - simulate API call
-        console.log('Changing password for user:', passwordData.UserId);
+        console.log("Sending Change Password Request:", passwordData);
 
-        // Simulate API call with timeout
-        setTimeout(function () {
-            // Clear password fields
-            $('#currentPassword').val('');
-            $('#newPassword').val('');
-            $('#confirmPassword').val('');
-            $('#passwordForm').removeClass('was-validated');
+        $.ajax({
+            url: "/Account/ChangePassword",
+            type: "POST",
+            data: JSON.stringify(passwordData),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
 
-            // Show success message
-            alert('Password changed successfully!');
-        }, 1000);
+                console.log("Change Password Response:", response);
+
+                if (response.data === true) {
+
+                    alert("Password changed successfully!");
+
+                    $("#newPassword").val("");
+                    $("#confirmPassword").val("");
+                    $("#passwordForm").removeClass("was-validated");
+                }
+                else {
+                    alert("Unable to change password. Please try again.");
+                }
+            },
+            error: function (xhr) {
+                console.error("Error:", xhr.responseText);
+                alert("Error changing password.");
+            }
+        });
     };
+
 }

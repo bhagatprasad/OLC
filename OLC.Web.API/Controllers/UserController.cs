@@ -188,8 +188,8 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpPost]
-        [Route("UpdateUserPersonalInformationAsync")]
-        public async Task<IActionResult> UpdateUserPersonalInformationAsync(UserPersonalInformation userPersonalInformation)
+        [Route("UpdateUserPersonalInformation")]
+        public async Task<IActionResult> UpdateUserPersonalInformation([FromBody]UserPersonalInformation userPersonalInformation)
         {
             try
             {
