@@ -48,7 +48,7 @@
             tbody.empty();
             cardsContainer.empty();
 
-            if (self.BlockChains.lenth > 0) {
+            if (self.BlockChains.length > 0) {
                 self.BlockChains.forEach(function (type) {
                     const statusBadge = getStatusBadge(type);
                     const actionButtons = type.IsActive
@@ -64,7 +64,7 @@
                                 <td>${type.Code}</td>
                                 <td>${formatDate(type.CreatedOn)}</td>
                                 <td>${formatDate(type.ModifiedOn)}</td>
-                                <td>${statusBudge}</td>
+                                <td>${statusBadge}</td>
                                 <td>${actionButtons}</td>
                             </tr>`;
                     tbody.append(row);
@@ -74,7 +74,7 @@
                                     <p><strong>ID:</strong> #${type.Id}</p>
                                     <p><strong>Name:</strong> ${type.Name}</p>
                                     <p><strong>Code:</strong> ${type.Code}</p>
-                                    <p><strong>Status:</strong> ${statusBudge}</p>
+                                    <p><strong>Status:</strong> ${statusBadge}</p>
                                     <p><strong>Created:</strong> ${formatDate(type.CreatedOn)}</p>
                                     <p><strong>Modified:</strong> ${formatDate(type.ModifiedOn)}</p>
                                 </div>
