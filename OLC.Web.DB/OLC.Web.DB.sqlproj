@@ -288,6 +288,7 @@
     <Build Include="Programmability\Stored Procedures\BlockChains\uspInsertBlockChain.sql" />
     <Build Include="Programmability\Stored Procedures\BlockChains\uspUpdateBlockChain.sql" />
     <Build Include="Programmability\Stored Procedures\BlockChains\uspDeleteBlockChain.sql" />
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetAllExecutiveDepositOrderDetails.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletDetailsByUserId_1.sql" />
   </ItemGroup>
   <ItemGroup>
