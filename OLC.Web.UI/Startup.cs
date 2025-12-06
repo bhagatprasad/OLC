@@ -101,8 +101,7 @@ namespace OLC.Web.UI
             services.AddScoped<ICryptocurrencyService, CryptocurrencyService>();
 
             services.AddScoped<IWalletTypeService, WalletTypeService>();
-
-            services.AddScoped< IUserWalletDetailsService, UserWalletDetailsService>();
+           
 
             services.AddSession(options =>
             {

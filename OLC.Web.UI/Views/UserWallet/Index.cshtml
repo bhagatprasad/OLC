@@ -1,0 +1,148 @@
+﻿@{
+    ViewData["Title"] = "Wallet - Executive Board";
+    Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+}
+
+<!-- Logged-in User ID -->
+<input type="hidden" id="LoggedInUserId" value="@User.FindFirst("UserId")?.Value" />
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-5">
+
+                <!-- Total Earned -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Total Earned</h5>
+                                    <h2 class="fw-bold text-primary" id="totalEarned">$0</h2>
+                                </div>
+                                <div class="card-icon bg-primary text-white">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Balance -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Current Balance</h5>
+                                    <h2 class="fw-bold text-success" id="currentBalance">$0</h2>
+                                </div>
+                                <div class="card-icon bg-success text-white">
+                                    <i class="fas fa-wallet"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Spent -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Total Spent</h5>
+                                    <h2 class="fw-bold text-warning" id="totalSpent">$0</h2>
+                                </div>
+                                <div class="card-icon bg-warning text-white">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Failed -->
+                <div class="col-xl-3 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Failed</h5>
+                                    <h2 class="fw-bold text-danger" id="totalFailed">0</h2>
+                                </div>
+                                <div class="card-icon bg-danger text-white">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <!-- Wallet Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-wallet me-2"></i>All User Wallet Details
+                            </h5>
+                            <div class="input-group" style="max-width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search wallet..." id="walletSearch">
+                                <span class="input-group-text bg-primary text-white">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Desktop Table -->
+                        <div class="card-body p-0 d-none d-lg-block">
+                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                                <table class="table table-hover mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Wallet ID</th>
+                                            <th>Wallet Type</th>
+                                            <th>Current Balance</th>
+                                            <th>Total Earned</th>
+                                            <th>Total Spent</th>
+                                            <th>Currency</th>
+                                            <th>Wallet Info</th>
+                                            <th>Status</th>
+                                            <th>Last Updated</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="walletTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Cards -->
+                        <div class="card-body p-0 d-lg-none" id="mobileWalletCards"></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="~/js/jquery/jquery.min.js"></script>
+
+<script src="~/js/Application/UserWalletController.js"></script>
+
+<script>
+    var walletCtrl = new UserWalletController();
+    walletCtrl.init();
+</script>
+
