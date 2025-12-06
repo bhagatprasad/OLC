@@ -162,6 +162,7 @@ namespace OLC.Web.API.Manager
                     wallet.Currency = item["Currency"].ToString() ;
 
                     wallet.IsActive = Convert.ToBoolean(item["IsActive"]) ;
+                                      
 
                     wallet.CreatedBy = Convert.ToInt64(item["CreatedBy"]) ;
 
@@ -170,6 +171,12 @@ namespace OLC.Web.API.Manager
                     wallet.ModifiedOn = (DateTimeOffset)(item["ModifiedOn"]);
 
                     wallet.ModifiedBy = Convert.ToInt64(item["ModifiedBy"]);
+
+                    wallet.UserEmail = item["UserEmail"] != DBNull.Value ? (item["UserEmail"]).ToString() : null;
+                    wallet.UserPhone = item["UserPhone"] != DBNull.Value ? (item["UserPhone"]).ToString() : null;
+
+                    wallet.Status = Convert.ToString(item["Status"]);
+
                     getUserWallets.Add(wallet);
                 }
             }

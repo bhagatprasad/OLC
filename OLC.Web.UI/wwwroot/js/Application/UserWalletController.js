@@ -148,9 +148,15 @@
                     <td>${self.formatCurrency(wallet.CurrentBalance)}</td>
                     <td>${self.formatCurrency(wallet.TotalEarned)}</td>
                     <td>${self.formatCurrency(wallet.TotalSpent)}</td>
-                    <td>${wallet.Currency}</td>
-                    <td>${wallet.WalletInfo || "N/A"}</td>
-                    <td>${statusBadge}</td>
+                    <td>${wallet.Currency}</td>                    
+                    <td>
+                        <div class="small">
+                            <div><i class="fas fa-envelope me-1 text-muted"></i>${wallet.UserEmail || 'N/A'}</div>
+                            <div><i class="fas fa-phone me-1 text-muted"></i>${wallet.UserPhone || 'N/A'}</div>
+                        </div>
+                    </td>
+                    <td>${wallet.Status || 'N/A'}</td>
+                   
                     <td>${self.formatDate(wallet.ModifiedOn)}</td>
                     <td>
                        <div class="btn-group">
@@ -162,24 +168,35 @@
             } else {
                 const card = document.createElement('div');
                 card.className = 'card mb-3 border';
+
                 card.innerHTML = `
-                    <div class="card-body">
-                        <div><strong>ID:</strong> ${wallet.WalletId}</div>
-                        <div><strong>Type:</strong> ${wallet.WalletType}</div>
-                        <div><strong>Balance:</strong> ${self.formatCurrency(wallet.CurrentBalance)}</div>
-                        <div><strong>Total Earned:</strong> ${self.formatCurrency(wallet.TotalEarned)}</div>
-                        <div><strong>Total Spent:</strong> ${self.formatCurrency(wallet.TotalSpent)}</div>
-                        <div><strong>Currency:</strong> ${wallet.Currency}</div>
-                        <div><strong>Info:</strong> ${wallet.WalletInfo || "N/A"}</div>
-                        <div><strong>Status:</strong> ${statusBadge}</div>
-                        <div><strong>Last Updated:</strong> ${self.formatDate(wallet.ModifiedOn)}</div>
-                         <div class="card-footer py-2">
-                        <div class="btn-group w-100" role="group">
-                            ${mobileActionButtons}
+                        <div class="card-body">
+                            <div><strong>ID:</strong> ${wallet.WalletId}</div>
+                            <div><strong>Type:</strong> ${wallet.WalletType}</div>
+                            <div><strong>Balance:</strong> ${self.formatCurrency(wallet.CurrentBalance)}</div>
+                            <div><strong>Total Earned:</strong> ${self.formatCurrency(wallet.TotalEarned)}</div>
+                            <div><strong>Total Spent:</strong> ${self.formatCurrency(wallet.TotalSpent)}</div>
+                            <div><strong>Currency:</strong> ${wallet.Currency}</div>
+
+                            <div class="mt-2">
+                                <small class="text-muted d-block">User</small>
+                                <div class="d-flex justify-content-between">
+                                    <span><i class="fas fa-envelope me-1"></i>${wallet.UserEmail}</span>
+                                    <span><i class="fas fa-phone me-1"></i>${wallet.UserPhone}</span>
+                                </div>
+                            </div>
+
+                            <div><strong>Status:</strong> ${wallet.Status}</div>
+                            <div><strong>Last Updated:</strong> ${self.formatDate(wallet.ModifiedOn)}</div>
                         </div>
-                    </div>
-                    </div>
-                `;
+
+                        <div class="card-footer py-2">
+                            <div class="btn-group w-100">
+                                ${mobileActionButtons}
+                            </div>
+                        </div>
+                    `;
+
                 mobileFragment.appendChild(card);
             }
         });
