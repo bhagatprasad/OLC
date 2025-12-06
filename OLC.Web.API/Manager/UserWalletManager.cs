@@ -367,6 +367,7 @@ namespace OLC.Web.API.Manager
                     userWalletDetails.Currency = Convert.ToString(item["Currency"]);
                     userWalletDetails.UserEmail = item["UserEmail"] != DBNull.Value ? (item["UserEmail"]).ToString() : null;
                     userWalletDetails.UserPhone = item["UserPhone"] != DBNull.Value ? (item["UserPhone"]).ToString() : null;
+                    userWalletDetails.Code = item["Code"] != DBNull.Value ? (item["Code"]).ToString() : null;
                     userWalletDetails.IsActive = Convert.ToBoolean(item["Isactive"]);
                     userWalletDetails.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
                     userWalletDetails.CreatedOn = (DateTimeOffset)(item["CreatedOn"]);
