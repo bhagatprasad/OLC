@@ -15,5 +15,8 @@
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset ModifiedOn { get; set; }
         public long? ModifiedBy { get; set; }
+        public string? UserEmail { get; set; }
+        public string? UserPhone { get; set; }
+        public string Status { get; set; }
     }
 }
