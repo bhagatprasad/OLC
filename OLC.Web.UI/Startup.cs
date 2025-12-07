@@ -103,6 +103,10 @@ namespace OLC.Web.UI
             services.AddScoped<IWalletTypeService, WalletTypeService>();
            
 
+            services.AddScoped<IBlockChainService, BlockChainService>();
+
+            services.AddScoped<INewsLetterService, NewsLetterService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
