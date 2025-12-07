@@ -16,10 +16,10 @@
     // Initialize controller
     self.init = function () {
         $(".se-pre-con").show();
-        
-        const appUserInfo = localStorage.getItem('ApplicationUser');
+
+        var appUserInfo = storageService.get('ApplicationUser');
         if (appUserInfo) {
-            self.ApplicationUser = JSON.parse(appUserInfo);
+            self.ApplicationUser = appUserInfo;
         }
 
         // Load all wallets

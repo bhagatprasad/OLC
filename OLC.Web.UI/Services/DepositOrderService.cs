@@ -32,9 +32,9 @@ namespace OLC.Web.UI.Services
             return await _repositoryFactory.SendAsync<DepositOrder, bool>(HttpMethod.Post, "DepositOrder/InsertDepositOrderAsync",depositOrder);
         }
 
-        public async Task<List<ExecutiveDepositOrderDetails>> uspGetAllExecutiveDepositOrderDetailsAsync()
+        public async Task<List<ExecutiveDepositOrderDetails>> GetAllExecutiveDepositOrderDetailsAsync()
         {
-            var url = Path.Combine("DepositOrder/uspGetAllExecutiveDepositOrderDetailsAsync");
+            var url = Path.Combine("DepositOrder/GetAllExecutiveDepositOrderDetailsAsync");
             return await _repositoryFactory.SendAsync<List<ExecutiveDepositOrderDetails>>(HttpMethod.Get, url);
         }
     }

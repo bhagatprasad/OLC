@@ -95,13 +95,13 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        [HttpPost]
-        [Authorize(Roles = "Executive")]
-        public async Task<IActionResult> uspGetAllExecutiveDepositOrderDetails()
+        [HttpGet]
+        [Authorize(Roles = "Administrator,Executive")]
+        public async Task<IActionResult> GetAllExecutiveDepositOrderDetails()
         {
             try
             {
-                var response = await _depositservice.uspGetAllExecutiveDepositOrderDetailsAsync();
+                var response = await _depositservice.GetAllExecutiveDepositOrderDetailsAsync();
                 return Json(new { data = response });
             }
             catch (Exception ex)
