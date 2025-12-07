@@ -32,7 +32,7 @@ namespace OLC.Web.UI.Services
 
         public async Task<UserWalletDetails> GetUserWalletDetailsByUserIdAsync(long userId)
         {
-            var url = Path.Combine("UserWalletDetails/GetUserWalletDetailsByUserIdAsync", userId.ToString());
+            var url = Path.Combine("UserWallet/GetUserWalletDetailsByUserIdAsync", userId.ToString());
             return await _repositoryFactory.SendAsync<UserWalletDetails>(HttpMethod.Get, url);
         }
 

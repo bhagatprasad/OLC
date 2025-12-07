@@ -219,5 +219,49 @@ namespace OLC.Web.API.Manager
             sqlConnection.Close();
             return true;
         }
+
+        public async Task<List<ExecutiveDepositOrderDetails>> uspGetAllExecutiveDepositOrderDetailsAsync()
+        {
+            List<ExecutiveDepositOrderDetails> executiveDepositOrderDetailsList = new List<ExecutiveDepositOrderDetails>();
+            ExecutiveDepositOrderDetails executiveDepositOrderDetails = null;
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+            sqlConnection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAllExecutiveDepositOrderDetails]", sqlConnection);
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter DA= new SqlDataAdapter(sqlCommand);
+            
+            DataTable dt = new DataTable();
+            DA.Fill(dt);
+            sqlConnection.Close();
+            if (dt.Rows.Count>0)
+            {
+                foreach(DataRow dr in dt.Rows)
+                {
+                    executiveDepositOrderDetails = new ExecutiveDepositOrderDetails();
+
+                    executiveDepositOrderDetails.UserId = dr["UserId"] != DBNull.Value ? Convert.ToInt64(dr["UserId"]) : null;
+                    executiveDepositOrderDetails.DepositOrderId = dr["DepositOrderId"] != DBNull.Value ? Convert.ToInt64(dr["DepositOrderId"]) : null;
+                    executiveDepositOrderDetails.PaymentOrderId = dr["PaymentOrderId"] != DBNull.Value ? Convert.ToInt64(dr["PaymentOrderId"]) : null;
+                    executiveDepositOrderDetails.PaymentReasonId = dr["PaymentReasonId"] != DBNull.Value ? Convert.ToInt64(dr["PaymentReasonId"]) : null;
+                    executiveDepositOrderDetails.DepositeReferance = dr["DepositeReferance"] != DBNull.Value ? dr["DepositeReferance"].ToString() : null;
+                    executiveDepositOrderDetails.PaymentReferance = dr["PaymentReferance"] != DBNull.Value ? dr["PaymentReferance"].ToString() : null;
+                    executiveDepositOrderDetails.ActualDepositeAmount = dr["ActualDepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["ActualDepositeAmount"]) : null;
+                    executiveDepositOrderDetails.DepositeAmount = dr["DepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["DepositeAmount"]) : null;
+                    executiveDepositOrderDetails.PendingDepositeAmount = dr["PendingDepositeAmount"] != DBNull.Value ? Convert.ToDecimal(dr["PendingDepositeAmount"]) : null;
+                    executiveDepositOrderDetails.Email = dr["Email"] != DBNull.Value ? dr["Email"].ToString() : null;
+                    executiveDepositOrderDetails.Phone = dr["Phone"] != DBNull.Value ? dr["Phone"].ToString() : null;
+                    executiveDepositOrderDetails.CreditCardNumber = dr["CreditCardNumber"] != DBNull.Value ? dr["CreditCardNumber"].ToString() : null;
+                    executiveDepositOrderDetails.DepositedTo = dr["DepositedTo"] != DBNull.Value ? dr["DepositedTo"].ToString() : null;
+                    executiveDepositOrderDetails.DepositedAccountNumber = dr["DepositedAccountNumber"] != DBNull.Value ? dr["DepositedAccountNumber"].ToString() : null;
+                    executiveDepositOrderDetails.IFSCCode = dr["IFSCCode"] != DBNull.Value ? dr["IFSCCode"].ToString() : null;
+                    executiveDepositOrderDetails.BankName = dr["BankName"] != DBNull.Value ? dr["BankName"].ToString() : null;
+                    executiveDepositOrderDetails.BranchName = dr["BranchName"] != DBNull.Value ? dr["BranchName"].ToString() : null;
+                    executiveDepositOrderDetailsList.Add(executiveDepositOrderDetails);
+                }
+            }
+            return executiveDepositOrderDetailsList;
+        }
     }
 }

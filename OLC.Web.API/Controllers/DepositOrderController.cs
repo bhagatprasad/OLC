@@ -76,5 +76,19 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpGet]
+        [Route("uspGetAllExecutiveDepositOrderDetailsAsync")]
+        public async Task<IActionResult> uspGetAllExecutiveDepositOrderDetailsAsync()
+        {
+            try
+            {
+                var response = await _depositOrderManager.uspGetAllExecutiveDepositOrderDetailsAsync();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

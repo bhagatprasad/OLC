@@ -57,7 +57,10 @@ namespace OLC.Web.API
             services.AddScoped<ICryptocurrencyManager, CryptocurrencyManager>();
             services.AddScoped<IUserLoginHistoryManager, UserLoginHistoryManager>();
             services.AddScoped<INewsLetterManager, NewsLetterManager>();
+            services.AddScoped<IUserLoginHistoryManager, UserLoginHistoryManager>();           
+            
             services.AddScoped<IBlockChainManager, BlockChainManager>();
+            
 
             services.AddMvc().AddXmlSerializerFormatters();
 

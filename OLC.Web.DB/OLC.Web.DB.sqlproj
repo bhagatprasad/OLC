@@ -293,6 +293,8 @@
     <Build Include="Programmability\Stored Procedures\NewsLetter\uspGetAllNewsLetter.sql" />
     <Build Include="Programmability\Stored Procedures\NewsLetter\uspInsertNewsLetter.sql" />
     <Build Include="Programmability\Stored Procedures\NewsLetter\uspUpdateNewsLetter.sql" />
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetAllExecutiveDepositOrderDetails.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletDetailsByUserId_1.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
