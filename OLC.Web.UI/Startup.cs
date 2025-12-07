@@ -104,6 +104,7 @@ namespace OLC.Web.UI
 
             services.AddScoped<IBlockChainService, BlockChainService>();
 
+            services.AddScoped<INewsLetterService, NewsLetterService>();
 
             services.AddSession(options =>
             {

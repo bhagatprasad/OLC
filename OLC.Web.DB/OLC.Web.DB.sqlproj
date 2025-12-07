@@ -96,6 +96,7 @@
     <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
     <Folder Include="Programmability\Stored Procedures\WalletType" />
     <Folder Include="Programmability\Stored Procedures\BlockChains" />
+    <Folder Include="Programmability\Stored Procedures\NewsLetter" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -288,6 +289,10 @@
     <Build Include="Programmability\Stored Procedures\BlockChains\uspInsertBlockChain.sql" />
     <Build Include="Programmability\Stored Procedures\BlockChains\uspUpdateBlockChain.sql" />
     <Build Include="Programmability\Stored Procedures\BlockChains\uspDeleteBlockChain.sql" />
+    <Build Include="Tables\NewsLetter.sql" />
+    <Build Include="Programmability\Stored Procedures\NewsLetter\uspGetAllNewsLetter.sql" />
+    <Build Include="Programmability\Stored Procedures\NewsLetter\uspInsertNewsLetter.sql" />
+    <Build Include="Programmability\Stored Procedures\NewsLetter\uspUpdateNewsLetter.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

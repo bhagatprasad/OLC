@@ -1,0 +1,66 @@
+﻿<form id="AddEditNewsLetterForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Add/Edit NewsLetter</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!--Email -->
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-list-alt"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="Email" maxlength="50" placeholder="Enter Email" required>
+                </div>
+            </div>
+
+            <!--SubscribedOn  -->
+            <div class="form-group">
+                <label for="SubscribedOn">SubscribedOn</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="SubscribedOn" maxlength="50" placeholder="Enter SubscribedOn" required>
+                </div>
+            </div>
+
+            <!--UnsubscribedOn  -->
+            <div class="form-group">
+                <label for="UnsubscribedOn">UnsubscribedOn</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="UnsubscribedOn" maxlength="50" placeholder="Enter UnsubscribedOn" required>
+                </div>
+            </div>
+            <!-- IsActive -->
+            <div class="form-group">
+                <label for="IsActive">Status</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-toggle-on"></i></span>
+                    </div>
+                    <select class="form-control form-select" id="IsActive" required>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+    </div>
+</form>
+
+
+
+
