@@ -77,12 +77,12 @@ namespace OLC.Web.API.Controllers
             }
         }
         [HttpGet]
-        [Route("uspGetAllExecutiveDepositOrderDetailsAsync")]
-        public async Task<IActionResult> uspGetAllExecutiveDepositOrderDetailsAsync()
+        [Route("GetAllExecutiveDepositOrderDetailsAsync")]
+        public async Task<IActionResult> GetAllExecutiveDepositOrderDetailsAsync()
         {
             try
             {
-                var response = await _depositOrderManager.uspGetAllExecutiveDepositOrderDetailsAsync();
+                var response = await _depositOrderManager.GetAllExecutiveDepositOrderDetailsAsync();
                 return Ok(response);
             }
             catch (Exception ex)

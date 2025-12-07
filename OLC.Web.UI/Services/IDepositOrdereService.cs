@@ -8,6 +8,6 @@ namespace OLC.Web.UI.Services
         Task<bool> InsertDepositOrderAsync(DepositOrder depositOrder);
         Task<List<DepositOrder>> GetDepositOrderByOrderIdAsync(long paymentOrderId);
         Task<List<DepositOrder>> GetDepositOrderByUserIdAsync(long userId);
-        Task<List<ExecutiveDepositOrderDetails>> uspGetAllExecutiveDepositOrderDetailsAsync();
+        Task<List<ExecutiveDepositOrderDetails>> GetAllExecutiveDepositOrderDetailsAsync();
     }
 }
