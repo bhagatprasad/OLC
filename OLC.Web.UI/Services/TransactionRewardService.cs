@@ -11,6 +11,11 @@ namespace OLC.Web.UI.Services
             _repositoryFactory = repositoryFactory;
         }
 
+        public Task<List<TransactionRewardDetails>> GetAllExecutiveTransactionRewardDetailsAsync()
+        {
+           return _repositoryFactory.SendAsync<List<TransactionRewardDetails>>(HttpMethod.Get, "TransactionReward/GetAllExecutiveTransactionRewardDetailsAsync");
+        }
+
         public async Task<List<TransactionReward>> GetAllTransactionRewardsAsync()
         {
             return await _repositoryFactory.SendAsync<List<TransactionReward>>(HttpMethod.Get, "TransactionReward/GetAllTransactionRewardsAsync");
