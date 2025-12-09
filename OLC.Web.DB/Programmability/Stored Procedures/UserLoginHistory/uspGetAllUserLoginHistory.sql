@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetAllUserLoginHistory]
-AS
+	AS
 BEGIN
     SET NOCOUNT ON;
 

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetAllUserActivityToday]
-AS
+	AS
 BEGIN
     SET NOCOUNT ON;
 
