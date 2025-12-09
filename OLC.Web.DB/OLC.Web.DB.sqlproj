@@ -93,10 +93,10 @@
     <Folder Include="Programmability\Stored Procedures\TransactionReward" />
     <Folder Include="Programmability\Stored Procedures\RewardConfiguration" />
     <Folder Include="Programmability\Stored Procedures\Cryptocurrency" />
-    <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
     <Folder Include="Programmability\Stored Procedures\WalletType" />
     <Folder Include="Programmability\Stored Procedures\BlockChains" />
     <Folder Include="Programmability\Stored Procedures\NewsLetter" />
+    <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -296,6 +296,10 @@
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetAllExecutiveDepositOrderDetails.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletDetailsByUserId_1.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionReward\uspGetAllExecutiveTransactionRewardDetails.sql" />
+    <Build Include="Tables\UserLoginHistory_1.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserActivityToday.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserLoginHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetUserLoginActivityByUserId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetUserLoginActivityByUserId]
-(
+	(
     @UserId BIGINT
 )
 AS
