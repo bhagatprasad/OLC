@@ -77,5 +77,19 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+        [HttpGet]
+        [Route("GetAllExecutiveTransactionRewardDetailsAsync")]
+        public async Task<IActionResult> GetAllExecutiveTransactionRewardDetails()
+        {
+            try
+            {
+                var response = await _transactionRewardManager.GetAllExecutiveTransactionRewardDetailsAsync();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
