@@ -10,7 +10,7 @@ namespace OLC.Web.API.Manager
     {
         private readonly string connectionString;
         private readonly IUserManager _userManager;
-        private readonly ISmsSubscriber _smsSubscriber;
+        private readonly ISmsSubscriber _smsSubscriber;      
         public AccountManager(IConfiguration configuration,
             IUserManager userManager,
             ISmsSubscriber smsSubscriber)

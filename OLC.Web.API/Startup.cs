@@ -61,6 +61,7 @@ namespace OLC.Web.API
             
             services.AddScoped<IBlockChainManager, BlockChainManager>();
             
+            services.AddScoped<IExecutivesManager, ExecutivesManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 
