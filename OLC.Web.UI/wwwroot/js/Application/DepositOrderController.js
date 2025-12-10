@@ -106,8 +106,7 @@
         self.hasMoreData = nextData.length === self.pageSize;
         self.isLoading = false;
     };
-
-    // Render Orders
+   
     self.renderOrders = function (orders, clearExisting = false) {
         const tbody = $('#depositTableBody');
         const mobileContainer = $('#mobileDepositCards');
@@ -129,52 +128,72 @@
             if (!self.isMobile) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${order.DepositeReferance}</td>
-                    <td>${order.OrderReference}</td>
-                    <td>${self.formatCurrency(order.TotalAmount)}</td>
-                    <td>${self.formatCurrency(order.DepositedAmount)}</td>
-                    <td>${self.formatCurrency(order.PendingAmount)}</td>
-                    <td>${order.UserEmail || 'N/A'}</td>
-                    <td>${order.UserPhone || 'N/A'}</td>
-                    <td>${order.CreditCardNumber || 'N/A'}</td>
-                    <td>${order.BankAccount || 'N/A'}</td>
-                    <td>
-                        <div class="btn-group">
-                            ${actionButtons}
-                        </div>
-                    </td>
-                `;
+                <td>${order.DepositeReference || order.DepositeReferance || 'N/A'}</td>
+                <td>${order.OrderReference || 'N/A'}</td>
+                <td>${self.formatCurrency(order.TotalAmount)}</td>
+                <td>${self.formatCurrency(order.DepositedAmount)}</td>
+                <td>${self.formatCurrency(order.PendingAmount)}</td>
+
+                <td>
+                    <div class="small">
+                        <div><i class="fas fa-envelope me-1 text-muted"></i>${order.UserEmail || 'N/A'}</div>
+                        <div><i class="fas fa-phone me-1 text-muted"></i>${order.UserPhone || 'N/A'}</div>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="small">
+                        <div><i class="fas fa-credit-card me-1 text-success"></i>${order.CreditCardNumber || 'N/A'}</div>
+                        <div><i class="fas fa-university me-1 text-info"></i>${order.BankAccount || 'N/A'}</div>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="btn-group">
+                        ${actionButtons}
+                    </div>
+                </td>
+            `;
                 fragment.appendChild(row);
             }
+
+            // Mobile card
             else {
-                // Mobile card
                 const card = document.createElement('div');
                 card.className = 'card mb-3 border';
 
                 card.innerHTML = `
-                    <div class="card-body">
-                        <div><strong>Deposit Ref:</strong> ${order.DepositeReferance}</div>
-                        <div><strong>Order Ref:</strong> ${order.OrderReference}</div>
-                        <div><strong>Total:</strong> ${self.formatCurrency(order.TotalAmount)}</div>
-                        <div><strong>Deposited:</strong> ${self.formatCurrency(order.DepositedAmount)}</div>
-                        <div><strong>Pending:</strong> ${self.formatCurrency(order.PendingAmount)}</div>
+                <div class="card-body">
+                    <div><strong>Deposit Ref:</strong> ${order.DepositeReference || order.DepositeReferance || 'N/A'}</div>
+                    <div><strong>Order Ref:</strong> ${order.OrderReference || 'N/A'}</div>
 
-                        <div class="mt-2">
-                            <strong>User:</strong>
-                            <div><i class="fas fa-envelope me-1"></i>${order.UserEmail}</div>
-                            <div><i class="fas fa-phone me-1"></i>${order.UserPhone}</div>
+                    <div><strong>Total:</strong> ${self.formatCurrency(order.TotalAmount)}</div>
+                    <div><strong>Deposited:</strong> ${self.formatCurrency(order.DepositedAmount)}</div>
+                    <div><strong>Pending:</strong> ${self.formatCurrency(order.PendingAmount)}</div>
+
+                    <div class="mt-2">
+                        <small class="text-muted d-block">User</small>
+                        <div class="d-flex justify-content-between">
+                            <span><i class="fas fa-envelope me-1"></i>${order.UserEmail}</span>
+                            <span><i class="fas fa-phone me-1"></i>${order.UserPhone}</span>
                         </div>
+                     </div>
 
-                        <div><strong>Card:</strong> ${order.CreditCardNumber || 'N/A'}</div>
-                        <div><strong>Bank:</strong> ${order.BankAccount || 'N/A'}</div>
-                    </div>
-
-                    <div class="card-footer py-2">
-                        <div class="btn-group w-100">
-                            ${mobileActionButtons}
+                    <div class="mt-2">
+                        <small class="text-muted d-block">Deposite Methods</small>
+                        <div class="d-flex justify-content-between">
+                            <span><i class="fas fa-envelope me-1"></i>${order.CreditCardNumber || 'N/A'}</span>
+                            <span><i class="fas fa-phone me-1"></i>${order.BankAccount || 'N/A'}</span>
                         </div>
+                     </div>
+
+                    
+                <div class="card-footer py-2">
+                    <div class="btn-group w-100">
+                        ${mobileActionButtons}
                     </div>
-                `;
+                </div>
+            `;
 
                 mobileFragment.appendChild(card);
             }
@@ -187,7 +206,7 @@
 
         self.initializeViewHandlers();
     };
-
+     
     // Reset pagination
     self.resetPagination = function () {
         self.currentPage = 0;
@@ -219,10 +238,10 @@
     };
 
     // View Order Details
-    self.initializeViewDepositeOrderHandlers = function () {
+    self.initializeViewHandlers = function () {
         $(".view-order").off("click").on("click", function () {
             const orderId = $(this).data("order-id");
-            self.viewDepositOrderDetails(orderId);
+            self.initializeViewHandlers(orderId);
         });
     };
 
