@@ -59,7 +59,7 @@ namespace OLC.Web.API.Manager
                     log.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset)item["CreatedOn"] : null;
 
                     log.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)item["ModifiedOn"] : null;
-                    log.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) :null;
+                    log.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
 
                     getUserWalletlogs.Add(log);
                 }
@@ -159,12 +159,12 @@ namespace OLC.Web.API.Manager
 
                     wallet.TotalSpent = Convert.ToDecimal(item["TotalSpent"]);
 
-                    wallet.Currency = item["Currency"].ToString() ;
+                    wallet.Currency = item["Currency"].ToString();
 
-                    wallet.IsActive = Convert.ToBoolean(item["IsActive"]) ;
-                                      
+                    wallet.IsActive = Convert.ToBoolean(item["IsActive"]);
 
-                    wallet.CreatedBy = Convert.ToInt64(item["CreatedBy"]) ;
+
+                    wallet.CreatedBy = Convert.ToInt64(item["CreatedBy"]);
 
                     wallet.CreatedOn = (DateTimeOffset)(item["CreatedOn"]);
 
@@ -213,15 +213,15 @@ namespace OLC.Web.API.Manager
 
                     wallet = new UserWallet();
 
-                    wallet.Id = Convert.ToInt64(item["Id"]) ;
+                    wallet.Id = Convert.ToInt64(item["Id"]);
 
-                    wallet.UserId = Convert.ToInt64(item["UserId"]) ;
+                    wallet.UserId = Convert.ToInt64(item["UserId"]);
 
-                    wallet.WalletId = item["WalletId"].ToString() ;
+                    wallet.WalletId = item["WalletId"].ToString();
 
-                    wallet.WalletType = item["WalletType"].ToString() ;
+                    wallet.WalletType = item["WalletType"].ToString();
 
-                    wallet.CurrentBalance = Convert.ToDecimal(item["CurrentBalance"]) ;
+                    wallet.CurrentBalance = Convert.ToDecimal(item["CurrentBalance"]);
 
                     wallet.TotalEarned = Convert.ToDecimal(item["TotalEarned"]);
 
@@ -233,7 +233,7 @@ namespace OLC.Web.API.Manager
 
                     wallet.CreatedBy = Convert.ToInt64(item["CreatedBy"]);
 
-                    wallet.CreatedOn = (DateTimeOffset)item["CreatedOn"] ;
+                    wallet.CreatedOn = (DateTimeOffset)item["CreatedOn"];
 
                     wallet.ModifiedOn = (DateTimeOffset)(item["ModifiedOn"]);
 
@@ -344,46 +344,54 @@ namespace OLC.Web.API.Manager
             throw new NotImplementedException();
         }
 
-        public async Task<UserWalletDetails> uspGetUserWalletDetailsByUserIdAsync(long userId)
+        public async Task<List<UserWalletDetails>> GetAllExecutiveUserWalletDetailsAsync()
         {
-          
-            UserWalletDetails userWalletDetails = new UserWalletDetails();
+            List<UserWalletDetails> userWalletDetailsList = new List<UserWalletDetails>();
+            
+                UserWalletDetails userWalletDetails = null;
 
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetUserWalletDetailsByUserId]", sqlConnection);
-            sqlCommand.CommandType = CommandType.StoredProcedure;
-            sqlCommand.Parameters.AddWithValue("@UserId", userId);
-            SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            sqlConnection.Close();
-            if (dt.Rows.Count > 0)
-            {
-                foreach (DataRow item in dt.Rows)
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+
+                SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAllExecutiveUserWalletDetails]", sqlConnection);
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+                DataTable dt = new DataTable();
+
+                da.Fill(dt);
+                sqlConnection.Close();
+
+                if (dt.Rows.Count > 0)
                 {
-                    userWalletDetails = new UserWalletDetails();
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        userWalletDetails = new UserWalletDetails();
 
-                    userWalletDetails.Id = Convert.ToInt64(item["Id"]);
-                    userWalletDetails.UserId = Convert.ToInt64(item["UserId"]);
-                    userWalletDetails.WalletId = item["WalletId"].ToString();
-                    userWalletDetails.WalletType = item["Wallettype"].ToString();
-                    userWalletDetails.CurrentBalance = Convert.ToDecimal(item["CurrentBalance"]);
-                    userWalletDetails.TotalEarned = Convert.ToDecimal(item["TotalEarned"]);
-                    userWalletDetails.TotalSpent = Convert.ToDecimal(item["TotalSpent"]);
-                    userWalletDetails.Currency = Convert.ToString(item["Currency"]);
-                    userWalletDetails.UserEmail = item["UserEmail"] != DBNull.Value ? (item["UserEmail"]).ToString() : null;
-                    userWalletDetails.UserPhone = item["UserPhone"] != DBNull.Value ? (item["UserPhone"]).ToString() : null;
-                    userWalletDetails.Code = item["Code"] != DBNull.Value ? (item["Code"]).ToString() : null;
-                    userWalletDetails.IsActive = Convert.ToBoolean(item["Isactive"]);
-                    userWalletDetails.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
-                    userWalletDetails.CreatedOn = (DateTimeOffset)(item["CreatedOn"]);
-                    userWalletDetails.ModifiedOn = (DateTimeOffset)(item["ModifiedOn"]);
-                    userWalletDetails.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
-
+                        userWalletDetails.Id = Convert.ToInt64(row["Id"]);
+                        userWalletDetails.UserId = Convert.ToInt64(row["UserId"]);
+                        userWalletDetails.WalletId = row["WalletId"].ToString();
+                        userWalletDetails.WalletType = row["Wallettype"].ToString();
+                        userWalletDetails.CurrentBalance = Convert.ToDecimal(row["CurrentBalance"]);
+                        userWalletDetails.TotalEarned = Convert.ToDecimal(row["TotalEarned"]);
+                        userWalletDetails.TotalSpent = Convert.ToDecimal(row["TotalSpent"]);
+                        userWalletDetails.Currency = Convert.ToString(row["Currency"]);
+                        userWalletDetails.UserEmail = row["UserEmail"] != DBNull.Value ? (row["UserEmail"]).ToString() : null;
+                        userWalletDetails.UserPhone = row["UserPhone"] != DBNull.Value ? (row["UserPhone"]).ToString() : null;
+                        userWalletDetails.Status = row["Status"] != DBNull.Value ? (row["Status"]).ToString() : null;
+                        userWalletDetails.IsActive = Convert.ToBoolean(row["Isactive"]);
+                        userWalletDetails.CreatedBy = row["CreatedBy"] != DBNull.Value ? Convert.ToInt64(row["CreatedBy"]) : null;
+                        userWalletDetails.CreatedOn = (DateTimeOffset)(row["CreatedOn"]);
+                        userWalletDetails.ModifiedOn = (DateTimeOffset)(row["ModifiedOn"]);
+                        userWalletDetails.ModifiedBy = row["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(row["ModifiedBy"]) : null;
+                        userWalletDetailsList.Add(userWalletDetails);
+                    }
                 }
-            }
-            return userWalletDetails;
+                return userWalletDetailsList;
         }
+
     }
 }
+        
+        
+
+ 

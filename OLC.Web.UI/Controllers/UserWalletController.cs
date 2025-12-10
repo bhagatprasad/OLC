@@ -87,11 +87,11 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator,Executive,User")]
-        public async Task<IActionResult> GetUserWalletDetailsByUserId(long userId)
+        public async Task<IActionResult> GetAllExecutiveUserWalletDetails()
         {
             try
             {
-                var response = await _userWalletService.GetUserWalletDetailsByUserIdAsync(userId);
+                var response = await _userWalletService.GetAllExecutiveUserWalletDetailsAsync();
                 return Json(new { data = response });
             }
             catch (Exception ex)

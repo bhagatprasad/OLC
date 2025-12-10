@@ -2,6 +2,6 @@
 {
     public class UserWalletDetails : UserWallet
     {
-        public string? Code { get; set; }
+        public string? Status { get; set; }
     }
 }
