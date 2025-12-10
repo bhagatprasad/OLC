@@ -296,7 +296,6 @@
     <Build Include="Programmability\Stored Procedures\NewsLetter\uspInsertNewsLetter.sql" />
     <Build Include="Programmability\Stored Procedures\NewsLetter\uspUpdateNewsLetter.sql" />
     <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetAllExecutiveDepositOrderDetails.sql" />
-    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletDetailsByUserId_1.sql" />
     <Build Include="Programmability\Stored Procedures\TransactionReward\uspGetAllExecutiveTransactionRewardDetails.sql" />
     <Build Include="Tables\UserLoginHistory_1.sql" />
     <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserActivityToday.sql" />
@@ -307,6 +306,7 @@
     <Build Include="Programmability\Stored Procedures\Executives\uspInsertExecutive.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspGetAllExecutives.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspGetExecutiveByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllExecutiveUserWalletDetails.sql" />
     <Build Include="Tables\EmailTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\Templates\uspGetAllTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\Templates\uspGetTemplateById.sql" />
