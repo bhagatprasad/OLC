@@ -3,141 +3,680 @@
     ViewData["Title"] = "Contactus";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!-- Page Header
-============================================= -->
-<section class="page-header page-header-text-light bg-dark-3 py-5 d-none">
-    <div class="container">
-        <div class="row text-center">
-            <div class="col-12">
-                <ul class="breadcrumb mb-0">
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active">Contact Us</li>
-                </ul>
-            </div>
-            <div class="col-12">
-                <h1>Contact Us</h1>
-            </div>
-        </div>
+
+<!-- Enhanced Payment Processing Cards -->
+<div class="payment-processing-section">
+    <!-- Background Elements -->
+    <div class="processing-bg-elements">
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+        <div class="bg-shape shape-3"></div>
+        <div class="floating-dot dot-1"></div>
+        <div class="floating-dot dot-2"></div>
+        <div class="floating-dot dot-3"></div>
     </div>
-</section>
-<!-- Page Header End -->
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-4">
-            <div class="weather-card one">
-                <div class="top">
-                    <div class="wrapper">
-                        <div class="mynav">
-                            <a href="javascript:;"><span class="lnr lnr-chevron-left"></span></a>
-                            <a href="javascript:;"><span class="lnr lnr-cog"></span></a>
+    <div class="container-fluid position-relative z-1">
+        <!-- Section Header -->
+        <div class="section-header text-center mb-5">
+            <span class="badge bg-primary-soft text-primary rounded-pill px-4 py-2 mb-3">
+                <i class="fas fa-bolt me-2"></i>Processing Options
+            </span>
+            <h2 class="display-5 fw-bold mb-3">
+                Choose Your <span class="text-gradient-primary">Processing Speed</span>
+            </h2>
+            <p class="lead text-muted mb-4">
+                Select how fast you want to receive payments. Faster processing has slightly higher fees.
+            </p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Instant Processing Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="processing-card instant-card">
+                    <div class="card-header">
+                        <div class="speed-badge bg-warning">
+                            <i class="fas fa-rocket"></i>
+                            <span>INSTANT</span>
                         </div>
-                        <h1 class="heading">Instant payment process</h1>
-                        <h3 class="location">User will recevice in 5mins</h3>
-                        <p class="temp">
-                            <span class="temp-value">5</span>
-                            <a href="javascript:;"><span class="temp-type">Mins</span></a>
+                        <div class="time-display">
+                            <div class="time-value">5</div>
+                            <div class="time-unit">MINUTES</div>
+                        </div>
+                        <div class="processing-icon">
+                            <div class="icon-circle bg-warning-soft">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-shield-check text-warning me-2"></i>
+                            Instant Processing
+                        </h3>
+                        <p class="card-subtitle">
+                            Payments processed and settled immediately
                         </p>
+
+                        <div class="features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Real-time confirmation</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>24/7 availability</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Immediate fund availability</span>
+                            </div>
+                        </div>
+
+                        <div class="rate-section">
+                            <div class="rate-header">
+                                <h5>Card Processing Rates</h5>
+                                <div class="rate-badge">
+                                    <span class="badge bg-success">Recommended</span>
+                                </div>
+                            </div>
+
+                            <div class="rate-grid">
+                                <div class="rate-card">
+                                    <div class="rate-type">
+                                        <div class="card-icons">
+                                            <i class="fab fa-cc-visa"></i>
+                                            <i class="fab fa-cc-mastercard"></i>
+                                            <i class="fas fa-credit-card"></i>
+                                        </div>
+                                        <div class="type-name">Visa/Master/Rupay</div>
+                                    </div>
+                                    <div class="rate-value">
+                                        <div class="value">4.00%</div>
+                                        <div class="note">+ ₹2.5 per transaction</div>
+                                    </div>
+                                </div>
+
+                                <div class="rate-card">
+                                    <div class="rate-type">
+                                        <div class="card-icon">
+                                            <i class="fab fa-cc-amex"></i>
+                                        </div>
+                                        <div class="type-name">American Express</div>
+                                    </div>
+                                    <div class="rate-value">
+                                        <div class="value">5.00%</div>
+                                        <div class="note">+ ₹3 per transaction</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="savings-badge">
+                            <i class="fas fa-gift"></i>
+                            <span>First 3 transfers FREE</span>
+                        </div>
+                        <button class="btn btn-warning btn-lg w-100">
+                            <i class="fas fa-play-circle me-2"></i>
+                            Select Instant
+                        </button>
+                    </div>
+
+                    <!-- Animation Element -->
+                    <div class="processing-animation">
+                        <div class="animation-line"></div>
+                        <div class="pulse-circle"></div>
                     </div>
                 </div>
-                <div class="bottom">
-                    <div class="wrapper">
-                        <ul class="forecast">
-                            <a href="javascript:;"><span class="lnr lnr-chevron-up go-up"></span></a>
-                            <li class="active">
-                                <span class="date">Visa/Master/Rupay/Mestro</span>
-                                <span class="lnr lnr-sun condition">
-                                    <span class="temp">4.00<span class="deg"></span><span class="temp-type">%</span></span>
-                                </span>
-                            </li>
-                            <li>
-                                <span class="date">American Express(India)</span>
-                                <span class="lnr lnr-cloud condition">
-                                    <span class="temp">5.00<span class="deg"></span><span class="temp-type">%</span></span>
-                                </span>
-                            </li>
-                        </ul>
+            </div>
+
+            <!-- Standard Processing Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="processing-card standard-card">
+                    <div class="card-header">
+                        <div class="speed-badge bg-primary">
+                            <i class="fas fa-clock"></i>
+                            <span>STANDARD</span>
+                        </div>
+                        <div class="time-display">
+                            <div class="time-value">4</div>
+                            <div class="time-unit">HOURS</div>
+                        </div>
+                        <div class="processing-icon">
+                            <div class="icon-circle bg-primary-soft">
+                                <i class="fas fa-hourglass-half"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-balance-scale text-primary me-2"></i>
+                            4-Hour Processing
+                        </h3>
+                        <p class="card-subtitle">
+                            Processed within 4 business hours
+                        </p>
+
+                        <div class="features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Same-day processing</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Lower fees</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Batch processing</span>
+                            </div>
+                        </div>
+
+                        <div class="rate-section">
+                            <div class="rate-header">
+                                <h5>Card Processing Rates</h5>
+                                <div class="rate-badge">
+                                    <span class="badge bg-info">Most Popular</span>
+                                </div>
+                            </div>
+
+                            <div class="rate-grid">
+                                <div class="rate-card">
+                                    <div class="rate-type">
+                                        <div class="card-icons">
+                                            <i class="fab fa-cc-visa"></i>
+                                            <i class="fab fa-cc-mastercard"></i>
+                                            <i class="fas fa-credit-card"></i>
+                                        </div>
+                                        <div class="type-name">Visa/Master/Rupay</div>
+                                    </div>
+                                    <div class="rate-value">
+                                        <div class="value">3.50%</div>
+                                        <div class="note">+ ₹2 per transaction</div>
+                                    </div>
+                                </div>
+
+                                <div class="rate-card">
+                                    <div class="rate-type">
+                                        <div class="card-icon">
+                                            <i class="fab fa-cc-amex"></i>
+                                        </div>
+                                        <div class="type-name">American Express</div>
+                                    </div>
+                                    <div class="rate-value">
+                                        <div class="value">4.50%</div>
+                                        <div class="note">+ ₹2.5 per transaction</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="processing-info">
+                            <div class="info-item">
+                                <i class="fas fa-info-circle text-primary"></i>
+                                <span>Processes every 4 hours: 9AM, 1PM, 5PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="savings-badge">
+                            <i class="fas fa-percentage"></i>
+                            <span>Save 0.5% vs Instant</span>
+                        </div>
+                        <button class="btn btn-primary btn-lg w-100">
+                            <i class="fas fa-hourglass-half me-2"></i>
+                            Select Standard
+                        </button>
+                    </div>
+
+                    <!-- Countdown Timer -->
+                    <div class="countdown-timer">
+                        <div class="timer-label">Next processing batch in:</div>
+                        <div class="timer" id="standardTimer">03:45:12</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Day Processing Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="processing-card nextday-card">
+                    <div class="card-header">
+                        <div class="speed-badge bg-success">
+                            <i class="fas fa-calendar-day"></i>
+                            <span>NEXT DAY</span>
+                        </div>
+                        <div class="time-display">
+                            <div class="time-value">TOMORROW</div>
+                            <div class="time-unit">9:00 AM</div>
+                        </div>
+                        <div class="processing-icon">
+                            <div class="icon-circle bg-success-soft">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-calendar-alt text-success me-2"></i>
+                            Next Banking Day
+                        </h3>
+                        <p class="card-subtitle">
+                            Processed on the next business day
+                        </p>
+
+                        <div class="features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Lowest processing fees</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Batch processing</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>Bank business hours</span>
+                            </div>
+                        </div>
+
+                        <div class="rate-section">
+                            <div class="rate-header">
+                                <h5>Card Processing Rates</h5>
+                                <div class="rate-badge">
+                                    <span class="badge bg-success">Most Economical</span>
+                                </div>
+                            </div>
+
+                            <div class="rate-grid">
+                                <div class="rate-card">
+                                    <div class="rate-type">
+                                        <div class="card-icons">
+                                            <i class="fab fa-cc-visa"></i>
+                                            <i class="fab fa-cc-mastercard"></i>
+                                            <i class="fas fa-credit-card"></i>
+                                        </div>
+                                        <div class="type-name">Visa/Master/Rupay</div>
+                                    </div>
+                                    <div class="rate-value">
+                                        <div class="value">2.50%</div>
+                                        <div class="note">+ ₹1.5 per transaction</div>
+                                    </div>
+                                </div>
+
+                                <div class="rate-card">
+                                    <div class="rate-type">
+                                        <div class="card-icon">
+                                            <i class="fab fa-cc-amex"></i>
+                                        </div>
+                                        <div class="type-name">American Express</div>
+                                    </div>
+                                    <div class="rate-value">
+                                        <div class="value">3.50%</div>
+                                        <div class="note">+ ₹2 per transaction</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="next-day-info">
+                            <div class="info-header">
+                                <i class="fas fa-calendar text-success me-2"></i>
+                                <span>Processing Schedule</span>
+                            </div>
+                            <div class="schedule-grid">
+                                <div class="schedule-item">
+                                    <div class="day">Mon-Fri</div>
+                                    <div class="time">9:00 AM</div>
+                                </div>
+                                <div class="schedule-item">
+                                    <div class="day">Saturday</div>
+                                    <div class="time">10:00 AM</div>
+                                </div>
+                                <div class="schedule-item">
+                                    <div class="day">Sunday</div>
+                                    <div class="time">No Processing</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="savings-badge">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>Save 1.5% vs Instant</span>
+                        </div>
+                        <button class="btn btn-success btn-lg w-100">
+                            <i class="fas fa-calendar-check me-2"></i>
+                            Select Next Day
+                        </button>
+                    </div>
+
+                    <!-- Next Day Counter -->
+                    <div class="next-day-counter">
+                        <div class="counter-label">Next processing day:</div>
+                        <div class="counter-value" id="nextDayDate">Monday, 9:00 AM</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-4">
-            <div class="weather-card rain">
-                <div class="top">
-                    <div class="wrapper">
-                        <div class="mynav">
-                            <a href="javascript:;"><span class="lnr lnr-chevron-left"></span></a>
-                            <a href="javascript:;"><span class="lnr lnr-cog"></span></a>
-                        </div>
-                        <h1 class="heading">4Hrs payment Process</h1>
-                        <h3 class="location">User will recevice in 4Hrs</h3>
-                        <p class="temp">
-                            <span class="temp-value">4</span>
-
-                            <a href="javascript:;"><span class="temp-type">Hrs</span></a>
-                        </p>
-                    </div>
+        <!-- Comparison Table -->
+        <div class="comparison-section mt-5">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-gradient-primary text-white p-4">
+                    <h4 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Processing Options Comparison
+                    </h4>
                 </div>
-                <div class="bottom">
-                    <div class="wrapper">
-                        <ul class="forecast">
-                            <a href="javascript:;"><span class="lnr lnr-chevron-up go-up"></span></a>
-                            <li class="active">
-                                <span class="date">Visa/Master/Rupay/Mestro</span>
-                                <span class="lnr lnr-sun condition">
-                                    <span class="temp">3.50<span class="deg"></span><span class="temp-type">%</span></span>
-                                </span>
-                            </li>
-
-                            <li>
-                                <span class="date">American Express(India)</span>
-                                <span class="lnr lnr-cloud condition">
-                                    <span class="temp">4.50<span class="deg"></span><span class="temp-type">%</span></span>
-                                </span>
-                            </li>
-                        </ul>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table comparison-table mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Feature</th>
+                                    <th class="text-center">Instant</th>
+                                    <th class="text-center">Standard (4 Hours)</th>
+                                    <th class="text-center">Next Day</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Processing Time</td>
+                                    <td class="text-center"><span class="badge bg-warning">5 Minutes</span></td>
+                                    <td class="text-center"><span class="badge bg-primary">4 Hours</span></td>
+                                    <td class="text-center"><span class="badge bg-success">Next Day 9AM</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Visa/Mastercard Fee</td>
+                                    <td class="text-center">4.00% + ₹2.5</td>
+                                    <td class="text-center">3.50% + ₹2.0</td>
+                                    <td class="text-center">2.50% + ₹1.5</td>
+                                </tr>
+                                <tr>
+                                    <td>American Express Fee</td>
+                                    <td class="text-center">5.00% + ₹3.0</td>
+                                    <td class="text-center">4.50% + ₹2.5</td>
+                                    <td class="text-center">3.50% + ₹2.0</td>
+                                </tr>
+                                <tr>
+                                    <td>Availability</td>
+                                    <td class="text-center">24/7</td>
+                                    <td class="text-center">Business Hours</td>
+                                    <td class="text-center">Banking Days</td>
+                                </tr>
+                                <tr>
+                                    <td>Best For</td>
+                                    <td class="text-center">Urgent Payments</td>
+                                    <td class="text-center">Regular Business</td>
+                                    <td class="text-center">Budget Planning</td>
+                                </tr>
+                                <tr>
+                                    <td>Savings vs Instant</td>
+                                    <td class="text-center">-</td>
+                                    <td class="text-center text-success">Save 0.5%</td>
+                                    <td class="text-center text-success">Save 1.5%</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-4">
-            <div class="weather-card one">
-                <div class="top">
-                    <div class="wrapper">
-                        <div class="mynav">
-                            <a href="javascript:;"><span class="lnr lnr-chevron-left"></span></a>
-                            <a href="javascript:;"><span class="lnr lnr-cog"></span></a>
+        <!-- Help Section -->
+        <div class="help-section mt-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="help-card">
+                        <div class="help-icon bg-warning-soft text-warning">
+                            <i class="fas fa-question-circle"></i>
                         </div>
-                        <h1 class="heading">Next Banking Day</h1>
-                        <h3 class="location">Mostly Tomarrow(9AM)</h3>
-                        <p class="temp">
-                            <span class="temp-value">Tomarrow </span>
-                            <a href="javascript:;"><span class="temp-type">9AM</span></a>
-                        </p>
+                        <h5>Which option to choose?</h5>
+                        <p class="text-muted">Choose Instant for urgent payments, Standard for regular business, and Next Day for cost savings.</p>
                     </div>
                 </div>
-                <div class="bottom">
-                    <div class="wrapper">
-                        <ul class="forecast">
-                            <a href="javascript:;"><span class="lnr lnr-chevron-up go-up"></span></a>
-                            <li class="active">
-                                <span class="date">Visa/Master/Rupay/Mestro</span>
-                                <span class="lnr lnr-sun condition">
-                                    <span class="temp">2.50<span class="deg"></span><span class="temp-type">%</span></span>
-                                </span>
-                            </li>
-                            <li>
-                                <span class="date">American Express</span>
-                                <span class="lnr lnr-cloud condition">
-                                    <span class="temp">3.50<span class="deg"></span><span class="temp-type">%</span></span>
-                                </span>
-                            </li>
-                        </ul>
+                <div class="col-md-4">
+                    <div class="help-card">
+                        <div class="help-icon bg-primary-soft text-primary">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h5>Processing Times</h5>
+                        <p class="text-muted">All times are in IST. Next Day processing occurs on banking days only.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="help-card">
+                        <div class="help-icon bg-success-soft text-success">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <h5>Fee Structure</h5>
+                        <p class="text-muted">Fees include GST. First 3 transactions are free on Instant processing.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    $(function () {
+        // Timer for Standard Processing
+        function updateStandardTimer() {
+            const now = new Date();
+            let nextBatch = new Date(now);
+
+            // Set next batch time (9AM, 1PM, 5PM)
+            const batchTimes = [9, 13, 17]; // 9AM, 1PM, 5PM
+            let nextTime = null;
+
+            for (const hour of batchTimes) {
+                nextBatch.setHours(hour, 0, 0, 0);
+                if (nextBatch > now) {
+                    nextTime = nextBatch;
+                    break;
+                }
+            }
+
+            // If no batch today, set to next day 9AM
+            if (!nextTime) {
+                nextBatch.setDate(nextBatch.getDate() + 1);
+                nextBatch.setHours(9, 0, 0, 0);
+                nextTime = nextBatch;
+            }
+
+            const diff = nextTime - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const timerElement = document.getElementById('standardTimer');
+            if (timerElement) {
+                timerElement.textContent =
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        // Update timer every second
+        setInterval(updateStandardTimer, 1000);
+        updateStandardTimer();
+
+        // Calculate next day
+        function updateNextDayDate() {
+            const now = new Date();
+            let nextDay = new Date(now);
+
+            // Skip weekends
+            const day = now.getDay();
+            if (day === 5) { // Friday
+                nextDay.setDate(nextDay.getDate() + 3); // Monday
+            } else if (day === 6) { // Saturday
+                nextDay.setDate(nextDay.getDate() + 2); // Monday
+            } else {
+                nextDay.setDate(nextDay.getDate() + 1);
+            }
+
+            // Set to 9 AM
+            nextDay.setHours(9, 0, 0, 0);
+
+            const options = { weekday: 'long', hour: '2-digit', minute: '2-digit' };
+            const formattedDate = nextDay.toLocaleDateString('en-IN', options);
+
+            const dateElement = document.getElementById('nextDayDate');
+            if (dateElement) {
+                dateElement.textContent = formattedDate;
+            }
+        }
+
+        updateNextDayDate();
+
+        // Card selection functionality
+        const cards = document.querySelectorAll('.processing-card');
+        const buttons = document.querySelectorAll('.processing-card .btn');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.processing-card');
+
+                // Remove selection from all cards
+                cards.forEach(c => {
+                    c.style.transform = 'translateY(0)';
+                    c.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.1)';
+                    c.style.border = 'none';
+                });
+
+                // Highlight selected card
+                card.style.transform = 'translateY(-20px)';
+                card.style.boxShadow = '0 30px 60px rgba(0, 0, 0, 0.2)';
+
+                if (card.classList.contains('instant-card')) {
+                    card.style.border = '3px solid #ffd700';
+                } else if (card.classList.contains('standard-card')) {
+                    card.style.border = '3px solid #667eea';
+                } else if (card.classList.contains('nextday-card')) {
+                    card.style.border = '3px solid #28a745';
+                }
+
+                // Show confirmation toast
+                const toast = new bootstrap.Toast(document.createElement('div'));
+                toast._element.innerHTML = `
+                    <div class="toast-header bg-success text-white">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong class="me-auto">Selected!</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                    </div>
+                    <div class="toast-body">
+                        Processing speed selected. Proceed to payment details.
+                    </div>
+                `;
+                document.body.appendChild(toast._element);
+                toast.show();
+
+                setTimeout(() => {
+                    toast._element.remove();
+                }, 3000);
+            });
+        });
+
+        // Hover animations
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const pulseCircle = this.querySelector('.pulse-circle');
+                if (pulseCircle) {
+                    pulseCircle.style.animation = 'pulse 1s infinite';
+                }
+            });
+
+            card.addEventListener('mouseleave', function() {
+                const pulseCircle = this.querySelector('.pulse-circle');
+                if (pulseCircle) {
+                    pulseCircle.style.animation = 'none';
+                }
+            });
+        });
+
+        // Animate rate cards on hover
+        const rateCards = document.querySelectorAll('.rate-card');
+        rateCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icons = this.querySelectorAll('.fab, .fas');
+                icons.forEach(icon => {
+                    icon.style.transform = 'scale(1.2)';
+                    icon.style.transition = 'transform 0.3s ease';
+                });
+            });
+
+            card.addEventListener('mouseleave', function() {
+                const icons = this.querySelectorAll('.fab, .fas');
+                icons.forEach(icon => {
+                    icon.style.transform = 'scale(1)';
+                });
+            });
+        });
+
+        // Auto-rotate animation for instant card
+        const instantIcon = document.querySelector('.instant-card .icon-circle i');
+        if (instantIcon) {
+            setInterval(() => {
+                instantIcon.style.transform = 'rotate(360deg)';
+                instantIcon.style.transition = 'transform 0.5s ease';
+
+                setTimeout(() => {
+                    instantIcon.style.transform = 'rotate(0deg)';
+                }, 500);
+            }, 3000);
+        }
+
+        // Animate background shapes on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.bg-shape, .floating-dot');
+
+            shapes.forEach((shape, index) => {
+                const speed = 0.3 + (index * 0.1);
+                const yPos = -(scrolled * speed * 0.05);
+                shape.style.transform = `translateY(${yPos}px)`;
+            });
+        });
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            keyframes processingLine {
+                0% { left: -100%; }
+                100% { left: 100%; }
+            }
+
+            keyframes pulse {
+                0% {
+                    transform: translate(-50%, -50%) scale(0.8);
+                    opacity: 0.5;
+                }
+                100% {
+                    transform: translate(-50%, -50%) scale(2);
+                    opacity: 0;
+                }
+            }
+
+            .processing-card {
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .rate-card {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .help-card {
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        `;
+        document.head.appendChild(style);
+    });
+</script>

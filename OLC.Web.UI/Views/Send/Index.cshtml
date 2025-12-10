@@ -5,180 +5,905 @@
 }
 
 
-<!-- Secondary menu
-============================================= -->
-<div class="bg-primary">
-    <div class="container d-flex justify-content-center">
-        <ul class="nav secondary-nav">
-            <li class="nav-item"> <a class="nav-link active" href="send-money.html">Send</a></li>
-            <li class="nav-item"> <a class="nav-link" href="request-money.html">Request</a></li>
-        </ul>
+<!-- Enhanced Send Money Page -->
+<div class="send-money-wrapper bg-gradient-light">
+    <!-- Animated Background -->
+    <div class="position-absolute top-0 start-0 w-100 h-100 z-n1">
+        <div class="money-animation">
+            <div class="coin coin-1">💰</div>
+            <div class="coin coin-2">💰</div>
+            <div class="coin coin-3">💰</div>
+            <div class="bill bill-1">💵</div>
+            <div class="bill bill-2">💵</div>
+            <div class="bill bill-3">💵</div>
+        </div>
     </div>
-</div>
-<!-- Secondary menu end -->
 
-<div id="content" class="py-4">
-    <div class="container">
-        <h2 class="font-weight-400 text-center mt-3">Send Money</h2>
-        <p class="text-4 text-center mb-4">Send your money on anytime, anywhere in the world.</p>
-        <div class="row">
-            <div class="col-md-8 col-lg-6 col-xl-5 mx-auto">
-                <div class="bg-light shadow-sm rounded p-3 p-sm-4 mb-4">
-                    <h3 class="text-5 font-weight-400 mb-3">Personal Details</h3>
-                    <!-- Send Money Form
-                    ============================================= -->
-                    <form id="form-send-money" method="post">
-                        <div class="form-group">
-                            <label for="emailID">Recipient</label>
-                            <input type="text" value="" class="form-control" data-bv-field="emailid" id="emailID" required placeholder="Enter Email Address">
+    <div class="container position-relative z-1">
+        <!-- Page Header -->
+        <div class="row justify-content-center mb-6">
+            <div class="col-lg-8 text-center">
+                <div class="page-header">
+                    <span class="badge bg-primary-soft text-primary rounded-pill px-4 py-2 mb-3">
+                        <i class="fas fa-paper-plane me-2"></i>Instant Transfer
+                    </span>
+                    <h1 class="display-5 fw-bold mb-3">
+                        Send Money <span class="text-gradient-primary">Globally</span> in Seconds
+                    </h1>
+                    <p class="lead text-muted mb-4">
+                        Transfer funds to anyone, anywhere. Low fees, real-time exchange rates, and bank-level security.
+                    </p>
+
+                    <!-- Quick Stats -->
+                    <div class="quick-stats d-flex flex-wrap justify-content-center gap-4">
+                        <div class="stat-item">
+                            <i class="fas fa-bolt text-success me-2"></i>
+                            <span>Instant Transfers</span>
                         </div>
-                        <div class="form-group">
-                            <label for="youSend">You Send</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend"> <span class="input-group-text">$</span> </div>
-                                <input type="text" class="form-control" data-bv-field="youSend" id="youSend" value="1,000" placeholder="">
-                                <div class="input-group-append">
-                                    <span class="input-group-text p-0">
-                                        <select id="youSendCurrency" data-style="custom-select bg-transparent border-0" data-container="body" data-live-search="true" class="selectpicker form-control bg-transparent" required="">
-                                            <optgroup label="Popular Currency">
-                                                <option data-icon="currency-flag currency-flag-usd mr-1" data-subtext="United States dollar" selected="selected" value="">USD</option>
-                                                <option data-icon="currency-flag currency-flag-aud mr-1" data-subtext="Australian dollar" value="">AUD</option>
-                                                <option data-icon="currency-flag currency-flag-inr mr-1" data-subtext="Indian rupee" value="">INR</option>
-                                            </optgroup>
-                                            @*<option value="" data-divider="true">divider</option>*@
-                                            @*<optgroup label="Other Currency">
-                                                <option data-icon="currency-flag currency-flag-aed mr-1" data-subtext="United Arab Emirates dirham" value="">AED</option>
-                                                <option data-icon="currency-flag currency-flag-ars mr-1" data-subtext="Argentine peso" value="">ARS</option>
-                                                <option data-icon="currency-flag currency-flag-aud mr-1" data-subtext="Australian dollar" value="">AUD</option>
-                                                <option data-icon="currency-flag currency-flag-bdt mr-1" data-subtext="Bangladeshi taka" value="">BDT</option>
-                                                <option data-icon="currency-flag currency-flag-bgn mr-1" data-subtext="Bulgarian lev" value="">BGN</option>
-                                                <option data-icon="currency-flag currency-flag-brl mr-1" data-subtext="Brazilian real" value="">BRL</option>
-                                                <option data-icon="currency-flag currency-flag-cad mr-1" data-subtext="Canadian dollar" value="">CAD</option>
-                                                <option data-icon="currency-flag currency-flag-chf mr-1" data-subtext="Swiss franc" value="">CHF</option>
-                                                <option data-icon="currency-flag currency-flag-clp mr-1" data-subtext="Chilean peso" value="">CLP</option>
-                                                <option data-icon="currency-flag currency-flag-cny mr-1" data-subtext="Chinese yuan" value="">CNY</option>
-                                                <option data-icon="currency-flag currency-flag-czk mr-1" data-subtext="Czech koruna" value="">CZK</option>
-                                                <option data-icon="currency-flag currency-flag-dkk mr-1" data-subtext="Danish krone" value="">DKK</option>
-                                                <option data-icon="currency-flag currency-flag-egp mr-1" data-subtext="Egyptian pound" value="">EGP</option>
-                                                <option data-icon="currency-flag currency-flag-eur mr-1" data-subtext="Euro" value="">EUR</option>
-                                                <option data-icon="currency-flag currency-flag-gbp mr-1" data-subtext="British pound" value="">GBP</option>
-                                                <option data-icon="currency-flag currency-flag-gel mr-1" data-subtext="Georgian lari" value="">GEL</option>
-                                                <option data-icon="currency-flag currency-flag-ghs mr-1" data-subtext="Ghanaian cedi" value="">GHS</option>
-                                                <option data-icon="currency-flag currency-flag-hkd mr-1" data-subtext="Hong Kong dollar" value="">HKD</option>
-                                                <option data-icon="currency-flag currency-flag-hrk mr-1" data-subtext="Croatian kuna" value="">HRK</option>
-                                                <option data-icon="currency-flag currency-flag-huf mr-1" data-subtext="Hungarian forint" value="">HUF</option>
-                                                <option data-icon="currency-flag currency-flag-idr mr-1" data-subtext="Indonesian rupiah" value="">IDR</option>
-                                                <option data-icon="currency-flag currency-flag-ils mr-1" data-subtext="Israeli shekel" value="">ILS</option>
-                                                <option data-icon="currency-flag currency-flag-inr mr-1" data-subtext="Indian rupee" value="">INR</option>
-                                                <option data-icon="currency-flag currency-flag-jpy mr-1" data-subtext="Japanese yen" value="">JPY</option>
-                                                <option data-icon="currency-flag currency-flag-kes mr-1" data-subtext="Kenyan shilling" value="">KES</option>
-                                                <option data-icon="currency-flag currency-flag-krw mr-1" data-subtext="South Korean won" value="">KRW</option>
-                                                <option data-icon="currency-flag currency-flag-lkr mr-1" data-subtext="Sri Lankan rupee" value="">LKR</option>
-                                                <option data-icon="currency-flag currency-flag-mad mr-1" data-subtext="Moroccan dirham" value="">MAD</option>
-                                                <option data-icon="currency-flag currency-flag-mxn mr-1" data-subtext="Mexican peso" value="">MXN</option>
-                                                <option data-icon="currency-flag currency-flag-myr mr-1" data-subtext="Malaysian ringgit" value="">MYR</option>
-                                                <option data-icon="currency-flag currency-flag-ngn mr-1" data-subtext="Nigerian naira" value="">NGN</option>
-                                                <option data-icon="currency-flag currency-flag-nok mr-1" data-subtext="Norwegian krone" value="">NOK</option>
-                                                <option data-icon="currency-flag currency-flag-npr mr-1" data-subtext="Nepalese rupee" value="">NPR</option>
-                                                <option data-icon="currency-flag currency-flag-nzd mr-1" data-subtext="New Zealand dollar" value="">NZD</option>
-                                                <option data-icon="currency-flag currency-flag-pen mr-1" data-subtext="Peruvian nuevo sol" value="">PEN</option>
-                                                <option data-icon="currency-flag currency-flag-php mr-1" data-subtext="Philippine peso" value="">PHP</option>
-                                                <option data-icon="currency-flag currency-flag-pkr mr-1" data-subtext="Pakistani rupee" value="">PKR</option>
-                                                <option data-icon="currency-flag currency-flag-pln mr-1" data-subtext="Polish złoty" value="">PLN</option>
-                                                <option data-icon="currency-flag currency-flag-ron mr-1" data-subtext="Romanian leu" value="">RON</option>
-                                                <option data-icon="currency-flag currency-flag-rub mr-1" data-subtext="Russian rouble" value="">RUB</option>
-                                                <option data-icon="currency-flag currency-flag-sek mr-1" data-subtext="Swedish krona" value="">SEK</option>
-                                                <option data-icon="currency-flag currency-flag-sgd mr-1" data-subtext="Singapore dollar" value="">SGD</option>
-                                                <option data-icon="currency-flag currency-flag-thb mr-1" data-subtext="Thai baht" value="">THB</option>
-                                                <option data-icon="currency-flag currency-flag-try mr-1" data-subtext="Turkish lira" value="">TRY</option>
-                                                <option data-icon="currency-flag currency-flag-uah mr-1" data-subtext="Ukrainian hryvnia" value="">UAH</option>
-                                                <option data-icon="currency-flag currency-flag-ugx mr-1" data-subtext="Ugandan shilling" value="">UGX</option>
-                                                <option data-icon="currency-flag currency-flag-vnd mr-1" data-subtext="Vietnamese dong" value="">VND</option>
-                                                <option data-icon="currency-flag currency-flag-zar mr-1" data-subtext="South African rand" value="">ZAR</option>
-                                            </optgroup>*@
-                                        </select>
+                        <div class="stat-item">
+                            <i class="fas fa-percentage text-primary me-2"></i>
+                            <span>Lowest Fees</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-shield-alt text-warning me-2"></i>
+                            <span>Secure</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Transfer Process -->
+                <div class="transfer-process mb-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="process-step active">
+                                <div class="step-number">
+                                    <span>1</span>
+                                    <div class="step-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="step-content">
+                                    <h5>Enter Details</h5>
+                                    <p class="text-muted small">Who to send money to</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="process-step">
+                                <div class="step-number">
+                                    <span>2</span>
+                                    <div class="step-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="step-content">
+                                    <h5>Set Amount</h5>
+                                    <p class="text-muted small">How much to send</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="process-step">
+                                <div class="step-number">
+                                    <span>3</span>
+                                    <div class="step-check"><i class="fas fa-check"></i></div>
+                                </div>
+                                <div class="step-content">
+                                    <h5>Review & Send</h5>
+                                    <p class="text-muted small">Confirm and transfer</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Send Money Card -->
+                <div class="send-money-card">
+                    <div class="card border-0 shadow-xl overflow-hidden">
+                        <!-- Card Header -->
+                        <div class="card-header bg-gradient-primary text-white p-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 class="h4 mb-1"><i class="fas fa-money-bill-wave me-2"></i>Transfer Details</h3>
+                                    <p class="mb-0 opacity-75">Fill in the details below to send money</p>
+                                </div>
+                                <div class="transfer-badge">
+                                    <span class="badge bg-white text-primary">
+                                        <i class="fas fa-clock me-1"></i> Instant
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="recipientGets">Recipient Gets</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend"> <span class="input-group-text">$</span> </div>
-                                <input type="text" class="form-control" data-bv-field="recipientGets" id="recipientGets" value="1,410.06" placeholder="">
-                                <div class="input-group-append">
-                                    <span class="input-group-text p-0">
-                                        <select id="recipientCurrency" data-style="custom-select bg-transparent border-0" data-container="body" data-live-search="true" class="selectpicker form-control bg-transparent" required="">
-                                            <optgroup label="Popular Currency">
-                                                <option data-icon="currency-flag currency-flag-usd mr-1" data-subtext="United States dollar" value="">USD</option>
-                                                <option data-icon="currency-flag currency-flag-aud mr-1" data-subtext="Australian dollar" selected="selected" value="">AUD</option>
-                                                <option data-icon="currency-flag currency-flag-inr mr-1" data-subtext="Indian rupee" value="">INR</option>
-                                            </optgroup>
-                                            @*<option value="" data-divider="true">divider</option>*@
-                                            @*<optgroup label="Other Currency">
-                                                <option data-icon="currency-flag currency-flag-aed mr-1" data-subtext="United Arab Emirates dirham" value="">AED</option>
-                                                <option data-icon="currency-flag currency-flag-ars mr-1" data-subtext="Argentine peso" value="">ARS</option>
-                                                <option data-icon="currency-flag currency-flag-aud mr-1" data-subtext="Australian dollar" value="">AUD</option>
-                                                <option data-icon="currency-flag currency-flag-bdt mr-1" data-subtext="Bangladeshi taka" value="">BDT</option>
-                                                <option data-icon="currency-flag currency-flag-bgn mr-1" data-subtext="Bulgarian lev" value="">BGN</option>
-                                                <option data-icon="currency-flag currency-flag-brl mr-1" data-subtext="Brazilian real" value="">BRL</option>
-                                                <option data-icon="currency-flag currency-flag-cad mr-1" data-subtext="Canadian dollar" value="">CAD</option>
-                                                <option data-icon="currency-flag currency-flag-chf mr-1" data-subtext="Swiss franc" value="">CHF</option>
-                                                <option data-icon="currency-flag currency-flag-clp mr-1" data-subtext="Chilean peso" value="">CLP</option>
-                                                <option data-icon="currency-flag currency-flag-cny mr-1" data-subtext="Chinese yuan" value="">CNY</option>
-                                                <option data-icon="currency-flag currency-flag-czk mr-1" data-subtext="Czech koruna" value="">CZK</option>
-                                                <option data-icon="currency-flag currency-flag-dkk mr-1" data-subtext="Danish krone" value="">DKK</option>
-                                                <option data-icon="currency-flag currency-flag-egp mr-1" data-subtext="Egyptian pound" value="">EGP</option>
-                                                <option data-icon="currency-flag currency-flag-eur mr-1" data-subtext="Euro" value="">EUR</option>
-                                                <option data-icon="currency-flag currency-flag-gbp mr-1" data-subtext="British pound" value="">GBP</option>
-                                                <option data-icon="currency-flag currency-flag-gel mr-1" data-subtext="Georgian lari" value="">GEL</option>
-                                                <option data-icon="currency-flag currency-flag-ghs mr-1" data-subtext="Ghanaian cedi" value="">GHS</option>
-                                                <option data-icon="currency-flag currency-flag-hkd mr-1" data-subtext="Hong Kong dollar" value="">HKD</option>
-                                                <option data-icon="currency-flag currency-flag-hrk mr-1" data-subtext="Croatian kuna" value="">HRK</option>
-                                                <option data-icon="currency-flag currency-flag-huf mr-1" data-subtext="Hungarian forint" value="">HUF</option>
-                                                <option data-icon="currency-flag currency-flag-idr mr-1" data-subtext="Indonesian rupiah" value="">IDR</option>
-                                                <option data-icon="currency-flag currency-flag-ils mr-1" data-subtext="Israeli shekel" value="">ILS</option>
-                                                <option data-icon="currency-flag currency-flag-inr mr-1" data-subtext="Indian rupee" value="">INR</option>
-                                                <option data-icon="currency-flag currency-flag-jpy mr-1" data-subtext="Japanese yen" value="">JPY</option>
-                                                <option data-icon="currency-flag currency-flag-kes mr-1" data-subtext="Kenyan shilling" value="">KES</option>
-                                                <option data-icon="currency-flag currency-flag-krw mr-1" data-subtext="South Korean won" value="">KRW</option>
-                                                <option data-icon="currency-flag currency-flag-lkr mr-1" data-subtext="Sri Lankan rupee" value="">LKR</option>
-                                                <option data-icon="currency-flag currency-flag-mad mr-1" data-subtext="Moroccan dirham" value="">MAD</option>
-                                                <option data-icon="currency-flag currency-flag-mxn mr-1" data-subtext="Mexican peso" value="">MXN</option>
-                                                <option data-icon="currency-flag currency-flag-myr mr-1" data-subtext="Malaysian ringgit" value="">MYR</option>
-                                                <option data-icon="currency-flag currency-flag-ngn mr-1" data-subtext="Nigerian naira" value="">NGN</option>
-                                                <option data-icon="currency-flag currency-flag-nok mr-1" data-subtext="Norwegian krone" value="">NOK</option>
-                                                <option data-icon="currency-flag currency-flag-npr mr-1" data-subtext="Nepalese rupee" value="">NPR</option>
-                                                <option data-icon="currency-flag currency-flag-nzd mr-1" data-subtext="New Zealand dollar" value="">NZD</option>
-                                                <option data-icon="currency-flag currency-flag-pen mr-1" data-subtext="Peruvian nuevo sol" value="">PEN</option>
-                                                <option data-icon="currency-flag currency-flag-php mr-1" data-subtext="Philippine peso" value="">PHP</option>
-                                                <option data-icon="currency-flag currency-flag-pkr mr-1" data-subtext="Pakistani rupee" value="">PKR</option>
-                                                <option data-icon="currency-flag currency-flag-pln mr-1" data-subtext="Polish złoty" value="">PLN</option>
-                                                <option data-icon="currency-flag currency-flag-ron mr-1" data-subtext="Romanian leu" value="">RON</option>
-                                                <option data-icon="currency-flag currency-flag-rub mr-1" data-subtext="Russian rouble" value="">RUB</option>
-                                                <option data-icon="currency-flag currency-flag-sek mr-1" data-subtext="Swedish krona" value="">SEK</option>
-                                                <option data-icon="currency-flag currency-flag-sgd mr-1" data-subtext="Singapore dollar" value="">SGD</option>
-                                                <option data-icon="currency-flag currency-flag-thb mr-1" data-subtext="Thai baht" value="">THB</option>
-                                                <option data-icon="currency-flag currency-flag-try mr-1" data-subtext="Turkish lira" value="">TRY</option>
-                                                <option data-icon="currency-flag currency-flag-uah mr-1" data-subtext="Ukrainian hryvnia" value="">UAH</option>
-                                                <option data-icon="currency-flag currency-flag-ugx mr-1" data-subtext="Ugandan shilling" value="">UGX</option>
-                                                <option data-icon="currency-flag currency-flag-vnd mr-1" data-subtext="Vietnamese dong" value="">VND</option>
-                                                <option data-icon="currency-flag currency-flag-zar mr-1" data-subtext="South African rand" value="">ZAR</option>
-                                            </optgroup>*@
-                                        </select>
-                                    </span>
+
+                        <!-- Card Body -->
+                        <div class="card-body p-4 p-lg-5">
+                            <form id="sendMoneyForm" method="post" class="needs-validation" novalidate>
+                                <!-- Recipient Section -->
+                                <div class="form-section mb-5">
+                                    <div class="section-header mb-4">
+                                        <h4 class="fw-bold d-flex align-items-center">
+                                            <div class="section-icon bg-primary-soft text-primary rounded-circle p-2 me-3">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            Recipient Details
+                                        </h4>
+                                        <p class="text-muted mb-0">Who are you sending money to?</p>
+                                    </div>
+
+                                    <div class="row g-4">
+                                        <div class="col-md-8">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" id="recipientEmail" placeholder="Email Address" required>
+                                                <label for="recipientEmail">
+                                                    <i class="fas fa-envelope me-2 text-primary"></i>Email Address
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Please enter a valid email address
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <button type="button" class="btn btn-outline-primary h-100" id="contactsBtn">
+                                                <i class="fas fa-address-book me-2"></i>Choose from Contacts
+                                            </button>
+                                        </div>
+
+                                        <!-- Quick Contacts -->
+                                        <div class="col-12">
+                                            <div class="quick-contacts">
+                                                <p class="text-muted small mb-2">Frequent Contacts:</p>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary contact-btn">
+                                                        <i class="fas fa-user me-1"></i> John Doe
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary contact-btn">
+                                                        <i class="fas fa-user me-1"></i> Jane Smith
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary contact-btn">
+                                                        <i class="fas fa-user me-1"></i> Robert Brown
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Amount Section -->
+                                <div class="form-section mb-5">
+                                    <div class="section-header mb-4">
+                                        <h4 class="fw-bold d-flex align-items-center">
+                                            <div class="section-icon bg-success-soft text-success rounded-circle p-2 me-3">
+                                                <i class="fas fa-exchange-alt"></i>
+                                            </div>
+                                            Transfer Amount
+                                        </h4>
+                                        <p class="text-muted mb-0">How much do you want to send?</p>
+                                    </div>
+
+                                    <!-- You Send -->
+                                    <div class="amount-card mb-4">
+                                        <div class="card border-0 bg-light">
+                                            <div class="card-body p-4">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-6 mb-3 mb-md-0">
+                                                        <div class="amount-label">
+                                                            <h5 class="fw-bold mb-1">
+                                                                <i class="fas fa-arrow-up text-danger me-2"></i>You Send
+                                                            </h5>
+                                                            <p class="text-muted small mb-0">Amount to deduct from your account</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="amount-input-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text bg-white border-end-0">
+                                                                    <span class="currency-symbol" id="sendSymbol">$</span>
+                                                                </span>
+                                                                <input type="text" class="form-control amount-input border-start-0"
+                                                                       id="youSend" value="1,000" placeholder="0.00" required>
+                                                                <div class="input-group-append">
+                                                                    <select class="form-select currency-select" id="youSendCurrency">
+                                                                        <option value="USD">USD</option>
+                                                                        <option value="INR">INR</option>
+                                                                        <option value="EUR">EUR</option>
+                                                                        <option value="GBP">GBP</option>
+                                                                        <option value="AUD">AUD</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Exchange Rate -->
+                                    <div class="exchange-rate text-center mb-4">
+                                        <div class="exchange-arrow">
+                                            <i class="fas fa-long-arrow-alt-down text-primary"></i>
+                                        </div>
+                                        <div class="rate-display">
+                                            <span class="badge bg-primary-soft text-primary px-3 py-2">
+                                                <i class="fas fa-sync-alt me-2"></i>
+                                                <span id="exchangeRate">1 USD = 1.42030 AUD</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Recipient Gets -->
+                                    <div class="amount-card">
+                                        <div class="card border-0 bg-success-soft">
+                                            <div class="card-body p-4">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-6 mb-3 mb-md-0">
+                                                        <div class="amount-label">
+                                                            <h5 class="fw-bold mb-1">
+                                                                <i class="fas fa-arrow-down text-success me-2"></i>Recipient Gets
+                                                            </h5>
+                                                            <p class="text-muted small mb-0">Amount recipient will receive</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="amount-input-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-text bg-white border-end-0">
+                                                                    <span class="currency-symbol" id="receiveSymbol">$</span>
+                                                                </span>
+                                                                <input type="text" class="form-control amount-input border-start-0"
+                                                                       id="recipientGets" value="1,410.06" placeholder="0.00" readonly>
+                                                                <div class="input-group-append">
+                                                                    <select class="form-select currency-select" id="recipientCurrency">
+                                                                        <option value="USD">USD</option>
+                                                                        <option value="INR">INR</option>
+                                                                        <option value="EUR">EUR</option>
+                                                                        <option value="GBP">GBP</option>
+                                                                        <option value="AUD" selected>AUD</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Conversion Message -->
+                                    <div class="conversion-message text-center mt-3">
+                                        <p class="text-muted small mb-0">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            Conversion rate updates every 5 minutes
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Fee Breakdown -->
+                                <div class="fee-breakdown mb-5">
+                                    <div class="section-header mb-4">
+                                        <h4 class="fw-bold d-flex align-items-center">
+                                            <div class="section-icon bg-warning-soft text-warning rounded-circle p-2 me-3">
+                                                <i class="fas fa-receipt"></i>
+                                            </div>
+                                            Fee Breakdown
+                                        </h4>
+                                        <p class="text-muted mb-0">Complete cost of your transfer</p>
+                                    </div>
+
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body p-4">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="fee-item d-flex justify-content-between mb-3">
+                                                        <div>
+                                                            <span class="fw-bold">Transfer Amount</span>
+                                                            <small class="text-muted d-block">Amount being sent</small>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <span class="fw-bold" id="transferAmountDisplay">1,000.00 USD</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="fee-item d-flex justify-content-between mb-3">
+                                                        <div>
+                                                            <span>Transfer Fee</span>
+                                                            <small class="text-muted d-block">Betalen service fee</small>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <span id="transferFeeDisplay">7.21 USD</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="fee-item d-flex justify-content-between mb-3">
+                                                        <div>
+                                                            <span>Exchange Rate</span>
+                                                            <small class="text-muted d-block">Mid-market rate + 0.5%</small>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <span id="rateDisplay">1.42030</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="my-4">
+
+                                                    <div class="total-item d-flex justify-content-between">
+                                                        <div>
+                                                            <h5 class="fw-bold mb-0">Total To Pay</h5>
+                                                            <small class="text-muted">Including all fees</small>
+                                                        </div>
+                                                        <div class="text-end">
+                                                            <h4 class="fw-bold text-primary mb-0" id="totalToPay">1,000.00 USD</h4>
+                                                            <small class="text-success" id="savingsDisplay">You save ₹120 vs. banks</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 mt-4 mt-md-0">
+                                                    <div class="savings-card bg-success text-white p-4 rounded text-center">
+                                                        <div class="savings-icon mb-3">
+                                                            <i class="fas fa-piggy-bank fa-2x"></i>
+                                                        </div>
+                                                        <h5 class="fw-bold mb-2">Great Savings!</h5>
+                                                        <p class="mb-0 opacity-75">You're saving 85% compared to traditional banks</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Method -->
+                                <div class="payment-method mb-5">
+                                    <div class="section-header mb-4">
+                                        <h4 class="fw-bold d-flex align-items-center">
+                                            <div class="section-icon bg-info-soft text-info rounded-circle p-2 me-3">
+                                                <i class="fas fa-credit-card"></i>
+                                            </div>
+                                            Payment Method
+                                        </h4>
+                                        <p class="text-muted mb-0">How would you like to pay?</p>
+                                    </div>
+
+                                    <div class="payment-options">
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <div class="payment-option active">
+                                                    <input type="radio" name="paymentMethod" id="bankTransfer" checked hidden>
+                                                    <label for="bankTransfer" class="payment-card">
+                                                        <div class="payment-icon">
+                                                            <i class="fas fa-university"></i>
+                                                        </div>
+                                                        <div class="payment-label">
+                                                            <h6 class="fw-bold mb-1">Bank Transfer</h6>
+                                                            <p class="text-muted small mb-0">1-2 business days</p>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="payment-option">
+                                                    <input type="radio" name="paymentMethod" id="debitCard" hidden>
+                                                    <label for="debitCard" class="payment-card">
+                                                        <div class="payment-icon">
+                                                            <i class="fas fa-credit-card"></i>
+                                                        </div>
+                                                        <div class="payment-label">
+                                                            <h6 class="fw-bold mb-1">Debit Card</h6>
+                                                            <p class="text-muted small mb-0">Instant</p>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="payment-option">
+                                                    <input type="radio" name="paymentMethod" id="wallet" hidden>
+                                                    <label for="wallet" class="payment-card">
+                                                        <div class="payment-icon">
+                                                            <i class="fas fa-wallet"></i>
+                                                        </div>
+                                                        <div class="payment-label">
+                                                            <h6 class="fw-bold mb-1">Betalen Wallet</h6>
+                                                            <p class="text-muted small mb-0">Instant, no fees</p>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Form Actions -->
+                                <div class="form-actions">
+                                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center">
+                                        <div class="mb-3 mb-lg-0">
+                                            <a href="@Url.Action("Dashboard", "Account")" class="btn btn-outline-secondary">
+                                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                                            </a>
+                                        </div>
+
+                                        <div class="d-flex gap-3">
+                                            <button type="button" class="btn btn-outline-primary" id="scheduleBtn">
+                                                <i class="fas fa-calendar me-2"></i>Schedule for Later
+                                            </button>
+                                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                                <i class="fas fa-paper-plane me-2"></i>Continue to Review
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Card Footer -->
+                        <div class="card-footer bg-light border-0 p-4">
+                            <div class="security-assurance">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <div class="d-flex align-items-center">
+                                            <div class="security-icon me-3">
+                                                <i class="fas fa-shield-alt fa-2x text-success"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-1">100% Secure</h6>
+                                                <p class="text-muted small mb-0">256-bit encryption & fraud protection</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                                        <div class="trust-badges">
+                                            <span class="badge bg-primary me-2">PCI DSS Compliant</span>
+                                            <span class="badge bg-success">RBI Approved</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <p class="text-muted text-center">The current exchange rate is <span class="font-weight-500">1 USD = 1.42030 AUD</span></p>
-                        <hr>
-                        <p class="mb-1">Total fees <span class="text-3 float-right">7.21 USD</span></p>
-                        <p class="font-weight-500">Total To Pay <span class="text-3 float-right">1,000.00 USD</span></p>
-                        <button class="btn btn-primary btn-block">Continue</button>
-                    </form>
-                    <!-- Send Money Form end -->
+                    </div>
+                </div>
+
+                <!-- Help Section -->
+                <div class="help-section mt-5">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="help-card text-center p-4">
+                                <div class="help-icon bg-primary-soft text-primary rounded-circle p-3 mb-3 mx-auto">
+                                    <i class="fas fa-question-circle"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Need Help?</h5>
+                                <p class="text-muted small mb-3">24/7 customer support available</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Contact Support</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="help-card text-center p-4">
+                                <div class="help-icon bg-success-soft text-success rounded-circle p-3 mb-3 mx-auto">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Delivery Times</h5>
+                                <p class="text-muted small mb-3">Most transfers arrive instantly</p>
+                                <a href="#" class="btn btn-sm btn-outline-success">View Schedule</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="help-card text-center p-4">
+                                <div class="help-icon bg-warning-soft text-warning rounded-circle p-3 mb-3 mx-auto">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Lowest Fees</h5>
+                                <p class="text-muted small mb-3">Save up to 8x vs traditional banks</p>
+                                <a href="#" class="btn btn-sm btn-outline-warning">Fee Calculator</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Schedule Modal -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-gradient-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-calendar me-2"></i>Schedule Transfer
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="schedule-form">
+                    <div class="mb-3">
+                        <label class="form-label">Select Date & Time</label>
+                        <input type="datetime-local" class="form-control" id="scheduleDateTime">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Repeat Transfer</label>
+                        <select class="form-select" id="repeatOption">
+                            <option value="never">Never (One-time)</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" id="sendReminder">
+                        <label class="form-check-label" for="sendReminder">
+                            Send reminder before transfer
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSchedule">
+                    <i class="fas fa-calendar-check me-2"></i>Schedule Transfer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contacts Modal -->
+<div class="modal fade" id="contactsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-gradient-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-address-book me-2"></i>Select Contact
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="contacts-list">
+                    <!-- Contacts will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong class="me-auto">Success!</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Your transfer has been scheduled successfully!
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        // Initialize form validation
+        const form = document.getElementById('sendMoneyForm');
+        const scheduleBtn = document.getElementById('scheduleBtn');
+        const scheduleModal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+        const confirmScheduleBtn = document.getElementById('confirmSchedule');
+        const successToast = new bootstrap.Toast(document.getElementById('successToast'));
+        const contactsBtn = document.getElementById('contactsBtn');
+        const contactsModal = new bootstrap.Modal(document.getElementById('contactsModal'));
+
+        // Form validation
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                event.preventDefault();
+                // Simulate form submission
+                showLoading();
+                setTimeout(() => {
+                    hideLoading();
+                    window.location.href = '@Url.Action("Review", "Send")';
+                }, 1500);
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+
+        // Amount formatting and calculation
+        const youSendInput = document.getElementById('youSend');
+        const recipientGetsInput = document.getElementById('recipientGets');
+        const youSendCurrency = document.getElementById('youSendCurrency');
+        const recipientCurrency = document.getElementById('recipientCurrency');
+        const sendSymbol = document.getElementById('sendSymbol');
+        const receiveSymbol = document.getElementById('receiveSymbol');
+        const exchangeRateElement = document.getElementById('exchangeRate');
+        const transferAmountDisplay = document.getElementById('transferAmountDisplay');
+        const transferFeeDisplay = document.getElementById('transferFeeDisplay');
+        const rateDisplay = document.getElementById('rateDisplay');
+        const totalToPay = document.getElementById('totalToPay');
+        const savingsDisplay = document.getElementById('savingsDisplay');
+
+        // Currency symbols mapping
+        const currencySymbols = {
+            'USD': '$',
+            'INR': '₹',
+            'EUR': '€',
+            'GBP': '£',
+            'AUD': 'A$',
+            'CAD': 'C$',
+            'JPY': '¥'
+        };
+
+        // Exchange rates (simulated)
+        const exchangeRates = {
+            'USD': { 'AUD': 1.42030, 'INR': 82.50, 'EUR': 0.92, 'GBP': 0.79 },
+            'INR': { 'USD': 0.012, 'AUD': 0.017, 'EUR': 0.011, 'GBP': 0.0095 },
+            'EUR': { 'USD': 1.09, 'AUD': 1.54, 'INR': 90.50, 'GBP': 0.86 },
+            'GBP': { 'USD': 1.27, 'AUD': 1.80, 'INR': 104.50, 'EUR': 1.16 },
+            'AUD': { 'USD': 0.70, 'INR': 58.10, 'EUR': 0.65, 'GBP': 0.56 }
+        };
+
+        // Fee calculation (simulated)
+        const feeRates = {
+            'USD': 0.00721, // 0.721%
+            'INR': 0.005,   // 0.5%
+            'EUR': 0.008,   // 0.8%
+            'GBP': 0.0075,  // 0.75%
+            'AUD': 0.0065   // 0.65%
+        };
+
+        function formatAmount(value) {
+            // Remove non-numeric characters
+            let num = value.replace(/[^\d.]/g, '');
+
+            // Format with commas
+            if (num) {
+                num = parseFloat(num).toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            return num;
+        }
+
+        function calculateTransfer() {
+            const sendAmount = parseFloat(youSendInput.value.replace(/[^\d.]/g, '')) || 0;
+            const fromCurrency = youSendCurrency.value;
+            const toCurrency = recipientCurrency.value;
+
+            // Update currency symbols
+            sendSymbol.textContent = currencySymbols[fromCurrency] || fromCurrency;
+            receiveSymbol.textContent = currencySymbols[toCurrency] || toCurrency;
+
+            // Get exchange rate
+            const rate = exchangeRates[fromCurrency]?.[toCurrency] || 1;
+            const convertedAmount = sendAmount * rate;
+
+            // Calculate fee
+            const feeRate = feeRates[fromCurrency] || 0.007;
+            const feeAmount = sendAmount * feeRate;
+            const totalAmount = sendAmount + feeAmount;
+
+            // Update recipient amount
+            recipientGetsInput.value = convertedAmount.toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+            // Update exchange rate display
+            exchangeRateElement.textContent = `1 ${fromCurrency} = ${rate.toFixed(5)} ${toCurrency}`;
+            rateDisplay.textContent = rate.toFixed(5);
+
+            // Update fee breakdown
+            transferAmountDisplay.textContent = `${sendAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })} ${fromCurrency}`;
+            transferFeeDisplay.textContent = `${feeAmount.toFixed(2)} ${fromCurrency}`;
+            totalToPay.textContent = `${totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })} ${fromCurrency}`;
+
+            // Update savings (simulated)
+            const bankFee = sendAmount * 0.03; // 3% bank fee
+            const savings = bankFee - feeAmount;
+            if (savings > 0) {
+                savingsDisplay.textContent = `You save ${currencySymbols[fromCurrency] || fromCurrency}${savings.toFixed(2)} vs. banks`;
+                savingsDisplay.style.display = 'block';
+            } else {
+                savingsDisplay.style.display = 'none';
+            }
+
+            // Update process steps
+            updateProcessSteps(sendAmount > 0);
+        }
+
+        function updateProcessSteps(hasAmount) {
+            const steps = document.querySelectorAll('.process-step');
+
+            if (hasAmount) {
+                steps[0].classList.add('completed');
+                steps[1].classList.add('active');
+            } else {
+                steps[0].classList.remove('completed');
+                steps[1].classList.remove('active');
+            }
+        }
+
+        // Event listeners for amount and currency changes
+        youSendInput.addEventListener('input', function() {
+            this.value = formatAmount(this.value);
+            calculateTransfer();
+        });
+
+        youSendCurrency.addEventListener('change', calculateTransfer);
+        recipientCurrency.addEventListener('change', calculateTransfer);
+
+        // Contact buttons
+        document.querySelectorAll('.contact-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const contactName = this.textContent.trim().split(' ')[1] + ' ' + this.textContent.trim().split(' ')[2];
+                const contactEmail = `${this.textContent.trim().split(' ')[1].toLowerCase()}.${this.textContent.trim().split(' ')[2].toLowerCase()}example.com`;
+
+                document.getElementById('recipientEmail').value = contactEmail;
+
+                // Highlight selected contact
+                document.querySelectorAll('.contact-btn').forEach(b => b.classList.remove('btn-primary'));
+                this.classList.remove('btn-outline-secondary');
+                this.classList.add('btn-primary');
+            });
+        });
+
+        // Contacts modal
+        contactsBtn.addEventListener('click', function() {
+            // Simulate loading contacts
+            const contactsList = document.querySelector('.contacts-list');
+            contactsList.innerHTML = `
+                <div class="text-center">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Loading contacts...</p>
+                </div>
+            `;
+
+            setTimeout(() => {
+                contactsList.innerHTML = `
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <div>
+                                    <h6 class="mb-1">John Doe</h6>
+                                    <small class="text-muted">john.doe@example.com</small>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary">Select</button>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <div>
+                                    <h6 class="mb-1">Jane Smith</h6>
+                                    <small class="text-muted">jane.smith@example.com</small>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary">Select</button>
+                            </div>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <div>
+                                    <h6 class="mb-1">Robert Brown</h6>
+                                    <small class="text-muted">robert.brown@example.com</small>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary">Select</button>
+                            </div>
+                        </a>
+                    </div>
+                `;
+
+                // Add select functionality
+                contactsList.querySelectorAll('.list-group-item .btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const contactItem = this.closest('.list-group-item');
+                        const contactEmail = contactItem.querySelector('small').textContent;
+                        document.getElementById('recipientEmail').value = contactEmail;
+                        contactsModal.hide();
+                    });
+                });
+            }, 1000);
+
+            contactsModal.show();
+        });
+
+        // Schedule functionality
+        scheduleBtn.addEventListener('click', function() {
+            // Set default schedule time (tomorrow 9 AM)
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(9, 0, 0, 0);
+
+            const formattedDate = tomorrow.toISOString().slice(0, 16);
+            document.getElementById('scheduleDateTime').value = formattedDate;
+
+            scheduleModal.show();
+        });
+
+        confirmScheduleBtn.addEventListener('click', function() {
+            const scheduleDate = document.getElementById('scheduleDateTime').value;
+            const repeatOption = document.getElementById('repeatOption').value;
+            const sendReminder = document.getElementById('sendReminder').checked;
+
+            // Simulate scheduling
+            scheduleModal.hide();
+            showLoading();
+
+            setTimeout(() => {
+                hideLoading();
+                successToast.show();
+            }, 1500);
+        });
+
+        // Payment method selection
+        document.querySelectorAll('.payment-option').forEach(option => {
+            const radio = option.querySelector('input[type="radio"]');
+            const card = option.querySelector('.payment-card');
+
+            card.addEventListener('click', function() {
+                // Uncheck all others
+                document.querySelectorAll('.payment-option').forEach(o => {
+                    o.classList.remove('active');
+                });
+
+                // Check this one
+                radio.checked = true;
+                option.classList.add('active');
+            });
+        });
+
+        // Loading animation functions
+        function showLoading() {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                submitBtn.disabled = true;
+            }
+        }
+
+        function hideLoading() {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Continue to Review';
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Initialize calculations
+        calculateTransfer();
+
+        // Animate money elements
+        function animateMoney() {
+            const moneyElements = document.querySelectorAll('.coin, .bill');
+            moneyElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 3}s`;
+            });
+        }
+
+        animateMoney();
+
+        // Form section animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.form-section').forEach(section => {
+            section.style.animationPlayState = 'paused';
+            observer.observe(section);
+        });
+    });
+</script>
