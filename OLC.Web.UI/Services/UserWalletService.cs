@@ -30,6 +30,12 @@ namespace OLC.Web.UI.Services
           return  _repositoryFactory.SendAsync<UserWallet>(HttpMethod.Get, $"UserWallet/GetUserWalletByUserIdAsync/{userId}");
         }
 
+        public async Task<UserWalletDetails> GetUserWalletDetailsByUserIdAsync(long userId)
+        {
+            var url = Path.Combine("UserWallet/GetUserWalletDetailsByUserIdAsync", userId.ToString());
+            return await _repositoryFactory.SendAsync<UserWalletDetails>(HttpMethod.Get, url);
+        }
+
         public Task<bool> InsertUserWalletLogAsyn(UserWalletLog userWalletLog)
         {
           return _repositoryFactory.SendAsync<UserWalletLog,bool>(HttpMethod.Post,"UserWallet/InsertUserWalletLogAsyn", userWalletLog);

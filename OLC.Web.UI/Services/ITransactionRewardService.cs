@@ -8,5 +8,6 @@ namespace OLC.Web.UI.Services
         Task<List<TransactionReward>> GetAllTransactionRewardsAsync();
         Task<List<TransactionReward>> GetAllTransactionRewardsByUserIdAsync(long userId);
         Task<TransactionReward> GetTransactionRewardByPaymentOrderIdAsync(long paymentOrderId);
+        Task<List<TransactionRewardDetails>> GetAllExecutiveTransactionRewardDetailsAsync();
     }
 }

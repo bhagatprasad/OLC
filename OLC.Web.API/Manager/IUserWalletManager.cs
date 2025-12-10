@@ -11,5 +11,6 @@ namespace OLC.Web.API.Manager
         Task<bool> InsertUserWalletLogAsyn(UserWalletLog userWalletLog);
         Task<List<UserWalletLog>> GetAllUsersWalletlogAsync();
         Task<List<UserWalletLog>> GetAllUserWalletlogByUserIdAsync(long userId);
+        Task<UserWalletDetails> uspGetUserWalletDetailsByUserIdAsync(long userId);
     }
 }

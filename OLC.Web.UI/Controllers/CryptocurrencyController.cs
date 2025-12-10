@@ -7,12 +7,12 @@ using OLC.Web.UI.Services;
 namespace OLC.Web.UI.Controllers
 {
     [Authorize(Roles = "Administrator,Executive,User")]
-    public class CryptocurrencyController:Controller
+    public class CryptocurrencyController : Controller
     {
         private readonly ICryptocurrencyService _cryptocurrencyService;
         private readonly INotyfService _notyfService;
 
-        public CryptocurrencyController(ICryptocurrencyService cryptocurrencyService,INotyfService notyfService)
+        public CryptocurrencyController(ICryptocurrencyService cryptocurrencyService, INotyfService notyfService)
         {
             _cryptocurrencyService = cryptocurrencyService;
             _notyfService = notyfService;
@@ -20,9 +20,18 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator,Executive")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<Cryptocurrency> cryptocurrencies = new List<Cryptocurrency>();
+
+            var currencies = await _cryptocurrencyService.GetAllCryptocurrenciesAsync();
+
+            if (currencies.Any())
+            {
+                cryptocurrencies = currencies;
+            }
+
+            return View(cryptocurrencies);
         }
 
         [HttpGet]

@@ -95,6 +95,9 @@
     <Folder Include="Programmability\Stored Procedures\Cryptocurrency" />
     <Folder Include="Programmability\Stored Procedures\WalletType" />
     <Folder Include="Programmability\Stored Procedures\Executives" />
+    <Folder Include="Programmability\Stored Procedures\BlockChains" />
+    <Folder Include="Programmability\Stored Procedures\NewsLetter" />
+    <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -281,6 +284,23 @@
     <Build Include="Programmability\Stored Procedures\WalletType\uspUpdateWalletTypes.sql" />
     <Build Include="Programmability\Stored Procedures\WalletType\uspDeleteWalletTypes.sql" />
     <Build Include="Programmability\Stored Procedures\WalletType\uspInsertWalletTypes.sql" />
+    <Build Include="Tables\BlockChain.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspGetAllBlockChains.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspGetBlockChainById.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspInsertBlockChain.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspUpdateBlockChain.sql" />
+    <Build Include="Programmability\Stored Procedures\BlockChains\uspDeleteBlockChain.sql" />
+    <Build Include="Tables\NewsLetter.sql" />
+    <Build Include="Programmability\Stored Procedures\NewsLetter\uspGetAllNewsLetter.sql" />
+    <Build Include="Programmability\Stored Procedures\NewsLetter\uspInsertNewsLetter.sql" />
+    <Build Include="Programmability\Stored Procedures\NewsLetter\uspUpdateNewsLetter.sql" />
+    <Build Include="Programmability\Stored Procedures\DepositOrder\uspGetAllExecutiveDepositOrderDetails.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetUserWalletDetailsByUserId_1.sql" />
+    <Build Include="Programmability\Stored Procedures\TransactionReward\uspGetAllExecutiveTransactionRewardDetails.sql" />
+    <Build Include="Tables\UserLoginHistory_1.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserActivityToday.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetAllUserLoginHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\UserLoginHistory\uspGetUserLoginActivityByUserId.sql" />
     <Build Include="Tables\Executives.sql" />
     <Build Include="Tables\ExecutiveAssignments.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspInsertExecutive.sql" />

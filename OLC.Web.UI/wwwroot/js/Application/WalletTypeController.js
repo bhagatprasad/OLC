@@ -1,4 +1,4 @@
-﻿function WalletTypeController() {
+﻿ function WalletTypeController() {
     var self = this;
     self.ApplicationUser = {};
     self.WalletTypes = [];
@@ -12,6 +12,7 @@
         }
 
         GetWalletTypes();
+
         function GetWalletTypes() {
             $.ajax({
                 type: "GET",
@@ -139,7 +140,7 @@
             $("#deleteWalletType").modal("show");
         });
 
-        $(document).on("click", "#deleteAddressTypeBtn", function () {
+        $(document).on("click", "#deleteWalletTypeBtn", function () {
             console.log("delete yes clicked");
 
             $.ajax({

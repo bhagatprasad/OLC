@@ -20,7 +20,7 @@ namespace OLC.Web.UI.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator,Executive")]
-        public IActionResult Index ()
+        public IActionResult Index()
         {
             return View();
         }
@@ -88,6 +88,20 @@ namespace OLC.Web.UI.Controllers
             try
             {
                 var response = await _depositservice.GetDepositOrderByUserIdAsync(userId);
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [Authorize(Roles = "Administrator,Executive")]
+        public async Task<IActionResult> GetAllExecutiveDepositOrderDetails()
+        {
+            try
+            {
+                var response = await _depositservice.GetAllExecutiveDepositOrderDetailsAsync();
                 return Json(new { data = response });
             }
             catch (Exception ex)

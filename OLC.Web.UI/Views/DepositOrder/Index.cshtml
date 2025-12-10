@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "Deposit Orders - Executive Board";
+    Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+}
+
+<!-- Logged-in User ID -->
+<input type="hidden" id="LoggedInUserId" value="@User.FindFirst("UserId")?.Value" />
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-5">
+
+                <!-- Total Amount -->
+                <div class="col-xl-4 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Total Amount</h5>
+                                    <h2 class="fw-bold text-primary" id="totalAmount">$0</h2>
+                                </div>
+                                <div class="card-icon bg-primary text-white">
+                                    <i class="fas fa-coins"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Deposited -->
+                <div class="col-xl-4 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Deposited Amount</h5>
+                                    <h2 class="fw-bold text-success" id="totalDeposited">$0</h2>
+                                </div>
+                                <div class="card-icon bg-success text-white">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Amount -->
+                <div class="col-xl-4 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Pending Amount</h5>
+                                    <h2 class="fw-bold text-warning" id="totalPending">$0</h2>
+                                </div>
+                                <div class="card-icon bg-warning text-white">
+                                    <i class="fas fa-hourglass-half"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- Deposit Order Table Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-file-invoice-dollar me-2"></i>All Deposit Orders
+                            </h5>
+
+                            <div class="input-group" style="max-width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search orders..." id="depositSearch">
+                                <span class="input-group-text bg-primary text-white">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Desktop Table -->
+                        <div class="card-body p-0 d-none d-lg-block">
+                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                                <table class="table table-hover mb-0" id="depositTable">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                                        <tr>
+                                            <th>Deposite Reference</th>
+                                            <th>Order Reference</th>
+                                            <th>Total Amount</th>
+                                            <th>Deposited Amount</th>
+                                            <th>Pending Amount</th>
+                                            <th>User Email</th>
+                                            <th>User Phone</th>
+                                            <th>CreditCard Number</th>
+                                            <th>Bank Account</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="depositTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Cards -->
+                        <div class="card-body p-0 d-lg-none" id="mobileDepositCards"></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="~/js/jquery/jquery.min.js"></script>
+
+<script src="~/js/Application/DepositOrderController.js"></script>
+
+<script>
+    var depositCtrl = new DepositOrderController();
+    depositCtrl.init();
+    depositCtrl.initializeSearch();
+</script>
