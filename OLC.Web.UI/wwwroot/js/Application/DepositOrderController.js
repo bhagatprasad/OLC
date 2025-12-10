@@ -17,10 +17,10 @@
     self.init = function () {
         $(".se-pre-con").show();
 
-        var appUserInfo = storageService.get('ApplicationUser');
-        if (appUserInfo) {
-            self.ApplicationUser = appUserInfo;
-        }
+        //var appUserInfo = storageService.get('ApplicationUser');
+        //if (appUserInfo) {
+        //    self.ApplicationUser = appUserInfo;
+        //}
 
         self.loadAllDepositOrders();
     };

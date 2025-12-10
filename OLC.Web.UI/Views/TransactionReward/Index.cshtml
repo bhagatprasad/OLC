@@ -2,10 +2,6 @@
     ViewData["Title"] = "Transaction Rewards - Executive Board";
     Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
 }
-
-<!-- Logged-in User ID -->
-<input type="hidden" id="LoggedInUserId" value="@User.FindFirst("UserId")?.Value" />
-
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
@@ -125,6 +121,7 @@
 
 <!-- Scripts -->
 <script src="~/js/jquery/jquery.min.js"></script>
+
 <script src="~/js/Application/TransactionRewardController.js"></script>
 
 <script>

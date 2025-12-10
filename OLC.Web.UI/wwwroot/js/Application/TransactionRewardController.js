@@ -17,10 +17,10 @@
     self.init = function () {
         $(".se-pre-con").show();
 
-        var appUserInfo = storageService.get("ApplicationUser");
-        if (appUserInfo) {
-            self.ApplicationUser = appUserInfo;
-        }
+        //var appUserInfo = storageService.get("ApplicationUser");
+        //if (appUserInfo) {
+        //    self.ApplicationUser = appUserInfo;
+        //}
 
         self.loadAllTransactionRewards();
     };
@@ -152,7 +152,7 @@
                     </div>
                 </td>
 
-                <td>${r.CreatedOn ? new Date(r.CreatedOn).toLocaleString() : "N/A"}</td>
+                <td>${self.formatDate(r.CreatedOn)}</td>
 
                 <td>
                     <span class="badge ${r.IsActive ? "bg-success" : "bg-danger"}">
@@ -207,7 +207,7 @@
                         </span>
                     </div>
 
-                    <div><strong>Created:</strong> ${r.CreatedOn ? new Date(r.CreatedOn).toLocaleString() : "N/A"}</div>
+                    <div><strong>Created:</strong> ${self.formatDate(r.CreatedOn)}</div>
                      </div>
 
                     <div class="card-footer py-2">
@@ -288,6 +288,13 @@
         return "$" + parseFloat(amount).toLocaleString("en-US", {
             minimumFractionDigits: 2
         });
+    };
+
+    // Date formatter
+    self.formatDate = function (dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     };
 }
 

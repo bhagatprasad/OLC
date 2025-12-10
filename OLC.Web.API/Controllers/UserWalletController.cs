@@ -127,7 +127,7 @@ namespace OLC.Web.API.Controllers
             [HttpGet]
             [Route("GetAllExecutiveUserWalletDetailsAsync")]
 
-            public async Task<IActionResult> GetAllExecutiveUserWalletDetails()
+            public async Task<IActionResult> GetAllExecutiveUserWalletDetailsAsync()
             {
                 try
                 {
