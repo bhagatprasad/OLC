@@ -3,386 +3,700 @@
     ViewData["Title"] = "Request Money-Request your payment on anytime, anywhere in the world.";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-
-<!-- Secondary menu
-============================================= -->
-<div class="bg-primary">
-    <div class="container d-flex justify-content-center">
-        <ul class="nav secondary-nav">
-            <li class="nav-item"> <a class="nav-link" href="send-money.html">Send</a></li>
-            <li class="nav-item"> <a class="nav-link active" href="request-money.html">Request</a></li>
-        </ul>
+<!-- Enhanced Content -->
+<div id="content" class="py-5">
+    <!-- Animated Background -->
+    <div class="position-fixed top-0 start-0 w-100 h-100 z-n1">
+        <div class="floating-shapes">
+            <div class="shnape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
     </div>
-</div>
-<!-- Secondary menu end -->
-<!-- Content
-============================================= -->
-<div id="content" class="py-4">
-    <div class="container">
-        <h2 class="font-weight-400 text-center mt-3">Request Money</h2>
-        <p class="text-4 text-center mb-4">Request your payment on anytime, anywhere in the world.</p>
-        <div class="row">
-            <div class="col-md-8 col-lg-6 col-xl-5 mx-auto">
-                <div class="bg-light shadow-sm rounded p-3 p-sm-4 mb-4">
-                    <h3 class="text-5 font-weight-400 mb-3">Payer Details</h3>
-                    <!-- Request Money Form
-                    ============================================= -->
-                    <form id="form-send-money" method="post">
-                        <div class="form-group">
-                            <label for="payerName">Name</label>
-                            <input type="text" value="" class="form-control" data-bv-field="payerName" id="payerName" required placeholder="Enter Name">
+
+    <div class="container position-relative z-1">
+        <!-- Page Header -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <div class="page-header">
+                    <span class="badge bg-primary-soft text-primary rounded-pill px-3 py-2 mb-3">
+                        <i class="fas fa-bolt me-2"></i>Quick & Easy
+                    </span>
+                    <h1 class="display-5 fw-bold mb-3">Request Payments in <span class="text-gradient-primary">Minutes</span></h1>
+                    <p class="lead text-muted mb-4">
+                        Send professional payment requests to anyone, anywhere in the world. Get paid faster with automated reminders.
+                    </p>
+
+                    <!-- Stats Row -->
+                    <div class="d-flex flex-wrap justify-content-center gap-4 mb-4">
+                        <div class="stat-badge">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <span>No Fees for Requestor</span>
                         </div>
-                        <div class="form-group">
-                            <label for="emailID">Email</label>
-                            <input type="text" value="" class="form-control" data-bv-field="emailid" id="emailID" required placeholder="Enter Email Address">
+                        <div class="stat-badge">
+                            <i class="fas fa-shield-alt text-info me-2"></i>
+                            <span>Secure & Encrypted</span>
                         </div>
-                        <div class="form-group">
-                            <label for="inputCountry">Country</label>
-                            <select class="custom-select" id="inputCountry" name="country_id">
-                                <option value="">Select Country</option>
-                                <option value="244">Aaland Islands</option>
-                                <option value="1">Afghanistan</option>
-                                <option value="2">Albania</option>
-                                <option value="3">Algeria</option>
-                                <option value="4">American Samoa</option>
-                                <option value="5">Andorra</option>
-                                <option value="6">Angola</option>
-                                <option value="7">Anguilla</option>
-                                <option value="8">Antarctica</option>
-                                <option value="9">Antigua and Barbuda</option>
-                                <option value="10">Argentina</option>
-                                <option value="11">Armenia</option>
-                                <option value="12">Aruba</option>
-                                <option value="252">Ascension Island (British)</option>
-                                <option value="13">Australia</option>
-                                <option value="14">Austria</option>
-                                <option value="15">Azerbaijan</option>
-                                <option value="16">Bahamas</option>
-                                <option value="17">Bahrain</option>
-                                <option value="18">Bangladesh</option>
-                                <option value="19">Barbados</option>
-                                <option value="20">Belarus</option>
-                                <option value="21">Belgium</option>
-                                <option value="22">Belize</option>
-                                <option value="23">Benin</option>
-                                <option value="24">Bermuda</option>
-                                <option value="25">Bhutan</option>
-                                <option value="26">Bolivia</option>
-                                <option value="245">Bonaire, Sint Eustatius and Saba</option>
-                                <option value="27">Bosnia and Herzegovina</option>
-                                <option value="28">Botswana</option>
-                                <option value="29">Bouvet Island</option>
-                                <option value="30">Brazil</option>
-                                <option value="31">British Indian Ocean Territory</option>
-                                <option value="32">Brunei Darussalam</option>
-                                <option value="33">Bulgaria</option>
-                                <option value="34">Burkina Faso</option>
-                                <option value="35">Burundi</option>
-                                <option value="36">Cambodia</option>
-                                <option value="37">Cameroon</option>
-                                <option value="38">Canada</option>
-                                <option value="251">Canary Islands</option>
-                                <option value="39">Cape Verde</option>
-                                <option value="40">Cayman Islands</option>
-                                <option value="41">Central African Republic</option>
-                                <option value="42">Chad</option>
-                                <option value="43">Chile</option>
-                                <option value="44">China</option>
-                                <option value="45">Christmas Island</option>
-                                <option value="46">Cocos (Keeling) Islands</option>
-                                <option value="47">Colombia</option>
-                                <option value="48">Comoros</option>
-                                <option value="49">Congo</option>
-                                <option value="50">Cook Islands</option>
-                                <option value="51">Costa Rica</option>
-                                <option value="52">Cote D'Ivoire</option>
-                                <option value="53">Croatia</option>
-                                <option value="54">Cuba</option>
-                                <option value="246">Curacao</option>
-                                <option value="55">Cyprus</option>
-                                <option value="56">Czech Republic</option>
-                                <option value="237">Democratic Republic of Congo</option>
-                                <option value="57">Denmark</option>
-                                <option value="58">Djibouti</option>
-                                <option value="59">Dominica</option>
-                                <option value="60">Dominican Republic</option>
-                                <option value="61">East Timor</option>
-                                <option value="62">Ecuador</option>
-                                <option value="63">Egypt</option>
-                                <option value="64">El Salvador</option>
-                                <option value="65">Equatorial Guinea</option>
-                                <option value="66">Eritrea</option>
-                                <option value="67">Estonia</option>
-                                <option value="68">Ethiopia</option>
-                                <option value="69">Falkland Islands (Malvinas)</option>
-                                <option value="70">Faroe Islands</option>
-                                <option value="71">Fiji</option>
-                                <option value="72">Finland</option>
-                                <option value="74">France, Metropolitan</option>
-                                <option value="75">French Guiana</option>
-                                <option value="76">French Polynesia</option>
-                                <option value="77">French Southern Territories</option>
-                                <option value="126">FYROM</option>
-                                <option value="78">Gabon</option>
-                                <option value="79">Gambia</option>
-                                <option value="80">Georgia</option>
-                                <option value="81">Germany</option>
-                                <option value="82">Ghana</option>
-                                <option value="83">Gibraltar</option>
-                                <option value="84">Greece</option>
-                                <option value="85">Greenland</option>
-                                <option value="86">Grenada</option>
-                                <option value="87">Guadeloupe</option>
-                                <option value="88">Guam</option>
-                                <option value="89">Guatemala</option>
-                                <option value="256">Guernsey</option>
-                                <option value="90">Guinea</option>
-                                <option value="91">Guinea-Bissau</option>
-                                <option value="92">Guyana</option>
-                                <option value="93">Haiti</option>
-                                <option value="94">Heard and Mc Donald Islands</option>
-                                <option value="95">Honduras</option>
-                                <option value="96">Hong Kong</option>
-                                <option value="97">Hungary</option>
-                                <option value="98">Iceland</option>
-                                <option value="99">India</option>
-                                <option value="100">Indonesia</option>
-                                <option value="101">Iran (Islamic Republic of)</option>
-                                <option value="102">Iraq</option>
-                                <option value="103">Ireland</option>
-                                <option value="254">Isle of Man</option>
-                                <option value="104">Israel</option>
-                                <option value="105">Italy</option>
-                                <option value="106">Jamaica</option>
-                                <option value="107">Japan</option>
-                                <option value="257">Jersey</option>
-                                <option value="108">Jordan</option>
-                                <option value="109">Kazakhstan</option>
-                                <option value="110">Kenya</option>
-                                <option value="111">Kiribati</option>
-                                <option value="113">Korea, Republic of</option>
-                                <option value="253">Kosovo, Republic of</option>
-                                <option value="114">Kuwait</option>
-                                <option value="115">Kyrgyzstan</option>
-                                <option value="116">Lao People's Democratic Republic</option>
-                                <option value="117">Latvia</option>
-                                <option value="118">Lebanon</option>
-                                <option value="119">Lesotho</option>
-                                <option value="120">Liberia</option>
-                                <option value="121">Libyan Arab Jamahiriya</option>
-                                <option value="122">Liechtenstein</option>
-                                <option value="123">Lithuania</option>
-                                <option value="124">Luxembourg</option>
-                                <option value="125">Macau</option>
-                                <option value="127">Madagascar</option>
-                                <option value="128">Malawi</option>
-                                <option value="129">Malaysia</option>
-                                <option value="130">Maldives</option>
-                                <option value="131">Mali</option>
-                                <option value="132">Malta</option>
-                                <option value="133">Marshall Islands</option>
-                                <option value="134">Martinique</option>
-                                <option value="135">Mauritania</option>
-                                <option value="136">Mauritius</option>
-                                <option value="137">Mayotte</option>
-                                <option value="138">Mexico</option>
-                                <option value="139">Micronesia, Federated States of</option>
-                                <option value="140">Moldova, Republic of</option>
-                                <option value="141">Monaco</option>
-                                <option value="142">Mongolia</option>
-                                <option value="242">Montenegro</option>
-                                <option value="143">Montserrat</option>
-                                <option value="144">Morocco</option>
-                                <option value="145">Mozambique</option>
-                                <option value="146">Myanmar</option>
-                                <option value="147">Namibia</option>
-                                <option value="148">Nauru</option>
-                                <option value="149">Nepal</option>
-                                <option value="150">Netherlands</option>
-                                <option value="151">Netherlands Antilles</option>
-                                <option value="152">New Caledonia</option>
-                                <option value="153">New Zealand</option>
-                                <option value="154">Nicaragua</option>
-                                <option value="155">Niger</option>
-                                <option value="156">Nigeria</option>
-                                <option value="157">Niue</option>
-                                <option value="158">Norfolk Island</option>
-                                <option value="112">North Korea</option>
-                                <option value="159">Northern Mariana Islands</option>
-                                <option value="160">Norway</option>
-                                <option value="161">Oman</option>
-                                <option value="162">Pakistan</option>
-                                <option value="163">Palau</option>
-                                <option value="247">Palestinian Territory, Occupied</option>
-                                <option value="164">Panama</option>
-                                <option value="165">Papua New Guinea</option>
-                                <option value="166">Paraguay</option>
-                                <option value="167">Peru</option>
-                                <option value="168">Philippines</option>
-                                <option value="169">Pitcairn</option>
-                                <option value="170">Poland</option>
-                                <option value="171">Portugal</option>
-                                <option value="172">Puerto Rico</option>
-                                <option value="173">Qatar</option>
-                                <option value="174">Reunion</option>
-                                <option value="175">Romania</option>
-                                <option value="176">Russian Federation</option>
-                                <option value="177">Rwanda</option>
-                                <option value="178">Saint Kitts and Nevis</option>
-                                <option value="179">Saint Lucia</option>
-                                <option value="180">Saint Vincent and the Grenadines</option>
-                                <option value="181">Samoa</option>
-                                <option value="182">San Marino</option>
-                                <option value="183">Sao Tome and Principe</option>
-                                <option value="184">Saudi Arabia</option>
-                                <option value="185">Senegal</option>
-                                <option value="243">Serbia</option>
-                                <option value="186">Seychelles</option>
-                                <option value="187">Sierra Leone</option>
-                                <option value="188">Singapore</option>
-                                <option value="189">Slovak Republic</option>
-                                <option value="190">Slovenia</option>
-                                <option value="191">Solomon Islands</option>
-                                <option value="192">Somalia</option>
-                                <option value="193">South Africa</option>
-                                <option value="194">South Georgia &amp; South Sandwich Islands</option>
-                                <option value="248">South Sudan</option>
-                                <option value="195">Spain</option>
-                                <option value="196">Sri Lanka</option>
-                                <option value="249">St. Barthelemy</option>
-                                <option value="197">St. Helena</option>
-                                <option value="250">St. Martin (French part)</option>
-                                <option value="198">St. Pierre and Miquelon</option>
-                                <option value="199">Sudan</option>
-                                <option value="200">Suriname</option>
-                                <option value="201">Svalbard and Jan Mayen Islands</option>
-                                <option value="202">Swaziland</option>
-                                <option value="203">Sweden</option>
-                                <option value="204">Switzerland</option>
-                                <option value="205">Syrian Arab Republic</option>
-                                <option value="206">Taiwan</option>
-                                <option value="207">Tajikistan</option>
-                                <option value="208">Tanzania, United Republic of</option>
-                                <option value="209">Thailand</option>
-                                <option value="210">Togo</option>
-                                <option value="211">Tokelau</option>
-                                <option value="212">Tonga</option>
-                                <option value="213">Trinidad and Tobago</option>
-                                <option value="255">Tristan da Cunha</option>
-                                <option value="214">Tunisia</option>
-                                <option value="215">Turkey</option>
-                                <option value="216">Turkmenistan</option>
-                                <option value="217">Turks and Caicos Islands</option>
-                                <option value="218">Tuvalu</option>
-                                <option value="219">Uganda</option>
-                                <option value="220">Ukraine</option>
-                                <option value="221">United Arab Emirates</option>
-                                <option value="222">United Kingdom</option>
-                                <option value="223">United States</option>
-                                <option value="224">United States Minor Outlying Islands</option>
-                                <option value="225">Uruguay</option>
-                                <option value="226">Uzbekistan</option>
-                                <option value="227">Vanuatu</option>
-                                <option value="228">Vatican City State (Holy See)</option>
-                                <option value="229">Venezuela</option>
-                                <option value="230">Viet Nam</option>
-                                <option value="231">Virgin Islands (British)</option>
-                                <option value="232">Virgin Islands (U.S.)</option>
-                                <option value="233">Wallis and Futuna Islands</option>
-                                <option value="234">Western Sahara</option>
-                                <option value="235">Yemen</option>
-                                <option value="238">Zambia</option>
-                                <option value="239">Zimbabwe</option>
-                            </select>
+                        <div class="stat-badge">
+                            <i class="fas fa-clock text-warning me-2"></i>
+                            <span>Instant Notifications</span>
                         </div>
-                        <div class="form-group">
-                            <label for="amount">Amount</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend"> <span class="input-group-text">$</span> </div>
-                                <input type="text" class="form-control" data-bv-field="amount" id="amount" value="1,000.00" placeholder="">
-                                <div class="input-group-append">
-                                    <span class="input-group-text p-0">
-                                        <select id="recipientCurrency" data-style="custom-select bg-transparent border-0" data-container="body" data-live-search="true" class="selectpicker form-control bg-transparent" required="">
-                                            <optgroup label="Popular Currency">
-                                                <option data-icon="currency-flag currency-flag-usd mr-1" data-subtext="United States dollar" value="">USD</option>
-                                                <option data-icon="currency-flag currency-flag-aud mr-1" data-subtext="Australian dollar" selected="selected" value="">AUD</option>
-                                                <option data-icon="currency-flag currency-flag-inr mr-1" data-subtext="Indian rupee" value="">INR</option>
-                                            </optgroup>
-                                            <option value="" data-divider="true">divider</option>
-                                            <optgroup label="Other Currency">
-                                                <option data-icon="currency-flag currency-flag-aed mr-1" data-subtext="United Arab Emirates dirham" value="">AED</option>
-                                                <option data-icon="currency-flag currency-flag-ars mr-1" data-subtext="Argentine peso" value="">ARS</option>
-                                                <option data-icon="currency-flag currency-flag-aud mr-1" data-subtext="Australian dollar" value="">AUD</option>
-                                                <option data-icon="currency-flag currency-flag-bdt mr-1" data-subtext="Bangladeshi taka" value="">BDT</option>
-                                                <option data-icon="currency-flag currency-flag-bgn mr-1" data-subtext="Bulgarian lev" value="">BGN</option>
-                                                <option data-icon="currency-flag currency-flag-brl mr-1" data-subtext="Brazilian real" value="">BRL</option>
-                                                <option data-icon="currency-flag currency-flag-cad mr-1" data-subtext="Canadian dollar" value="">CAD</option>
-                                                <option data-icon="currency-flag currency-flag-chf mr-1" data-subtext="Swiss franc" value="">CHF</option>
-                                                <option data-icon="currency-flag currency-flag-clp mr-1" data-subtext="Chilean peso" value="">CLP</option>
-                                                <option data-icon="currency-flag currency-flag-cny mr-1" data-subtext="Chinese yuan" value="">CNY</option>
-                                                <option data-icon="currency-flag currency-flag-czk mr-1" data-subtext="Czech koruna" value="">CZK</option>
-                                                <option data-icon="currency-flag currency-flag-dkk mr-1" data-subtext="Danish krone" value="">DKK</option>
-                                                <option data-icon="currency-flag currency-flag-egp mr-1" data-subtext="Egyptian pound" value="">EGP</option>
-                                                <option data-icon="currency-flag currency-flag-eur mr-1" data-subtext="Euro" value="">EUR</option>
-                                                <option data-icon="currency-flag currency-flag-gbp mr-1" data-subtext="British pound" value="">GBP</option>
-                                                <option data-icon="currency-flag currency-flag-gel mr-1" data-subtext="Georgian lari" value="">GEL</option>
-                                                <option data-icon="currency-flag currency-flag-ghs mr-1" data-subtext="Ghanaian cedi" value="">GHS</option>
-                                                <option data-icon="currency-flag currency-flag-hkd mr-1" data-subtext="Hong Kong dollar" value="">HKD</option>
-                                                <option data-icon="currency-flag currency-flag-hrk mr-1" data-subtext="Croatian kuna" value="">HRK</option>
-                                                <option data-icon="currency-flag currency-flag-huf mr-1" data-subtext="Hungarian forint" value="">HUF</option>
-                                                <option data-icon="currency-flag currency-flag-idr mr-1" data-subtext="Indonesian rupiah" value="">IDR</option>
-                                                <option data-icon="currency-flag currency-flag-ils mr-1" data-subtext="Israeli shekel" value="">ILS</option>
-                                                <option data-icon="currency-flag currency-flag-inr mr-1" data-subtext="Indian rupee" value="">INR</option>
-                                                <option data-icon="currency-flag currency-flag-jpy mr-1" data-subtext="Japanese yen" value="">JPY</option>
-                                                <option data-icon="currency-flag currency-flag-kes mr-1" data-subtext="Kenyan shilling" value="">KES</option>
-                                                <option data-icon="currency-flag currency-flag-krw mr-1" data-subtext="South Korean won" value="">KRW</option>
-                                                <option data-icon="currency-flag currency-flag-lkr mr-1" data-subtext="Sri Lankan rupee" value="">LKR</option>
-                                                <option data-icon="currency-flag currency-flag-mad mr-1" data-subtext="Moroccan dirham" value="">MAD</option>
-                                                <option data-icon="currency-flag currency-flag-mxn mr-1" data-subtext="Mexican peso" value="">MXN</option>
-                                                <option data-icon="currency-flag currency-flag-myr mr-1" data-subtext="Malaysian ringgit" value="">MYR</option>
-                                                <option data-icon="currency-flag currency-flag-ngn mr-1" data-subtext="Nigerian naira" value="">NGN</option>
-                                                <option data-icon="currency-flag currency-flag-nok mr-1" data-subtext="Norwegian krone" value="">NOK</option>
-                                                <option data-icon="currency-flag currency-flag-npr mr-1" data-subtext="Nepalese rupee" value="">NPR</option>
-                                                <option data-icon="currency-flag currency-flag-nzd mr-1" data-subtext="New Zealand dollar" value="">NZD</option>
-                                                <option data-icon="currency-flag currency-flag-pen mr-1" data-subtext="Peruvian nuevo sol" value="">PEN</option>
-                                                <option data-icon="currency-flag currency-flag-php mr-1" data-subtext="Philippine peso" value="">PHP</option>
-                                                <option data-icon="currency-flag currency-flag-pkr mr-1" data-subtext="Pakistani rupee" value="">PKR</option>
-                                                <option data-icon="currency-flag currency-flag-pln mr-1" data-subtext="Polish złoty" value="">PLN</option>
-                                                <option data-icon="currency-flag currency-flag-ron mr-1" data-subtext="Romanian leu" value="">RON</option>
-                                                <option data-icon="currency-flag currency-flag-rub mr-1" data-subtext="Russian rouble" value="">RUB</option>
-                                                <option data-icon="currency-flag currency-flag-sek mr-1" data-subtext="Swedish krona" value="">SEK</option>
-                                                <option data-icon="currency-flag currency-flag-sgd mr-1" data-subtext="Singapore dollar" value="">SGD</option>
-                                                <option data-icon="currency-flag currency-flag-thb mr-1" data-subtext="Thai baht" value="">THB</option>
-                                                <option data-icon="currency-flag currency-flag-try mr-1" data-subtext="Turkish lira" value="">TRY</option>
-                                                <option data-icon="currency-flag currency-flag-uah mr-1" data-subtext="Ukrainian hryvnia" value="">UAH</option>
-                                                <option data-icon="currency-flag currency-flag-ugx mr-1" data-subtext="Ugandan shilling" value="">UGX</option>
-                                                <option data-icon="currency-flag currency-flag-vnd mr-1" data-subtext="Vietnamese dong" value="">VND</option>
-                                                <option data-icon="currency-flag currency-flag-zar mr-1" data-subtext="South African rand" value="">ZAR</option>
-                                            </optgroup>
-                                        </select>
-                                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Process Steps -->
+                <div class="process-steps-card card border-0 shadow-lg mb-5">
+                    <div class="card-body p-4">
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <div class="process-step active">
+                                    <div class="step-number">1</div>
+                                    <h6 class="mt-3 mb-2">Enter Details</h6>
+                                    <p class="text-muted small">Fill payer information</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="process-step">
+                                    <div class="step-number">2</div>
+                                    <h6 class="mt-3 mb-2">Set Amount</h6>
+                                    <p class="text-muted small">Choose currency & amount</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="process-step">
+                                    <div class="step-number">3</div>
+                                    <h6 class="mt-3 mb-2">Send Request</h6>
+                                    <p class="text-muted small">Review & send</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea class="form-control" rows="4" id="description" required placeholder="Payment Description"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="paymentDue">Payment due by</label>
-                            <div class="position-relative">
-                                <input id="paymentDue" value="" type="text" class="form-control" required placeholder="Payment Due Date">
-                                <span class="icon-inside"><i class="fas fa-calendar-alt"></i></span>
+                    </div>
+                </div>
+
+                <!-- Request Form -->
+                <div class="request-form-wrapper">
+                    <div class="card border-0 shadow-xl overflow-hidden">
+                        <!-- Form Header -->
+                        <div class="card-header bg-gradient-primary text-white p-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <h3 class="h4 mb-1"><i class="fas fa-hand-holding-usd me-2"></i>Create Payment Request</h3>
+                                    <p class="mb-0 opacity-75">Fill the details below to request payment</p>
+                                </div>
+                                <div class="form-badge">
+                                    <span class="badge bg-white text-primary">Step 1 of 3</span>
+                                </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary btn-block mt-4">Continue</button>
-                    </form>
-                    <!-- Request Money Form end -->
+
+                        <!-- Form Body -->
+                        <div class="card-body p-4 p-lg-5">
+                            <form id="requestMoneyForm" method="post" class="needs-validation" novalidate>
+                                <!-- Payer Details Section -->
+                                <div class="form-section mb-5">
+                                    <div class="section-header mb-4">
+                                        <h4 class="fw-bold d-flex align-items-center">
+                                            <div class="section-icon bg-primary-soft text-primary rounded-circle p-2 me-3">
+                                                <i class="fas fa-user-circle"></i>
+                                            </div>
+                                            Payer Details
+                                        </h4>
+                                        <p class="text-muted mb-0">Enter the person or business you're requesting payment from</p>
+                                    </div>
+
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="payerName" placeholder="Full Name" required>
+                                                <label for="payerName">
+                                                    <i class="fas fa-user me-2 text-primary"></i>Full Name
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Please enter payer's name
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" id="payerEmail" placeholder="Email Address" required>
+                                                <label for="payerEmail">
+                                                    <i class="fas fa-envelope me-2 text-primary"></i>Email Address
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Please enter a valid email address
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="payerPhone" placeholder="Phone Number">
+                                                <label for="payerPhone">
+                                                    <i class="fas fa-phone me-2 text-primary"></i>Phone Number (Optional)
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="inputCountry" required>
+                                                    <option value="">Select Country</option>
+                                                    <option value="IN">India</option>
+                                                    <option value="US">United States</option>
+                                                    <option value="GB">United Kingdom</option>
+                                                    <option value="AE">United Arab Emirates</option>
+                                                    <option value="SG">Singapore</option>
+                                                    <option value="AU">Australia</option>
+                                                    <option value="CA">Canada</option>
+                                                    <option value="DE">Germany</option>
+                                                    <option value="FR">France</option>
+                                                    <option value="JP">Japan</option>
+                                                    <optgroup label="Other Countries">
+                                                        <option value="99">India</option>
+                                                        <option value="223">United States</option>
+                                                        <option value="222">United Kingdom</option>
+                                                        <!-- Add other countries as needed -->
+                                                    </optgroup>
+                                                </select>
+                                                <label for="inputCountry">
+                                                    <i class="fas fa-globe me-2 text-primary"></i>Country
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Please select a country
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Amount Section -->
+                                <div class="form-section mb-5">
+                                    <div class="section-header mb-4">
+                                        <h4 class="fw-bold d-flex align-items-center">
+                                            <div class="section-icon bg-success-soft text-success rounded-circle p-2 me-3">
+                                                <i class="fas fa-money-bill-wave"></i>
+                                            </div>
+                                            Amount Details
+                                        </h4>
+                                        <p class="text-muted mb-0">Set the amount and currency for your payment request</p>
+                                    </div>
+
+                                    <div class="row g-4">
+                                        <div class="col-md-8">
+                                            <div class="form-floating">
+                                                <div class="input-group">
+                                                    <div class="form-floating flex-grow-1">
+                                                        <input type="text" class="form-control amount-input" id="amount" placeholder="Amount" value="1,000.00" required>
+                                                        <label for="amount">
+                                                            <i class="fas fa-coins me-2 text-primary"></i>Amount
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <select class="form-select currency-select" id="currency" required>
+                                                    <option value="USD">USD - US Dollar</option>
+                                                    <option value="INR" selected>INR - Indian Rupee</option>
+                                                    <option value="EUR">EUR - Euro</option>
+                                                    <option value="GBP">GBP - British Pound</option>
+                                                    <option value="AED">AED - UAE Dirham</option>
+                                                    <option value="AUD">AUD - Australian Dollar</option>
+                                                    <option value="CAD">CAD - Canadian Dollar</option>
+                                                    <option value="SGD">SGD - Singapore Dollar</option>
+                                                    <option value="JPY">JPY - Japanese Yen</option>
+                                                </select>
+                                                <label for="currency">
+                                                    <i class="fas fa-money-bill me-2 text-primary"></i>Currency
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Amount Breakdown -->
+                                        <div class="col-12">
+                                            <div class="amount-breakdown card border-0 bg-light p-3">
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="text-muted">Amount</span>
+                                                    <span class="fw-bold" id="displayAmount">₹1,000.00</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between mb-2">
+                                                    <span class="text-muted">Platform Fee</span>
+                                                    <span class="text-success" id="feeAmount">₹0.00</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between pt-2 border-top">
+                                                    <span class="fw-bold">Payer Pays</span>
+                                                    <span class="fw-bold text-primary" id="totalAmount">₹1,000.00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Additional Details -->
+                                <div class="form-section mb-5">
+                                    <div class="section-header mb-4">
+                                        <h4 class="fw-bold d-flex align-items-center">
+                                            <div class="section-icon bg-info-soft text-info rounded-circle p-2 me-3">
+                                                <i class="fas fa-file-alt"></i>
+                                            </div>
+                                            Additional Details
+                                        </h4>
+                                        <p class="text-muted mb-0">Add description and set payment deadline</p>
+                                    </div>
+
+                                    <div class="row g-4">
+                                        <div class="col-12">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" id="description" placeholder="Description" style="height: 120px" required></textarea>
+                                                <label for="description">
+                                                    <i class="fas fa-comment me-2 text-primary"></i>Payment Description
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Please enter payment description
+                                                </div>
+                                                <small class="text-muted mt-1 d-block">What is this payment for? (e.g., Invoice #123, Services Rendered)</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="date" class="form-control" id="paymentDue" required>
+                                                <label for="paymentDue">
+                                                    <i class="fas fa-calendar-alt me-2 text-primary"></i>Payment Due Date
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Please select a due date
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="reminderFrequency">
+                                                    <option value="none">No Reminders</option>
+                                                    <option value="daily">Daily Reminders</option>
+                                                    <option value="weekly" selected>Weekly Reminders</option>
+                                                    <option value="biweekly">Every 2 Days</option>
+                                                    <option value="monthly">Monthly</option>
+                                                </select>
+                                                <label for="reminderFrequency">
+                                                    <i class="fas fa-bell me-2 text-primary"></i>Payment Reminders
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="sendCopy" checked>
+                                                <label class="form-check-label" for="sendCopy">
+                                                    Send a copy of this request to my email
+                                                </label>
+                                            </div>
+                                            <div class="form-check mt-2">
+                                                <input class="form-check-input" type="checkbox" id="allowPartial" checked>
+                                                <label class="form-check-label" for="allowPartial">
+                                                    Allow partial payments
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Form Actions -->
+                                <div class="form-actions mt-5">
+                                    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center">
+                                        <div class="mb-3 mb-lg-0">
+                                            <a href="@Url.Action("Dashboard", "Account")" class="btn btn-outline-secondary">
+                                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                                            </a>
+                                        </div>
+
+                                        <div class="d-flex gap-3">
+                                            <button type="button" class="btn btn-outline-primary" id="previewBtn">
+                                                <i class="fas fa-eye me-2"></i>Preview Request
+                                            </button>
+                                            <button type="submit" class="btn btn-primary btn-lg px-5">
+                                                <i class="fas fa-paper-plane me-2"></i>Send Request
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Form Footer -->
+                        <div class="card-footer bg-light border-0 p-4">
+                            <div class="security-notice">
+                                <div class="d-flex align-items-center">
+                                    <div class="security-icon me-3">
+                                        <i class="fas fa-shield-alt fa-2x text-success"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Secure & Encrypted</h6>
+                                        <p class="text-muted small mb-0">
+                                            Your payment request details are protected with bank-level 256-bit encryption.
+                                            We never share your information with third parties.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Tips -->
+                <div class="quick-tips mt-5">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="tip-card text-center p-4">
+                                <div class="tip-icon bg-primary-soft text-primary rounded-circle p-3 mb-3 mx-auto">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Instant Delivery</h5>
+                                <p class="text-muted small mb-0">Requests are delivered instantly via email & SMS</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="tip-card text-center p-4">
+                                <div class="tip-icon bg-success-soft text-success rounded-circle p-3 mb-3 mx-auto">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">Track Payments</h5>
+                                <p class="text-muted small mb-0">Real-time tracking of payment status</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="tip-card text-center p-4">
+                                <div class="tip-icon bg-warning-soft text-warning rounded-circle p-3 mb-3 mx-auto">
+                                    <i class="fas fa-headset"></i>
+                                </div>
+                                <h5 class="fw-bold mb-2">24/7 Support</h5>
+                                <p class="text-muted small mb-0">Get help anytime with our support team</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Content end --> 
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-gradient-primary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-eye me-2"></i>Payment Request Preview
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="preview-content">
+                    <!-- Preview will be dynamically inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="sendNowBtn">
+                    <i class="fas fa-paper-plane me-2"></i>Send Now
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <i class="fas fa-check-circle me-2"></i>
+            <strong class="me-auto">Success!</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Payment request has been sent successfully!
+        </div>
+    </div>
+</div>
+
+<script src="~/js/jquery/jquery.min.js"></script>
+
+<script>
+    $(function () {
+        // Initialize form validation
+        const form = document.getElementById('requestMoneyForm');
+        const previewBtn = document.getElementById('previewBtn');
+        const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+        const sendNowBtn = document.getElementById('sendNowBtn');
+        const successToast = new bootstrap.Toast(document.getElementById('successToast'));
+
+        // Form validation
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                event.preventDefault();
+                // Simulate form submission
+                showLoading();
+                setTimeout(() => {
+                    hideLoading();
+                    successToast.show();
+                    form.reset();
+                    // Reset form validation
+                    form.classList.remove('was-validated');
+                }, 2000);
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+
+        // Amount formatting
+        const amountInput = document.getElementById('amount');
+        const displayAmount = document.getElementById('displayAmount');
+        const feeAmount = document.getElementById('feeAmount');
+        const totalAmount = document.getElementById('totalAmount');
+        const currencySelect = document.getElementById('currency');
+
+        function formatAmount(value) {
+            // Remove non-numeric characters
+            let num = value.replace(/[^\d.]/g, '');
+
+            // Format with commas
+            if (num) {
+                num = parseFloat(num).toLocaleString('en-IN', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            return num;
+        }
+
+        function updateAmounts() {
+            const amount = parseFloat(amountInput.value.replace(/[^\d.]/g, '')) || 0;
+            const currency = currencySelect.value;
+            const currencySymbol = getCurrencySymbol(currency);
+            const fee = calculateFee(amount);
+            const total = amount + fee;
+
+            // Update displays
+            displayAmount.textContent = `${currencySymbol}${amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+            feeAmount.textContent = `${currencySymbol}${fee.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+            totalAmount.textContent = `${currencySymbol}${total.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
+        }
+
+        function getCurrencySymbol(currency) {
+            const symbols = {
+                'INR': '₹',
+                'USD': '$',
+                'EUR': '€',
+                'GBP': '£',
+                'AED': 'د.إ',
+                'AUD': 'A$',
+                'CAD': 'C$',
+                'SGD': 'S$',
+                'JPY': '¥'
+            };
+            return symbols[currency] || currency;
+        }
+
+        function calculateFee(amount) {
+            // Calculate 2% fee with minimum of currency specific amount
+            const fee = amount * 0.02;
+            return Math.max(fee, 0); // Minimum fee logic
+        }
+
+        amountInput.addEventListener('input', function() {
+            this.value = formatAmount(this.value);
+            updateAmounts();
+        });
+
+        currencySelect.addEventListener('change', updateAmounts);
+
+        // Set default due date (7 days from now)
+        const today = new Date();
+        const nextWeek = new Date(today);
+        nextWeek.setDate(today.getDate() + 7);
+        document.getElementById('paymentDue').valueAsDate = nextWeek;
+
+        // Initialize amounts
+        updateAmounts();
+
+        // Preview functionality
+        previewBtn.addEventListener('click', function() {
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                return;
+            }
+
+            // Gather form data
+            const formData = {
+                payerName: document.getElementById('payerName').value,
+                payerEmail: document.getElementById('payerEmail').value,
+                payerPhone: document.getElementById('payerPhone').value,
+                country: document.getElementById('inputCountry').options[document.getElementById('inputCountry').selectedIndex].text,
+                amount: amountInput.value,
+                currency: currencySelect.options[currencySelect.selectedIndex].text,
+                description: document.getElementById('description').value,
+                dueDate: document.getElementById('paymentDue').value,
+                reminders: document.getElementById('reminderFrequency').options[document.getElementById('reminderFrequency').selectedIndex].text
+            };
+
+            // Generate preview HTML
+            const previewHTML = `
+                <div class="p-4">
+                    <div class="preview-header text-center mb-4">
+                        <i class="fas fa-file-invoice-dollar fa-3x text-primary mb-3"></i>
+                        <h4 class="fw-bold">Payment Request Preview</h4>
+                        <p class="text-muted">Review before sending</p>
+                    </div>
+
+                    <div class="preview-details">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>To:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                ${formData.payerName}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Email:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                ${formData.payerEmail}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Country:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                ${formData.country}
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Amount:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                <h5 class="fw-bold text-primary">${getCurrencySymbol(formData.currency.split(' - ')[0])}${parseFloat(formData.amount.replace(/[^\d.]/g, '')).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h5>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Currency:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                ${formData.currency}
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <strong>Due Date:</strong>
+                            </div>
+                            <div class="col-6 text-end">
+                                ${new Date(formData.dueDate).toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <strong>Description:</strong>
+                            <div class="mt-2 p-3 bg-light rounded">
+                                ${formData.description}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <strong>Payment Reminders:</strong>
+                            <div class="mt-2">
+                                <span class="badge bg-primary">${formData.reminders}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.querySelector('.preview-content').innerHTML = previewHTML;
+            previewModal.show();
+        });
+
+        // Send from preview
+        sendNowBtn.addEventListener('click', function() {
+            previewModal.hide();
+            form.dispatchEvent(new Event('submit'));
+        });
+
+        // Country search enhancement
+        const countrySelect = document.getElementById('inputCountry');
+        const countrySearch = document.createElement('input');
+        countrySearch.type = 'text';
+        countrySearch.className = 'form-control mb-3';
+        countrySearch.placeholder = 'Search country...';
+
+        countrySelect.parentNode.insertBefore(countrySearch, countrySelect);
+
+        countrySearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const options = countrySelect.options;
+
+            for (let i = 0; i < options.length; i++) {
+                const option = options[i];
+                const text = option.text.toLowerCase();
+                option.style.display = text.includes(searchTerm) ? '' : 'none';
+            }
+        });
+
+        // Loading animation functions
+        function showLoading() {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+        }
+
+        function hideLoading() {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Request';
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+        }
+
+        // Animate form sections on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.form-section').forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
