@@ -6,7 +6,6 @@ using OLC.Web.UI.Services;
 
 namespace OLC.Web.UI.Controllers
 {
-    [Authorize(Roles = "Administrator,Executive,Roles")]
     public class NewsLetterController : Controller
     {
         private readonly INewsLetterService _newsLetterService;
@@ -38,7 +37,6 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles ="Administrator")]
         public async Task <IActionResult> InsertNewsLetter([FromBody] NewsLetter newsLetter)
         {
             try
@@ -47,12 +45,9 @@ namespace OLC.Web.UI.Controllers
 
                 if (newsLetter != null)
                 {
-                    if (newsLetter.Id > 0)
-                        isSaved = await _newsLetterService.UpdateNewsLetterAsync(newsLetter);
-                    else
                         isSaved = await _newsLetterService.InsertNewsLetterAsync(newsLetter);
 
-                       _notyfService.Success("Successfully saved NewsLetter");
+                       _notyfService.Success("Thanks for subscring our newsletter , will get back to you with latest offers and promations");
 
                     return Json(isSaved);
                 }

@@ -65,7 +65,6 @@
                                 <td>${formatDate(type.CreatedOn)}</td>
                                 <td>${formatDate(type.ModifiedOn)}</td>
                                 <td>${statusBadge}</td>
-                                <td>${actionButtons}</td>
                             </tr>`;
                     tbody.append(row);
                     const typeHtml = `
@@ -79,48 +78,13 @@
                                     <p><strong>CreatedOn:</strong> ${formatDate(type.CreatedOn)}</p>
                                     <p><strong>ModifiedOn:</strong> ${formatDate(type.ModifiedOn)}</p>
                                 </div>
-                                <div class="card-footer d-flex justify-content-between">
-                                ${actionButtons}</div>
                             </div>`;
                     cardsContainer.append(typeHtml);
                 });
             }
             $(".se-pre-con").hide();
         }
-        // Add/Edit
-        $(document).on("click", "#addNewsLetterBtn", function () {
-            $('#sidebar').addClass('show');
-            $('body').append('<div class="modal-backdrop fade show"></div>');
-            console.log("iam getting from add button click");
-        });
-        $(document).on("click", "#closeSidebar", function () {
-            $('#AddEditNewsLetterForm')[0].reset();
-            $('#sidebar').removeClass('show');
-            $('.modal-backdrop').remove();
-        });
-        $(document).on("click", ".edit-type", function () {
-            var typeId = parseInt($(this).data("type-id"));
-            var selectedNewsLetter = self.NewsLetters.filter(x => x.Id === typeId)[0];
-            console.log("current selected News-Letter is .." + JSON.stringify(selectedNewsLetter));
-            self.CurrentSelectedNewsLetter = selectedNewsLetter;
-
-            $("#Email").val(self.CurrentSelectedNewsLetter.Email);
-            $("#SubscribedOn").val(self.CurrentSelectedNewsLetter.SubscribedOn);
-            $("#UnsubscribedOn").val(self.CurrentSelectedNewsLetter.UnsubscribedOn);
-            $("#IsActive").val(self.CurrentSelectedNewsLetter.IsActive ? "true" : "false");
-
-            $('#sidebar').addClass('show');
-            $('body').append('<div class="modal-backdrop fade show"></div>');
-            console.log("im getting from add button click");
-        });
-        // Close modals
-        $(document).on("click", ".btn-view-type-close", function () {
-            self.CurrentSelectedNewsLetter = null;
-            $("#ViewNewsLetter").modal("hide");
-            $("#ActiveNewsLetter").modal("hide");
-        });
-
-        //View
+       
         $(document).on("click", ".view-type", function () {
             console.log("Hoooooo");
             var typeId = parseInt($(this).data("newsLetter-id"));
@@ -139,48 +103,78 @@
             $("#viewBlockChain").modal("show");
         });
 
-        $('#AddEditNewsLetterForm').on('submit', function (e) {
+        //join button click
+
+        $(document).on("click", "#btnSubscribeNewsLetter", function () {
+            console.log("im getting from join button click");
+        });
+
+        $(document).on('click', '#btnSubscribeNewsLetter', function (e) {
+
             e.preventDefault();
+
             $(".se-pre-con").show();
-            var email = $("#Email").val();
-            var subscribedOn = $("#SubscribedOn").val();
-            var unsubscribedOn = $("#UnsubscribedOn").val();
-            var isActive = $("#IsActive").val() === "true";
+
+            var email = $("#txtSubscribeNewsLetter").val();
+
             console.log(email);
 
             var newsLetter = {
-                Id: self.CurrentSelectedNewsLetter ? self.CurrentSelectedNewsLetter.Id : 0,
+
+                Id: 0,
+
                 Email: email,
-                SubscribedOn: subscribedOn,
-                UnsubscribedOn: unsubscribedOn,
-                CreatedBy: self.ApplicationUser.Id,
-                ModifiedBy: self.ApplicationUser.Id,
+
+                SubscribedOn: new Date(),
+
+                UnsubscribedOn: null,
+
+                CreatedBy: -1,
+
+                ModifiedBy: -1,
+
                 CreatedOn: new Date(),
+
                 ModifiedOn: new Date(),
+
                 IsActive: isActive
+
             };
+
             console.log("newsLetter..." + JSON.stringify(newsLetter));
 
             $.ajax({
+
                 type: "POST",
+
                 url: "/NewsLetter/InsertNewsLetter",
+
                 cache: false,
+
                 data: JSON.stringify(newsLetter),
+
                 contentType: 'application/json',
+
                 dataType: 'json',
+
                 success: function (response) {
+
                     console.log(response);
-                    self.CurrentSelectedNewsLetter = null;
-                    $('#AddEditNewsLetterForm')[0].reset();
-                    $('#sidebar').removeClass('show');
-                    $('.modal-backdrop').remove();
-                    GetNewsLetters();
+
+                    $(".se-pre-con").hide();
+
                 },
+
                 error: function (error) {
+
                     console.log(error);
+
+                    $(".se-pre-con").hide();
+
                 }
 
             });
+
         });
 
         //activate
