@@ -313,6 +313,7 @@
     <Build Include="Programmability\Stored Procedures\Templates\uspInsertTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\Templates\uspUpdateTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\Templates\uspDeleteTemplate.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllExecutiveUserWalletDetails.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
