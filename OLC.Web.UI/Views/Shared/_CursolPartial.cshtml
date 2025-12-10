@@ -1,0 +1,630 @@
+﻿<!-- Main Hero Carousel -->
+<div class="hero-carousel owl-carousel owl-theme"
+     data-autoplay="true"
+     data-loop="true"
+     data-autoheight="true"
+     data-nav="true"
+     data-items="1"
+     data-smart-speed="1000"
+     data-autoplay-timeout="6000"
+     data-autoplay-hover-pause="true">
+
+    <!-- Slide 1: Money Transfer Hero -->
+    <div class="item">
+        <section class="hero-wrap section position-relative overflow-hidden">
+            <!-- Background Elements -->
+            <div class="particles-container" id="particles-1"></div>
+            <div class="hero-gradient-overlay gradient-1"></div>
+            <div class="hero-bg" style="background-image:url('@Url.Content("~/images/bg/image-1.jpg")');"></div>
+
+            <!-- Animated Shapes -->
+            <div class="animated-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+            </div>
+
+            <div class="hero-content py-4 py-lg-6 position-relative z-3">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10 text-center">
+                            <!-- Animated Badge -->
+                            <div class="hero-badge animate-pulse mb-4">
+                                <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-25 px-4 py-2 rounded-pill">
+                                    <i class="fas fa-bolt me-2"></i>Instant Transfers
+                                </span>
+                            </div>
+
+                            <!-- Main Heading -->
+                            <h1 class="display-3 fw-bold text-white mb-4 animate-text">
+                                Send & Receive <span class="text-gradient-primary">Money</span> Instantly
+                            </h1>
+
+                            <!-- Subtitle -->
+                            <p class="lead text-white-80 mb-5">
+                                Quickly and easily send, receive and request money online with Betalen.<br class="d-none d-lg-block">
+                                Credit card to bank account transfers in seconds.
+                            </p>
+
+                            <!-- CTA Buttons -->
+                            <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3">
+                                <a href="@Url.Action("SignUp", "Account")" class="btn btn-primary btn-lg px-5 py-3 shadow-lg">
+                                    <i class="fas fa-user-plus me-2"></i>Open a Free Account
+                                </a>
+                                <a href="#how-it-works" class="btn btn-outline-light btn-lg px-5 py-3 video-btn"
+                                   data-video-src="https://www.youtube.com/embed/7e90gBu4pas">
+                                    <span class="btn-icon me-2"><i class="fas fa-play"></i></span>
+                                    See How it Works
+                                </a>
+                            </div>
+
+                            <!-- Trust Indicators -->
+                            <div class="trust-indicators mt-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                        <div class="trust-item d-flex align-items-center">
+                                            <i class="fas fa-check-circle text-success me-2"></i>
+                                            <span class="text-white-60">No Hidden Fees</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="trust-item d-flex align-items-center">
+                                            <i class="fas fa-shield-alt text-info me-2"></i>
+                                            <span class="text-white-60">Bank-Level Security</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="trust-item d-flex align-items-center">
+                                            <i class="fas fa-clock text-warning me-2"></i>
+                                            <span class="text-white-60">24/7 Support</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Methods -->
+                            <div class="payment-methods mt-4">
+                                <p class="text-white-60 mb-2">Accepted Payment Methods:</p>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <div class="payment-icon">
+                                        <i class="fab fa-cc-visa fa-2x"></i>
+                                    </div>
+                                    <div class="payment-icon">
+                                        <i class="fab fa-cc-mastercard fa-2x"></i>
+                                    </div>
+                                    <div class="payment-icon">
+                                        <i class="fab fa-cc-amex fa-2x"></i>
+                                    </div>
+                                    <div class="payment-icon">
+                                        <i class="fab fa-google-pay fa-2x"></i>
+                                    </div>
+                                    <div class="payment-icon">
+                                        <i class="fas fa-university fa-2x"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator">
+                <a href="#features" class="scroll-down">
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Slide 2: Trust & Offers -->
+    <div class="item">
+        <section class="hero-wrap section position-relative overflow-hidden">
+            <!-- Background Elements -->
+            <div class="particles-container" id="particles-2"></div>
+            <div class="hero-gradient-overlay gradient-2"></div>
+            <div class="hero-bg" style="background-image:url('@Url.Content("~/images/bg/image-3.jpg")');"></div>
+
+            <!-- Offer Timer -->
+            <div class="offer-timer-wrapper">
+                <div class="offer-timer bg-dark bg-opacity-75 text-white p-3 rounded-pill shadow">
+                    <i class="fas fa-gift me-2"></i>
+                    <span id="offerTimer">Offer ends in: 04:32:15</span>
+                </div>
+            </div>
+
+            <div class="hero-content py-4 py-lg-6 position-relative z-3">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <!-- Trust Badge -->
+                            <div class="trust-badge mb-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="trust-icon bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3">
+                                        <i class="fas fa-users fa-2x"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-white mb-0">50,000+</h4>
+                                        <p class="text-white-60 mb-0">Happy Customers</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Main Content -->
+                            <h2 class="display-4 fw-bold text-white mb-4">
+                                Trusted by <span class="text-gradient-warning">Thousands</span> Across India
+                            </h2>
+
+                            <p class="lead text-white-80 mb-5">
+                                Multiple payment options supported. Join our growing community of satisfied users.
+                            </p>
+
+                            <!-- Features List -->
+                            <div class="features-list mb-5">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <div class="feature-item d-flex align-items-center">
+                                            <div class="feature-icon bg-success bg-opacity-10 text-success rounded-circle p-2 me-3">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <span class="text-white">Instant Settlement</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="feature-item d-flex align-items-center">
+                                            <div class="feature-icon bg-info bg-opacity-10 text-info rounded-circle p-2 me-3">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <span class="text-white">Lowest Fees</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="feature-item d-flex align-items-center">
+                                            <div class="feature-icon bg-warning bg-opacity-10 text-warning rounded-circle p-2 me-3">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <span class="text-white">24/7 Support</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <div class="feature-item d-flex align-items-center">
+                                            <div class="feature-icon bg-danger bg-opacity-10 text-danger rounded-circle p-2 me-3">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <span class="text-white">Secure Platform</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CTA Buttons -->
+                            <div class="cta-buttons">
+                                <a href="@Url.Action("SignUp", "Account")" class="btn btn-success btn-lg px-5 py-3 shadow-lg me-3 mb-3">
+                                    <i class="fas fa-rocket me-2"></i>Get Started Free
+                                </a>
+                                <a href="#demo" class="btn btn-outline-light btn-lg px-5 py-3 video-btn"
+                                   data-video-src="https://www.youtube.com/embed/7e90gBu4pas">
+                                    <i class="fas fa-play-circle me-2"></i>Watch Demo
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Stats -->
+                        <div class="col-lg-6 mt-5 mt-lg-0">
+                            <div class="stats-card bg-dark bg-opacity-50 backdrop-blur rounded-4 p-5 border border-white border-opacity-10">
+                                <h4 class="text-white mb-4">Why Choose Betalen?</h4>
+
+                                <div class="stats-grid">
+                                    <div class="stat-item text-center mb-4">
+                                        <div class="stat-value display-6 fw-bold text-primary mb-2">₹100Cr+</div>
+                                        <div class="stat-label text-white-60">Processed Volume</div>
+                                    </div>
+                                    <div class="stat-item text-center mb-4">
+                                        <div class="stat-value display-6 fw-bold text-success mb-2">99.9%</div>
+                                        <div class="stat-label text-white-60">Success Rate</div>
+                                    </div>
+                                    <div class="stat-item text-center mb-4">
+                                        <div class="stat-value display-6 fw-bold text-warning mb-2">&lt;30s</div>
+                                        <div class="stat-label text-white-60">Transfer Time</div>
+                                    </div>
+                                    <div class="stat-item text-center">
+                                        <div class="stat-value display-6 fw-bold text-info mb-2">24/7</div>
+                                        <div class="stat-label text-white-60">Availability</div>
+                                    </div>
+                                </div>
+
+                                <!-- Rating -->
+                                <div class="rating-section mt-4 pt-4 border-top border-white border-opacity-10">
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="stars me-3">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star-half-alt text-warning"></i>
+                                        </div>
+                                        <div class="rating-text">
+                                            <span class="text-white">4.8/5</span>
+                                            <span class="text-white-60 ms-2">(2,500+ Reviews)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Slide 3: Business Solutions -->
+    <div class="item">
+        <section class="hero-wrap section position-relative overflow-hidden">
+            <!-- Background Elements -->
+            <div class="particles-container" id="particles-3"></div>
+            <div class="hero-gradient-overlay gradient-3"></div>
+            <div class="hero-bg" style="background-image:url('@Url.Content("~/images/bg/business-hero.jpg")');"></div>
+
+            <!-- Floating Elements -->
+            <div class="floating-elements">
+                <div class="floating-card card-1">
+                    <div class="card-content">
+                        <i class="fas fa-chart-line text-primary"></i>
+                        <span>Analytics</span>
+                    </div>
+                </div>
+                <div class="floating-card card-2">
+                    <div class="card-content">
+                        <i class="fas fa-cogs text-success"></i>
+                        <span>Automation</span>
+                    </div>
+                </div>
+                <div class="floating-card card-3">
+                    <div class="card-content">
+                        <i class="fas fa-code text-warning"></i>
+                        <span>API</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-content py-4 py-lg-6 position-relative z-3">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 text-center">
+                            <!-- Business Badge -->
+                            <div class="hero-badge mb-4">
+                                <span class="badge bg-info bg-opacity-20 text-info border border-info border-opacity-25 px-4 py-2 rounded-pill">
+                                    <i class="fas fa-building me-2"></i>Business Solutions
+                                </span>
+                            </div>
+
+                            <!-- Main Heading -->
+                            <h2 class="display-3 fw-bold text-white mb-4">
+                                Power Your <span class="text-gradient-info">Business</span> Payments
+                            </h2>
+
+                            <!-- Subtitle -->
+                            <p class="lead text-white-80 mb-5">
+                                Bulk payments, GST invoicing, automated reconciliation, and enterprise-grade solutions.
+                            </p>
+
+                            <!-- Business Features -->
+                            <div class="row g-4 mb-5">
+                                <div class="col-md-4">
+                                    <div class="business-feature text-center p-4">
+                                        <div class="feature-icon bg-primary bg-opacity-10 text-primary rounded-circle p-3 mb-3 mx-auto">
+                                            <i class="fas fa-file-invoice-dollar fa-2x"></i>
+                                        </div>
+                                        <h4 class="text-white mb-2">GST Invoicing</h4>
+                                        <p class="text-white-60 mb-0">Auto-generated compliant invoices</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="business-feature text-center p-4">
+                                        <div class="feature-icon bg-success bg-opacity-10 text-success rounded-circle p-3 mb-3 mx-auto">
+                                            <i class="fas fa-users fa-2x"></i>
+                                        </div>
+                                        <h4 class="text-white mb-2">Bulk Payments</h4>
+                                        <p class="text-white-60 mb-0">Pay multiple recipients at once</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="business-feature text-center p-4">
+                                        <div class="feature-icon bg-warning bg-opacity-10 text-warning rounded-circle p-3 mb-3 mx-auto">
+                                            <i class="fas fa-robot fa-2x"></i>
+                                        </div>
+                                        <h4 class="text-white mb-2">Automation</h4>
+                                        <p class="text-white-60 mb-0">Smart payment workflows</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CTA Buttons -->
+                            <div class="cta-buttons d-flex flex-column flex-md-row justify-content-center gap-3">
+                                <a href="@Url.Action("BusinessSignUp", "Account")" class="btn btn-primary btn-lg px-5 py-3 shadow-lg">
+                                    <i class="fas fa-briefcase me-2"></i>Business Sign Up
+                                </a>
+                                <a href="@Url.Action("Contact", "Business")" class="btn btn-outline-light btn-lg px-5 py-3">
+                                    <i class="fas fa-phone-alt me-2"></i>Schedule a Demo
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Video Modal -->
+<div class="modal fade" id="videoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0">
+            <div class="modal-header border-0 bg-dark">
+                <h5 class="modal-title text-white">How Betalen Works</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <div class="ratio ratio-16x9">
+                    <iframe id="videoPlayer" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="~/css/CursolStyles.css" rel="stylesheet" />
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/owl.carousel@2.3.4/dist/owl.carousel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // Initialize Owl Carousel
+        $('.hero-carousel').owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: true,
+            dots: false,
+            autoplay: true,
+            autoplayTimeout: 6000,
+            autoplayHoverPause: true,
+            smartSpeed: 1000,
+            animateOut: 'fadeOut',
+            animateIn: 'fadeIn',
+            items: 1,
+            navText: [
+                '<i class="fas fa-chevron-left"></i>',
+                '<i class="fas fa-chevron-right"></i>'
+            ],
+            responsive: {
+                0: {
+                    nav: false
+                },
+                768: {
+                    nav: true
+                }
+            }
+        });
+
+        // Offer Timer Countdown
+        function updateOfferTimer() {
+            const offerEndTime = new Date();
+            offerEndTime.setHours(23, 59, 59); // Set to end of day
+
+            const now = new Date();
+            const diff = offerEndTime - now;
+
+            if (diff > 0) {
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                const timerElement = document.getElementById('offerTimer');
+                if (timerElement) {
+                    timerElement.textContent =
+                        `Offer ends in: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }
+            } else {
+                const timerElement = document.getElementById('offerTimer');
+                if (timerElement) {
+                    timerElement.textContent = 'Offer Expired';
+                }
+            }
+        }
+
+        // Update timer every second
+        setInterval(updateOfferTimer, 1000);
+        updateOfferTimer(); // Initial call
+
+        // Initialize Particles.js for each slide
+        if (typeof particlesJS !== 'undefined') {
+            // Slide 1 particles
+            particlesJS('particles-1', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ffffff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.1, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: false },
+                    move: { enable: true, speed: 1, direction: "none", random: true }
+                }
+            });
+
+            // Slide 2 particles
+            particlesJS('particles-2', {
+                particles: {
+                    number: { value: 60, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ffd700" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.2, random: true },
+                    size: { value: 2, random: true },
+                    line_linked: { enable: true, distance: 150, color: "#ffd700", opacity: 0.1, width: 1 },
+                    move: { enable: true, speed: 0.5, direction: "none", random: true }
+                }
+            });
+
+            // Slide 3 particles
+            particlesJS('particles-3', {
+                particles: {
+                    number: { value: 100, density: { enable: true, value_area: 800 } },
+                    color: { value: "#ffffff" },
+                    shape: { type: "circle" },
+                    opacity: { value: 0.05, random: true },
+                    size: { value: 2, random: true },
+                    line_linked: { enable: true, distance: 100, color: "#ffffff", opacity: 0.1, width: 1 },
+                    move: { enable: true, speed: 0.3, direction: "none", random: true }
+                }
+            });
+        }
+
+        // Video Modal Functionality
+        const videoModal = new bootstrap.Modal(document.getElementById('videoModal'));
+        const videoPlayer = document.getElementById('videoPlayer');
+
+        document.querySelectorAll('.video-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const videoSrc = this.getAttribute('data-video-src');
+                videoPlayer.src = videoSrc + '?autoplay=1&rel=0&modestbranding=1';
+                videoModal.show();
+            });
+        });
+
+        // Close video when modal is hidden
+        document.getElementById('videoModal').addEventListener('hidden.bs.modal', function() {
+            videoPlayer.src = '';
+        });
+
+        // Animated text for first slide
+        function animateText() {
+            const textElement = document.querySelector('.animate-text');
+            if (textElement) {
+                textElement.classList.add('animated');
+                setTimeout(() => {
+                    textElement.classList.remove('animated');
+                }, 2000);
+            }
+        }
+
+        // Animate text on slide change
+        $('.hero-carousel').on('changed.owl.carousel', function(event) {
+            if (event.item.index === 0) {
+                animateText();
+            }
+        });
+
+        // Initial animation
+        animateText();
+
+        // Floating elements animation
+        function animateFloatingElements() {
+            const cards = document.querySelectorAll('.floating-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.5}s`;
+                card.style.animation = 'float 6s ease-in-out infinite';
+            });
+        }
+
+        // Scroll indicator animation
+        function animateScrollIndicator() {
+            const indicator = document.querySelector('.scroll-down');
+            if (indicator) {
+                indicator.style.animation = 'bounce 2s infinite';
+            }
+        }
+
+        // Initialize animations
+        animateFloatingElements();
+        animateScrollIndicator();
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+            }
+
+            keyframes bounce {
+                0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+                40% { transform: translateY(-10px); }
+                60% { transform: translateY(-5px); }
+            }
+
+            keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+
+            keyframes textShine {
+                0% { background-position: 0% 50%; }
+                100% { background-position: 100% 50%; }
+            }
+
+            .animate-pulse {
+                animation: pulse 2s infinite;
+            }
+
+            .text-gradient-primary {
+                background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: textShine 3s linear infinite;
+            }
+
+            .text-gradient-warning {
+                background: linear-gradient(45deg, #f093fb, #f5576c, #f093fb);
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: textShine 3s linear infinite;
+            }
+
+            .text-gradient-info {
+                background: linear-gradient(45deg, #4facfe, #00f2fe, #4facfe);
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: textShine 3s linear infinite;
+            }
+
+            .animate-text.animated {
+                animation: fadeInUp 1s ease;
+            }
+
+            keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .backdrop-blur {
+                backdrop-filter: blur(10px);
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const heroContents = document.querySelectorAll('.hero-content');
+
+            heroContents.forEach(content => {
+                const speed = 0.5;
+                const yPos = -(scrolled * speed);
+                content.style.transform = `translateY(${yPos}px)`;
+            });
+        });
+    });
+</script>
