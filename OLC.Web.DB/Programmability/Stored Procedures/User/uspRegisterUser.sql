@@ -19,21 +19,21 @@ BEGIN
         IF EXISTS (SELECT 1 FROM [dbo].[User] WHERE [Email] = @email AND [IsActive] = 1)
         BEGIN
             ROLLBACK TRANSACTION;
-            RETURN -1; -- Email already exists
+            RETURN -1;
         END
 
         -- Check if phone already exists
         IF EXISTS (SELECT 1 FROM [dbo].[User] WHERE [Phone] = @phone AND [IsActive] = 1)
         BEGIN
             ROLLBACK TRANSACTION;
-            RETURN -2; -- Phone already exists
+            RETURN -2;
         END
 
         -- Check if both email and phone exist
         IF EXISTS (SELECT 1 FROM [dbo].[User] WHERE [Email] = @email AND [Phone] = @phone AND [IsActive] = 1)
         BEGIN
             ROLLBACK TRANSACTION;
-            RETURN -3; -- Both email and phone already exist
+            RETURN -3;
         END
 
         -- Insert new user
@@ -63,35 +63,48 @@ BEGIN
             @passwordHash,
             @passwordSalt,
             @roleId,
-            0,      -- IsBlocked
-            -1,     -- CreatedBy (system user)
+            0,
+            -1,
             GETDATE(),
-            -1,     -- ModifiedBy (system user)
+            -1,
             GETDATE(),
-            1,       -- IsActive
+            1,
             0
         );
-        DECLARE @newUserId BIGINT;
 
-        SET @newUserId = SCOPE_IDENTITY();
-        EXEC dbo.uspSaveUserWallet 
-            @UserId = @newUserId
+        DECLARE @newUserId BIGINT = SCOPE_IDENTITY();
+
+        -- Insert into Executives if role is 3
+        IF (@roleId = 3)
+        BEGIN
+            EXEC dbo.uspInsertExecutive
+                @UserId = @newUserId,
+                @FirstName = @firstName,
+                @LastName = @lastName,
+                @Email = @email,
+                @MaxConcurrentOrders = 100,
+                @IsAvailable = 1,
+                @CurrentOrderCount = 0;
+        END
+
+        -- Create wallet
+        EXEC dbo.uspSaveUserWallet @UserId = @newUserId;
+
         COMMIT TRANSACTION;
-        
-        -- Return success with new UserId
-        SELECT SCOPE_IDENTITY() AS UserId;
 
-        RETURN 1; -- Success
+        -- Return success
+        SELECT @newUserId AS UserId;
+        RETURN 1;
 
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0
             ROLLBACK TRANSACTION;
-        
-        -- Return error details
+
         SELECT 
             ERROR_NUMBER() AS ErrorNumber,
             ERROR_MESSAGE() AS ErrorMessage;
-        RETURN -99; -- General error
+
+        RETURN -99;
     END CATCH
 END
