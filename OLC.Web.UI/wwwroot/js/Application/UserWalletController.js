@@ -17,10 +17,10 @@
     self.init = function () {
         $(".se-pre-con").show();
 
-        var appUserInfo = storageService.get('ApplicationUser');
-        if (appUserInfo) {
-            self.ApplicationUser = appUserInfo;
-        }
+        //var appUserInfo = storageService.get('ApplicationUser');
+        //if (appUserInfo) {
+        //    self.ApplicationUser = appUserInfo;
+        //}
 
         // Load all wallets
         self.loadAllWallets();
@@ -47,7 +47,7 @@
     // Load all wallets
     self.loadAllWallets = function () {
         $.ajax({
-            url: "/UserWallet/GetAllUserWallets",
+            url: "/UserWallet/GetAllExecutiveUserWalletDetails",
             method: "GET",
             success: function (response) {
                 self.UserWallets = response?.data || [];
@@ -284,7 +284,7 @@
     self.initializeViewWalletHandlers = function () {
         $('.view-wallet').off('click').on('click', function () {
             const walletId = $(this).data('wallet-id');
-            self.initializeViewWalletHandlers(walletId);
+            self.viewWalletDetails(walletId);
         });
     };
     self.viewWalletDetails = function (walletId) {
