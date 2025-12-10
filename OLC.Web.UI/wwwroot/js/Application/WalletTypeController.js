@@ -31,11 +31,6 @@
                 }
             });
         }
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            return new Date(dateStr).toLocaleDateString();
-        }
-
         function getStatusBadge(type) {
             return type.IsActive
                 ? '<span class="badge bg-success">Active</span>'

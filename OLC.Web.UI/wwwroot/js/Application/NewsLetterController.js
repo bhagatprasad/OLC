@@ -17,24 +17,15 @@
             $.ajax({
                 type: "GET",
                 url: "/NewsLetter/GetNewsLetters",
-                data: { Id: self.ApplicationUser.Id },
-                cache: false,
-                dataType: "json",
-                contentType: "application/json",
-
                 success: function (response) {
                     console.log(response);
-                    self.NewsLetters = Array.isArray(response) ? response : (response?.data || []);
+                    self.NewsLetters = response && response.data ? response.data : [];
                     loadNewsLetters();
                 },
                 error: function (error) {
                     console.log(error);
                 }
             });
-        }
-        function formatDate(dateStr) {
-            if (dateStr) return;
-            return new Date(dateStr).toLocaleDateString();
         }
         function getStatusBadge(type) {
             return type.IsActive
@@ -84,7 +75,7 @@
             }
             $(".se-pre-con").hide();
         }
-       
+
         $(document).on("click", ".view-type", function () {
             console.log("Hoooooo");
             var typeId = parseInt($(this).data("newsLetter-id"));

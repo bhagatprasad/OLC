@@ -26,8 +26,8 @@ namespace OLC.Web.UI.Controllers
         {
             try
             {
-                var response = await _newsLetterService.GetNewsLettersAsync();
-                return Ok(response);
+                var newsletters = await _newsLetterService.GetNewsLettersAsync();
+                return Json(new { data = newsletters });
             }
             catch (Exception ex)
             {
