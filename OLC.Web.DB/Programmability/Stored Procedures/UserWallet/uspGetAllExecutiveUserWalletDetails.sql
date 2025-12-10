@@ -1,7 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[uspGetUserWalletDetailsByUserId]    
-(    
-    @UserId BIGINT    
-)    
+﻿CREATE PROCEDURE [dbo].[uspGetAllExecutiveUserWalletDetails]    
 AS    
 BEGIN    
     SET NOCOUNT ON;    
@@ -26,7 +23,5 @@ BEGIN
     FROM     
         [dbo].[UserWallet] uw   
 		LEFT JOIN [dbo].[Status] s ON uw.Id= s.Id
-   LEFT JOIN [dbo].[User] u ON uw.[UserId] = u.[Id]     
-    WHERE     
-        uw.[UserId] = @UserId   
+   LEFT JOIN [dbo].[User] u ON uw.[UserId] = u.[Id]       
 END

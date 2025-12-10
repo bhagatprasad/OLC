@@ -125,14 +125,14 @@ namespace OLC.Web.API.Controllers
             }
         }
             [HttpGet]
-            [Route("GetUserWalletDetailsByUserIdAsync/{userId}")]
+            [Route("GetAllExecutiveUserWalletDetailsAsync")]
 
-            public async Task<IActionResult> GetUserWalletDetailsByUserIdAsync(long userId)
+            public async Task<IActionResult> GetAllExecutiveUserWalletDetails()
             {
                 try
                 {
 
-                    var result = await _userWalletManager.uspGetUserWalletDetailsByUserIdAsync(userId);
+                    var result = await _userWalletManager.GetAllExecutiveUserWalletDetailsAsync();
                     return Ok(result);
                 }
                 catch (Exception ex)
