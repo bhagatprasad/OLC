@@ -99,6 +99,23 @@ namespace OLC.Web.UI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpGet]
+        [Authorize(Roles = "Administrator,Executive")]
+        public async Task<IActionResult> GetAllExecutiveTransactionRewardDetails()
+        {
+            try
+            {
+                var response = await _transactionRewardService.GetAllExecutiveTransactionRewardDetailsAsync();
+                return Json(new { data = response });
+            }
+            catch (Exception ex)
+            {
+                _notyfService.Error(ex.Message);
+                throw;
+            }
+        }
+
     }
 }
 

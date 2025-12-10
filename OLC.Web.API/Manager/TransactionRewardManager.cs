@@ -24,10 +24,11 @@ namespace OLC.Web.API.Manager
             SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetAllExecutiveTransactionRewardDetails]", sqlConnection);
             sqlCommand.CommandType = CommandType.StoredProcedure;
 
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
             DataTable dt = new DataTable();
-
             da.Fill(dt);
+
+
 
             sqlConnection.Close();
             if(dt.Rows.Count>0)
@@ -35,24 +36,35 @@ namespace OLC.Web.API.Manager
                 foreach (DataRow dr in dt.Rows)
                 {
                     rewardDetails = new TransactionRewardDetails();
-                    rewardDetails.Id = Convert.ToInt64(dr["Id"]);
-                    rewardDetails.WalletId = Convert.ToInt64(dr["WalletId"]);
+
+                    rewardDetails.UserId = dr["UserId"] != DBNull.Value ? dr["UserId"].ToString() : null;
+                    rewardDetails.WalletId = dr["WalletId"].ToString();
                     rewardDetails.PaymentOrderReferenceId = dr["PaymentOrderReferenceId"].ToString();
+
                     rewardDetails.TotalEarned = dr["TotalEarned"] != DBNull.Value ? Convert.ToDecimal(dr["TotalEarned"]) : null;
                     rewardDetails.TotalSpent = dr["TotalSpent"] != DBNull.Value ? Convert.ToDecimal(dr["TotalSpent"]) : null;
                     rewardDetails.CurrentBalance = dr["CurrentBalance"] != DBNull.Value ? Convert.ToDecimal(dr["CurrentBalance"]) : null;
+
                     rewardDetails.ChargeableAmount = Convert.ToDecimal(dr["ChargeableAmount"]);
                     rewardDetails.DepositableAmount = Convert.ToDecimal(dr["DepositableAmount"]);
+
                     rewardDetails.RewardAmount = dr["RewardAmount"] != DBNull.Value ? Convert.ToDecimal(dr["RewardAmount"]) : null;
+
                     rewardDetails.AccountHolderName = dr["AccountHolderName"] != DBNull.Value ? dr["AccountHolderName"].ToString() : null;
-                    rewardDetails.CardNumber = dr["CardNumber"] != DBNull.Value ? Convert.ToInt64(dr["CardNumber"]) : null;
-                    rewardDetails.AccountNumber = dr["AccountNumber"] != DBNull.Value ? Convert.ToInt64(dr["AccountNumber"]) : null;
-                    rewardDetails.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt64(dr["CreatedBy"]) : null;
+
+                    rewardDetails.CardNumber = dr["CardNumber"] != DBNull.Value ? dr["CardNumber"].ToString() : null;
+                    rewardDetails.AccountNumber = dr["AccountNumber"] != DBNull.Value ? dr["AccountNumber"].ToString() : null;
+
+                    rewardDetails.CreatedBy = dr["CreatedBy"] != DBNull.Value ? dr["CreatedBy"].ToString() : null;
                     rewardDetails.CreatedOn = dr["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)dr["CreatedOn"] : null;
+
                     rewardDetails.IsActive = dr["IsActive"] != DBNull.Value ? Convert.ToBoolean(dr["IsActive"]) : null;
-                    rewardDetailsList.Add(rewardDetails);   
+
+                    rewardDetailsList.Add(rewardDetails);
+
                 }
-            }return rewardDetailsList;
+            }
+            return rewardDetailsList;
         }
 
         public async Task<List<TransactionReward>> GetAllTransactionRewardsAsync()

@@ -1,0 +1,135 @@
+﻿@{
+    ViewData["Title"] = "Transaction Rewards - Executive Board";
+    Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
+}
+
+<!-- Logged-in User ID -->
+<input type="hidden" id="LoggedInUserId" value="@User.FindFirst("UserId")?.Value" />
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-5">
+
+                <!-- Total Rewards -->
+                <div class="col-xl-4 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Total Rewards</h5>
+                                    <h2 class="fw-bold text-primary" id="totalRewards">$0</h2>
+                                </div>
+                                <div class="card-icon bg-primary text-white">
+                                    <i class="fas fa-gift"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Rewards -->
+                <div class="col-xl-4 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Completed Rewards</h5>
+                                    <h2 class="fw-bold text-success" id="completedRewards">$0</h2>
+                                </div>
+                                <div class="card-icon bg-success text-white">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Rewards -->
+                <div class="col-xl-4 col-md-6">
+                    <div class="card summary-card h-100 border">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title text-muted">Pending Rewards</h5>
+                                    <h2 class="fw-bold text-warning" id="pendingRewards">$0</h2>
+                                </div>
+                                <div class="card-icon bg-warning text-white">
+                                    <i class="fas fa-hourglass-half"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <!-- Reward Transaction Table Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-star me-2"></i>All Reward Transactions
+                            </h5>
+
+                            <div class="input-group" style="max-width: 300px;">
+                                <input type="text" class="form-control" placeholder="Search rewards..." id="rewardSearch">
+                                <span class="input-group-text bg-primary text-white">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Desktop Table -->
+                        <div class="card-body p-0 d-none d-lg-block">
+                            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                                <table class="table table-hover mb-0" id="rewardTable">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                                        <tr>
+                                            <th>Wallet Id</th>
+                                            <th>Payment Order Reference</th>
+                                            <th>Total Earned</th>
+                                            <th>Total Spent</th>
+                                            <th>Current Balance</th>
+                                            <th>Chargeable Amount</th>
+                                            <th>Depositable Amount</th>
+                                            <th>Reward Amount</th>
+                                            <th>Card Number</th>
+                                            <th>Account Number</th>
+                                            <th>Created On</th>
+                                            <th>Active</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rewardTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Cards -->
+                        <div class="card-body p-0 d-lg-none" id="mobileRewardCards"></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/Application/TransactionRewardController.js"></script>
+
+<script>
+    var rewardCtrl = new TransactionRewardController();
+    rewardCtrl.init();
+    rewardCtrl.initializeSearch();
+</script>
