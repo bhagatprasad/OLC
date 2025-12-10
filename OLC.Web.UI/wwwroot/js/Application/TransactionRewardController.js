@@ -112,8 +112,8 @@
 
     // Render Rewards
     self.renderRewards = function (rewards, clearExisting = false) {
-        const tbody = $("#rewardTableBody");
-        const mobileContainer = $("#mobileRewardCards");
+        const tbody = $('#rewardTableBody');
+        const mobileContainer = $('#mobileRewardCards');
 
         if (clearExisting) {
             tbody.empty();
@@ -124,49 +124,97 @@
         const mobileFragment = document.createDocumentFragment();
 
         rewards.forEach(r => {
+
             const actionButtons = self.getActionButtons(r, false);
             const mobileActionButtons = self.getActionButtons(r, true);
 
+            // -----------------------------------------
+            // DESKTOP TABLE ROW
+            // -----------------------------------------
             if (!self.isMobile) {
-                // Desktop Row
+
                 const row = document.createElement("tr");
+
                 row.innerHTML = `
-                    <td>${r.WalletId}</td>
-                    <td>${r.PaymentOrderReferenceId}</td>
-                    <td>${self.formatCurrency(r.TotalEarned)}</td>
-                    <td>${self.formatCurrency(r.TotalSpent)}</td>
-                    <td>${self.formatCurrency(r.CurrentBalance)}</td>
-                    <td>${self.formatCurrency(r.ChargeableAmount)}</td>
-                    <td>${self.formatCurrency(r.DepositableAmount)}</td>
-                    <td>${self.formatCurrency(r.RewardAmount)}</td>
-                    <td>${r.CardNumber || "N/A"}</td>
-                    <td>${r.AccountNumber || "N/A"}</td>
-                    <td>${r.CreatedOn || "N/A"}</td>
-                    <td>${r.IsActive ? "Active" : "Inactive"}</td>
-                    <td><div class="btn-group">${actionButtons}</div></td>
-                `;
+                <td>${r.WalletId || "N/A"}</td>
+                <td>${r.PaymentOrderReferenceId || "N/A"}</td>
+                <td>${self.formatCurrency(r.TotalEarned)}</td>
+                <td>${self.formatCurrency(r.TotalSpent)}</td>
+                <td>${self.formatCurrency(r.CurrentBalance)}</td>
+                <td>${self.formatCurrency(r.ChargeableAmount)}</td>
+                <td>${self.formatCurrency(r.DepositableAmount)}</td>
+                <td>${self.formatCurrency(r.RewardAmount)}</td>
+
+                <td>
+                    <div class="small">
+                        <div><i class="fas fa-credit-card me-1 text-success"></i>${r.CardNumber || "N/A"}</div>
+                        <div><i class="fas fa-university me-1 text-info"></i>${r.AccountNumber || "N/A"}</div>
+                    </div>
+                </td>
+
+                <td>${r.CreatedOn ? new Date(r.CreatedOn).toLocaleString() : "N/A"}</td>
+
+                <td>
+                    <span class="badge ${r.IsActive ? "bg-success" : "bg-danger"}">
+                        ${r.IsActive ? "Active" : "Inactive"}
+                    </span>
+                </td>
+
+                <td>
+                    <div class="btn-group">
+                        ${actionButtons}
+                    </div>
+                </td>
+            `;
                 fragment.appendChild(row);
-            } else {
-                // Mobile Card
+            }
+
+            // -----------------------------------------
+            // MOBILE VERSION (CARD UI)
+            // -----------------------------------------
+            else {
+
                 const card = document.createElement("div");
                 card.className = "card mb-3 border";
 
                 card.innerHTML = `
-                    <div class="card-body">
-                        <div><strong>Wallet:</strong> ${r.WalletId}</div>
-                        <div><strong>Order Ref:</strong> ${r.PaymentOrderReferenceId}</div>
-                        <div><strong>Reward:</strong> ${self.formatCurrency(r.RewardAmount)}</div>
+                <div class="card-body">
 
-                        <div class="mt-2"><strong>User:</strong></div>
-                        <div><i class="fas fa-credit-card me-1"></i>${r.CardNumber || "N/A"}</div>
-                        <div><i class="fas fa-university me-1"></i>${r.AccountNumber || "N/A"}</div>
+                    <div><strong>Wallet Id:</strong> ${r.WalletId || "N/A"}</div>
+                    <div><strong>Order Ref:</strong> ${r.PaymentOrderReferenceId || "N/A"}</div>
 
-                        <div><strong>Status:</strong> ${r.IsActive ? "Active" : "Inactive"}</div>
+                    <hr class="my-2">
+
+                    <div><strong>Total Earned:</strong> ${self.formatCurrency(r.TotalEarned)}</div>
+                    <div><strong>Total Spent:</strong> ${self.formatCurrency(r.TotalSpent)}</div>
+                    <div><strong>Balance:</strong> ${self.formatCurrency(r.CurrentBalance)}</div>
+
+                    <div><strong>Chargeable:</strong> ${self.formatCurrency(r.ChargeableAmount)}</div>
+                    <div><strong>Depositable:</strong> ${self.formatCurrency(r.DepositableAmount)}</div>
+                    <div><strong>Reward:</strong> ${self.formatCurrency(r.RewardAmount)}</div>
+
+                    <hr class="my-2">
+
+                    <div><strong>Payment Methods:</strong></div>
+                    <div><i class="fas fa-credit-card me-1 text-muted"></i>${r.CardNumber || "N/A"}</div>
+                    <div><i class="fas fa-university me-1 text-muted"></i>${r.AccountNumber || "N/A"}</div>
+
+                    <hr class="my-2">
+
+                    <div><strong>Status:</strong>
+                        <span class="badge ${r.IsActive ? "bg-success" : "bg-danger"}">
+                            ${r.IsActive ? "Active" : "Inactive"}
+                        </span>
                     </div>
+
+                    <div><strong>Created:</strong> ${r.CreatedOn ? new Date(r.CreatedOn).toLocaleString() : "N/A"}</div>
+                     </div>
+
                     <div class="card-footer py-2">
                         <div class="btn-group w-100">${mobileActionButtons}</div>
                     </div>
-                `;
+            `;
+
                 mobileFragment.appendChild(card);
             }
         });
@@ -176,6 +224,9 @@
 
         self.initializeViewHandlers();
     };
+
+            
+
 
     // Reset pagination
     self.resetPagination = function () {

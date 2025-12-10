@@ -284,7 +284,7 @@
     self.initializeViewWalletHandlers = function () {
         $('.view-wallet').off('click').on('click', function () {
             const walletId = $(this).data('wallet-id');
-            self.viewWalletDetails(walletId);
+            self.initializeViewWalletHandlers(walletId);
         });
     };
     self.viewWalletDetails = function (walletId) {
