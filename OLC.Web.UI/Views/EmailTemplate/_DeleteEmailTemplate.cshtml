@@ -1,0 +1,112 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="deleteEmailTemplate" tabindex="-1" aria-labelledby="emailTemplateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="emailTemplateModalLabel">Are you sure you want to delete this Email Template?</h5>
+                <button type="button" class="btn-close btn-view-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" style="padding:0">
+                <div class="email-template-card">
+                    <i class="fas fa-cogs chip-icon"></i>
+                    <form id="emailTemplateForm">
+                        <div class="mb-3">
+                            <label for="DeleteTempalteName" class="form-label">
+                                <i class="fas fa-list-alt"></i> Name
+                            </label>
+                            <input type="text" class="form-control" id="DeleteTempalteName" placeholder="Savings, Current, etc." maxlength="50" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="DeleteCode" class="form-label">
+                                <i class="fas fa-barcode"></i> Code
+                            </label>
+                            <input type="text" class="form-control" id="DeleteCode" placeholder="e.g., SAV01" maxlength="20" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="DeleteTemplate" class="form-label">
+                                <i class="fas fa-barcode"></i> Template
+                            </label>
+                            <input type="text" class="form-control" id="DeleteTemplate" placeholder="e.g., SAV01" maxlength="20" readonly>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="DeleteStatus" class="form-label">
+                                <i class="fas fa-toggle-on"></i> Status
+                            </label>
+                            <select class="form-select" id="DeleteStatus" disabled>
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-view-type-close" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="deleteEmailTemplateBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .email-template-card {
+        background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+        border-radius: 15px;
+        padding: 20px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .email-template-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat center;
+            background-size: cover;
+            opacity: 0.1;
+        }
+
+    .email-template-card .form-control {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 5px;
+        }
+
+        .email-template-card .form-control::placeholder {
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+        .email-template-card .form-select {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 5px;
+        }
+
+            .email-template-card .form-select option {
+                background: #00b09b;
+                color: white;
+            }
+
+    .chip-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        color: gold;
+    }
+</style>
+
+
+
