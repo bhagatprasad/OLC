@@ -306,6 +306,7 @@
     <Build Include="Programmability\Stored Procedures\Executives\uspInsertExecutive.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspGetAllExecutives.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspGetExecutiveByUserId.sql" />
+    <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllExecutiveUserWalletDetails.sql" />
     <Build Include="Tables\EmailTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\EmailTemplates\uspGetAllTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\EmailTemplates\uspGetTemplateById.sql" />
