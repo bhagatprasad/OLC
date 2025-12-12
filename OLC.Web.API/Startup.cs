@@ -60,7 +60,8 @@ namespace OLC.Web.API
             services.AddScoped<IUserLoginHistoryManager, UserLoginHistoryManager>();       
             services.AddScoped<IEmailTemplateManager, EmailTemplateManager>();
             services.AddScoped<IBlockChainManager, BlockChainManager>();
-            
+            services.AddScoped<IQueueConfigurationManager, QueueConfigurationManager>();            
+
             services.AddScoped<IExecutivesManager, ExecutivesManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
