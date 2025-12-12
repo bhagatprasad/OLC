@@ -1,0 +1,77 @@
+﻿<form id="AddEditQueueConfigurationForm">
+    <div class="sidebar" id="sidebar">
+        <div class="modal-header">
+            <h5 class="modal-title">Add/Edit QueueConfiguration</h5>
+            <button type="button" class="close" id="closeSidebar" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!--Key -->
+            <div class="form-group">
+                <label for="Key">Key</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-list-alt"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="Key" maxlength="50" placeholder="Enter Key" required>
+                </div>
+            </div>
+
+            <!-- Value -->
+            <div class="form-group">
+                <label for="Value">Value</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="Value" maxlength="50" placeholder="Enter Value" required>
+                </div>
+            </div>
+
+            <!-- DataType -->
+            <div class="form-group">
+                <label for="DataType">DataType</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="DataType" maxlength="50" placeholder="Enter DataType" required>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-rupee-sign"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="Description" maxlength="50" placeholder="Enter Description" required>
+                </div>
+            </div>
+
+            <!-- IsActive -->
+            <div class="form-group">
+                <label for="IsActive">Status</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-toggle-on"></i></span>
+                    </div>
+                    <select class="form-control form-select" id="IsActive" required>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="submit" id="btnSubmit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+    </div>
+</form>
+
+
+

@@ -99,6 +99,7 @@
     <Folder Include="Programmability\Stored Procedures\NewsLetter" />
     <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
     <Folder Include="Programmability\Stored Procedures\EmailTemplates" />
+    <Folder Include="Programmability\Stored Procedures\QueueConfiguration" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -314,6 +315,12 @@
     <Build Include="Programmability\Stored Procedures\EmailTemplates\uspUpdateTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\EmailTemplates\uspDeleteTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllExecutiveUserWalletDetails.sql" />
+    <Build Include="Tables\QueueConfiguration.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspGetAllQueueConfigurations.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspGetQueueConfigurationById.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspSaveQueueConfiguration.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspUpdateQueueConfiguration.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspDeleteQueueConfiguration.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
