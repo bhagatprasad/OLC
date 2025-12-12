@@ -314,6 +314,8 @@
     <Build Include="Programmability\Stored Procedures\EmailTemplates\uspUpdateTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\EmailTemplates\uspDeleteTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllExecutiveUserWalletDetails.sql" />
+    <Build Include="Programmability\Stored Procedures\Executives\uspUpdateExecutiveAvilability.sql" />
+    <Build Include="Programmability\Stored Procedures\Executives\uspUpdateCurrentOrdersCount.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
@@ -346,5 +348,6 @@
     <None Include="Post-Deployement\SeedUserWallet.sql" />
     <None Include="Post-Deployement\SeedCryptocurrency.sql" />
     <None Include="Post-Deployement\SeedWalletTypes.sql" />
+    <None Include="Post-Deployement\SeedExecutives.sql" />
   </ItemGroup>
 </Project>

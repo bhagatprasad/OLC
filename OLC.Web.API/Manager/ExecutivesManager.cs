@@ -138,5 +138,47 @@ namespace OLC.Web.API.Manager
 
             return false;
         }
+
+        public async Task<bool> UpdateCurrentOrderCountAsync(Executives executive)
+        {
+            if (executive != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand cmd = new SqlCommand("[dbo].[uspInsertExecutive]", sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", executive.UserId);
+                cmd.Parameters.AddWithValue("@currentOrderCount", executive.CurrentOrderCount);
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateExecutiveAvailabilityAsync(Executives executive)
+        {
+            if (executive != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand cmd = new SqlCommand("[dbo].[uspInsertExecutive]", sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserId", executive.UserId);
+                cmd.Parameters.AddWithValue("@IsAvailable", executive.IsAvailable);
+                cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
     }
 }
