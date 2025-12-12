@@ -189,10 +189,5 @@ namespace OLC.Web.API.Manager
             }
             return false;
         }
-
-        public Task<bool> InsertAccountTypeAsyncc(AccountType accountType)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
