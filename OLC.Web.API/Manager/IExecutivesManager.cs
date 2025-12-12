@@ -7,5 +7,7 @@ namespace OLC.Web.API.Manager
         Task<Executives> GetExecutiveByUserId(long userId);
         Task<List<Executives>> GetAllExecutivesAsync();
         Task<bool> InsertExecutuveAsyncs(Executives executive);
+        Task<bool> UpdateExecutiveAvailabilityAsync (Executives executive);
+        Task<bool> UpdateCurrentOrderCountAsync(Executives executive);
     }
 }

@@ -98,6 +98,7 @@
     <Folder Include="Programmability\Stored Procedures\BlockChains" />
     <Folder Include="Programmability\Stored Procedures\NewsLetter" />
     <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
+    <Folder Include="Programmability\Stored Procedures\EmailCategory" />
     <Folder Include="Programmability\Stored Procedures\EmailTemplates" />
     <Folder Include="Programmability\Stored Procedures\QueueConfiguration" />
   </ItemGroup>
@@ -307,6 +308,12 @@
     <Build Include="Programmability\Stored Procedures\Executives\uspInsertExecutive.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspGetAllExecutives.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspGetExecutiveByUserId.sql" />
+    <Build Include="Tables\EmailCategory.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspGetAllEmailCategories.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspInsertEmaiCategory.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspUpdateEmailCategory.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspGetEmailcategotyById.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspDeleteEmailCategory.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllExecutiveUserWalletDetails.sql" />
     <Build Include="Tables\EmailTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\EmailTemplates\uspGetAllTemplate.sql" />
@@ -321,6 +328,8 @@
     <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspSaveQueueConfiguration.sql" />
     <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspUpdateQueueConfiguration.sql" />
     <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspDeleteQueueConfiguration.sql" />
+    <Build Include="Programmability\Stored Procedures\Executives\uspUpdateExecutiveAvilability.sql" />
+    <Build Include="Programmability\Stored Procedures\Executives\uspUpdateCurrentOrdersCount.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
@@ -353,5 +362,6 @@
     <None Include="Post-Deployement\SeedUserWallet.sql" />
     <None Include="Post-Deployement\SeedCryptocurrency.sql" />
     <None Include="Post-Deployement\SeedWalletTypes.sql" />
+    <None Include="Post-Deployement\SeedExecutives.sql" />
   </ItemGroup>
 </Project>

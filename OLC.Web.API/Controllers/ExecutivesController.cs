@@ -62,5 +62,37 @@ namespace OLC.Web.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpPost]
+        [Route("UpdateExecutiveAvailabilityAsync")]
+        public async Task<IActionResult> UpdateExecutiveAvailabilityAsync(Executives executives)
+        {
+            try
+            {
+                var response = await _executivesManager.UpdateExecutiveAvailabilityAsync(executives);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateCurrentOrderCountAsync")]
+        public async Task<IActionResult> UpdateCurrentOrderCountAsync(Executives executives)
+        {
+            try
+            {
+                var response = await _executivesManager.UpdateCurrentOrderCountAsync(executives);
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

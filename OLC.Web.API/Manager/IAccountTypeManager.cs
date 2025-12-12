@@ -6,7 +6,7 @@ namespace OLC.Web.API.Manager
     {
         Task<AccountType> GetAccountTypeByIdAsync(long accountTypeId);
         Task<List<AccountType>> GetAccountTypeAsync();
-        Task<bool> InsertAccountTypeAsync(AccountType accountType);
+        Task<bool> InsertAccountTypeAsync (AccountType accountType);
         Task<bool> UpdateAccountTypeAsync(AccountType accountType);
         Task<bool> DeleteAccoutntTypeAsync(long accountTypeId);
 
