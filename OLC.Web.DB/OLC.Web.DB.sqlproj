@@ -98,6 +98,7 @@
     <Folder Include="Programmability\Stored Procedures\BlockChains" />
     <Folder Include="Programmability\Stored Procedures\NewsLetter" />
     <Folder Include="Programmability\Stored Procedures\UserLoginHistory" />
+    <Folder Include="Programmability\Stored Procedures\EmailCategory" />
     <Folder Include="Programmability\Stored Procedures\EmailTemplates" />
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +307,12 @@
     <Build Include="Programmability\Stored Procedures\Executives\uspInsertExecutive.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspGetAllExecutives.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspGetExecutiveByUserId.sql" />
+    <Build Include="Tables\EmailCategory.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspGetAllEmailCategories.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspInsertEmaiCategory.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspUpdateEmailCategory.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspGetEmailcategotyById.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCategory\uspDeleteEmailCategory.sql" />
     <Build Include="Programmability\Stored Procedures\UserWallet\uspGetAllExecutiveUserWalletDetails.sql" />
     <Build Include="Tables\EmailTemplate.sql" />
     <Build Include="Programmability\Stored Procedures\EmailTemplates\uspGetAllTemplate.sql" />

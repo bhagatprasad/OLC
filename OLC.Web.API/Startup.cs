@@ -62,6 +62,7 @@ namespace OLC.Web.API
             services.AddScoped<IBlockChainManager, BlockChainManager>();
             
             services.AddScoped<IExecutivesManager, ExecutivesManager>();
+            services.AddScoped<IEmailCategoryManager, EmailCategoryManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 
