@@ -108,6 +108,8 @@ namespace OLC.Web.UI
 
             services.AddScoped<IEmailTemplateService, EmailTemplateService>();
 
+            services.AddScoped<IQueueConfigurationService, QueueConfigurationService>();
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
