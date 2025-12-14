@@ -7,6 +7,8 @@ BEGIN
     SELECT
         po.[Id] AS OrderId,
         po.[OrderReference],
+        po.[PaymentOrderType],   -- Send, Receive, Withdraw
+        po.[WalletId],
         po.[Amount],
         u.[Email] AS UserEmail,
         u.[Phone] AS UserPhone,
