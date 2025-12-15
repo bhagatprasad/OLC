@@ -1,0 +1,167 @@
+﻿CREATE PROCEDURE [dbo].[uspInsertMailBox]
+(
+    @MessageId              UNIQUEIDENTIFIER = NULL,
+    @ReferenceId            VARCHAR(100) = NULL,
+
+    @TemplateId             BIGINT = NULL,
+    @TemplateCode           VARCHAR(100) = NULL,
+
+    @SenderEmail            VARCHAR(MAX) = NULL,
+    @SenderName             VARCHAR(255) = NULL,
+    @SenderType             VARCHAR(50) = NULL,
+
+    @RecipientEmail         VARCHAR(MAX),    
+    @RecipientName          VARCHAR(255) = NULL,
+    @RecipientType          VARCHAR(50) = NULL,
+    @UserId                 BIGINT = NULL,
+
+    @Subject                VARCHAR(MAX) = NULL,
+    @HtmlContent            NVARCHAR(MAX) = NULL,
+    @PlainContent           NVARCHAR(MAX) = NULL,
+    @Variables              NVARCHAR(MAX) = NULL,
+
+    @HasAttachments         BIT = 0,
+    @AttachmentPaths        NVARCHAR(MAX) = NULL,
+
+    @Category               VARCHAR(50) = NULL,
+    @CampaignId             VARCHAR(100) = NULL,
+    @Tags                   NVARCHAR(MAX) = NULL,
+
+    @Status                 VARCHAR(50) = 'pending',
+    @DeliveryStatus         VARCHAR(50) = NULL,
+    @Priority               VARCHAR(20) = 'normal',
+
+    @ScheduledFor           DATETIMEOFFSET = NULL,
+    @SentOn                 DATETIMEOFFSET = NULL,
+    @DeliveredOn            DATETIMEOFFSET = NULL,
+
+    @Provider               VARCHAR(100) = NULL,
+    @ProviderMessageId      VARCHAR(255) = NULL,
+    @ProviderResponse       NVARCHAR(MAX) = NULL,
+
+    @FailureReason          NVARCHAR(MAX) = NULL,
+    @FailureCode            VARCHAR(100) = NULL,
+    @RetryCount             INT = 0,
+    @MaxRetries             INT = 3,
+    @NextRetry              DATETIMEOFFSET = NULL,
+
+    @SenderIP               VARCHAR(45) = NULL,
+    @OpenedIP               VARCHAR(45) = NULL,
+    @ClickedIP              VARCHAR(45) = NULL,
+    @UserAgent              NVARCHAR(MAX) = NULL,
+    @DeviceType             VARCHAR(50) = NULL,
+
+    @CreatedBy              BIGINT = NULL,
+
+    @UnsubscribeToken       UNIQUEIDENTIFIER = NULL,
+    @IsUnsubscribed         BIT = 0,
+    @UnsubscribedOn         DATETIMEOFFSET = NULL,
+    @UnsubscribeReason      VARCHAR(255) = NULL,
+
+    @IsEncrypted            BIT = 0,
+    @EncryptionKey          VARCHAR(100) = NULL
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO [dbo].[MailBox]
+    (
+        MessageId,
+        ReferenceId,
+        TemplateId,
+        TemplateCode,
+        SenderEmail,
+        SenderName,
+        SenderType,
+        RecipientEmail,
+        RecipientName,
+        RecipientType,
+        UserId,
+        Subject,
+        HtmlContent,
+        PlainContent,
+        Variables,
+        HasAttachments,
+        AttachmentPaths,
+        Category,
+        CampaignId,
+        Tags,
+        Status,
+        DeliveryStatus,
+        Priority,
+        ScheduledFor,
+        SentOn,
+        DeliveredOn,
+        Provider,
+        ProviderMessageId,
+        ProviderResponse,
+        FailureReason,
+        FailureCode,
+        RetryCount,
+        MaxRetries,
+        NextRetry,
+        SenderIP,
+        OpenedIP,
+        ClickedIP,
+        UserAgent,
+        DeviceType,
+        CreatedBy,
+        UnsubscribeToken,
+        IsUnsubscribed,
+        UnsubscribedOn,
+        UnsubscribeReason,
+        IsEncrypted,
+        EncryptionKey
+    )
+    VALUES
+    (
+        @MessageId,
+        @ReferenceId,
+        @TemplateId,
+        @TemplateCode,
+        @SenderEmail,
+        @SenderName,
+        @SenderType,
+        @RecipientEmail,
+        @RecipientName,
+        @RecipientType,
+        @UserId,
+        @Subject,
+        @HtmlContent,
+        @PlainContent,
+        @Variables,
+        @HasAttachments,
+        @AttachmentPaths,
+        @Category,
+        @CampaignId,
+        @Tags,
+        @Status,
+        @DeliveryStatus,
+        @Priority,
+        @ScheduledFor,
+        @SentOn,
+        @DeliveredOn,
+        @Provider,
+        @ProviderMessageId,
+        @ProviderResponse,
+        @FailureReason,
+        @FailureCode,
+        @RetryCount,
+        @MaxRetries,
+        @NextRetry,
+        @SenderIP,
+        @OpenedIP,
+        @ClickedIP,
+        @UserAgent,
+        @DeviceType,
+        @CreatedBy,
+        @UnsubscribeToken,
+        @IsUnsubscribed,
+        @UnsubscribedOn,
+        @UnsubscribeReason,
+        @IsEncrypted,
+        @EncryptionKey
+    );
+END
+

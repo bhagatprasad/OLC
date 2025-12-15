@@ -8,5 +8,7 @@
         public long DepositeStatusId { get; set; }
         public long CreatedBy { get; set; }
         public string? Description { get; set; }
+        public string? PaymentOrderType { get; set; }
+        public string? WalletId { get; set; }
     }
 }

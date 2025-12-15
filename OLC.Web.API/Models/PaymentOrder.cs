@@ -2,18 +2,20 @@
 {
     public class PaymentOrder
     {
-        public long Id { get; set; }
-        public string OrderReference { get; set; }
-        public long UserId { get; set; }
+        public long? Id { get; set; }
+        public string? OrderReference { get; set; }
+        public long? UserId { get; set; }
         public long? PaymentReasonId { get; set; }
-        public decimal Amount {  get; set; }
-        public long TransactionFeeId {  get; set; }
-        public decimal PlatformFeeAmount { get; set;}
-        public string FeeCollectionMethod { get; set; }
-        public decimal TotalAmountToChargeCustomer { get; set; }
-        public decimal TotalAmountToDepositToCustomer { get; set; }
-        public decimal TotalPlatformFee { get; set; }
-        public string Currency {  get; set; }
+        public string? PaymentOrderType { get; set; }
+        public string? WalletId { get; set; }
+        public decimal? Amount {  get; set; }
+        public long? TransactionFeeId {  get; set; }
+        public decimal? PlatformFeeAmount { get; set;}
+        public string? FeeCollectionMethod { get; set; }
+        public decimal? TotalAmountToChargeCustomer { get; set; }
+        public decimal? TotalAmountToDepositToCustomer { get; set; }
+        public decimal? TotalPlatformFee { get; set; }
+        public string? Currency {  get; set; }
         public long? CreditCardId {  get; set; }
         public long? BankAccountId { get; set; }
         public long? BillingAddressId { get; set; }

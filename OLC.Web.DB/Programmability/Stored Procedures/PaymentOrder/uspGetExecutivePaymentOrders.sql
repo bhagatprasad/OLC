@@ -1,6 +1,8 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetExecutivePaymentOrders]
 AS
 BEGIN
+    SET NOCOUNT ON;
+
     SELECT
         po.[Id] AS OrderId,
         po.[OrderReference],
@@ -11,7 +13,7 @@ BEGIN
         po.[PaymentReasonId],
         pr.[Name] AS PaymentReasonName,
         po.[TransactionFeeId],
-        tf.[Name] AS TransactionFeeAmount, 
+        tf.[Name] AS TransactionFeeAmount,
         po.[PlatformFeeAmount],
         po.[FeeCollectionMethod],
         po.[TotalAmountToChargeCustomer],
@@ -23,7 +25,7 @@ BEGIN
         po.[BankAccountId],
         uba.[AccountNumber] AS BankAccountNumber,
         po.[BillingAddressId],
-        uba_addr.[AddessLineOne] AS BillingAddress,
+        uba_addr.[AddessLineOne] AS BillingAddress,  -- Note: likely typo, should be AddressLineOne?
         po.[OrderStatusId],
         os.[Name] AS OrderStatus,
         po.[PaymentStatusId],
@@ -41,24 +43,31 @@ BEGIN
         ) AS TotalDepositAmount,
         (
             SELECT MIN([PendingDepositeAmount])
-            FROM [dbo].[DepositOrder] 
+            FROM [dbo].[DepositOrder]
             WHERE [PaymentOrderId] = po.[Id]
         ) AS PendingDepositAmount,
         po.[CreatedBy],
         po.[CreatedOn],
         po.[ModifiedBy],
         po.[ModifiedOn],
-        po.[IsActive]
+        po.[IsActive],
+
+        -- New columns added
+        po.[PaymentOrderType],   -- Send, Receive, Withdraw
+        po.[WalletId]
+
     FROM [dbo].[PaymentOrder] po
-    LEFT JOIN [dbo].[User] u ON po.[UserId] = u.[Id]  -- Assuming User table has Id, Email, Phone columns
+    LEFT JOIN [dbo].[User] u ON po.[UserId] = u.[Id]
     LEFT JOIN [dbo].[PaymentReason] pr ON po.[PaymentReasonId] = pr.[Id]
     LEFT JOIN [dbo].[TransactionFee] tf ON po.[TransactionFeeId] = tf.[Id]
     LEFT JOIN [dbo].[UserCreditCard] ucc ON po.[CreditCardId] = ucc.[Id]
     LEFT JOIN [dbo].[UserBankAccount] uba ON po.[BankAccountId] = uba.[Id]
     LEFT JOIN [dbo].[UserBillingAddress] uba_addr ON po.[BillingAddressId] = uba_addr.[Id]
-    LEFT JOIN [dbo].[STATUS] os ON po.[OrderStatusId] = os.[Id]
-    LEFT JOIN [dbo].[STATUS] ps ON po.[PaymentStatusId] = ps.[Id]
-    LEFT JOIN [dbo].[STATUS] ds ON po.[DepositStatusId] = ds.[Id]
-
-    ORDER BY po.ModifiedOn DESC
+    LEFT JOIN [dbo].[Status] os ON po.[OrderStatusId] = os.[Id]          -- Consistent naming
+    LEFT JOIN [dbo].[Status] ps ON po.[PaymentStatusId] = ps.[Id]
+    LEFT JOIN [dbo].[Status] ds ON po.[DepositStatusId] = ds.[Id]
+    WHERE
+        po.[IsActive] = 1  -- Only active orders, consistent with your other procs
+    ORDER BY po.[ModifiedOn] DESC;
 END
+GO

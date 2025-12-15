@@ -7,5 +7,7 @@
         public long? OrderStatusId { get; set; }   
         public long? PaymentStatusId { get; set; }
         public long? DepositStatusId { get; set; }
+        public string? PaymentOrderType { get; set; }
+        public string? WalletId { get; set; }
     }
 }
