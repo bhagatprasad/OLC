@@ -1,0 +1,48 @@
+﻿<div class="modal fade"
+     id="orderQueueModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Order Queue</h5>
+                <button type="button"
+                        class="btn-close btn-close-orderqueue">
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Select</th>
+                                <th>PaymentOrderId</th>
+                                <th>OrderReference</th>
+                                <th>QueueStatus</th>
+                                <th>Priority</th>
+                                <th>AssignedOn</th>
+                                <th>ProcessingStartedOn</th>
+                                <th>ProcessingCompletedOn</th>
+                                <th>MaxRetries</th>
+                                <th>IsActive</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderQueueTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary btn-close-orderqueue">
+                    Close
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

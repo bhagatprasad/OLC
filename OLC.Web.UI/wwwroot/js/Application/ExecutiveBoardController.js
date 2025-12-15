@@ -1035,4 +1035,81 @@
 
         doc.save(`Invoice_${order.OrderReference}.pdf`);
     };
+    // =====================
+    // ORDER QUEUE MODAL
+    // =====================
+
+    $(document).on("click", "#btnOrderQueue", function () {
+        $('#orderQueueModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
+        $("#orderQueueTableBody").html(`
+        <tr>
+            <td colspan="4" class="text-center text-muted">Loading queue...</td>
+        </tr>
+    `);
+
+        $('#orderQueueModal').modal("show");
+
+
+        self.loadOrderQueue();
+    });
+
+    self.loadOrderQueue = function () {
+        $(".se-pre-con").show();
+
+        $.ajax({
+            type: "GET",
+            url: "/OrderQueue/GetQueue", // <-- your MVC action
+            success: function (response) {
+
+                const queue = response?.data || [];
+                const $tbody = $("#orderQueueTableBody").empty();
+
+                if (queue.length === 0) {
+                    $tbody.append(`
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            No queued orders found
+                        </td>
+                    </tr>
+                `);
+                    return;
+                }
+
+                queue.forEach(q => {
+                    $tbody.append(`
+                    <tr>
+                        <td>${q.OrderReference}</td>
+                        <td>
+                            <span class="badge bg-info">${q.Status}</span>
+                        </td>
+                        <td>${self.formatDate(q.CreatedOn)}</td>
+                        <td>${q.Remarks || 'N/A'}</td>
+                    </tr>
+                `);
+                });
+            },
+            error: function () {
+                $("#orderQueueTableBody").html(`
+                <tr>
+                    <td colspan="4" class="text-danger text-center">
+                        Failed to load order queue
+                    </td>
+                </tr>
+            `);
+            },
+            complete: function () {
+                $(".se-pre-con").hide();
+            }
+        });
+    };
+
+    // Close modal
+    $(document).on("click", ".btn-close-orderqueue", function () {
+        $("#orderQueueModal").modal("hide");
+    });
+
 }
