@@ -103,6 +103,7 @@
     <Folder Include="Programmability\Stored Procedures\QueueConfiguration" />
     <Folder Include="Programmability\Stored Procedures\OrderQueue" />
     <Folder Include="Programmability\Stored Procedures\QueueProcessingHistory" />
+    <Folder Include="Programmability\Stored Procedures\MailBox" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -343,6 +344,10 @@
     <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspDeleteQueueProcessingHistory.sql" />
     <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspGetQueueProcessingHistoryByOrder.sql" />
     <Build Include="Programmability\Functions\udfGetPaymentOrderMetaDataJson.sql" />
+    <Build Include="Tables\MailBox.sql" />
+    <Build Include="Programmability\Stored Procedures\MailBox\uspGetAllMailBox.sql" />
+    <Build Include="Programmability\Stored Procedures\MailBox\uspGetMailBoxById.sql" />
+    <Build Include="Programmability\Stored Procedures\MailBox\uspInsertMailBox.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
