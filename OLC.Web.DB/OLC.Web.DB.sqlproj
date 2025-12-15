@@ -343,7 +343,7 @@
     <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspUpdateQueueProcessingHistory.sql" />
     <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspDeleteQueueProcessingHistory.sql" />
     <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspGetQueueProcessingHistoryByOrder.sql" />
-    <Build Include="Programmability\Functions\udfGetPaymentOrderMetaDataJson.sql" />
+    <Build Include="Programmability\Functions\udfGetPaymentOrderMetaDataJsonScalar.sql" />
     <Build Include="Tables\MailBox.sql" />
     <Build Include="Programmability\Stored Procedures\MailBox\uspGetAllMailBox.sql" />
     <Build Include="Programmability\Stored Procedures\MailBox\uspGetMailBoxById.sql" />

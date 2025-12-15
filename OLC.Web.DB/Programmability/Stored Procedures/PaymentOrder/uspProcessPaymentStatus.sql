@@ -7,11 +7,7 @@
     @orderStatusId       BIGINT = NULL,
     @paymentStatusId     BIGINT = NULL,
     @description         NVARCHAR(MAX) = NULL,
-    @userId              VARCHAR(MAX) = NULL,
-
-    -- ✅ New parameters
-    @paymentOrderType    VARCHAR(MAX) = NULL,   -- Send / Receive / Withdraw
-    @walletId            VARCHAR(MAX) = NULL
+    @userId              VARCHAR(MAX) = NULL
 )
 AS
 BEGIN
@@ -21,6 +17,7 @@ BEGIN
     DECLARE @orderExists BIT = 0;
 
     IF @paymentOrderId IS NOT NULL
+
     BEGIN
         BEGIN TRY
             -- Check if payment order exists and get deposit amount
@@ -43,8 +40,6 @@ BEGIN
                 PaymentStatusId = @paymentStatusId,
                 StripePaymentIntentId = @paymentIntentId,
                 StripePaymentChargeId = @sessionId,
-                PaymentOrderType = @paymentOrderType,  -- ✅ added
-                WalletId = @walletId,                  -- ✅ added
                 ModifiedBy = @userId,
                 ModifiedOn = GETDATE()
             WHERE Id = @paymentOrderId;
@@ -61,6 +56,9 @@ BEGIN
                  @paymentOrderId,
                  @userId,
                  @depositAmount;
+
+                  --push paymentorder to order que 
+           EXEC [dbo].[uspInsertOrderQueue] @paymentOrderId;
 
             -- Return updated payment order
             EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId;

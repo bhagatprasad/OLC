@@ -1,14 +1,14 @@
-﻿CREATE FUNCTION dbo.udfGetPaymentOrderMetaDataJson
+﻿CREATE FUNCTION dbo.udfGetPaymentOrderMetaDataJsonScalar
 (
     @PaymentOrderId BIGINT
 )
-RETURNS TABLE
+RETURNS NVARCHAR(MAX)
 AS
-RETURN
-(
-    SELECT
-        (
-            SELECT
+BEGIN
+    DECLARE @Result NVARCHAR(MAX);
+    
+    SELECT @Result = (
+       SELECT
                  [Id]
                 ,[OrderReference]
                 ,[UserId]
@@ -40,7 +40,8 @@ RETURN
                 ,[IsActive]
             FROM dbo.PaymentOrder
             WHERE Id = @PaymentOrderId
-            FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
-        ) AS Metadata
-);
+        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+    );
+    RETURN @Result;
+END;
 GO
