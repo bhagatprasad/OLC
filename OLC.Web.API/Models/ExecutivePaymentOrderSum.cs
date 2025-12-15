@@ -9,5 +9,7 @@
         public decimal? SuccessAmount { get; set; }
         public decimal? FailedAmount { get; set; }
         public decimal? CancelledAmount { get; set; }
+        public string? PaymentOrderType { get; set; }
+        public string? WalletId { get; set; }
     }
 }

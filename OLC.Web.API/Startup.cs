@@ -65,6 +65,11 @@ namespace OLC.Web.API
             services.AddScoped<IExecutivesManager, ExecutivesManager>();
             services.AddScoped<IEmailCategoryManager, EmailCategoryManager>();
             services.AddScoped<IExecutiveAssignmentsManager, ExecutiveAssignmentsManager>();
+            services.AddScoped<IMailBoxManager, MailBoxManager>();
+
+            services.AddScoped<IQueueProcessingHistoryManager, QueueProcessingHistoryManager>();
+            services.AddScoped<IOrderQueueManager, OrderQueueManager>();
+
 
             services.AddMvc().AddXmlSerializerFormatters();
 

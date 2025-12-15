@@ -102,6 +102,9 @@
     <Folder Include="Programmability\Stored Procedures\EmailTemplates" />
     <Folder Include="Programmability\Stored Procedures\QueueConfiguration" />
     <Folder Include="Programmability\Stored Procedures\ExecutiveAssignments" />
+    <Folder Include="Programmability\Stored Procedures\OrderQueue" />
+    <Folder Include="Programmability\Stored Procedures\QueueProcessingHistory" />
+    <Folder Include="Programmability\Stored Procedures\MailBox" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -333,6 +336,21 @@
     <Build Include="Programmability\Stored Procedures\Executives\uspUpdateCurrentOrdersCount.sql" />
     <Build Include="Programmability\Stored Procedures\ExecutiveAssignments\uspInsertExecutiveAssignments.sql" />
     <Build Include="Programmability\Stored Procedures\ExecutiveAssignments\uspUpdateExecutiveAssignments.sql" />
+    <Build Include="Tables\OrderQueue.sql" />
+    <Build Include="Tables\QueueProcessingHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspInsertOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspUpdateOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspIncrementOrderQueueRetry.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspDeleteOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspInsertQueueProcessingHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspUpdateQueueProcessingHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspDeleteQueueProcessingHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspGetQueueProcessingHistoryByOrder.sql" />
+    <Build Include="Programmability\Functions\udfGetPaymentOrderMetaDataJsonScalar.sql" />
+    <Build Include="Tables\MailBox.sql" />
+    <Build Include="Programmability\Stored Procedures\MailBox\uspGetAllMailBox.sql" />
+    <Build Include="Programmability\Stored Procedures\MailBox\uspGetMailBoxById.sql" />
+    <Build Include="Programmability\Stored Procedures\MailBox\uspInsertMailBox.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
