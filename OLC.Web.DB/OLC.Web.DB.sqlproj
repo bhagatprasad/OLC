@@ -101,6 +101,8 @@
     <Folder Include="Programmability\Stored Procedures\EmailCategory" />
     <Folder Include="Programmability\Stored Procedures\EmailTemplates" />
     <Folder Include="Programmability\Stored Procedures\QueueConfiguration" />
+    <Folder Include="Programmability\Stored Procedures\OrderQueue" />
+    <Folder Include="Programmability\Stored Procedures\QueueProcessingHistory" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -330,6 +332,16 @@
     <Build Include="Programmability\Stored Procedures\QueueConfiguration\uspDeleteQueueConfiguration.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspUpdateExecutiveAvilability.sql" />
     <Build Include="Programmability\Stored Procedures\Executives\uspUpdateCurrentOrdersCount.sql" />
+    <Build Include="Tables\OrderQueue.sql" />
+    <Build Include="Tables\QueueProcessingHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspInsertOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspUpdateOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspIncrementOrderQueueRetry.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspDeleteOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspInsertQueueProcessingHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspUpdateQueueProcessingHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspDeleteQueueProcessingHistory.sql" />
+    <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspGetQueueProcessingHistoryByOrder.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
