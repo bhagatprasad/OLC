@@ -28,8 +28,12 @@ BEGIN
         @description,
         @createdBy;
 
-    -- Return updated payment order
-    EXEC [dbo].[uspGetPaymentOrderById] 
-        @paymentOrderId;
+
+    --push paymentorder to order que 
+    EXEC [dbo].[uspInsertOrderQueue] @paymentOrderId;
+
+
+    -- Return the updated payment order
+    EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId;
 END
 GO
