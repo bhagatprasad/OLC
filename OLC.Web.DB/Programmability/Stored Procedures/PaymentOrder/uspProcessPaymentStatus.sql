@@ -1,13 +1,13 @@
 ﻿CREATE PROCEDURE [dbo].[uspProcessPaymentStatus]
 (
-    @paymentOrderId BIGINT = NULL,
-    @sessionId NVARCHAR(255) = NULL,
-    @paymentIntentId NVARCHAR(255) = NULL,
-    @paymentMethod NVARCHAR(255) = NULL,
-    @orderStatusId BIGINT = NULL,
-    @paymentStatusId BIGINT = NULL,
-    @description NVARCHAR(MAX) = NULL,
-    @userId VARCHAR(MAX) = NULL
+    @paymentOrderId      BIGINT = NULL,
+    @sessionId           NVARCHAR(255) = NULL,
+    @paymentIntentId     NVARCHAR(255) = NULL,
+    @paymentMethod       NVARCHAR(255) = NULL,
+    @orderStatusId       BIGINT = NULL,
+    @paymentStatusId     BIGINT = NULL,
+    @description         NVARCHAR(MAX) = NULL,
+    @userId              VARCHAR(MAX) = NULL
 )
 AS
 BEGIN
@@ -17,6 +17,7 @@ BEGIN
     DECLARE @orderExists BIT = 0;
 
     IF @paymentOrderId IS NOT NULL
+
     BEGIN
         BEGIN TRY
             -- Check if payment order exists and get deposit amount
@@ -47,6 +48,9 @@ BEGIN
 
             -- Insert transaction reward
             EXEC [dbo].[uspInsertTransactionReward] @paymentOrderId, @userId, @depositAmount;
+
+                  --push paymentorder to order que 
+           EXEC [dbo].[uspInsertOrderQueue] @paymentOrderId;
 
             -- Return updated payment order
             EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId;

@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OLC.Web.API.Manager;
-using OLC.Web.API.Models;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace OLC.Web.API.Controllers
 {
@@ -16,6 +13,5 @@ namespace OLC.Web.API.Controllers
         {
             _orderQueueManager = orderQueueManager;
         }
-       
     }
 }
