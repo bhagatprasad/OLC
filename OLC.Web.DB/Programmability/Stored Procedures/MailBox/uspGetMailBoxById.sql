@@ -1,0 +1,70 @@
+﻿CREATE PROCEDURE [dbo].[uspGetMailboxById]
+(
+    @id    bigint
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        Id,
+        MessageId,
+        ReferenceId,
+        TemplateId,
+        TemplateCode,
+        SenderEmail,
+        SenderName,
+        SenderType,
+        RecipientEmail,
+        RecipientName,
+        RecipientType,
+        UserId,
+        Subject,
+        HtmlContent,
+        PlainContent,
+        Variables,
+        HasAttachments,
+        AttachmentPaths,
+        Category,
+        CampaignId,
+        Tags,
+        Status,
+        DeliveryStatus,
+        Priority,
+        ScheduledFor,
+        SentOn,
+        DeliveredOn,
+        Provider,
+        ProviderMessageId,
+        ProviderResponse,
+        FailureReason,
+        FailureCode,
+        RetryCount,
+        MaxRetries,
+        NextRetry,
+        OpenCount,
+        FirstOpenedOn,
+        LastOpenedOn,
+        ClickCount,
+        FirstClickedOn,
+        LastClickedOn,
+        SenderIP,
+        OpenedIP,
+        ClickedIP,
+        UserAgent,
+        DeviceType,
+        CreatedBy,
+        CreatedOn,
+        UpdatedBy,
+        UpdatedOn,
+        Archived,
+        ArchivedOn,
+        UnsubscribeToken,
+        IsUnsubscribed,
+        UnsubscribedOn,
+        UnsubscribeReason,
+        IsEncrypted,
+        EncryptionKey
+    FROM [dbo].[MailBox]
+    WHERE Id = @id;
+END
