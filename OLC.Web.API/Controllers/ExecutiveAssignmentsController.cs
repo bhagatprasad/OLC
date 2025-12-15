@@ -17,7 +17,7 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("InsertExecutiveAssignmentsAsync")]
-        public async Task<IActionResult> InsertExecutiveAssignmentsAsync(ExecutiveAssignments executiveAssignments)
+        public async Task<IActionResult> InsertExecutiveAssignments(ExecutiveAssignments executiveAssignments)
         {
             try
             {
@@ -32,12 +32,27 @@ namespace OLC.Web.API.Controllers
 
         [HttpPost]
         [Route("UpdateExecutiveAssignmentsAsync")]
-        public async Task<IActionResult> UpdateExecutiveAssignmentsAsync(ExecutiveAssignments executiveAssignments)
+        public async Task<IActionResult> UpdateExecutiveAssignments(ExecutiveAssignments executiveAssignments)
         {
             try
             {
                 var response = await _executiveAssignmentsmanager.UpdateExecutiveAssignmentsAsync(executiveAssignments);
                 return  Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteExecutiveAssignmentsAsync/{id}")]
+        public async Task<IActionResult> DeleteExecutiveAssignments(long id)
+        {
+            try
+            {
+                var response = await _executiveAssignmentsmanager.DeleteExecutiveAssignmentsAsync(id);
+                return Ok(response);
             }
             catch (Exception ex)
             {

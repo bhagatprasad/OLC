@@ -1,8 +1,8 @@
-﻿using OLC.Web.API.Models;
+﻿using OLC.Web.UI.Models;
 
-namespace OLC.Web.API.Manager
+namespace OLC.Web.UI.Services
 {
-    public interface IExecutiveAssignmentsManager
+    public interface IExecutiveAssignmentsService
     {
         Task<bool> InsertExecutiveAssignmentsAsync(ExecutiveAssignments executiveAssignments);
         Task<bool> UpdateExecutiveAssignmentsAsync(ExecutiveAssignments executiveAssignments);
