@@ -139,6 +139,8 @@
                     OrderReference: generateOrderReference(self.ApplicationUser.Id, OrderType.Payment),
                     UserId: self.ApplicationUser.Id,
                     PaymentReasonId: paymentReasonId,
+                    PaymentOrderType: PaymentOrderType,
+                    WalletId: walletId,
                     Amount: parseFloat(transferAmount),
                     TransactionFeeId: transactionFeeId,
                     PlatformFeeAmount: platformFeeAmount, // Corrected to the calculated fee amount
