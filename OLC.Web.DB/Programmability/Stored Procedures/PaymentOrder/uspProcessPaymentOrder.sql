@@ -1,34 +1,45 @@
-﻿CREATE PROC [dbo].[uspProcessPaymentOrder]
+﻿CREATE PROCEDURE [dbo].[uspProcessPaymentOrder]
 (
-@paymentOrderId     bigint,
-@orderStatusId      bigint,
-@paymentStatusId    bigint,
-@depositeStatusId   bigint,
-@createdBy          bigint,
-@description        varchar(max)
+    @paymentOrderId BIGINT,
+    @orderStatusId BIGINT,
+    @paymentStatusId BIGINT,
+    @depositeStatusId BIGINT,
+    @createdBy BIGINT,
+    @description VARCHAR(MAX),
+    @paymentOrderType VARCHAR(MAX) = NULL,
+    @walletId VARCHAR(MAX) = NULL
 )
- 
- 
 AS
- 
 BEGIN
- 
- 
-    UPDATE PaymentOrder
- 
- 
-    SET
- 
-    OrderStatusId  = @orderStatusId
-   ,PaymentStatusId = @paymentStatusId
-   ,DepositStatusId  = @depositeStatusId
-   ,ModifiedBy = @createdBy   
-   ,ModifiedOn  = GETDATE()
- 
-   where Id = @paymentOrderId
- 
-   EXEC [dbo].[uspInsertPaymentOrderHistory] @paymentOrderId,@orderStatusId,@description,@createdBy
+    SET NOCOUNT ON;
 
-   EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId
- 
+    UPDATE [dbo].[PaymentOrder]
+    SET
+        OrderStatusId = @orderStatusId,
+        PaymentStatusId = @paymentStatusId,
+        DepositStatusId = @depositeStatusId,
+        ModifiedBy = @createdBy,
+        ModifiedOn = GETUTCDATE(),  -- Recommended: use UTC for consistency
+        
+        -- Update new columns only if values are provided
+        PaymentOrderType = ISNULL(@paymentOrderType, PaymentOrderType),
+        WalletId = ISNULL(@walletId, WalletId)
+    WHERE
+        Id = @paymentOrderId;
+
+    -- Insert history (assuming this proc records status changes)
+    EXEC [dbo].[uspInsertPaymentOrderHistory] 
+        @paymentOrderId, 
+        @orderStatusId, 
+        @description, 
+        @createdBy;
+
+
+    --push paymentorder to order que 
+    EXEC [dbo].[uspInsertOrderQueue] @paymentOrderId;
+
+
+    -- Return the updated payment order
+    EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId;
 END
+GO

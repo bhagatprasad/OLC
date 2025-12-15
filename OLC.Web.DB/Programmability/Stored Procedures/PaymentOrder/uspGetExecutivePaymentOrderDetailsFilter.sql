@@ -1,11 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[uspGetExecutivePaymentOrdersFilter]
 (
-    @fromDate				 DATETIME     = NULL,
-    @toDate					 DATETIME     = NULL,
-    @orderStatusId		     bigint       = NULL,
-    @paymentStatusId		 bigint       = NULL,
-    @depositStatusId		 bigint       = NULL
-    
+    @FromDate DATETIME = NULL,
+    @ToDate DATETIME = NULL,
+    @OrderStatusId BIGINT = NULL,
+    @PaymentStatusId BIGINT = NULL,
+    @DepositStatusId BIGINT = NULL
 )
 AS
 BEGIN
@@ -21,7 +20,7 @@ BEGIN
         po.[PaymentReasonId],
         pr.[Name] AS PaymentReasonName,
         po.[TransactionFeeId],
-        tf.[Name] AS TransactionFeeAmount, 
+        tf.[Name] AS TransactionFeeAmount,
         po.[PlatformFeeAmount],
         po.[FeeCollectionMethod],
         po.[TotalAmountToChargeCustomer],
@@ -33,7 +32,7 @@ BEGIN
         po.[BankAccountId],
         uba.[AccountNumber] AS BankAccountNumber,
         po.[BillingAddressId],
-        uba_addr.[AddessLineOne] AS BillingAddress,
+        uba_addr.[AddessLineOne] AS BillingAddress,  -- Note: likely typo for AddressLineOne
         po.[OrderStatusId],
         os.[Name] AS OrderStatus,
         po.[PaymentStatusId],
@@ -48,7 +47,12 @@ BEGIN
         po.[CreatedOn],
         po.[ModifiedBy],
         po.[ModifiedOn],
-        po.[IsActive]
+        po.[IsActive],
+
+        -- New columns added
+        po.[PaymentOrderType],  -- Send, Receive, Withdraw
+        po.[WalletId]
+
     FROM [dbo].[PaymentOrder] po
     LEFT JOIN [dbo].[User] u ON po.[UserId] = u.[Id]
     LEFT JOIN [dbo].[PaymentReason] pr ON po.[PaymentReasonId] = pr.[Id]
@@ -56,14 +60,16 @@ BEGIN
     LEFT JOIN [dbo].[UserCreditCard] ucc ON po.[CreditCardId] = ucc.[Id]
     LEFT JOIN [dbo].[UserBankAccount] uba ON po.[BankAccountId] = uba.[Id]
     LEFT JOIN [dbo].[UserBillingAddress] uba_addr ON po.[BillingAddressId] = uba_addr.[Id]
-    LEFT JOIN [dbo].[STATUS] os ON po.[OrderStatusId] = os.[Id]
-    LEFT JOIN [dbo].[STATUS] ps ON po.[PaymentStatusId] = ps.[Id]
-    LEFT JOIN [dbo].[STATUS] ds ON po.[DepositStatusId] = ds.[Id]
-   WHERE 
-        (@FromDate IS NULL OR po.[ModifiedOn] >= @FromDate)
+    LEFT JOIN [dbo].[Status] os ON po.[OrderStatusId] = os.[Id]          -- Consistent with other procs
+    LEFT JOIN [dbo].[Status] ps ON po.[PaymentStatusId] = ps.[Id]
+    LEFT JOIN [dbo].[Status] ds ON po.[DepositStatusId] = ds.[Id]
+    WHERE
+        po.[IsActive] = 1  -- Recommended: only return active records (matches your other procs)
+        AND (@FromDate IS NULL OR po.[ModifiedOn] >= @FromDate)
         AND (@ToDate IS NULL OR po.[ModifiedOn] <= @ToDate)
         AND (@OrderStatusId IS NULL OR po.[OrderStatusId] = @OrderStatusId)
         AND (@PaymentStatusId IS NULL OR po.[PaymentStatusId] = @PaymentStatusId)
         AND (@DepositStatusId IS NULL OR po.[DepositStatusId] = @DepositStatusId)
-    ORDER BY po.ModifiedOn DESC;
+    ORDER BY po.[ModifiedOn] DESC;
 END
+GO

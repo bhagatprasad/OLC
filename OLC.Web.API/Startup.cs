@@ -66,6 +66,10 @@ namespace OLC.Web.API
             services.AddScoped<IEmailCategoryManager, EmailCategoryManager>();
             services.AddScoped<IMailBoxManager, MailBoxManager>();
 
+            services.AddScoped<IQueueProcessingHistoryManager, QueueProcessingHistoryManager>();
+            services.AddScoped<IOrderQueueManager, OrderQueueManager>();
+
+
             services.AddMvc().AddXmlSerializerFormatters();
 
             var emailConfig = _configuration.GetSection("EmailConfig");

@@ -8,6 +8,8 @@ BEGIN
         po.[Id],
         po.[OrderReference],
         po.[UserId],
+        po.[PaymentOrderType],
+        po.[WalletId],
         po.[PaymentReasonId],
         pr.[Name] AS PaymentReasonName,
         po.[Amount],

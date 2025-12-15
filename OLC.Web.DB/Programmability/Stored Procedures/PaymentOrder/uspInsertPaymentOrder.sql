@@ -3,6 +3,8 @@
      @orderReference					nvarchar(50) = NULL
     ,@userId							bigint = NULL
     ,@paymentReasonId					bigint = NULL
+    ,@paymentOrderType                  nvarchar(50) = NULL
+    ,@walletId                          nvarchar(50) = NULL
     ,@amount							decimal(18,6) = NULL
     ,@transactionFeeId					bigint = NULL
     ,@platformFeeAmount					decimal(18,6) = NULL
@@ -35,6 +37,8 @@ BEGIN
         OrderReference,
         UserId,
         PaymentReasonId,
+        PaymentOrderType,
+        WalletId,
         Amount,
         TransactionFeeId,
         PlatformFeeAmount,
@@ -62,6 +66,8 @@ BEGIN
         @orderReference,
         @userId,
         @paymentReasonId,
+        @paymentOrderType,
+        @walletId,
         @amount,
         @transactionFeeId,
         @platformFeeAmount,

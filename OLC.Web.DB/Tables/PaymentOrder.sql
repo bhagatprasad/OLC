@@ -5,6 +5,11 @@
     [OrderReference]                NVARCHAR(50)        NOT NULL UNIQUE,
     [UserId]                        BIGINT              NOT NULL,
     [PaymentReasonId]               BIGINT              NULL,
+
+     -- Payment Order Type
+    [PaymentOrderType]              VARCHAR(MAX)        NULL, -- Send, Receive, Withdraw
+    [WalletId]                      VARCHAR(MAX)        NULL,
+
     -- User Input Amount
     [Amount]                        DECIMAL(18,6)       NOT NULL, -- Original amount user entered (10000)
     -- Fee Configuration

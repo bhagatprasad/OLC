@@ -23,15 +23,15 @@
         public long? BillingAddressId { get; set; }
         public string? BillingAddress { get; set; }
         public long? OrderStatusId { get; set; }
-        public string OrderStatus { get; set; }
+        public string? OrderStatus { get; set; }
         public long? PaymentStatusId { get; set; }
-        public string PaymentStatus { get; set; }
+        public string? PaymentStatus { get; set; }
         public long? DepositStatusId { get; set; }
-        public string DepositStatus { get; set; }
-        public string StripePaymentIntentId { get; set; }
-        public string StripePaymentChargeId { get; set; }
-        public string StripeDepositeIntentId { get; set; }
-        public string StripeDepositeChargeId { get; set; }
+        public string? DepositStatus { get; set; }
+        public string? StripePaymentIntentId { get; set; }
+        public string? StripePaymentChargeId { get; set; }
+        public string? StripeDepositeIntentId { get; set; }
+        public string? StripeDepositeChargeId { get; set; }
         public decimal? DepositeAmount { get; set; }
         public decimal? PendingDepositeAmount { get; set; }
         public long? CreatedBy { get; set; }
@@ -39,5 +39,7 @@
         public long? ModifiedBy { get; set; }
         public DateTimeOffset? ModifiedOn { get; set; }
         public bool? IsActive { get; set; }
+        public string? PaymentOrderType { get; set; }
+        public string? WalletId { get; set; }
     }
 }

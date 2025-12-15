@@ -1,13 +1,17 @@
-﻿CREATE  PROCEDURE [dbo].[uspProcessPaymentStatus]
+﻿CREATE PROCEDURE [dbo].[uspProcessPaymentStatus]
 (
-    @paymentOrderId     bigint = NULL,
-    @sessionId          nvarchar(255) = NULL,
-    @paymentIntentId    nvarchar(255) = NULL,
-    @paymentMethod      nvarchar(255) = NULL,
-    @orderStatusId      bigint = NULL,
-    @paymentStatusId    bigint = NULL,
-    @description        nvarchar(max) = NULL,
-    @userId             varchar(max) = NULL
+    @paymentOrderId      BIGINT = NULL,
+    @sessionId           NVARCHAR(255) = NULL,
+    @paymentIntentId     NVARCHAR(255) = NULL,
+    @paymentMethod       NVARCHAR(255) = NULL,
+    @orderStatusId       BIGINT = NULL,
+    @paymentStatusId     BIGINT = NULL,
+    @description         NVARCHAR(MAX) = NULL,
+    @userId              VARCHAR(MAX) = NULL,
+
+    -- ✅ New parameters
+    @paymentOrderType    VARCHAR(MAX) = NULL,   -- Send / Receive / Withdraw
+    @walletId            VARCHAR(MAX) = NULL
 )
 AS
 BEGIN
@@ -20,10 +24,10 @@ BEGIN
     BEGIN
         BEGIN TRY
             -- Check if payment order exists and get deposit amount
-            SELECT 
+            SELECT
                 @depositAmount = TotalAmountToDepositToCustomer,
                 @orderExists = 1
-            FROM PaymentOrder 
+            FROM PaymentOrder
             WHERE Id = @paymentOrderId;
 
             IF @orderExists = 0
@@ -39,17 +43,26 @@ BEGIN
                 PaymentStatusId = @paymentStatusId,
                 StripePaymentIntentId = @paymentIntentId,
                 StripePaymentChargeId = @sessionId,
+                PaymentOrderType = @paymentOrderType,  -- ✅ added
+                WalletId = @walletId,                  -- ✅ added
                 ModifiedBy = @userId,
                 ModifiedOn = GETDATE()
             WHERE Id = @paymentOrderId;
 
             -- Insert payment order history
-            EXEC [dbo].[uspInsertPaymentOrderHistory] @paymentOrderId, @orderStatusId, @description, @userId;
+            EXEC [dbo].[uspInsertPaymentOrderHistory]
+                 @paymentOrderId,
+                 @orderStatusId,
+                 @description,
+                 @userId;
 
-            -- Insert transaction reward with deposit amount
-            EXEC [dbo].[uspInsertTransactionReward] @paymentOrderId, @userId, @depositAmount;
+            -- Insert transaction reward
+            EXEC [dbo].[uspInsertTransactionReward]
+                 @paymentOrderId,
+                 @userId,
+                 @depositAmount;
 
-            -- Retrieve the updated payment order
+            -- Return updated payment order
             EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId;
 
         END TRY
@@ -63,3 +76,4 @@ BEGIN
         RAISERROR('PaymentOrderId cannot be NULL.', 16, 1);
     END
 END
+

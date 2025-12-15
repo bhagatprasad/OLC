@@ -42,7 +42,7 @@
                 : `<button data-type-id="${type.Id}" class="badge bg-warning activate-type">Inactive</button>`;
         }
         function loadWalletTypes() {
-            const tbody = $('#walletTypesBody').empty();
+            const tbody = $('#walletTypesBody');
             const cardsContainer = $('#mobileWalletTypesCards');
             tbody.empty();
             cardsContainer.empty();
