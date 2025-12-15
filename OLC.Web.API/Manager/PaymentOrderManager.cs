@@ -309,8 +309,6 @@ namespace OLC.Web.API.Manager
             cmd.Parameters.AddWithValue("@paymentStatusId", processPaymentStatus.PaymentStatusId ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@description", processPaymentStatus.Description ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@userId", processPaymentStatus.UserId?.ToString() ?? (object)DBNull.Value); // Assuming UserId is long? and converting to string for varchar(max)
-            cmd.Parameters.AddWithValue("@paymentOrderType",processPaymentStatus.PaymentOrderType??(object)DBNull.Value);
-            cmd.Parameters.AddWithValue("@walletId",processPaymentStatus.WalletId ?? (object)DBNull.Value);
 
             DataTable dt = new DataTable();
 
