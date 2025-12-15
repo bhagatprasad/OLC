@@ -13,63 +13,153 @@ namespace OLC.Web.API.Manager
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<long> InsertOrderQueueAsync(OrderQueue orderQueue)
+        public async Task<bool> InsertOrderQueueAsync(OrderQueue orderQueue)
         {
-            using SqlConnection conn = new SqlConnection(_connectionString);
-            using SqlCommand cmd = new SqlCommand("uspInsertOrderQueue", conn);
+            if (orderQueue != null)
+            {
 
-            cmd.CommandType = CommandType.StoredProcedure;
+                SqlConnection sqlConnection = new SqlConnection(_connectionString);
 
-            cmd.Parameters.AddWithValue("@PaymentOrderId", orderQueue.PaymentOrderId);
-            cmd.Parameters.AddWithValue("@OrderReference", orderQueue.OrderReference);
-            cmd.Parameters.AddWithValue("@Priority", orderQueue.Priority);
-            cmd.Parameters.AddWithValue("@Metadata", (object?)orderQueue.Metadata ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@CreatedBy", orderQueue.PaymentOrderId); // replace with UserId if available
+                sqlConnection.Open();
 
-            await conn.OpenAsync();
-            return Convert.ToInt64(await cmd.ExecuteScalarAsync());
+                SqlCommand cmd = new SqlCommand("[dbo].[uspInsertOrderQueue]", sqlConnection);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@PaymentOrderId", orderQueue.PaymentOrderId);
+               
+                cmd.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> UpdateOrderQueueAsync(OrderQueue orderQueue)
         {
-            using SqlConnection conn = new SqlConnection(_connectionString);
-            using SqlCommand cmd = new SqlCommand("uspUpdateOrderQueue", conn);
+            if (orderQueue != null)
+            {
 
-            cmd.CommandType = CommandType.StoredProcedure;
+                SqlConnection sqlConnection = new SqlConnection(_connectionString);
 
-            cmd.Parameters.AddWithValue("@OrderQueueId", orderQueue.Id);
-            cmd.Parameters.AddWithValue("@QueueStatus", orderQueue.QueueStatus);
-            cmd.Parameters.AddWithValue("@AssignedExecutiveId",
-                (object?)orderQueue.AssignedExecutiveId ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Priority", orderQueue.Priority);
-            cmd.Parameters.AddWithValue("@FailureReason",
-                (object?)orderQueue.FailureReason ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@Metadata",
-                (object?)orderQueue.Metadata ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@ModifiedBy",
-                orderQueue.AssignedExecutiveId ?? 0);
+                sqlConnection.Open();
 
-            await conn.OpenAsync();
-            await cmd.ExecuteNonQueryAsync();
+                SqlCommand cmd = new SqlCommand("[dbo].[uspUpdateOrderQueue]", sqlConnection);
 
-            return true;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@PaymentOrderId", orderQueue.PaymentOrderId);
+                cmd.Parameters.AddWithValue("@OrderReference", orderQueue.OrderReference);
+                cmd.Parameters.AddWithValue("@Priority", orderQueue.Priority);
+                cmd.Parameters.AddWithValue("@Metadata", (object?)orderQueue.Metadata ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@CreatedBy", orderQueue.PaymentOrderId);
+
+                cmd.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+
+            return false;
         }
 
-        public async Task<bool> DeleteOrderQueueAsync(long orderQueueId, string reason)
+        public async Task<bool> DeleteOrderQueueAsync(long orderQueueId)
         {
-            using SqlConnection conn = new SqlConnection(_connectionString);
-            using SqlCommand cmd = new SqlCommand("uspSoftDeleteOrderQueue", conn);
+            if (orderQueueId != 0) ;
+            {
 
-            cmd.CommandType = CommandType.StoredProcedure;
+                SqlConnection sqlConnection = new SqlConnection(_connectionString);
 
-            cmd.Parameters.AddWithValue("@OrderQueueId", orderQueueId);
-            cmd.Parameters.AddWithValue("@Reason", reason);
-            cmd.Parameters.AddWithValue("@ModifiedBy", orderQueueId);
+                sqlConnection.Open();
 
-            await conn.OpenAsync();
-            await cmd.ExecuteNonQueryAsync();
+                SqlCommand cmd = new SqlCommand("[dbo].[uspUpdateOrderQueue]", sqlConnection);
 
-            return true;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@OrderQueueId", orderQueueId);
+                cmd.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<List<OrderQueue>> GetOrderQueuesAsync()
+        {
+            List<OrderQueue> orderQueues = new List<OrderQueue>();
+
+            OrderQueue orderQueue = null;
+
+            SqlConnection connection = new SqlConnection(_connectionString);
+
+            connection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetOrderQueue]", connection);
+
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+
+            DataTable dt = new DataTable();
+
+            sqlDataAdapter.Fill(dt);
+
+            connection.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+
+                    orderQueue = new OrderQueue();
+
+                    orderQueue.Id = Convert.ToInt64(item["Id"]);
+
+                    orderQueue.PaymentOrderId = Convert.ToInt64(item["PaymentOrderId"]);
+
+                    orderQueue.OrderReference = item["OrderReference"] != DBNull.Value ? item["OrderReference"].ToString() : null;
+
+                    orderQueue.QueueStatus = item["QueueStatus"] != DBNull.Value ? item["QueueStatus"].ToString() : null;
+
+                    orderQueue.Priority = item["Priority"] != DBNull.Value ? Convert.ToInt32(item["Priority"]) : 0;
+
+                    orderQueue.AssignedExecutiveId = item["AssignedExecutiveId"] != DBNull.Value ? Convert.ToInt64(item["AssignedExecutiveId"]) : null;
+
+                    orderQueue.AssignedOn = item["AssignedOn"] != DBNull.Value ? (DateTimeOffset?)item["AssignedOn"] : null;
+
+                    orderQueue.ProcessingStartedOn = item["ProcessingStartedOn"] != DBNull.Value ? (DateTimeOffset?)item["ProcessingStartedOn"] : null;
+
+                    orderQueue.ProcessingCompletedOn = item["ProcessingCompletedOn"] != DBNull.Value ? (DateTimeOffset?)item["ProcessingCompletedOn"] : null;
+
+                    orderQueue.RetryCount = item["RetryCount"] != DBNull.Value ? Convert.ToInt32(item["RetryCount"]) : 0;
+
+                    orderQueue.MaxRetries = item["MaxRetries"] != DBNull.Value ? Convert.ToInt32(item["MaxRetries"]) : 0;
+
+                    orderQueue.FailureReason = item["FailureReason"] != DBNull.Value ? item["FailureReason"].ToString() : null;
+
+                    orderQueue.Metadata = item["Metadata"] != DBNull.Value ? item["Metadata"].ToString() : null;
+
+                    orderQueue.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+
+                    orderQueue.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+
+                    orderQueue.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+
+                    orderQueue.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+
+                    orderQueue.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+
+                    orderQueues.Add(orderQueue);
+                }
+            }
+
+            return orderQueues;
         }
     }
 }
