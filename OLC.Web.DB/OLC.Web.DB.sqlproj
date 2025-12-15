@@ -342,6 +342,7 @@
     <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspUpdateQueueProcessingHistory.sql" />
     <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspDeleteQueueProcessingHistory.sql" />
     <Build Include="Programmability\Stored Procedures\QueueProcessingHistory\uspGetQueueProcessingHistoryByOrder.sql" />
+    <Build Include="Programmability\Functions\udfGetPaymentOrderMetaDataJson.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
