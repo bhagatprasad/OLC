@@ -64,6 +64,7 @@ namespace OLC.Web.API
 
             services.AddScoped<IExecutivesManager, ExecutivesManager>();
             services.AddScoped<IEmailCategoryManager, EmailCategoryManager>();
+            services.AddScoped<IExecutiveAssignmentsManager, ExecutiveAssignmentsManager>();
 
             services.AddMvc().AddXmlSerializerFormatters();
 
