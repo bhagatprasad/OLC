@@ -1,40 +1,50 @@
 ﻿CREATE PROCEDURE [dbo].[uspInsertOrderQueue]
 (
-    @PaymentOrderId        BIGINT,
-    @OrderReference        NVARCHAR(50),
-    @Priority              INT = 5,
-    @Metadata              NVARCHAR(MAX) = NULL,
-    @CreatedBy             BIGINT
+    @PaymentOrderId        BIGINT
 )
 AS
 BEGIN
     SET NOCOUNT ON;
 
+    declare @queueStatus varchar(20);
+
+    set @queueStatus = 'Pending';
+
+    declare @currentUser bigint;
+
+    declare @currentDateTime datetimeoffset;
+
+    set @currentUser = -1;
+
+    set @currentDateTime = GETDATE();
+   
+    declare @metadata varchar(max);
+
+    select  @metadata = Metadata FROM dbo.udfGetPaymentOrderMetaDataJson(@PaymentOrderId);
+
     INSERT INTO [dbo].[OrderQueue]
     (
         PaymentOrderId,
-        OrderReference,
         QueueStatus,
         Priority,
         Metadata,
-        RetryCount,
-        MaxRetries,
         CreatedOn,
-        ModifiedOn
+        CreatedBy,
+        ModifiedOn,
+        ModifiedBy,
+        IsActive
     )
     VALUES
     (
-        @PaymentOrderId,
-        @OrderReference,
-        'Pending',
-        @Priority,
-        @Metadata,
-        0,
-        3,
-        GETUTCDATE(),
-        GETUTCDATE()
+       @PaymentOrderId
+      ,@queueStatus
+      ,1
+      ,@metadata
+      ,@currentDateTime
+      ,@currentUser
+      ,@currentDateTime
+      ,@currentUser
+      ,1
     );
-
-    SELECT SCOPE_IDENTITY() AS NewOrderQueueId;
 END
 GO
