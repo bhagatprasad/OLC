@@ -1,6 +1,6 @@
 ﻿namespace OLC.Web.UI.Models
 {
-    public class OrderQueue
+    public class OrderQueue : ExecutivePaymentOrders
     {
         public long Id { get; set; }
 
