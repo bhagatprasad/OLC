@@ -64,6 +64,22 @@ namespace OLC.Web.API.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetPaymentOrderQueueAsync")]
+        public async Task<IActionResult> GetPaymentOrderQueueAsync()
+        {
+            try
+            {
+                var response = await _orderQueueManager.GetPaymentOrderQueueAsync();
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [HttpDelete]
         [Route("UpdateOrderQueueAsync/{orderQueueId}")]
         public async Task<IActionResult> UpdateOrderQueueAsync(long orderQueueId)
