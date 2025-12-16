@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace OLC.Web.API.Models
+﻿namespace OLC.Web.UI.Models
 {
-    public class OrderQueue : ExecutivePaymentOrders
+    public class OrderQueue
     {
         public long Id { get; set; }
 

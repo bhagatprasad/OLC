@@ -1035,4 +1035,124 @@
 
         doc.save(`Invoice_${order.OrderReference}.pdf`);
     };
+    
+    // ORDER QUEUE MODAL
+   
+    $(document).on("click", "#btnOrderQueue", function () {
+        $('#orderQueueModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
+        $("#orderQueueTableBody").html(`
+        <tr>
+            <td colspan="4" class="text-center text-muted">Loading queue...</td>
+        </tr>
+    `);
+
+        $('#orderQueueModal').modal("show");
+
+
+        self.loadOrderQueue();
+    });
+
+    self.loadOrderQueue = function () {
+        $(".se-pre-con").show();
+
+        $.ajax({
+            type: "GET",
+            url: "/OrderQueue/GetOrderQueues",
+            success: function (response) {
+
+                const queue = response?.data || [];
+                const $tbody = $("#orderQueueTableBody").empty();
+
+                if (queue.length === 0) {
+                    $tbody.append(`
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            No queued orders found
+                        </td>
+                    </tr>
+                `);
+                    return;
+                }
+
+                queue.forEach(q => {
+                    $tbody.append(`
+                    <tr>
+                        <td class="text-center">
+                            <input type="checkbox"
+                                   class="chkQueueItem"
+                                   value="${q.Id}" />
+                        </td>
+                        <td>${q.PaymentOrderId}</td>
+                        <td>${q.OrderReference}</td>
+                        <td>${q.QueueStatus}</td>
+                        <td>${q.Priority}</td>
+                        <td>${self.formatDate(q.AssignedOn)}</td>
+                        <td>${self.formatDate(q.ProcessingStartedOn)}</td>
+                        <td>${self.formatDate(q.ProcessingCompletedOn)}</td>
+                        <td>${q.MaxRetries}</td>
+                        <td>${q.IsActive ? 'Yes' : 'No'}</td>
+                    </tr>
+
+                `);
+                });
+            },
+            error: function () {
+                $("#orderQueueTableBody").html(`
+                <tr>
+                    <td colspan="4" class="text-danger text-center">
+                        Failed to load order queue
+                    </td>
+                </tr>
+            `);
+            },
+            complete: function () {
+                $(".se-pre-con").hide();
+            }
+        });
+    };
+
+    $(document).on("change", "#chkSelectAllQueue", function () {
+        $(".chkQueueItem").prop("checked", $(this).is(":checked"));
+    });
+
+    $(document).on("click", "#btnAssignOrders", function () {
+
+        const selectedIds = $(".chkQueueItem:checked")
+            .map(function () { return $(this).val(); })
+            .get();
+
+        if (selectedIds.length === 0) {
+            alert("Please select at least one order to assign");
+            return;
+        }
+
+        console.log("Selected Queue IDs:", selectedIds);
+
+        // Call API here if needed
+        /*
+        $.ajax({
+            type: "POST",
+            url: "/OrderQueue/AssignOrders",
+            data: JSON.stringify({ orderQueueIds: selectedIds }),
+            contentType: "application/json",
+            success: function () {
+                alert("Orders assigned successfully");
+                $("#orderQueueModal").modal("hide");
+            }
+        });
+        */
+
+        // For now just close
+        $("#orderQueueModal").modal("hide");
+    });
+    // Close modal
+    $(document).on("click", ".btn-close-orderqueue", function () {
+        $("#orderQueueModal").modal("hide");
+    });
+
+
 }

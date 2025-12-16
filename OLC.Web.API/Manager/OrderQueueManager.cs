@@ -6,11 +6,11 @@ namespace OLC.Web.API.Manager
 {
     public class OrderQueueManager : IOrderQueueManager
     {
-        private readonly string _connectionString;
+        private readonly string connectionString;
 
         public OrderQueueManager(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<bool> InsertOrderQueueAsync(OrderQueue orderQueue)
@@ -18,7 +18,7 @@ namespace OLC.Web.API.Manager
             if (orderQueue != null)
             {
 
-                SqlConnection sqlConnection = new SqlConnection(_connectionString);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
@@ -43,7 +43,7 @@ namespace OLC.Web.API.Manager
             if (orderQueue != null)
             {
 
-                SqlConnection sqlConnection = new SqlConnection(_connectionString);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
@@ -72,7 +72,7 @@ namespace OLC.Web.API.Manager
             if (orderQueueId != 0) ;
             {
 
-                SqlConnection sqlConnection = new SqlConnection(_connectionString);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
@@ -96,7 +96,7 @@ namespace OLC.Web.API.Manager
 
             OrderQueue orderQueue = null;
 
-            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlConnection connection = new SqlConnection(connectionString);
 
             connection.Open();
 

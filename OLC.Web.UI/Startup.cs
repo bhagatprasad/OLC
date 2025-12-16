@@ -110,6 +110,7 @@ namespace OLC.Web.UI
 
             services.AddScoped<IQueueConfigurationService, QueueConfigurationService>();
             services.AddScoped<IExecutiveAssignmentsService, ExecutiveAssignmentsService>();
+            services.AddScoped<IOrderQueueService, OrderQueueService>();
 
             services.AddSession(options =>
             {
