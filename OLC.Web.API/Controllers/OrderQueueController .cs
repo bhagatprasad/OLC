@@ -81,8 +81,8 @@ namespace OLC.Web.API.Controllers
         }
 
         [HttpDelete]
-        [Route("UpdateOrderQueueAsync/{orderQueueId}")]
-        public async Task<IActionResult> UpdateOrderQueueAsync(long orderQueueId)
+        [Route("DeleteOrderQueueAsync/{orderQueueId}")]
+        public async Task<IActionResult> DeleteOrderQueueAsync(long orderQueueId)
         {
             try
             {
