@@ -3,7 +3,7 @@
      tabindex="-1"
      aria-hidden="true">
 
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered orderqueue-modal">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -18,21 +18,38 @@
                     <table class="table table-bordered table-hover w-100">
                         <thead class="table-light">
                             <tr>
+                                <!-- Select -->
                                 <th style="width:40px; text-align:center;">
                                     <input type="checkbox" id="chkSelectAllQueue" />
                                 </th>
 
-                                <th style="width:120px;">Payment Order Id</th>
-                                <th style="width:300px;">Order Reference</th>
-                                <th style="width:120px;">Queue Status</th>
+                                <!-- Identity -->
+                                <th style="width:220px;">OrderReference</th>
+                                <th style="width:130px;">PaymentOrderId</th>
+
+                                <!-- Customer -->
+                                <th style="width:220px;">UserEmail</th>
+                                <th style="width:160px;">UserPhone</th>
+
+                                <!-- Amount -->
+                                <th style="width:120px;">Amount</th>
+                                <th style="width:90px;">Currency</th>
+
+                                <!-- Queue -->
+                                <th style="width:120px;">QueueStatus</th>
                                 <th style="width:80px; text-align:center;">Priority</th>
-                                <th style="width:160px;">Assigned On</th>
-                                <th style="width:200px;">Processing Started On</th>
-                                <th style="width:220px;">Processing Completed On</th>
-                                <th style="width:100px; text-align:center;">Max Retries</th>
-                                <th style="width:80px; text-align:center;">Active</th>
+
+                                <!-- Assignment -->
+                                <th style="width:160px;">AssignedExecutiveId</th>
+                                <th style="width:160px;">AssignedOn</th>
+
+                                <!-- Control -->
+                                <th style="width:160px;">CreatedOn</th>
+                                <th style="width:80px; text-align:center;">IsActive</th>
                             </tr>
                         </thead>
+
+
                         <tbody id="orderQueueTableBody">
                             <!-- rows injected via JS -->
                         </tbody>

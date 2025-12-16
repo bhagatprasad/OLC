@@ -69,14 +69,14 @@ namespace OLC.Web.API.Manager
 
         public async Task<bool> DeleteOrderQueueAsync(long orderQueueId)
         {
-            if (orderQueueId != 0) ;
+            if (orderQueueId != 0) 
             {
 
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
-                SqlCommand cmd = new SqlCommand("[dbo].[uspUpdateOrderQueue]", sqlConnection);
+                SqlCommand cmd = new SqlCommand("[dbo].[uspDeleteOrderQueue]", sqlConnection);
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -168,7 +168,7 @@ namespace OLC.Web.API.Manager
 
             OrderQueue orderQueue = null;
 
-            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlConnection connection = new SqlConnection(connectionString);
 
             connection.Open();
 
