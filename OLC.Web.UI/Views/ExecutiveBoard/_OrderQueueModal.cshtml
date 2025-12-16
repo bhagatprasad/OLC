@@ -3,44 +3,51 @@
      tabindex="-1"
      aria-hidden="true">
 
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
                 <h5 class="modal-title">Order Queue</h5>
                 <button type="button"
-                        class="btn-close btn-close-orderqueue">
+                        class="btn-close btn-close-orderqueue">X
                 </button>
             </div>
 
             <div class="modal-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover w-100">
                         <thead class="table-light">
                             <tr>
-                                <th>Select</th>
-                                <th>PaymentOrderId</th>
-                                <th>OrderReference</th>
-                                <th>QueueStatus</th>
-                                <th>Priority</th>
-                                <th>AssignedOn</th>
-                                <th>ProcessingStartedOn</th>
-                                <th>ProcessingCompletedOn</th>
-                                <th>MaxRetries</th>
-                                <th>IsActive</th>
+                                <th style="width:40px; text-align:center;">
+                                    <input type="checkbox" id="chkSelectAllQueue" />
+                                </th>
+
+                                <th style="width:120px;">Payment Order Id</th>
+                                <th style="width:300px;">Order Reference</th>
+                                <th style="width:120px;">Queue Status</th>
+                                <th style="width:80px; text-align:center;">Priority</th>
+                                <th style="width:160px;">Assigned On</th>
+                                <th style="width:200px;">Processing Started On</th>
+                                <th style="width:220px;">Processing Completed On</th>
+                                <th style="width:100px; text-align:center;">Max Retries</th>
+                                <th style="width:80px; text-align:center;">Active</th>
                             </tr>
                         </thead>
                         <tbody id="orderQueueTableBody">
+                            <!-- rows injected via JS -->
                         </tbody>
                     </table>
+
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button"
-                        class="btn btn-secondary btn-close-orderqueue">
-                    Close
+                        id="btnAssignOrders"
+                        class="btn btn-success">
+                    <i class="fas fa-user-check me-1"></i> Assign
                 </button>
+
             </div>
 
         </div>

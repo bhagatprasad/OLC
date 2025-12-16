@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using OLC.Web.API.Models;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace OLC.Web.API.Manager
@@ -17,7 +18,7 @@ namespace OLC.Web.API.Manager
             if (orderQueue != null)
             {
 
-                SqlConnection sqlConnection = new SqlConnection(_connectionString);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
@@ -42,7 +43,7 @@ namespace OLC.Web.API.Manager
             if (orderQueue != null)
             {
 
-                SqlConnection sqlConnection = new SqlConnection(_connectionString);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
@@ -71,7 +72,7 @@ namespace OLC.Web.API.Manager
             if (orderQueueId != 0) ;
             {
 
-                SqlConnection sqlConnection = new SqlConnection(_connectionString);
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
 
                 sqlConnection.Open();
 
@@ -95,7 +96,7 @@ namespace OLC.Web.API.Manager
 
             OrderQueue orderQueue = null;
 
-            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlConnection connection = new SqlConnection(connectionString);
 
             connection.Open();
 
