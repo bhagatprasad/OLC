@@ -349,6 +349,7 @@
     <Build Include="Programmability\Stored Procedures\MailBox\uspGetMailBoxById.sql" />
     <Build Include="Programmability\Stored Procedures\MailBox\uspInsertMailBox.sql" />
     <Build Include="Programmability\Stored Procedures\OrderQueue\uspGetOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueue\uspGetPaymentOrderQueue.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />

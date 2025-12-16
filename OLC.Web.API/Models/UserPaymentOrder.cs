@@ -9,6 +9,7 @@
         public string? PaymentReasonName { get; set; }
         public decimal? Amount { get; set; }
         public long? TransactionFeeId { get; set; }
+        public string? Name { get; set; }
         public string? TransactionFeeAmount { get; set; }
         public decimal? PlatformFeeAmount { get; set; }
         public string? FeeCollectionMethod { get; set; }

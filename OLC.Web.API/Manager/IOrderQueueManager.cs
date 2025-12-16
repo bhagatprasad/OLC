@@ -8,5 +8,6 @@ namespace OLC.Web.API.Manager
         Task<bool> UpdateOrderQueueAsync(OrderQueue orderQueue);
         Task<bool> DeleteOrderQueueAsync(long orderQueueId);
         Task<List<OrderQueue>> GetOrderQueuesAsync ();
+        Task<List<OrderQueue>> GetPaymentOrderQueueAsync();
     }
 }
