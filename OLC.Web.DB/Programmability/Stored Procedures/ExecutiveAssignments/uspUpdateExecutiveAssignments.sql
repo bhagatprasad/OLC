@@ -1,48 +1,36 @@
 ﻿CREATE PROCEDURE [dbo].[uspUpdateExecutiveAssignments]
 (
-    @ExecutiveAssignmentId BIGINT,
-    @AssignmentStatus      NVARCHAR(20),
-    @Notes                 NVARCHAR(MAX) = NULL
+    @id                 BIGINT,
+    @userId             BIGINT,
+    @paymentOrderId     BIGINT,
+    @executiveId        BIGINT,
+    @orderQueueId       BIGINT,
+    @assignmentStatus   NVARCHAR(20),
+    @assignedBy         BIGINT,
+    @startedAt          DATETIMEOFFSET,
+    @completedAt        DATETIMEOFFSET,
+    @notes              NVARCHAR(MAX),
+    @modifiedBy         BIGINT,
+    @isActive           BIT
 )
 AS
 BEGIN
     SET NOCOUNT ON;
 
-   
     UPDATE [dbo].[ExecutiveAssignments]
     SET
-        AssignmentStatus = @AssignmentStatus,
-
-        StartedAt =
-            CASE 
-                WHEN @AssignmentStatus = 'Active'
-                     AND StartedAt IS NULL
-                THEN StartedAt  -- no change
-                WHEN @AssignmentStatus = 'Completed'
-                     AND StartedAt IS NULL
-                THEN StartedAt
-                WHEN @AssignmentStatus = 'Cancelled'
-                     AND StartedAt IS NULL
-                THEN StartedAt
-                WHEN @AssignmentStatus = 'InProgress'
-                     AND StartedAt IS NULL
-                THEN GETUTCDATE()
-                ELSE StartedAt
-            END,
-
-        CompletedAt =
-            CASE 
-                WHEN @AssignmentStatus IN ('Completed', 'Cancelled')
-                THEN GETUTCDATE()
-                ELSE CompletedAt
-            END,
-
-        Notes = @Notes
-    WHERE Id = @ExecutiveAssignmentId;
-
-    -- Return updated record
-    SELECT *
-    FROM dbo.ExecutiveAssignments
-    WHERE Id = @ExecutiveAssignmentId;
+        UserId           = @userId,
+        PaymentOrderId   = @paymentOrderId,
+        ExecutiveId      = @executiveId,
+        OrderQueueId     = @orderQueueId,
+        AssignmentStatus = @assignmentStatus,
+        AssignedBy       = @assignedBy,
+        StartedAt        = @startedAt,
+        CompletedAt      = @completedAt,
+        Notes            = @notes,
+        ModifiedBy       = @modifiedBy,
+        ModifiedOn       = GETDATE(),
+        IsActive         = @isActive
+    WHERE Id = @id;        
 END;
-
+GO

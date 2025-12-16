@@ -1,8 +1,14 @@
-﻿CREATE PROCEDURE [dbo].[uspInsertExecutiveAssignments]
+﻿CREATE PROCEDURE  [dbo].[uspInsertExecutiveAssignments]
 (
-    @ExecutiveId      BIGINT,
-    @OrderQueueId     BIGINT,
-    @Notes            NVARCHAR(MAX) = NULL
+    @userId            BIGINT,
+    @paymentOrderId    BIGINT,
+    @executiveId       BIGINT,
+    @orderQueueId      BIGINT,
+    @assignedBy        BIGINT = NULL,
+    @startedAt         DATETIMEOFFSET = NULL,
+    @completedAt       DATETIMEOFFSET = NULL,
+    @notes             NVARCHAR(MAX) = NULL,
+    @createdBy         BIGINT = NULL
 )
 AS
 BEGIN
@@ -10,21 +16,29 @@ BEGIN
 
     INSERT INTO [dbo].[ExecutiveAssignments]
     (
+        UserId,
+        PaymentOrderId,
         ExecutiveId,
         OrderQueueId,
-        AssignmentStatus,
-        AssignedAt,
-        Notes
+        AssignedBy,
+        StartedAt,
+        CompletedAt,
+        Notes,
+        CreatedBy
     )
     VALUES
     (
-        @ExecutiveId,
-        @OrderQueueId,
-        'Active',          
-        GETDATE(),    
-        @Notes
+        @userId,
+        @paymentOrderId,
+        @executiveId,
+        @orderQueueId,
+        @assignedBy,
+        @startedAt,
+        @completedAt,
+        @notes,
+        @createdBy
     );
-
     
-    SELECT SCOPE_IDENTITY() AS ExecutiveAssignmentId;
-END;
+END
+GO
+

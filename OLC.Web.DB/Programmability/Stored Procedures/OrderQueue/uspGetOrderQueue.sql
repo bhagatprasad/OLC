@@ -23,5 +23,6 @@ BEGIN
         ModifiedOn,
         IsActive
     FROM [dbo].[OrderQueue]
+
     WHERE QueueStatus = 'Pending'
 END;

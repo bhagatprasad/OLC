@@ -1,4 +1,4 @@
-﻿namespace OLC.Web.API.Models
+﻿namespace OLC.Web.UI.Models
 {
     public class ExecutiveAssignments
     {
@@ -8,7 +8,7 @@
         public long ExecutiveId { get; set; }
         public long OrderQueueId { get; set; }
 
-        public string AssignmentStatus { get; set; } 
+        public string AssignmentStatus { get; set; }
 
         public DateTimeOffset AssignedAt { get; set; }
         public long? AssignedBy { get; set; }
