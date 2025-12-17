@@ -4,5 +4,7 @@
     {
         public string? UserEmail { get; set; }
         public string? UserPhone { get; set; }
+        public string? PaymentOrderTpe { get; set; }
+        public string? WalletId { get; set; }
     }
 }

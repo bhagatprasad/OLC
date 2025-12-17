@@ -24,7 +24,6 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Administrator,Executive,User")]
         public async Task<IActionResult> GetAllEmailTemplates()
         {
             try

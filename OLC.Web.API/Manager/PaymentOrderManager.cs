@@ -388,6 +388,10 @@ namespace OLC.Web.API.Manager
                 responsePaymentOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
 
                 responsePaymentOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+
+                // ADD THESE TWO LINES TO FIX THE ISSUE:
+                responsePaymentOrder.PaymentOrderType = item["PaymentOrderType"] != DBNull.Value ? item["PaymentOrderType"].ToString() : null;
+                responsePaymentOrder.WalletId = item["WalletId"] != DBNull.Value ? item["WalletId"].ToString() : null;
             }
 
             return responsePaymentOrder;
