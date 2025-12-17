@@ -45,6 +45,21 @@ namespace OLC.Web.API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("AssignPaymentOrdersIntoExecutiveQueueAsync")]
+        public async Task<IActionResult> AssignPaymentOrdersIntoExecutiveQueueAsync(PushPaymentOrderIntoQue pushPaymentOrderIntoQue)
+        {
+            try
+            {
+                var response = await _executiveAssignmentsmanager.AssignPaymentOrdersIntoExecutiveQueueAsync(pushPaymentOrderIntoQue);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [HttpDelete]
         [Route("DeleteExecutiveAssignmentsAsync/{id}")]
         public async Task<IActionResult> DeleteExecutiveAssignments(long id)
