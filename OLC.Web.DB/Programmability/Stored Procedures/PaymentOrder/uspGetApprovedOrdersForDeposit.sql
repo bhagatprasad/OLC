@@ -34,7 +34,7 @@ BEGIN
 			,[IsActive]
         FROM [dbo].[PaymentOrder]
     WHERE
-       PaymentStatusId = 5  and TransactionFeeId = 1 and [IsActive] = 1 
+     OrderStatusId=42 and   PaymentStatusId = 24  AND DepositStatusId=1 and TransactionFeeId = 1 and [IsActive] = 1 
     ORDER BY [ModifiedOn] DESC;
 END
 GO

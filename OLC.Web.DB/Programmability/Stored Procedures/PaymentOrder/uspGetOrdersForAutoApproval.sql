@@ -70,7 +70,7 @@ BEGIN
     LEFT JOIN [dbo].[Status] ps ON po.[PaymentStatusId] = ps.[Id]
     LEFT JOIN [dbo].[Status] ds ON po.[DepositStatusId] = ds.[Id]
     WHERE
-       po.TransactionFeeId = @transactionFeeId  and po.PaymentStatusId=1 and   po.[IsActive] = 1 -- Only active orders, consistent with your other procs
+       po.TransactionFeeId = @transactionFeeId AND OrderStatusId=1 and po.PaymentStatusId=24 and  DepositStatusId=1 AND   po.[IsActive] = 1 -- Only active orders, consistent with your other procs
     ORDER BY po.[ModifiedOn] DESC;
 END
 GO
