@@ -29,6 +29,7 @@
 
     self.CurrentOrder = null;
 
+
     // ✅ FIXED: Initialize Stripe with PUBLISHABLE key (not secret key!)
     self.stripe = Stripe('pk_test_51SJ2Nu32ZfCJ3T7ZWZPFz4MQCYWPWDUKriHaal61XqtP8lAbJzUIcGvbVaEnbUoZl2UiTyuTCbfLS3pOMPyJSczd00fVddwCBD');
 
@@ -117,9 +118,7 @@
                 var feeCollectionType = $("#FeeCollectionMethod").val();
                 var transactionfees = self.TransactionFees.filter(x => x.Id == transactionFeeId)[0];
                 const plotFormFeePercentage = transactionfees.Price;
-
                 const platformFeeAmount = (parseFloat(transferAmount) * parseFloat(plotFormFeePercentage)) / 100;
-
                 let totalAmountToChargeCustomer;
                 let totalAmountToDepositToCustomer;
                 let totalPlatformFee = platformFeeAmount; // This remains the same in both cases
@@ -134,11 +133,14 @@
                     totalAmountToDepositToCustomer = parseFloat(transferAmount) - platformFeeAmount;
                 }
 
+                
                 var paymentOrderObject = {
                     Id: 0,
                     OrderReference: generateOrderReference(self.ApplicationUser.Id, OrderType.Payment),
                     UserId: self.ApplicationUser.Id,
                     PaymentReasonId: paymentReasonId,
+                    PaymentOrderType: 'Send',
+                    WalletId: null,
                     Amount: parseFloat(transferAmount),
                     TransactionFeeId: transactionFeeId,
                     PlatformFeeAmount: platformFeeAmount, // Corrected to the calculated fee amount

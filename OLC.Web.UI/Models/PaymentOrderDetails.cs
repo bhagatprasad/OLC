@@ -2,6 +2,8 @@
 {
     public class PaymentOrderDetails
     {
+        public string? PaymentOrderType { get; set; }
+        public string? WalletId { get; set; }
         public ExecutivePaymentOrders paymentOrder { get; set; }
 
         public UserBankAccount paymentOrderBankAccount { get; set; }
