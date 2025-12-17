@@ -9,5 +9,6 @@ namespace OLC.Web.UI.Services
         Task<List<OrderQueue>> GetOrderQueuesAsync();
         Task<List<OrderQueue>> GetPaymentOrderQueueAsync();
         Task<bool> DeleteOrderQueueAsync(long orderQueueId);
+        Task<List<OrderQueueHistory>> GetOrderQueueHistoryByPaymentOrderIdAsync(long paymentOrderId);
     }
 }

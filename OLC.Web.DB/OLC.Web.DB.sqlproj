@@ -106,6 +106,7 @@
     <Folder Include="Programmability\Stored Procedures\QueueProcessingHistory" />
     <Folder Include="Programmability\Stored Procedures\MailBox" />
     <Folder Include="Programmability\Database Triggers\OrderQueueHistory" />
+    <Folder Include="Programmability\Stored Procedures\OrderQueueHistory" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -362,6 +363,7 @@
     <Build Include="Tables\OrderQueueHistory.sql" />
     <Build Include="Programmability\Database Triggers\OrderQueueHistory\udtAfterInsertOrderQueue.sql" />
     <Build Include="Programmability\Database Triggers\OrderQueueHistory\udtAfterUpdateOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\OrderQueueHistory\GetOrderQueueHistoryByPaymentOrderId.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
