@@ -1,8 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[uspDeleteOrderQueue]
 (
-    @OrderQueueId BIGINT,
-    @Reason NVARCHAR(255),
-    @ModifiedBy BIGINT
+    @OrderQueueId BIGINT
+   
 )
 AS
 BEGIN
@@ -11,7 +10,6 @@ BEGIN
     UPDATE [dbo].[OrderQueue]
     SET
         QueueStatus = 'Failed',
-        FailureReason = @Reason,
         ModifiedOn = GETUTCDATE()
     WHERE Id = @OrderQueueId;
 END

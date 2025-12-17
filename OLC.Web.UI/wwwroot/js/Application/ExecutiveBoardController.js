@@ -1035,4 +1035,153 @@
 
         doc.save(`Invoice_${order.OrderReference}.pdf`);
     };
+    
+   
+    // ORDER QUEUE MODAL
+    
+    $(document).on("click", "#btnOrderQueue", function () {
+
+        $('#orderQueueModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+
+        $("#orderQueueTableBody").html(`
+        <tr>
+            <td colspan="12" class="text-center text-muted">
+                Loading queue...
+            </td>
+        </tr>
+    `);
+
+        $("#orderQueueModal").modal("show");
+        self.loadOrderQueue();
+    });
+
+    self.loadOrderQueue = function () {
+
+        $(".se-pre-con").show();
+
+        $.ajax({
+            type: "GET",
+            url: "/OrderQueue/GetPaymentOrderQueue",
+            success: function (response) {
+
+                const queue = response?.data || [];
+                const $tbody = $("#orderQueueTableBody").empty();
+
+                if (queue.length === 0) {
+                    $tbody.append(`
+                    <tr>
+                        <td colspan="12" class="text-center text-muted">
+                            No queued orders found
+                        </td>
+                    </tr>
+                `);
+                    return;
+                }
+
+                queue.forEach(q => {
+                    const isDisabled =
+                        q.QueueStatus !== 'Pending' ||
+                        q.AssignedExecutiveId !== null ||
+                        q.IsActive !== true;
+
+                    $tbody.append(`
+                    <tr class="${isDisabled ? 'table-light text-muted' : ''}">
+                        <td class="text-center">
+                            <input type="checkbox"
+                                   class="chkQueueItem"
+                                   value="${q.Id}"
+                                   ${isDisabled ? 'disabled' : ''} />
+                        </td>
+
+                        <td>${q.OrderReference || 'N/A'}</td>
+                        <td>${q.PaymentOrderId}</td>
+
+                        <td>${q.UserEmail || 'N/A'}</td>
+                        <td>${q.UserPhone || 'N/A'}</td>
+
+                        <td class="text-end">${self.formatCurrency(q.Amount)}</td>
+                        <td>${q.Currency || ''}</td>
+
+                        <td>
+                            <span class="badge bg-${q.QueueStatus === 'Pending' ? 'warning' : 'secondary'}">
+                                ${q.QueueStatus}
+                            </span>
+                        </td>
+
+                        <td class="text-center">${q.Priority}</td>
+
+                        <td class="text-center">
+                            ${q.AssignedExecutiveId ?? '-'}
+                        </td>
+
+                        <td>${self.formatDate(q.AssignedOn)}</td>
+                        <td>${self.formatDate(q.CreatedOn)}</td>
+
+                        <td class="text-center">
+                            ${q.IsActive ? 'Yes' : 'No'}
+                        </td>
+                    </tr>
+
+                    `);
+                });
+            },
+
+            error: function () {
+                $("#orderQueueTableBody").html(`
+                <tr>
+                    <td colspan="12" class="text-danger text-center">
+                        Failed to load order queue
+                    </td>
+                </tr>
+            `);
+            },
+            complete: function () {
+                $(".se-pre-con").hide();
+            }
+        });
+    };
+
+    $(document).on("change", "#chkSelectAllQueue", function () {
+
+        $(".chkQueueItem:not(:disabled)")
+            .prop("checked", $(this).is(":checked"));
+    });
+
+    $(document).on("click", "#btnAssignOrders", function () {
+
+        const selectedIds = $(".chkQueueItem:checked")
+            .map(function () { return $(this).val(); })
+            .get();
+
+        if (selectedIds.length === 0) {
+            alert("Please select at least one pending order to assign");
+            return;
+        }
+
+        console.log("Selected Queue IDs:", selectedIds);        
+        /*
+        $.ajax({
+            type: "POST",
+            url: "/OrderQueue/AssignOrders",
+            contentType: "application/json",
+            data: JSON.stringify({
+                orderQueueIds: selectedIds,
+                assignedExecutiveId: selectedExecutiveId
+            }),
+            success: function () {
+                alert("Orders assigned successfully");
+                $("#orderQueueModal").modal("hide");
+            }
+        });
+        */
+
+        $("#orderQueueModal").modal("hide");
+    });
+  
+    $(document).on("click", ".btn-close-orderqueue", function () {
+        $("#orderQueueModal").modal("hide");
+    });
 }

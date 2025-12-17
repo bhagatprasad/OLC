@@ -4,8 +4,10 @@ namespace OLC.Web.API.Manager
 {
     public interface IOrderQueueManager
     {
-        Task<long> InsertOrderQueueAsync(OrderQueue orderQueue);
+        Task<bool> InsertOrderQueueAsync(OrderQueue orderQueue);
         Task<bool> UpdateOrderQueueAsync(OrderQueue orderQueue);
-        Task<bool> DeleteOrderQueueAsync(long orderQueueId, string reason);
+        Task<bool> DeleteOrderQueueAsync(long orderQueueId);
+        Task<List<OrderQueue>> GetOrderQueuesAsync ();
+        Task<List<OrderQueue>> GetPaymentOrderQueueAsync();
     }
 }
