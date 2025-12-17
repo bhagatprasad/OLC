@@ -12,19 +12,24 @@
 AS
 BEGIN
     SET NOCOUNT ON;
-
+ 
     DECLARE @depositAmount DECIMAL(18,6);
     DECLARE @orderExists BIT = 0;
-
+    DECLARE @transactionFeeId bigint=0;
+ 
     IF @paymentOrderId IS NOT NULL
-
+ 
     BEGIN
         BEGIN TRY
             -- Check if payment order exists and get deposit amount
             SELECT @depositAmount = TotalAmountToDepositToCustomer, @orderExists = 1
             FROM PaymentOrder
             WHERE Id = @paymentOrderId;
-
+ 
+            SELECT @transactionFeeId = TransactionFeeId
+             FROM PaymentOrder
+            WHERE Id = @paymentOrderId
+ 
             IF @orderExists = 0
             BEGIN
                 -- Avoid substitution: build message in variable
@@ -32,7 +37,7 @@ BEGIN
                 RAISERROR(@NotFoundMsg, 16, 1);
                 RETURN;
             END
-
+ 
             -- Update PaymentOrder
             UPDATE PaymentOrder
             SET OrderStatusId = @orderStatusId,
@@ -42,16 +47,21 @@ BEGIN
                 ModifiedBy = @userId,
                 ModifiedOn = GETDATE()
             WHERE Id = @paymentOrderId;
-
+ 
             -- Insert payment order history
             EXEC [dbo].[uspInsertPaymentOrderHistory] @paymentOrderId, @orderStatusId, @description, @userId;
-
+ 
             -- Insert transaction reward
             EXEC [dbo].[uspInsertTransactionReward] @paymentOrderId, @userId, @depositAmount;
-
+ 
                   --push paymentorder to order que 
-           EXEC [dbo].[uspInsertOrderQueue] @paymentOrderId;
+                  --if TransactionFeeId -!= 1
+             IF @transactionFeeId  != 1
+                BEGIN
+                   EXEC [dbo].[uspInsertOrderQueue] @paymentOrderId;
+                END
 
+ 
             -- Return updated payment order
             EXEC [dbo].[uspGetPaymentOrderById] @paymentOrderId;
         END TRY
