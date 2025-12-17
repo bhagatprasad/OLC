@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using OLC.Web.API.Manager;
 using OLC.Web.API.Models;
 

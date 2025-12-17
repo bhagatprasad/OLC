@@ -356,6 +356,8 @@
     <Build Include="Programmability\Stored Procedures\OrderQueue\uspGetPaymentOrderQueue.sql" />
     <Build Include="Programmability\Functions\udfSplitPaymentOrderIds.sql" />
     <Build Include="Programmability\Stored Procedures\ExecutiveAssignments\uspAssingPaymentOrdersIntoExecutiveQue.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetOrdersForAutoApproval.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetApprovedOrdersForDeposit.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
