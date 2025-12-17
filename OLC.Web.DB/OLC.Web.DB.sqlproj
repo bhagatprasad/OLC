@@ -354,6 +354,8 @@
     <Build Include="Programmability\Stored Procedures\ExecutiveAssignments\uspDeleteExecutiveAssignments.sql" />
     <Build Include="Programmability\Stored Procedures\OrderQueue\uspGetOrderQueue.sql" />
     <Build Include="Programmability\Stored Procedures\OrderQueue\uspGetPaymentOrderQueue.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetOrdersForAutoApproval.sql" />
+    <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetApprovedOrdersForDeposit.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
