@@ -105,6 +105,7 @@
     <Folder Include="Programmability\Stored Procedures\OrderQueue" />
     <Folder Include="Programmability\Stored Procedures\QueueProcessingHistory" />
     <Folder Include="Programmability\Stored Procedures\MailBox" />
+    <Folder Include="Programmability\Database Triggers\OrderQueueHistory" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -358,6 +359,9 @@
     <Build Include="Programmability\Stored Procedures\ExecutiveAssignments\uspAssingPaymentOrdersIntoExecutiveQue.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetOrdersForAutoApproval.sql" />
     <Build Include="Programmability\Stored Procedures\PaymentOrder\uspGetApprovedOrdersForDeposit.sql" />
+    <Build Include="Tables\OrderQueueHistory.sql" />
+    <Build Include="Programmability\Database Triggers\OrderQueueHistory\udtAfterInsertOrderQueue.sql" />
+    <Build Include="Programmability\Database Triggers\OrderQueueHistory\udtAfterUpdateOrderQueue.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
