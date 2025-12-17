@@ -6,57 +6,47 @@
     <div class="modal-dialog modal-xl modal-dialog-centered orderqueue-modal">
         <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Order Queue</h5>
+            <div class="modal-header d-flex justify-content-between align-items-center">
                 <button type="button"
-                        class="btn-close btn-close-orderqueue">X
+                        id="btnSyncOrderQueue"
+                        class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-sync-alt me-1"></i> Sync
+                </button>
+
+                <button type="button"
+                        class="btn-close btn-close-orderqueue"
+                        aria-label="Close">X
                 </button>
             </div>
 
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover w-100">
-                        <thead class="table-light">
+
+            <div class="modal-body p-0 d-none d-lg-block">
+                <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                    <table class="table table-hover mb-0 w-100" id="orderQueueTable">
+                        <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
                             <tr>
                                 <!-- Select -->
                                 <th style="width:40px; text-align:center;">
                                     <input type="checkbox" id="chkSelectAllQueue" />
                                 </th>
 
-                                <!-- Identity -->
-                                <th style="width:220px;">OrderReference</th>
-                                <th style="width:130px;">PaymentOrderId</th>
-
-                                <!-- Customer -->
-                                <th style="width:220px;">UserEmail</th>
-                                <th style="width:160px;">UserPhone</th>
-
-                                <!-- Amount -->
-                                <th style="width:120px;">Amount</th>
-                                <th style="width:90px;">Currency</th>
-
-                                <!-- Queue -->
-                                <th style="width:120px;">QueueStatus</th>
-                                <th style="width:80px; text-align:center;">Priority</th>
-
-                                <!-- Assignment -->
-                                <th style="width:160px;">AssignedExecutiveId</th>
-                                <th style="width:160px;">AssignedOn</th>
-
-                                <!-- Control -->
-                                <th style="width:160px;">CreatedOn</th>
-                                <th style="width:80px; text-align:center;">IsActive</th>
+                                <th>Order Reference</th>
+                                <th>Amount</th>
+                                <th>Charge Amount</th>
+                                <th>Deposit Amount</th>
+                                <th>User Info</th>
+                                <th>Status</th>
+                                <th>SLA</th>
                             </tr>
                         </thead>
 
-
                         <tbody id="orderQueueTableBody">
-                            <!-- rows injected via JS -->
+                            <!-- Data populated via JS -->
                         </tbody>
                     </table>
-
                 </div>
             </div>
+            <div class="modal-body d-lg-none" id="orderQueueMobileCards"></div>
 
             <div class="modal-footer">
                 <button type="button"
