@@ -14,7 +14,7 @@ namespace OLC.Web.UI.Controllers
         private readonly IOrderQueueService _orderQueueService;
         private readonly INotyfService _notyfService;
 
-        public OrderQueueController(IOrderQueueService orderQueueService,INotyfService notyfService)
+        public OrderQueueController(IOrderQueueService orderQueueService, INotyfService notyfService)
         {
             _orderQueueService = orderQueueService;
             _notyfService = notyfService;
@@ -104,5 +104,19 @@ namespace OLC.Web.UI.Controllers
             }
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Administrator, Executive")]
+        public async Task<IActionResult> GetOrderQueueHistoryByPaymentOrderIdAsync(long paymentOrderId)
+        {
+            try
+            {
+                var response = await _orderQueueService.GetOrderQueueHistoryByPaymentOrderIdAsync(paymentOrderId);
+                return Json(new { data = response });
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

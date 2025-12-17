@@ -35,5 +35,11 @@ namespace OLC.Web.UI.Services
             var url = Path.Combine("OrderQueue / DeleteOrderQueueAsync", orderQueueId.ToString());
             return await _repositoryFactory.SendAsync<bool>(HttpMethod.Delete, url);
         }
+
+        public async  Task<List<OrderQueueHistory>> GetOrderQueueHistoryByPaymentOrderIdAsync(long paymentOrderId)
+        {
+            var url = Path.Combine("OrderQueue/GetOrderQueueHistoryByPaymentOrderIdAsync", paymentOrderId.ToString());
+            return await _repositoryFactory.SendAsync<List<OrderQueueHistory>>(HttpMethod.Get, url);
+        }
     }
 }

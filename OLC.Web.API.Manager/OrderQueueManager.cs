@@ -28,7 +28,7 @@ namespace OLC.Web.API.Manager
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@PaymentOrderId", orderQueue.PaymentOrderId);
-               
+
                 cmd.ExecuteNonQuery();
 
                 sqlConnection.Close();
@@ -70,7 +70,7 @@ namespace OLC.Web.API.Manager
 
         public async Task<bool> DeleteOrderQueueAsync(long orderQueueId)
         {
-            if (orderQueueId != 0) 
+            if (orderQueueId != 0)
             {
 
                 SqlConnection sqlConnection = new SqlConnection(connectionString);
@@ -247,6 +247,62 @@ namespace OLC.Web.API.Manager
             }
 
             return orderQueues;
+        }
+
+        public async Task<List<OrderQueueHistory>> GetOrderQueueHistoryByPaymentOrderIdAsync(long paymentOrderId)
+        {
+            List<OrderQueueHistory> orderQueueHistoryList = new List<OrderQueueHistory>();
+
+            OrderQueueHistory orderQueueHistory = null;
+
+            SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+            sqlConnection.Open();
+
+            SqlCommand sqlCommand = new SqlCommand("[dbo].[uspGetOrderQueueHistoryByPaymentOrderId]", sqlConnection);
+
+            sqlCommand.CommandType = CommandType.StoredProcedure;
+            sqlCommand.Parameters.AddWithValue("@PaymentOrderId", paymentOrderId);
+
+            SqlDataAdapter da = new SqlDataAdapter(sqlCommand);
+
+            DataTable dt = new DataTable();
+
+            da.Fill(dt);
+
+            sqlConnection.Close();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow item in dt.Rows)
+                {
+
+                    orderQueueHistory = new OrderQueueHistory();
+                    orderQueueHistory.Id = Convert.ToInt64(item["Id"]);
+                    orderQueueHistory.OrderQueueId = Convert.ToInt64(item["OrderQueueId"]);
+                    orderQueueHistory.PaymentOrderId = Convert.ToInt64(item["PaymentOrderId"]);
+                    orderQueueHistory.ExecutiveId = item["ExecutiveId"] != DBNull.Value ? Convert.ToInt64(item["ExecutiveId"]) : null;
+                    orderQueueHistory.OrderReference = item["OrderReference"] != DBNull.Value ? item["OrderReference"].ToString() : null;
+                    orderQueueHistory.Priority = item["Priority"] != DBNull.Value ? Convert.ToInt32(item["Priority"]) : 0;
+                    orderQueueHistory.AssignedOn = item["AssignedOn"] != DBNull.Value ? (DateTimeOffset?)item["AssignedOn"] : null;
+                    orderQueueHistory.ProcessingStartedOn = item["ProcessingStartedOn"] != DBNull.Value ? (DateTimeOffset?)item["ProcessingStartedOn"] : null;
+                    orderQueueHistory.ProcessingCompletedOn = item["ProcessingCompletedOn"] != DBNull.Value ? (DateTimeOffset?)item["ProcessingCompletedOn"] : null;
+                    orderQueueHistory.QueueStatus = item["QueueStatus"] != DBNull.Value ? item["QueueStatus"].ToString() : null;
+                    orderQueueHistory.RetryCount = item["RetryCount"] != DBNull.Value ? Convert.ToInt32(item["RetryCount"]) : 0;
+                    orderQueueHistory.FailureReason = item["FailureReason"] != DBNull.Value ? item["FailureReason"].ToString() : null;
+                    orderQueueHistory.Metadata = item["Metadata"] != DBNull.Value ? item["Metadata"].ToString() : null;
+                    orderQueueHistory.Description = item["Description"] != DBNull.Value ? item["Description"].ToString() : null;
+                    orderQueueHistory.ActionType = item["ActionType"] != DBNull.Value ? item["ActionType"].ToString() : null;
+                    orderQueueHistory.CreatedBy = item["CreatedBy"] != DBNull.Value ? Convert.ToInt64(item["CreatedBy"]) : null;
+                    orderQueueHistory.CreatedOn = item["CreatedOn"] != DBNull.Value ? (DateTimeOffset?)item["CreatedOn"] : null;
+                    orderQueueHistory.ModifiedBy = item["ModifiedBy"] != DBNull.Value ? Convert.ToInt64(item["ModifiedBy"]) : null;
+                    orderQueueHistory.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
+                    orderQueueHistory.IsActive = (bool)item["IsActive"];
+
+                    orderQueueHistoryList.Add(orderQueueHistory);
+                }
+            }
+            return orderQueueHistoryList;
         }
     }
 }
