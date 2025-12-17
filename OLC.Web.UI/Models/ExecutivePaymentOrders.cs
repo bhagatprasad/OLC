@@ -7,6 +7,5 @@
         public string? PaymentOrderTpe { get; set; }
         public string? WalletId { get; set; }
         public string? PaymentOrderType { get; set; }
-        public string? WalletId { get; set; }
     }
 }
