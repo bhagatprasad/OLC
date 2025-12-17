@@ -1,4 +1,5 @@
-﻿using OLC.Web.API.Models;
+﻿using Newtonsoft.Json.Linq;
+using OLC.Web.API.Models;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,42 @@ namespace OLC.Web.API.Manager
         public ExecutiveAssignmentsManager(IConfiguration configuration)
         {
             connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+        public async Task<bool> AssignPaymentOrdersIntoExecutiveQueueAsync(PushPaymentOrderIntoQue pushPaymentOrderIntoQue)
+        {
+            string paymentOrderIds = string.Join(",", pushPaymentOrderIntoQue.PaymentOrderIds);
+
+            if (pushPaymentOrderIntoQue != null)
+            {
+
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                sqlConnection.Open();
+
+                SqlCommand cmd = new SqlCommand("[dbo].[uspAssignPaymentOrdersIntoExecutiveQue]", sqlConnection);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add("@PaymentOrderIds", SqlDbType.NVarChar, -1).Value = paymentOrderIds;
+
+                cmd.Parameters.Add("@UserId", SqlDbType.BigInt).Value = pushPaymentOrderIntoQue.UserId;
+
+                cmd.Parameters.Add("@ExecutiveId", SqlDbType.BigInt).Value = pushPaymentOrderIntoQue.ExecutiveId;
+
+                cmd.Parameters.Add("@AssignedBy", SqlDbType.BigInt).Value = pushPaymentOrderIntoQue.AssignedBy;
+
+                cmd.Parameters.Add("@AssignedAt", SqlDbType.DateTimeOffset);
+
+                cmd.ExecuteNonQuery();
+
+                sqlConnection.Close();
+
+                return true;
+            }
+
+            return false;
+
         }
 
         public async Task<bool> DeleteExecutiveAssignmentsAsync(long id)

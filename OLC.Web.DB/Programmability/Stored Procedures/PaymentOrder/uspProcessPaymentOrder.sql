@@ -1,13 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[uspProcessPaymentOrder]
 (
-    @paymentOrderId BIGINT,
-    @orderStatusId BIGINT,
-    @paymentStatusId BIGINT,
-    @depositeStatusId BIGINT,
-    @createdBy BIGINT,
-    @description VARCHAR(MAX),
-    @paymentOrderType VARCHAR(MAX) = NULL,
-    @walletId VARCHAR(MAX) = NULL
+    @paymentOrderId     BIGINT,
+    @orderStatusId      BIGINT,
+    @paymentStatusId    BIGINT,
+    @depositeStatusId   BIGINT,
+    @createdBy          BIGINT,
+    @description        VARCHAR(MAX)
 )
 AS
 BEGIN
@@ -15,23 +13,19 @@ BEGIN
 
     UPDATE [dbo].[PaymentOrder]
     SET
-        OrderStatusId = @orderStatusId,
-        PaymentStatusId = @paymentStatusId,
-        DepositStatusId = @depositeStatusId,
-        ModifiedBy = @createdBy,
-        ModifiedOn = GETUTCDATE(),  -- Recommended: use UTC for consistency
-        
-        -- Update new columns only if values are provided
-        PaymentOrderType = ISNULL(@paymentOrderType, PaymentOrderType),
-        WalletId = ISNULL(@walletId, WalletId)
+        OrderStatusId    = @orderStatusId,
+        PaymentStatusId  = @paymentStatusId,
+        DepositStatusId  = @depositeStatusId,
+        ModifiedBy       = @createdBy,
+        ModifiedOn       = GETUTCDATE()   -- UTC time
     WHERE
         Id = @paymentOrderId;
 
-    -- Insert history (assuming this proc records status changes)
+    -- Insert payment order history
     EXEC [dbo].[uspInsertPaymentOrderHistory] 
-        @paymentOrderId, 
-        @orderStatusId, 
-        @description, 
+        @paymentOrderId,
+        @orderStatusId,
+        @description,
         @createdBy;
 
 

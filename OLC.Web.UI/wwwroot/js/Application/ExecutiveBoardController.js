@@ -1035,26 +1035,27 @@
 
         doc.save(`Invoice_${order.OrderReference}.pdf`);
     };
+       
     
-   
     // ORDER QUEUE MODAL
-    
+
     $(document).on("click", "#btnOrderQueue", function () {
 
-        $('#orderQueueModal').modal({
+        $("#orderQueueModal").modal({
             backdrop: 'static',
             keyboard: false
         });
 
         $("#orderQueueTableBody").html(`
         <tr>
-            <td colspan="12" class="text-center text-muted">
-                Loading queue...
-            </td>
+            <td colspan="8" class="text-center text-muted">Loading queue...</td>
         </tr>
     `);
 
-        $("#orderQueueModal").modal("show");
+        $("#orderQueueMobileCards").html(`
+        <div class="text-center text-muted p-3">Loading queue...</div>
+    `);
+
         self.loadOrderQueue();
     });
 
@@ -1069,83 +1070,145 @@
 
                 const queue = response?.data || [];
                 const $tbody = $("#orderQueueTableBody").empty();
+                const $mobile = $("#orderQueueMobileCards").empty();
 
                 if (queue.length === 0) {
-                    $tbody.append(`
+                    $tbody.html(`
                     <tr>
-                        <td colspan="12" class="text-center text-muted">
+                        <td colspan="8" class="text-center text-muted">
                             No queued orders found
                         </td>
                     </tr>
                 `);
+
+                    $mobile.html(`
+                    <div class="text-center text-muted p-3">
+                        No queued orders found
+                    </div>
+                `);
                     return;
                 }
 
-                queue.forEach(q => {
+                queue.forEach(function (q) {
+
                     const isDisabled =
                         q.QueueStatus !== 'Pending' ||
                         q.AssignedExecutiveId !== null ||
                         q.IsActive !== true;
 
+                    const slaInfo = self.calculateSLATimer(q);
+
+                    const statusBadge = `
+                    <span class="badge bg-${q.QueueStatus === 'Pending' ? 'warning' : 'secondary'}">
+                        ${q.QueueStatus}
+                    </span>
+                `;
+
+                    const creditCardDisplay = self.formatCreditCard(q.CreditCardNumber);
+                    const bankAccountDisplay = self.formatBankAccount(q.BankAccountNumber);
+
+                    /* DESKTOP ROW */
                     $tbody.append(`
                     <tr class="${isDisabled ? 'table-light text-muted' : ''}">
                         <td class="text-center">
                             <input type="checkbox"
                                    class="chkQueueItem"
                                    value="${q.Id}"
-                                   ${isDisabled ? 'disabled' : ''} />
+                                   ${isDisabled ? 'disabled' : ''}/>
                         </td>
 
-                        <td>${q.OrderReference || 'N/A'}</td>
-                        <td>${q.PaymentOrderId}</td>
+                        <td><strong class="text-primary">${q.OrderReference || 'N/A'}</strong></td>
 
-                        <td>${q.UserEmail || 'N/A'}</td>
-                        <td>${q.UserPhone || 'N/A'}</td>
-
-                        <td class="text-end">${self.formatCurrency(q.Amount)}</td>
-                        <td>${q.Currency || ''}</td>
+                        <td class="text-end fw-bold">${self.formatCurrency(q.Amount)}</td>
+                        <td class="text-end">${self.formatCurrency(q.TotalAmountToChargeCustomer)}</td>
+                        <td class="text-end">${self.formatCurrency(q.TotalAmountToDepositToCustomer)}</td>
 
                         <td>
-                            <span class="badge bg-${q.QueueStatus === 'Pending' ? 'warning' : 'secondary'}">
-                                ${q.QueueStatus}
+                            <div class="small">
+                                <div><i class="fas fa-user me-1"></i>${q.UserName || 'N/A'}</div>
+                                <div><i class="fas fa-envelope me-1"></i>${q.UserEmail || 'N/A'}</div>
+                                <div><i class="fas fa-credit-card me-1 text-success"></i>${creditCardDisplay}</div>
+                                <div><i class="fas fa-university me-1 text-info"></i>${bankAccountDisplay}</div>
+                            </div>
+                        </td>
+
+                        <td>${statusBadge}</td>
+
+                        <td>
+                            <span class="sla-timer ${slaInfo.class}">
+                                ${slaInfo.display}
                             </span>
                         </td>
-
-                        <td class="text-center">${q.Priority}</td>
-
-                        <td class="text-center">
-                            ${q.AssignedExecutiveId ?? '-'}
-                        </td>
-
-                        <td>${self.formatDate(q.AssignedOn)}</td>
-                        <td>${self.formatDate(q.CreatedOn)}</td>
-
-                        <td class="text-center">
-                            ${q.IsActive ? 'Yes' : 'No'}
-                        </td>
                     </tr>
+                `);
 
-                    `);
+                    /* MOBILE CARD */
+                    $mobile.append(`
+                    <div class="card mb-2 ${isDisabled ? 'opacity-50' : ''}">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <input type="checkbox"
+                                       class="chkQueueItem me-2"
+                                       value="${q.Id}"
+                                       ${isDisabled ? 'disabled' : ''}/>
+                                <strong>${q.OrderReference || 'N/A'}</strong>
+                            </div>
+                            ${statusBadge}
+                        </div>
+
+                        <div class="card-body small">
+                            <div class="mb-1"><strong>Amount:</strong> ${self.formatCurrency(q.Amount)}</div>
+                            <div class="mb-1"><strong>Charge:</strong> ${self.formatCurrency(q.TotalAmountToChargeCustomer)}</div>
+                            <div class="mb-1"><strong>Deposit:</strong> ${self.formatCurrency(q.TotalAmountToDepositToCustomer)}</div>
+
+                            <hr class="my-2"/>
+
+                            <div><i class="fas fa-user me-1"></i>${q.UserName || 'N/A'}</div>
+                            <div><i class="fas fa-envelope me-1"></i>${q.UserEmail || 'N/A'}</div>
+                            <div><i class="fas fa-credit-card me-1"></i>${creditCardDisplay}</div>
+                            <div><i class="fas fa-university me-1"></i>${bankAccountDisplay}</div>
+
+                            <hr class="my-2"/>
+
+                            <div>
+                                <strong>SLA:</strong>
+                                <span class="sla-timer ${slaInfo.class}">
+                                    ${slaInfo.display}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `);
                 });
             },
 
             error: function () {
                 $("#orderQueueTableBody").html(`
                 <tr>
-                    <td colspan="12" class="text-danger text-center">
+                    <td colspan="8" class="text-danger text-center">
                         Failed to load order queue
                     </td>
                 </tr>
             `);
+
+                $("#orderQueueMobileCards").html(`
+                <div class="text-danger text-center p-3">
+                    Failed to load order queue
+                </div>
+            `);
             },
+
             complete: function () {
                 $(".se-pre-con").hide();
             }
         });
     };
 
-    $(document).on("change", "#chkSelectAllQueue", function () {
+    $(document).on("click", "#btnSyncOrderQueue", function () {
+        self.loadOrderQueue();
+    });
 
+    $(document).on("change", "#chkSelectAllQueue", function () {
         $(".chkQueueItem:not(:disabled)")
             .prop("checked", $(this).is(":checked"));
     });
@@ -1156,32 +1219,18 @@
             .map(function () { return $(this).val(); })
             .get();
 
-        if (selectedIds.length === 0) {
+        if (!selectedIds.length) {
             alert("Please select at least one pending order to assign");
             return;
         }
 
-        console.log("Selected Queue IDs:", selectedIds);        
-        /*
-        $.ajax({
-            type: "POST",
-            url: "/OrderQueue/AssignOrders",
-            contentType: "application/json",
-            data: JSON.stringify({
-                orderQueueIds: selectedIds,
-                assignedExecutiveId: selectedExecutiveId
-            }),
-            success: function () {
-                alert("Orders assigned successfully");
-                $("#orderQueueModal").modal("hide");
-            }
-        });
-        */
-
+        console.log("Selected Queue IDs:", selectedIds);
         $("#orderQueueModal").modal("hide");
     });
-  
+
     $(document).on("click", ".btn-close-orderqueue", function () {
         $("#orderQueueModal").modal("hide");
     });
+
+
 }

@@ -273,10 +273,6 @@ namespace OLC.Web.API.Manager
 
                 sqlCommand.Parameters.AddWithValue("@description", processPaymentOrder.Description);
 
-                sqlCommand.Parameters.AddWithValue("@paymentOrderType",processPaymentOrder.PaymentOrderType);
-
-                sqlCommand.Parameters.AddWithValue("@walletId",processPaymentOrder.WalletId);
-
                 SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
 
                 DataTable dt = new DataTable();
@@ -309,6 +305,7 @@ namespace OLC.Web.API.Manager
             cmd.Parameters.AddWithValue("@paymentStatusId", processPaymentStatus.PaymentStatusId ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@description", processPaymentStatus.Description ?? (object)DBNull.Value);
             cmd.Parameters.AddWithValue("@userId", processPaymentStatus.UserId?.ToString() ?? (object)DBNull.Value); // Assuming UserId is long? and converting to string for varchar(max)
+
 
             DataTable dt = new DataTable();
 
@@ -345,10 +342,6 @@ namespace OLC.Web.API.Manager
                 responsePaymentOrder.UserId = Convert.ToInt64(item["UserId"]);
 
                 responsePaymentOrder.PaymentReasonId = Convert.ToInt64(item["PaymentReasonId"]);
-
-                responsePaymentOrder.PaymentOrderType = item["PaymentOrderType"].ToString();
-
-                responsePaymentOrder.WalletId = item["WalletId"] != DBNull.Value ? item["WalletId"].ToString(): null;
 
                 responsePaymentOrder.Amount = Convert.ToDecimal(item["Amount"]);
 
@@ -395,6 +388,10 @@ namespace OLC.Web.API.Manager
                 responsePaymentOrder.ModifiedOn = item["ModifiedOn"] != DBNull.Value ? (DateTimeOffset?)item["ModifiedOn"] : null;
 
                 responsePaymentOrder.IsActive = item["IsActive"] != DBNull.Value ? (bool?)item["IsActive"] : null;
+
+                // ADD THESE TWO LINES TO FIX THE ISSUE:
+                responsePaymentOrder.PaymentOrderType = item["PaymentOrderType"] != DBNull.Value ? item["PaymentOrderType"].ToString() : null;
+                responsePaymentOrder.WalletId = item["WalletId"] != DBNull.Value ? item["WalletId"].ToString() : null;
             }
 
             return responsePaymentOrder;
