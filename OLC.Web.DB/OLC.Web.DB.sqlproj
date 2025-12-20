@@ -106,6 +106,7 @@
     <Folder Include="Programmability\Stored Procedures\QueueProcessingHistory" />
     <Folder Include="Programmability\Stored Procedures\MailBox" />
     <Folder Include="Programmability\Database Triggers\OrderQueueHistory" />
+    <Folder Include="Programmability\Stored Procedures\EmailCampaign" />
     <Folder Include="Programmability\Stored Procedures\OrderQueueHistory" />
   </ItemGroup>
   <ItemGroup>
@@ -363,6 +364,11 @@
     <Build Include="Tables\OrderQueueHistory.sql" />
     <Build Include="Programmability\Database Triggers\OrderQueueHistory\udtAfterInsertOrderQueue.sql" />
     <Build Include="Programmability\Database Triggers\OrderQueueHistory\udtAfterUpdateOrderQueue.sql" />
+    <Build Include="Tables\EmailCampaign.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCampaign\uspInsertEmailCampaign.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCampaign\uspGetAllEmailCampaigns.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCampaign\uspUpdateEmailCampaign.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailCampaign\uspGetEmailCampaignById.sql" />
     <Build Include="Programmability\Stored Procedures\OrderQueueHistory\GetOrderQueueHistoryByPaymentOrderId.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -397,5 +403,6 @@
     <None Include="Post-Deployement\SeedCryptocurrency.sql" />
     <None Include="Post-Deployement\SeedWalletTypes.sql" />
     <None Include="Post-Deployement\SeedExecutives.sql" />
+    <None Include="Post-Deployement\SeedEmailCampaign.sql" />
   </ItemGroup>
 </Project>
