@@ -62,8 +62,18 @@
                             </li>
                         </ul>
                     </li>
-
-                    <li><a href="@Url.Action("Index", "EmailTemplate", null)">Email Template</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" href="#">Campaigns</a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown">
+                                <a class="dropdown-item dropdown-toggle" href="#">Campaigns</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "EmailCampaign", null)">Campaigns</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "EmailTemplate", null)">Campaign Templates</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                     <li><a href="@Url.Action("Index", "QueueConfiguration", null)">Queue Configuration</a></li>
                     <li><a href="@Url.Action("UserHelp", "Help", null)">Help</a></li>
                     <li class="d-sm-block d-lg-none"><a href="@Url.Action("Logout", "Account", null)">Sign out</a></li>
