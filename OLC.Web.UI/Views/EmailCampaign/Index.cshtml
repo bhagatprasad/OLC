@@ -15,9 +15,9 @@
                         </h1>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-primary" id="addEmailTypeBtn">
+                        <a href="@Url.Action("CreateEmailCampaign", "EmailCampaign", null)" class="btn btn-primary" id="addEmailTypeBtn">
                             <i class="fas fa-plus me-2"></i> Add Campaign
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -36,24 +36,25 @@
                             <!-- Desktop Table View -->
                             <div class="table-responsive d-none d-lg-block" style="max-height: 600px; overflow-y: auto;">
                                 <table class="table">
-                                    <thead class="thead-dark" style="position: sticky; top: 0; z-index: 1; background-color: #f8f9fa;">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1; background-color: #f8f9fa;">
                                         <tr>
-                                            <th scope="col">Campaign Name</th>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Title</th>
                                             <th scope="col">Campaign Type</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Start Date</th>
                                             <th scope="col">End Date</th>
-                                            <th scope="col">Created By</th>
-                                            <th scope="col">Created On</th>
-                                            <th scope="col">Modified By</th>
-                                            <th scope="col">Modified On</th>
-                                            <th scope="col">Is Active</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
                                             <tr>
+                                                <td>
+                                                    @item.Id
+                                                </td>
                                                 <td>
                                                     @item.CampaignName
                                                 </td>
@@ -70,19 +71,12 @@
                                                     @item.EndDate
                                                 </td>
                                                 <td>
-                                                    @item.CreatedBy
-                                                </td>
-                                                <td>
-                                                    @item.CreatedOn
-                                                </td>
-                                                <td>
-                                                    @item.ModifiedBy
-                                                </td>
-                                                <td>
-                                                    @item.ModifiedOn
-                                                </td>
-                                                <td>
                                                     @item.IsActive
+                                                </td>
+                                                <td>
+                                                    <a href="@Url.Action("EditEmailCampaign", "EmailCampaign", new { campaignId = @item.Id })" class="btn btn-primary">
+                                                        <i class="fas fa-pencil-alt me-2"></i> 
+                                                    </a>
                                                 </td>
                                             </tr>
                                         }
