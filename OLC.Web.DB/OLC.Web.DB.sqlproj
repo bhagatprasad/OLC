@@ -403,5 +403,6 @@
     <None Include="Post-Deployement\SeedCryptocurrency.sql" />
     <None Include="Post-Deployement\SeedWalletTypes.sql" />
     <None Include="Post-Deployement\SeedExecutives.sql" />
+    <None Include="Post-Deployement\SeedEmailCampaign.sql" />
   </ItemGroup>
 </Project>
