@@ -7,7 +7,7 @@ namespace OLC.Web.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountTypeController : ControllerBase
+    public class AccountTypeController : BaseController
     {
         private readonly IAccountTypeManager _accountTypeManager;
         public AccountTypeController(IAccountTypeManager accountTypeManager)
@@ -21,6 +21,8 @@ namespace OLC.Web.API.Controllers
         {
             try
             {
+                var currentUserResponse = CurrentUser;
+
                 var response = await _accountTypeManager.GetAccountTypeByIdAsync(accountTypeId);
                 return Ok(response);
 

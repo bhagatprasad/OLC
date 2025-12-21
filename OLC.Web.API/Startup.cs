@@ -1,5 +1,8 @@
 ﻿using Hangfire;
 using Hangfire.SqlServer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using OLC.Web.API.Manager;
@@ -7,6 +10,7 @@ using OLC.Web.Email.Service;
 using OLC.Web.Job;
 using OLC.Web.Sms.Service;
 using Stripe;
+using System.Text;
 
 namespace OLC.Web.API
 {
@@ -112,6 +116,26 @@ namespace OLC.Web.API
             services.AddScoped<StripeDepositPaymentJob>();
             services.AddScoped<PaymentFlowSchedulerJob>();
 
+
+            var tokenKey = _configuration.GetValue<string>("tokenKey");
+
+            var key = Encoding.ASCII.GetBytes(tokenKey);
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateActor = false
+                };
+            });
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -142,6 +166,28 @@ namespace OLC.Web.API
                         Url = new Uri("https://bdprasad.in")
                     }
                 });
+                c.AddSecurityDefinition("Authorization", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter the Authorization header using the Bearer scheme.",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                 {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Authorization"
+                                }
+                            },
+                            Array.Empty<string>()
+                        }
+                    });
             });
         }
         public void Configure(IApplicationBuilder app)
