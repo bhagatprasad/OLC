@@ -109,6 +109,7 @@
     <Folder Include="Programmability\Stored Procedures\EmailCampaign" />
     <Folder Include="Programmability\Stored Procedures\OrderQueueHistory" />
     <Folder Include="Programmability\Stored Procedures\EmailRuleType" />
+    <Folder Include="Programmability\Stored Procedures\CampaignType" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Role.sql" />
@@ -377,6 +378,11 @@
     <Build Include="Programmability\Stored Procedures\EmailRuleType\InsertEmailRuleType_1.sql" />
     <Build Include="Programmability\Stored Procedures\EmailRuleType\uspUpdateEmailRuleType.sql" />
     <Build Include="Programmability\Stored Procedures\EmailRuleType\uspDeleteEmailRuleType.sql" />
+    <Build Include="Tables\CampaignType.sql" />
+    <Build Include="Programmability\Stored Procedures\CampaignType\uspGetAllCampaignTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\CampaignType\uspGetCampaignTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\CampaignType\uspInsertCampaignType.sql" />
+    <Build Include="Programmability\Stored Procedures\CampaignType\uspUpdateCampaignType.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Programmability\Functions\fnGetUsers.sql" />
@@ -411,5 +417,7 @@
     <None Include="Post-Deployement\SeedWalletTypes.sql" />
     <None Include="Post-Deployement\SeedExecutives.sql" />
     <None Include="Post-Deployement\SeedEmailCampaign.sql" />
+    <None Include="Post-Deployement\SeedCampaignTypes.sql" />
+    <None Include="Post-Deployement\SeedTransactionFee.sql" />
   </ItemGroup>
 </Project>

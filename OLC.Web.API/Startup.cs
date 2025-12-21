@@ -74,6 +74,7 @@ namespace OLC.Web.API
             services.AddScoped<IOrderQueueManager, OrderQueueManager>();
             services.AddScoped<IEmailCampaignManager, EmailCampaignManager>();
             services.AddScoped<IEmailRuleTypeManager, EmailRuleTypeManager>();
+            services.AddScoped<ICampaignTypeManager, CampaignTypeManager>();
 
 
 

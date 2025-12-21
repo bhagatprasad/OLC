@@ -3,16 +3,23 @@
 
     self.ApplictionUser = {};
 
+    self.UserWalletData = {};
+
     self.init = function () {
+
+        self.ApplictionUser = storageService.get('ApplicationUser');
+
         self.loadUserProfile();
-        self.loadWalletData();
+
+        if (self.ApplictionUser.RoleId == 2)
+            self.loadWalletData();
+
         self.initFormHandlers();
     };
 
     self.loadUserProfile = function () {
-        self.ApplictionUser = storageService.get('ApplicationUser');
+
         self.loadStaticProfileData(self.ApplictionUser);
-      
     };
 
     self.loadStaticProfileData = function (applicationUser) {
@@ -27,7 +34,7 @@
     };
 
     self.loadWalletData = function () {
-       
+
         if (self.ApplictionUser && self.ApplictionUser.Id) {
             // Load single wallet data for user
             $.ajax({
@@ -36,6 +43,7 @@
                 data: { userId: self.ApplictionUser.Id },
                 success: function (response) {
                     if (response && response.data) {
+                        self.UserWalletData = response.data;
                         self.bindWalletData(response.data);
                     }
                 },
@@ -186,7 +194,7 @@
 
             success: function (response) {
 
-               
+
                 console.log("RAW RESPONSE:", JSON.stringify(response));
 
                 if (response && response.data) {
@@ -216,8 +224,6 @@
             }
         });
     };
-
-    
 
     self.changePassword = function () {
 
@@ -258,5 +264,17 @@
             }
         });
     };
+
+    $(document).on("click", "#RedeemReward", function () {
+
+        var userId = self.UserWalletData.UserId;
+
+        var walletId = self.UserWalletData.WalletId;
+
+        console.log("UserId....", userId);
+        console.log("WalletId....", walletId);
+
+        window.location.href = '/UserWallet/RedeemRewards?userId=' + encodeURIComponent(userId) + '&walletId=' + encodeURIComponent(walletId);
+    });
 
 }
