@@ -112,6 +112,7 @@ namespace OLC.Web.UI
             services.AddScoped<IExecutiveAssignmentsService, ExecutiveAssignmentsService>();
             services.AddScoped<IOrderQueueService, OrderQueueService>();
             services.AddScoped<IEmailCampaingService, EmailCampaingService>();
+            services.AddScoped<IEmailRuleTypeService, EmailRuleTypeService>();
 
             services.AddSession(options =>
             {

@@ -73,8 +73,9 @@ namespace OLC.Web.API
             services.AddScoped<IQueueProcessingHistoryManager, QueueProcessingHistoryManager>();
             services.AddScoped<IOrderQueueManager, OrderQueueManager>();
             services.AddScoped<IEmailCampaignManager, EmailCampaignManager>();
+            services.AddScoped<IEmailRuleTypeManager, EmailRuleTypeManager>();
 
-            
+
 
 
             services.AddMvc().AddXmlSerializerFormatters();

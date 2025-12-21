@@ -1,0 +1,90 @@
+﻿@model List<OLC.Web.UI.Models.EmailRuleType>
+@{
+    ViewData["Title"] = "Account Types - Manage different account categories for users.";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 fw-bold text-primary">
+                           RuleType
+                        </h1>
+                    </div>
+                    <div>
+                        <a href="@Url.Action("CreateEmailRuleType", "EmailRuleType", null)" class="btn btn-primary" id="addEmailTypeBtn">
+                            <i class="fas fa-plus me-2"></i> Add RuleType
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-database me-2"></i> RuleType
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Desktop Table View -->
+                            <div class="table-responsive d-none d-lg-block" style="max-height: 600px; overflow-y: auto;">
+                                <table class="table">
+                                    <thead class="table-light" style="position: sticky; top: 0; z-index: 1; background-color: #f8f9fa;">
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">RuleCode</th>
+                                            <th scope="col">RuleName</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">IsActive</th>
+                                            <th scope="col">CreatedOn</th>                                            
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.Id
+                                                </td>
+                                                <td>
+                                                    @item.RuleCode
+                                                </td>
+                                                <td>
+                                                    @item.RuleName
+                                                </td>
+                                                <td>
+                                                    @item.Description
+                                                </td>
+                                                <td>
+                                                    @item.IsActive
+                                                </td>
+                                                <td>
+                                                    @item.CreatedOn
+                                                </td>                                              
+                                                <td>
+                                                    <a href="@Url.Action("EditEmailRuleType", "EmailRuleType", new { Id = @item.Id })" class="btn btn-primary">
+                                                        <i class="fas fa-pencil-alt me-2"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

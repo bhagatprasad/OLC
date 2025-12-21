@@ -1,0 +1,96 @@
+﻿@model OLC.Web.UI.Models.EmailRuleType
+@{
+    ViewData["Title"] = "Account Types - Manage different account categories for users.";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 fw-bold text-primary">
+                           RuleType
+                        </h1>
+                    </div>
+                    <div>
+                        <a href="@Url.Action("Index", "EmailRuleType", null)" class="btn btn-primary" id="addEmailTypeBtn">
+                            <i class="fas fa-plus me-2"></i> Back to RuleType
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card border">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-database me-2"></i>Edit RuleType
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive d-none d-lg-block" style="max-height: 600px; overflow-y: auto;">
+                                @using (Html.BeginForm("EditEmailRuleType", "EmailRuleType", FormMethod.Post, new { style = "margin-left:10px;margin-right:10px;" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(x => x.Id)
+                                    
+                                    <!-- RuleType Code -->
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.RuleCode)
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-list-alt"></i></span>
+                                            </div>
+                                            @Html.TextBoxFor(model => model.RuleCode, new { @class = "form-control", placeholder = "Enter RuleCode", maxlength = "50" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.RuleCode, "", new { @class = "text-danger" })
+                                    </div>
+
+                                   <!-- Campaign Name -->
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.RuleName)
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-barcode"></i></span>
+                                            </div>
+                                            @Html.TextBoxFor(model => model.RuleName, new { @class = "form-control", placeholder = "Enter RuleName", maxlength = "20" })
+                                        </div>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Description)
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-align-left"></i></span>
+                                            </div>
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Enter Rule description", rows = "4" })
+                                        </div>
+                                    </div>
+
+                                    <!-- IsActive -->
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.IsActive)
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                            @Html.TextBoxFor(model => model.IsActive, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                                    </div>                    
+
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
