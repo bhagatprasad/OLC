@@ -108,6 +108,7 @@
     <Folder Include="Programmability\Database Triggers\OrderQueueHistory" />
     <Folder Include="Programmability\Stored Procedures\EmailCampaign" />
     <Folder Include="Programmability\Stored Procedures\OrderQueueHistory" />
+    <Folder Include="Programmability\Stored Procedures\EmailRuleType" />
     <Folder Include="Programmability\Stored Procedures\CampaignType" />
   </ItemGroup>
   <ItemGroup>
@@ -371,6 +372,12 @@
     <Build Include="Programmability\Stored Procedures\EmailCampaign\uspUpdateEmailCampaign.sql" />
     <Build Include="Programmability\Stored Procedures\EmailCampaign\uspGetEmailCampaignById.sql" />
     <Build Include="Programmability\Stored Procedures\OrderQueueHistory\GetOrderQueueHistoryByPaymentOrderId.sql" />
+    <Build Include="Tables\EmailRuleType.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailRuleType\uspGetAllEmailRuleTypes.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailRuleType\uspGetEmailRuleTypeById.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailRuleType\InsertEmailRuleType_1.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailRuleType\uspUpdateEmailRuleType.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailRuleType\uspDeleteEmailRuleType.sql" />
     <Build Include="Tables\CampaignType.sql" />
     <Build Include="Programmability\Stored Procedures\CampaignType\uspGetAllCampaignTypes.sql" />
     <Build Include="Programmability\Stored Procedures\CampaignType\uspGetCampaignTypeById.sql" />
