@@ -101,5 +101,11 @@ namespace OLC.Web.UI.Controllers
             }
 
         }
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> RedeemRewards(long userId, string walletId)
+        {
+            return View();
+        }
     }
 }

@@ -69,3 +69,6 @@ Post-Deployment Script Template
 
 -- Include seed data for SeedEmailCampaign
 :r .\SeedEmailCampaign.sql
+
+-- Include seed data for SeedEmailCampaign
+:r .\SeedTransactionFee.sql
