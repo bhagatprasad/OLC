@@ -411,5 +411,6 @@
     <None Include="Post-Deployement\SeedExecutives.sql" />
     <None Include="Post-Deployement\SeedEmailCampaign.sql" />
     <None Include="Post-Deployement\SeedCampaignTypes.sql" />
+    <None Include="Post-Deployement\SeedTransactionFee.sql" />
   </ItemGroup>
 </Project>

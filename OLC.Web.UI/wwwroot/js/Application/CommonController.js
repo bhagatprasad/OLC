@@ -662,7 +662,7 @@ function generateOrderReference(userId, paymentType) {
     var timestamp = day + month + year + hour + minute;
 
     // Determine type code: DP for deposit, PY for payment
-    var typeCode = (paymentType.toLowerCase() === 'deposit') ? 'DP' : 'PY';
+    var typeCode = paymentType.toLowerCase() === 'Withdrawal' ? 'WD' : (paymentType.toLowerCase() === 'deposit' ? 'DP' : 'PY');
 
     // Construct order reference: ORD-{typeCode}-{timestamp}{userId}
     var orderRef = 'ORD-' + typeCode + '-' + timestamp + userId;
@@ -672,7 +672,8 @@ function generateOrderReference(userId, paymentType) {
 
 const OrderType = {
     Deposite: "deposit",
-    Payment: "Payment"
+    Payment: "Payment",
+    Withdrawal: "Withdrawal"
 }
 
 const FeeCollectionMethod = {
@@ -926,7 +927,7 @@ const statusMap = {
 };
 
 // Calculate SLA time remaining and get appropriate CSS class
- function calculateSLATimer (order) {
+function calculateSLATimer(order) {
     if (order.OrderStatus === 'Completed') {
         return {
             display: 'Completed',

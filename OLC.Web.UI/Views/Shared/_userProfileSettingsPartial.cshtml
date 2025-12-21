@@ -1,23 +1,26 @@
 ﻿@inject IHttpContextAccessor _contextAccessor
 @using Newtonsoft.Json;
 @using OLC.Web.UI.Models;
+@using System.Linq;
+
 
 @{
     ViewData["Title"] = "User Profile & Wallet";
-
     Layout = "";
 
     var currentApplicationUser = _contextAccessor.HttpContext.Session.GetString("ApplicationUser");
+    long roleId = 0;
 
     if (!string.IsNullOrEmpty(currentApplicationUser))
     {
         var applicationUser = JsonConvert.DeserializeObject<ApplicationUser>(currentApplicationUser);
+        roleId = applicationUser.RoleId.Value;
 
-        if (applicationUser.RoleId == 1)
+        if (roleId == 1)
         {
             Layout = "~/Views/Shared/_AdminLayout.cshtml";
         }
-        else if (applicationUser.RoleId == 3)
+        else if (roleId == 3)
         {
             Layout = "~/Views/Shared/_ExecutiveLayout.cshtml";
         }
@@ -35,150 +38,157 @@
 <div class="container-fluid mt-3">
     <div class="card mb-3">
         <div class="card-header bg-light">
-            <div class="row align-items-center">
-                <!-- Simple Tabs Navigation -->
-                <ul class="nav nav-tabs w-100" id="profileTabs" role="tablist">
-                    <li class="nav-item w-50" role="presentation">
+            <ul class="nav nav-tabs w-100">
+
+                @if (roleId == 2)
+                {
+                    <li class="nav-item w-50">
                         <button class="nav-link active w-100 text-center" id="wallet-tab" type="button">
                             <i class="fas fa-wallet me-2"></i>Wallet
                         </button>
                     </li>
-                    <li class="nav-item w-50" role="presentation">
-                        <button class="nav-link w-100 text-center" id="profile-tab" type="button">
-                            <i class="fas fa-user me-2"></i>Profile
-                        </button>
-                    </li>
-                </ul>
-            </div>
+                }
+
+                <li class="nav-item @(roleId == 2 ? "w-50" : "w-100")">
+                    <button class="nav-link @(roleId != 2 ? "active" : "") w-100 text-center"
+                            id="profile-tab" type="button">
+                        <i class="fas fa-user me-2"></i>Profile
+                    </button>
+                </li>
+            </ul>
         </div>
+
         <div class="card-body">
-
-            <!-- Tab Content -->
-            <div class="tab-content p-3  rounded-bottom" id="profileTabsContent">
-                <!-- Wallet Tab -->
-                <div class="tab-pane active" id="wallet">
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- Wallet Card -->
-                            <div class="card">
-                                <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                                    <h5 class="card-title mb-0">Wallet Summary</h5>
-                                    <span class="badge bg-success" id="walletStatusBadge">Active</span>
-                                </div>
-                                <div class="card-body">
-                                    <!-- Loading State -->
-                                    <div id="walletLoading" class="text-center">
-                                        <div class="spinner-border text-primary" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                        <p class="mt-2 text-muted">Loading wallet information...</p>
-                                    </div>
-
-                                    <!-- Wallet Data -->
-                                    <div id="walletData" class="row" style="display: none;">
-                                        <div class="col-md-3 col-sm-6 mb-3">
-                                            <div class="card bg-primary text-white h-100">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <h6 class="card-title">Wallet ID</h6>
-                                                            <h4 class="mb-0" id="walletId">--</h4>
-                                                        </div>
-                                                        <div class="align-self-center">
-                                                            <i class="fas fa-credit-card fa-2x opacity-50"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-6 mb-3">
-                                            <div class="card bg-success text-white h-100">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <h6 class="card-title">Current Balance</h6>
-                                                            <h4 class="mb-0" id="currentBalance">₹0.00</h4>
-                                                        </div>
-                                                        <div class="align-self-center">
-                                                            <i class="fas fa-rupee-sign fa-2x opacity-50"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-6 mb-3">
-                                            <div class="card bg-info text-white h-100">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <h6 class="card-title">Total Earned</h6>
-                                                            <h4 class="mb-0" id="totalEarned">₹0.00</h4>
-                                                        </div>
-                                                        <div class="align-self-center">
-                                                            <i class="fas fa-arrow-up fa-2x opacity-50"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-3 col-sm-6 mb-3">
-                                            <div class="card bg-warning text-white h-100">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div>
-                                                            <h6 class="card-title">Total Spent</h6>
-                                                            <h4 class="mb-0" id="totalSpent">₹0.00</h4>
-                                                        </div>
-                                                        <div class="align-self-center">
-                                                            <i class="fas fa-arrow-down fa-2x opacity-50"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Additional Wallet Info -->
-                                        <div class="col-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-md-4 mb-2">
-                                                            <strong>Wallet Type:</strong>
-                                                            <span class="badge bg-secondary ms-2" id="walletType">--</span>
-                                                        </div>
-                                                        <div class="col-md-4 mb-2">
-                                                            <strong>Currency:</strong>
-                                                            <span class="ms-2" id="currency">INR</span>
-                                                        </div>
-                                                        <div class="col-md-4 mb-2">
-                                                            <strong>Last Updated:</strong>
-                                                            <span class="ms-2" id="lastUpdated">--</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Error State -->
-                                    <div id="walletError" class="text-center" style="display: none;">
-                                        <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
-                                        <p class="text-danger">Failed to load wallet information</p>
-                                        <button class="btn btn-primary btn-sm" onclick="location.reload()">
-                                            <i class="fas fa-redo me-1"></i>Retry
+            <div class="tab-content p-3">
+                @if (roleId == 2)
+                {
+                    <div class="tab-pane active" id="wallet">
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Wallet Card -->
+                                <div class="card">
+                                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                                        <h5 class="card-title mb-0">Wallet Summary</h5>
+                                        <button class="btn btn-success" id="RedeemReward">
+                                            <span class="badge bg-success">Redeem Reward</span>
                                         </button>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Loading State -->
+                                        <div id="walletLoading" class="text-center">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                            <p class="mt-2 text-muted">Loading wallet information...</p>
+                                        </div>
+
+                                        <!-- Wallet Data -->
+                                        <div id="walletData" class="row" style="display: none;">
+                                            <div class="col-md-3 col-sm-6 mb-3">
+                                                <div class="card bg-primary text-white h-100">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <h6 class="card-title">Wallet ID</h6>
+                                                                <h4 class="mb-0" id="walletId">--</h4>
+                                                            </div>
+                                                            <div class="align-self-center">
+                                                                <i class="fas fa-credit-card fa-2x opacity-50"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 mb-3">
+                                                <div class="card bg-success text-white h-100">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <h6 class="card-title">Current Balance</h6>
+                                                                <h4 class="mb-0" id="currentBalance">₹0.00</h4>
+                                                            </div>
+                                                            <div class="align-self-center">
+                                                                <i class="fas fa-rupee-sign fa-2x opacity-50"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 mb-3">
+                                                <div class="card bg-info text-white h-100">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <h6 class="card-title">Total Earned</h6>
+                                                                <h4 class="mb-0" id="totalEarned">₹0.00</h4>
+                                                            </div>
+                                                            <div class="align-self-center">
+                                                                <i class="fas fa-arrow-up fa-2x opacity-50"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6 mb-3">
+                                                <div class="card bg-warning text-white h-100">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <h6 class="card-title">Total Spent</h6>
+                                                                <h4 class="mb-0" id="totalSpent">₹0.00</h4>
+                                                            </div>
+                                                            <div class="align-self-center">
+                                                                <i class="fas fa-arrow-down fa-2x opacity-50"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Additional Wallet Info -->
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-4 mb-2">
+                                                                <strong>Wallet Type:</strong>
+                                                                <span class="badge bg-secondary ms-2" id="walletType">--</span>
+                                                            </div>
+                                                            <div class="col-md-4 mb-2">
+                                                                <strong>Currency:</strong>
+                                                                <span class="ms-2" id="currency">INR</span>
+                                                            </div>
+                                                            <div class="col-md-4 mb-2">
+                                                                <strong>Last Updated:</strong>
+                                                                <span class="ms-2" id="lastUpdated">--</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Error State -->
+                                        <div id="walletError" class="text-center" style="display: none;">
+                                            <i class="fas fa-exclamation-triangle fa-3x text-danger mb-3"></i>
+                                            <p class="text-danger">Failed to load wallet information</p>
+                                            <button class="btn btn-primary btn-sm" onclick="location.reload()">
+                                                <i class="fas fa-redo me-1"></i>Retry
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
 
-                <!-- Profile Tab -->
-                <div class="tab-pane" id="profile" style="display: none;">
+                @* ================= PROFILE SECTION ================= *@
+                <div class="tab-pane @(roleId != 2 ? "active" : "")" id="profile" style="display:none;">
                     <!-- Profile Information Section -->
                     <div class="card mb-4">
                         <div class="card-header bg-light">
@@ -250,7 +260,7 @@
                         </div>
                         <div class="card-body">
                             <form id="passwordForm" class="needs-validation" novalidate>
-                               
+
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <div class="form-group">
@@ -290,46 +300,42 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-
 </div>
 
 <script src="~/js/jquery/jquery.min.js"></script>
-<script src="@Url.Content("~/js/bootstrap/js/bootstrap.bundle.js")" asp-append-version="true" type="text/javascript"></script>
-<!-- JS and Controller -->
-<link rel="stylesheet" type="text/css" href="@Url.Content("~/css/profilestyles.css")" />
-<link rel="stylesheet" type="text/css" href="@Url.Content("~/css/bootstrap/css/bootstrap.min.css")" />
+<script src="~/js/bootstrap/js/bootstrap.bundle.js"></script>
 <script src="~/js/Application/ProfileController.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        // Simple tab switching function
-        function switchTab(tabName) {
-            // Hide all tab panes
-            $('.tab-pane').hide();
 
-            // Remove active class from all tabs
+<script>
+    $(document).ready(function () {
+
+        function switchTab(tab) {
+            $('.tab-pane').hide();
             $('.nav-link').removeClass('active');
 
-            // Show selected tab pane and activate tab
-            $('#' + tabName).show();
-            $('#' + tabName + '-tab').addClass('active');
+            $('#' + tab).show();
+            $('#' + tab + '-tab').addClass('active');
         }
 
-        // Tab click handlers
-        $('#wallet-tab').on('click', function() {
+        $('#wallet-tab').on('click', function () {
             switchTab('wallet');
         });
 
-        $('#profile-tab').on('click', function() {
+        $('#profile-tab').on('click', function () {
             switchTab('profile');
         });
 
-        // Initialize with wallet tab active
-        switchTab('wallet');
+        // Default tab
+        if ($('#wallet-tab').length > 0) {
+            switchTab('wallet');
+        } else {
+            switchTab('profile');
+        }
 
-        // Initialize the controller
         var ctrl = new ProfileController();
         ctrl.init();
     });
