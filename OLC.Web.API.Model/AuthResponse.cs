@@ -2,6 +2,7 @@
 {
     public class AuthResponse
     {
+        public string? JwtToken { get; set; }
         public string? Email { get; set; }
         public bool ValidUser { get; set; }
         public bool ValidPassword { get; set; }

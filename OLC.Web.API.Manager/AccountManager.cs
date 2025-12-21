@@ -1,9 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using OLC.Web.API.Helpers;
 using OLC.Web.API.Models;
 using OLC.Web.Sms.Service;
 using System.Data;
 using System.Data.SqlClient;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace OLC.Web.API.Manager
 {
@@ -11,7 +15,8 @@ namespace OLC.Web.API.Manager
     {
         private readonly string connectionString;
         private readonly IUserManager _userManager;
-        private readonly ISmsSubscriber _smsSubscriber;      
+        private readonly ISmsSubscriber _smsSubscriber;
+        private string _tokenKey = string.Empty;
         public AccountManager(IConfiguration configuration,
             IUserManager userManager,
             ISmsSubscriber smsSubscriber)
@@ -19,12 +24,16 @@ namespace OLC.Web.API.Manager
             connectionString = configuration.GetConnectionString("DefaultConnection");
             _userManager = userManager;
             _smsSubscriber = smsSubscriber;
+            _tokenKey = configuration.GetValue<string>("tokenKey");
         }
 
         public async Task<AuthResponse> AuthenticateUserAsync(UserAuthentication userAuthentication)
         {
 
             AuthResponse authResponse = new AuthResponse();
+
+            authResponse.JwtToken = string.Empty;
+
 
             var user = await GetUserDetailsByUserName(userAuthentication.username);
 
@@ -79,6 +88,29 @@ namespace OLC.Web.API.Manager
 
                             if (isValidPassword)
                             {
+                                var tokenHandler = new JwtSecurityTokenHandler();
+
+                                var tokenKey = Encoding.ASCII.GetBytes(_tokenKey);
+
+
+                                var tokenDescrptor = new SecurityTokenDescriptor
+                                {
+                                    Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
+                                          {
+                                                new Claim(ClaimTypes.Name,userAuthentication.username),
+                                                new Claim("UserId",user.Id.ToString()),
+                                                new Claim(ClaimTypes.Role,user.RoleId.ToString())
+                                          }),
+                                    Expires = DateTime.UtcNow.AddHours(1),
+                                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),
+                                          SecurityAlgorithms.HmacSha256Signature)
+                                };
+
+                                var token = tokenHandler.CreateToken(tokenDescrptor);
+
+                                var wrtetoekn = tokenHandler.WriteToken(token);
+
+                                authResponse.JwtToken = wrtetoekn;
                                 authResponse.Email = user.Email;
                                 authResponse.StatusMessage = "Active user";
                                 authResponse.StatusCode = 1000;
