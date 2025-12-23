@@ -14,12 +14,11 @@ namespace OLC.Web.UI.Controllers
         private readonly INotyfService _notyfService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ApplicationUser _applicationUser;
-        public EmailRuleTypeController(IEmailRuleTypeService emailRuleTypeService, INotyfService notyfService, IHttpContextAccessor httpContextAccessor, ApplicationUser applicationUser)
+        public EmailRuleTypeController(IEmailRuleTypeService emailRuleTypeService, INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
         {
             _emailRuleTypeService = emailRuleTypeService;
             _notyfService = notyfService;
             _httpContextAccessor = httpContextAccessor;
-            _applicationUser = applicationUser;
 
             var currentUser = _httpContextAccessor.HttpContext.Session.GetString("ApplicationUser");
 
@@ -32,7 +31,7 @@ namespace OLC.Web.UI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator,Executive")]
         public async Task<IActionResult> Index()
         {
             List<EmailRuleType> emailRuleType = new List<EmailRuleType>();

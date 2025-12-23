@@ -375,7 +375,7 @@
     <Build Include="Tables\EmailRuleType.sql" />
     <Build Include="Programmability\Stored Procedures\EmailRuleType\uspGetAllEmailRuleTypes.sql" />
     <Build Include="Programmability\Stored Procedures\EmailRuleType\uspGetEmailRuleTypeById.sql" />
-    <Build Include="Programmability\Stored Procedures\EmailRuleType\InsertEmailRuleType_1.sql" />
+    <Build Include="Programmability\Stored Procedures\EmailRuleType\InsertEmailRuleType.sql" />
     <Build Include="Programmability\Stored Procedures\EmailRuleType\uspUpdateEmailRuleType.sql" />
     <Build Include="Programmability\Stored Procedures\EmailRuleType\uspDeleteEmailRuleType.sql" />
     <Build Include="Tables\CampaignType.sql" />

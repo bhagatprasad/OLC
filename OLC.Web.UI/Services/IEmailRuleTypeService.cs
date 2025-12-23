@@ -10,6 +10,5 @@ namespace OLC.Web.UI.Services
 
         Task<bool> UpdateEmailRuleTypeAsync(EmailRuleType emailRuleType);
         Task<bool> DeleteEmailRuleTypeAsync(long id);
-
     }
 }

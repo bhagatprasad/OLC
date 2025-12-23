@@ -61,12 +61,12 @@ namespace OLC.Web.API.Manager
                     emailRuleType.Id = Convert.ToInt32(dr["Id"]);
                     emailRuleType.RuleCode = dr["RuleCode"].ToString();
                     emailRuleType.RuleName = dr["RuleName"].ToString();
-                    emailRuleType.Description = dr["Description"].ToString();
-                    emailRuleType.IsActive= Convert.ToBoolean(dr["IsActive"]);
-                    emailRuleType.CreatedOn = Convert.ToDateTime(dr["CreatedOn"]);
-                    emailRuleType.CreatedBy = Convert.ToInt32(dr["CreatedBy"]);
-                    emailRuleType.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(dr["ModifiedOn"]) : null;
-                    emailRuleType.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
+                    emailRuleType.Description = dr["Description"] != DBNull.Value ? dr["Description"].ToString() : null;
+                    emailRuleType.CreatedOn = (DateTimeOffset)dr["CreatedOn"];
+                    emailRuleType.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt32(dr["CreatedBy"]) : null;
+                    emailRuleType.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)dr["ModifiedOn"] : null;
+                    emailRuleType.ModifiedBy = dr["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(dr["ModifiedBy"]) : null;
+                    emailRuleType.IsActive = Convert.ToBoolean(dr["IsActive"]);
                     emailRuleTypeList.Add(emailRuleType);
                 }
             }
@@ -101,12 +101,13 @@ namespace OLC.Web.API.Manager
                     emailRuleType.Id = Convert.ToInt32(dr["Id"]);
                     emailRuleType.RuleCode = dr["RuleCode"].ToString();
                     emailRuleType.RuleName = dr["RuleName"].ToString();
-                    emailRuleType.Description = dr["Description"].ToString();
+                    emailRuleType.Description = dr["Description"] != DBNull.Value ? dr["Description"].ToString() : null;
+                    emailRuleType.CreatedOn = (DateTimeOffset)dr["CreatedOn"];
+                    emailRuleType.CreatedBy = dr["CreatedBy"] != DBNull.Value ? Convert.ToInt32(dr["CreatedBy"]) : null;
+                    emailRuleType.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTimeOffset)dr["ModifiedOn"] : null;
+                    emailRuleType.ModifiedBy = dr["ModifiedBy"] != DBNull.Value ? Convert.ToInt32(dr["ModifiedBy"]) : null;
                     emailRuleType.IsActive = Convert.ToBoolean(dr["IsActive"]);
-                    emailRuleType.CreatedOn = Convert.ToDateTime(dr["CreatedOn"]);
-                    emailRuleType.CreatedBy = Convert.ToInt32(dr["CreatedBy"]);
-                    emailRuleType.ModifiedOn = dr["ModifiedOn"] != DBNull.Value ? (DateTime?)Convert.ToDateTime(dr["ModifiedOn"]) : null;
-                    emailRuleType.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
+
                     return emailRuleType;
                 }
             }
@@ -123,10 +124,12 @@ namespace OLC.Web.API.Manager
 
                 SqlCommand sqlCommand = new SqlCommand("[dbo].[uspInsertEmailRuleType]", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
+               
                 sqlCommand.Parameters.AddWithValue("@ruleCode", emailRuleType.RuleCode);
                 sqlCommand.Parameters.AddWithValue("@ruleName", emailRuleType.RuleName);
                 sqlCommand.Parameters.AddWithValue("@description", emailRuleType.Description);
                 sqlCommand.Parameters.AddWithValue("@createdBy", emailRuleType.CreatedBy);
+
                 sqlCommand.ExecuteNonQuery();
 
                 sqlConnection.Close();
@@ -144,11 +147,14 @@ namespace OLC.Web.API.Manager
 
                 SqlCommand sqlCommand = new SqlCommand("[dbo].[uspUpdateEmailRuleType]", sqlConnection);
                 sqlCommand.CommandType = CommandType.StoredProcedure;
+                
                 sqlCommand.Parameters.AddWithValue("@id", emailRuleType.Id);
+                sqlCommand.Parameters.AddWithValue("@ruleCode", emailRuleType.RuleCode);
                 sqlCommand.Parameters.AddWithValue("@ruleName", emailRuleType.RuleName);
                 sqlCommand.Parameters.AddWithValue("@description", emailRuleType.Description);
-                sqlCommand.Parameters.AddWithValue("@isActive", emailRuleType.IsActive);
                 sqlCommand.Parameters.AddWithValue("@modifiedBy", emailRuleType.ModifiedBy);
+                sqlCommand.Parameters.AddWithValue("@isActive", emailRuleType.IsActive);
+
                 sqlCommand.ExecuteNonQuery();
 
                 sqlConnection.Close();

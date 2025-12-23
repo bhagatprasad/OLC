@@ -15,7 +15,7 @@ namespace OLC.Web.API.Controllers
         }
         [HttpGet]
         [Route("GetAllEmailRuleTypesAsync")]
-        public async Task<IActionResult> GetAllEmailRuleTypesAsync()
+        public async Task<IActionResult> GetAllEmailRuleTypes()
         {
             try
             {
@@ -29,7 +29,7 @@ namespace OLC.Web.API.Controllers
         }
         [HttpGet]
         [Route("GetEmailRuleTypeByIdAsync/{id}")]
-        public async Task<IActionResult> GetEmailRuleTypeByIdAsync(long id)
+        public async Task<IActionResult> GetEmailRuleTypeById(long id)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace OLC.Web.API.Controllers
         }
         [HttpPost]
         [Route("InsertEmailRuleTypeAsync")]
-        public async Task<IActionResult> InsertEmailRuleTypeAsync(Models.EmailRuleType emailRuleType)
+        public async Task<IActionResult> InsertEmailRuleType(Models.EmailRuleType emailRuleType)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace OLC.Web.API.Controllers
         }
         [HttpPost]
         [Route("UpdateEmailRuleTypeAsync")]
-        public async Task<IActionResult> UpdateEmailRuleTypeAsync(Models.EmailRuleType emailRuleType)
+        public async Task<IActionResult> UpdateEmailRuleType(Models.EmailRuleType emailRuleType)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace OLC.Web.API.Controllers
         }
         [HttpDelete]
         [Route("DeleteEmailRuleTypeAsync/{id}")]
-        public async Task<IActionResult> DeleteEmailRuleTypeAsync(long id)
+        public async Task<IActionResult> DeleteEmailRuleType(long id)
         {
             try
             {
