@@ -16,12 +16,11 @@ namespace OLC.Web.UI.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ApplicationUser _applicationUser;
 
-        public EmailCampaignController(IEmailCampaingService emailCampaingService, INotyfService notyfService, IHttpContextAccessor httpContextAccessor, ApplicationUser applicationUser)
+        public EmailCampaignController(IEmailCampaingService emailCampaingService, INotyfService notyfService, IHttpContextAccessor httpContextAccessor)
         {
             _emailCampaingService = emailCampaingService;
             _notyfService = notyfService;
             _httpContextAccessor = httpContextAccessor;
-            _applicationUser = applicationUser;
 
             var currentUser = _httpContextAccessor.HttpContext.Session.GetString("ApplicationUser");
 

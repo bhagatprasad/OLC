@@ -1,19 +1,21 @@
 ﻿CREATE PROCEDURE [dbo].[uspUpdateEmailRuleType]
 (
-    @id INT,
-    @ruleName NVARCHAR(100),
-    @description NVARCHAR(255),
-    @isActive BIT,
-    @modifiedBy NVARCHAR(50)
+        @id             BIGINT,
+		@ruleCode       NVARCHAR(50),
+        @ruleName       NVARCHAR(100),
+        @description    NVARCHAR(255),    
+        @modifiedBy     BIGINT,
+	    @isActive       BIT
 )
 AS
 BEGIN
     UPDATE [dbo].[EmailRuleType]
     SET
-        RuleName = @ruleName,
-        Description = @description,
-        IsActive = @isActive,
-        ModifiedOn = GETDATE(),
-        ModifiedBy = @modifiedBy
+	    RuleCode      = @ruleCode,
+        RuleName      = @ruleName,
+        Description   = @description,        
+        ModifiedOn    = GETDATE(),
+        ModifiedBy    = @modifiedBy,
+		IsActive      = @isActive
     WHERE Id = @Id;
 END
